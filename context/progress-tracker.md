@@ -13,7 +13,7 @@
 | Step | Spec file | Depends on | Status | Outputs / Handoff note |
 |------|-----------|------------|--------|------------------------|
 | 0.1 | `0.1-types.md` | — | done | `pipeline/types.py` + `pipeline/__init__.py`. Exports all shared dataclasses (`SchemaElement`, `SchemaRepr`, `SchemaCandidate`, `CandidateMapping`, `EntityCandidate`, `EntityLookupResult`, `AmbiguityResult`, `SchemaMapping`, `ValidationResult`, `ExecutionResult`, `BenchmarkItem`, `EvaluationResult`, `PipelineState`), the 7 type literals, and `_build_cypher_pattern`. Handoff: every later step imports its contracts from `pipeline.types`; no type here is redefined elsewhere. All 4 contract tests pass (`tests/test_types.py`). |
-| 0.2 | `0.2-llm.md` | — | not started | |
+| 0.2 | `0.2-llm.md` | — | done | `pipeline/llm/` package: `base.py` (`BaseLLM` ABC, `GenerationConfig`, `Completion`), `huggingface.py` (`HuggingFaceLLM`), `openai.py` (`OpenAILLM`), `anthropic.py` (`AnthropicLLM`), `__init__.py` (re-exports + `build_llm` factory). Handoff: later steps `from pipeline.llm import BaseLLM, GenerationConfig, Completion, build_llm`. SL (3.1)/QG (3.6) hold an injected `BaseLLM`; condition builders (5.3) call `build_llm(spec)` from config. No module hardcodes a model name. Now-set acceptance (clean import, abstract ABC + FakeLLM ranking, factory dispatch/ValueError) pass via `tests/llm/test_base.py` (6 tests). Integration checks (real HF beam scores, OpenAI/Anthropic smoke) deferred — need GPU/API keys. |
 | 0.3 | `0.3-schema.md` | 0.1 | not started | |
 | 0.4 | `0.4-benchmark-loader.md` | 0.1 | not started | |
 

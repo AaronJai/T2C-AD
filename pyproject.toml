@@ -3,7 +3,14 @@ name = "t2c-ad"
 version = "0.1.0"
 description = "Multi-agent Text-to-Cypher pipeline with explicit ambiguity detection and disambiguation."
 requires-python = ">=3.11"
-dependencies = []
+dependencies = [
+    # 0.2 — LLM interface & backends
+    "torch",
+    "transformers",
+    "openai",
+    "anthropic",
+    "peft",            # lazily imported by HuggingFaceLLM only when a LoRA adapter is given
+]
 
 [build-system]
 requires = ["setuptools>=61.0"]
