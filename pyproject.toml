@@ -1,0 +1,18 @@
+[project]
+name = "t2c-ad"
+version = "0.1.0"
+description = "Multi-agent Text-to-Cypher pipeline with explicit ambiguity detection and disambiguation."
+requires-python = ">=3.11"
+dependencies = []
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["pipeline*"]
+
+[tool.pytest.ini_options]
+markers = [
+    "integration: requires live Neo4j, a GPU, or a trained adapter (skipped by default)",
+]

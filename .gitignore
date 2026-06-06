@@ -1,0 +1,31 @@
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Python bytecode / caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Training outputs / adapters
+checkpoints/
+
+# Evaluation outputs
+results/
+
+# Generated training data
+*.jsonl
+
+# Model / HuggingFace caches
+.cache/
+huggingface/
+hf_cache/
+transformers_cache/
+*.safetensors
+*.bin
+*.pt
+*.ckpt

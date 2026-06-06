@@ -1,0 +1,1782 @@
+[
+  {
+    "question_id": "Q-001",
+    "question": "Who is suspected of the armed robbery on William Street?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "All persons with SUSPECTED_OF relationship to INC-001",
+    "cypher_default": "MATCH (p:Person)-[:SUSPECTED_OF]->(i:Incident {crime_type:'robbery'})-[:OCCURRED_AT]->(loc_i:Location) WHERE loc_i.address CONTAINS 'William Street' RETURN p.name",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-002",
+    "question": "Which officer is investigating the Cannington homicide?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Officers with INVESTIGATES relationship to INC-006",
+    "cypher_default": "MATCH (p:Person)-[:INVESTIGATES]->(i:Incident {crime_type:'homicide'})-[:OCCURRED_AT]->(:Location {suburb:'Cannington'}) RETURN p.name",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-003",
+    "question": "What vehicle does James Whitfield own?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Current vehicle owned by Whitfield",
+    "cypher_default": "MATCH (p:Person {name:'James Whitfield'})-[:OWNS {active:true}]->(v:Vehicle) RETURN v",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-004",
+    "question": "Where did the Fremantle burglary occur?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Location of INC-004",
+    "cypher_default": "MATCH (i:Incident {crime_type:'burglary'})-[:OCCURRED_AT]->(l:Location {suburb:'Fremantle'}) RETURN l.address, l.suburb",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-005",
+    "question": "Who is the victim of the Scarborough assault?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Person with VICTIM_OF relationship to INC-009",
+    "cypher_default": "MATCH (p:Person)-[:VICTIM_OF]->(i:Incident {crime_type:'assault'})-[:OCCURRED_AT]->(:Location {suburb:'Scarborough'}) RETURN p.name",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-006",
+    "question": "Which incidents are part of Operation Ironside?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Incidents contained in CASE-001",
+    "cypher_default": "MATCH (c:Case {case_name:'Operation Ironside \u2014 Northbridge Series'})-[:CONTAINS]->(i:Incident) RETURN i.incident_id, i.crime_type, i.description",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-007",
+    "question": "What phone number does Danny Kovac use?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Current phone used by Kovac",
+    "cypher_default": "MATCH (p:Person {name:'Danny Kovac'})-[:USES_PHONE {active:true}]->(ph:Phone) RETURN ph.phone_number",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-008",
+    "question": "Who are the known associates of Anton Maric?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Persons connected via ASSOCIATED_WITH to PER-026",
+    "cypher_default": "MATCH (p:Person {name:'Anton Maric'})-[:ASSOCIATED_WITH]-(a:Person) RETURN a.name",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-009",
+    "question": "What evidence is linked to the armed robbery on William Street?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Evidence with RELATED_TO relationship to INC-001",
+    "cypher_default": "MATCH (e:Evidence)-[:RELATED_TO]->(i:Incident {crime_type:'robbery'})-[:OCCURRED_AT]->(loc_i:Location) WHERE loc_i.address CONTAINS 'William Street' RETURN e.evidence_id, e.type, e.description",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-010",
+    "question": "Which organisations are under investigation?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Organisations with status under_investigation",
+    "cypher_default": "MATCH (o:Organisation {status:'under_investigation'}) RETURN o.name, o.type",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-011",
+    "question": "List all incidents that occurred in Northbridge.",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Incidents at locations with suburb Northbridge",
+    "cypher_default": "MATCH (i:Incident)-[:OCCURRED_AT]->(l:Location {suburb:'Northbridge'}) RETURN i.incident_id, i.crime_type, i.date",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-012",
+    "question": "Who collected evidence EVI-006?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Officer who collected EVI-006",
+    "cypher_default": "MATCH (p:Person)-[:COLLECTED]->(e:Evidence {evidence_id:'EVI-006'}) RETURN p.name",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-013",
+    "question": "Which cases are currently open with high priority?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Cases with status open and priority high",
+    "cypher_default": "MATCH (c:Case {status:'open', priority:'high'}) RETURN c.case_id, c.case_name",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-014",
+    "question": "What incidents have critical severity?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Incidents with severity critical",
+    "cypher_default": "MATCH (i:Incident {severity:'critical'}) RETURN i.incident_id, i.crime_type, i.description",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-015",
+    "question": "Who works for Pacific Trading Co?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Persons with WORKS_FOR to ORG-003",
+    "cypher_default": "MATCH (p:Person)-[:WORKS_FOR]->(o:Organisation {name:'Pacific Trading Co'}) RETURN p.name, p.role",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-016",
+    "question": "Show people connected to the Northbridge robbery.",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "All persons connected via any relationship to INC-001",
+    "cypher_default": "MATCH (p:Person)-[r]->(i:Incident {crime_type:'robbery'})-[:OCCURRED_AT]->(:Location {suburb:'Northbridge'}) RETURN p.name, type(r) AS role",
+    "interpretations": [
+      {
+        "interp": "Only suspects",
+        "cypher": "MATCH (p:Person)-[:SUSPECTED_OF]->(i:Incident {crime_type:'robbery'})-[:OCCURRED_AT]->(:Location {suburb:'Northbridge'}) RETURN p.name"
+      },
+      {
+        "interp": "Only witnesses",
+        "cypher": "MATCH (p:Person)-[:WITNESSED]->(i:Incident {crime_type:'robbery'})-[:OCCURRED_AT]->(:Location {suburb:'Northbridge'}) RETURN p.name"
+      },
+      {
+        "interp": "Only investigating officers",
+        "cypher": "MATCH (p:Person)-[:INVESTIGATES]->(i:Incident {crime_type:'robbery'})-[:OCCURRED_AT]->(:Location {suburb:'Northbridge'}) RETURN p.name"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-017",
+    "question": "Where does James Whitfield live?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Current residential address of Whitfield",
+    "cypher_default": "MATCH (p:Person {name:'James Whitfield'})-[:LIVES_AT {active:true}]->(l:Location) RETURN l.address, l.suburb",
+    "interpretations": [
+      {
+        "interp": "Current address only",
+        "cypher": "MATCH (p:Person {name:'James Whitfield'})-[:LIVES_AT {active:true}]->(l:Location) RETURN l.address, l.suburb"
+      },
+      {
+        "interp": "All addresses including historical",
+        "cypher": "MATCH (p:Person {name:'James Whitfield'})-[r:LIVES_AT]->(l:Location) RETURN l.address, l.suburb, r.from_date, r.to_date"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-018",
+    "question": "Who owns the black Holden Commodore?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Current owner of VEH-001",
+    "cypher_default": "MATCH (p:Person)-[:OWNS {active:true}]->(v:Vehicle {make:'Holden', model:'Commodore', colour:'black'}) RETURN p.name",
+    "interpretations": [
+      {
+        "interp": "Current owner only",
+        "cypher": "MATCH (p:Person)-[:OWNS {active:true}]->(v:Vehicle {make:'Holden', model:'Commodore', colour:'black'}) RETURN p.name"
+      },
+      {
+        "interp": "All owners including previous",
+        "cypher": "MATCH (p:Person)-[r:OWNS]->(v:Vehicle {make:'Holden', model:'Commodore', colour:'black'}) RETURN p.name, r.from_date, r.to_date, r.active"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-019",
+    "question": "Who is involved in the Cannington homicide?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "All persons connected to INC-006",
+    "cypher_default": "MATCH (p:Person)-[r]->(i:Incident {crime_type:'homicide'})-[:OCCURRED_AT]->(:Location {suburb:'Cannington'}) RETURN p.name, type(r) AS involvement",
+    "interpretations": [
+      {
+        "interp": "Only suspects",
+        "cypher": "MATCH (p:Person)-[:SUSPECTED_OF]->(i:Incident {crime_type:'homicide'})-[:OCCURRED_AT]->(:Location {suburb:'Cannington'}) RETURN p.name"
+      },
+      {
+        "interp": "Only witnesses",
+        "cypher": "MATCH (p:Person)-[:WITNESSED]->(i:Incident {crime_type:'homicide'})-[:OCCURRED_AT]->(:Location {suburb:'Cannington'}) RETURN p.name"
+      },
+      {
+        "interp": "Only investigating officers",
+        "cypher": "MATCH (p:Person)-[:INVESTIGATES]->(i:Incident {crime_type:'homicide'})-[:OCCURRED_AT]->(:Location {suburb:'Cannington'}) RETURN p.name"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-020",
+    "question": "What contact has there been between Whitfield and Petrova?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "All forms of contact between PER-007 and PER-008",
+    "cypher_default": "MATCH (p1:Person {name:'James Whitfield'})-[r]-(p2:Person {name:'Lina Petrova'}) RETURN type(r), r",
+    "interpretations": [
+      {
+        "interp": "Phone calls between their devices",
+        "cypher": "MATCH (p1:Person {name:'James Whitfield'})-[:USES_PHONE]->(ph1:Phone)-[:CALLED]-(ph2:Phone)<-[:USES_PHONE]-(p2:Person {name:'Lina Petrova'}) RETURN ph1.phone_number, ph2.phone_number"
+      },
+      {
+        "interp": "In-person meetings (Communications)",
+        "cypher": "MATCH (p1:Person {name:'James Whitfield'})-[:PARTICIPATED_IN]->(cm:Communication)<-[:PARTICIPATED_IN]-(p2:Person {name:'Lina Petrova'}) RETURN cm.type, cm.date, cm.summary"
+      },
+      {
+        "interp": "Direct association relationship",
+        "cypher": "MATCH (p1:Person {name:'James Whitfield'})-[r:ASSOCIATED_WITH]-(p2:Person {name:'Lina Petrova'}) RETURN r.from_date, r.association_type"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-021",
+    "question": "Show incidents in the Central Metropolitan district.",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Incidents at locations in Central Metropolitan district",
+    "cypher_default": "MATCH (i:Incident)-[:OCCURRED_AT]->(l:Location {district:'Central Metropolitan'}) RETURN i.incident_id, i.crime_type, l.suburb",
+    "interpretations": [
+      {
+        "interp": "Only incidents in Northbridge specifically",
+        "cypher": "MATCH (i:Incident)-[:OCCURRED_AT]->(l:Location {suburb:'Northbridge'}) RETURN i.incident_id, i.crime_type"
+      },
+      {
+        "interp": "All incidents across the entire Central Metropolitan district",
+        "cypher": "MATCH (i:Incident)-[:OCCURRED_AT]->(l:Location {district:'Central Metropolitan'}) RETURN i.incident_id, i.crime_type, l.suburb"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-022",
+    "question": "Who is associated with Danny Kovac?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Currently associated persons",
+    "cypher_default": "MATCH (p:Person {name:'Danny Kovac'})-[:ASSOCIATED_WITH {active:true}]-(a:Person) RETURN a.name",
+    "interpretations": [
+      {
+        "interp": "Current criminal associates only",
+        "cypher": "MATCH (p:Person {name:'Danny Kovac'})-[:ASSOCIATED_WITH {active:true}]-(a:Person) RETURN a.name"
+      },
+      {
+        "interp": "All associates including former",
+        "cypher": "MATCH (p:Person {name:'Danny Kovac'})-[r:ASSOCIATED_WITH]-(a:Person) RETURN a.name, r.active, r.from_date, r.to_date"
+      },
+      {
+        "interp": "All known connections (KNOWS + ASSOCIATED_WITH)",
+        "cypher": "MATCH (p:Person {name:'Danny Kovac'})-[r]-(a:Person) WHERE type(r) IN ['ASSOCIATED_WITH','KNOWS'] RETURN a.name, type(r)"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-023",
+    "question": "What evidence has been gathered for the homicide case?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Evidence related to INC-006 specifically",
+    "cypher_default": "MATCH (e:Evidence)-[:RELATED_TO]->(i:Incident {crime_type:'homicide'})-[:OCCURRED_AT]->(:Location {suburb:'Cannington'}) RETURN e.evidence_id, e.type, e.description",
+    "interpretations": [
+      {
+        "interp": "Evidence linked to the homicide incident directly",
+        "cypher": "MATCH (e:Evidence)-[:RELATED_TO]->(i:Incident {crime_type:'homicide'})-[:OCCURRED_AT]->(:Location {suburb:'Cannington'}) RETURN e.evidence_id, e.type, e.description"
+      },
+      {
+        "interp": "All evidence filed under Case CASE-004 (which contains the homicide)",
+        "cypher": "MATCH (c:Case {case_name:'Operation Sentinel \u2014 Midland Taskforce'})-[:HAS_EVIDENCE]->(e:Evidence) RETURN e.evidence_id, e.type, e.description"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-024",
+    "question": "Who has used phone DEV-002?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Current user of DEV-002",
+    "cypher_default": "MATCH (p:Person)-[:USES_PHONE {active:true}]->(ph:Phone {device_id:'DEV-002'}) RETURN p.name",
+    "interpretations": [
+      {
+        "interp": "Current user only",
+        "cypher": "MATCH (p:Person)-[:USES_PHONE {active:true}]->(ph:Phone {device_id:'DEV-002'}) RETURN p.name"
+      },
+      {
+        "interp": "All users including historical",
+        "cypher": "MATCH (p:Person)-[r:USES_PHONE]->(ph:Phone {device_id:'DEV-002'}) RETURN p.name, r.from_date, r.to_date, r.active"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-025",
+    "question": "Show people linked to the Midland robbery.",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "All persons connected to INC-008",
+    "cypher_default": "MATCH (p:Person)-[r]->(i:Incident {crime_type:'robbery'})-[:OCCURRED_AT]->(:Location {suburb:'Midland'}) RETURN p.name, type(r)",
+    "interpretations": [
+      {
+        "interp": "Only suspects",
+        "cypher": "MATCH (p:Person)-[:SUSPECTED_OF]->(i:Incident {crime_type:'robbery'})-[:OCCURRED_AT]->(:Location {suburb:'Midland'}) RETURN p.name"
+      },
+      {
+        "interp": "Only victims",
+        "cypher": "MATCH (p:Person)-[:VICTIM_OF]->(i:Incident {crime_type:'robbery'})-[:OCCURRED_AT]->(:Location {suburb:'Midland'}) RETURN p.name"
+      },
+      {
+        "interp": "Only witnesses",
+        "cypher": "MATCH (p:Person)-[:WITNESSED]->(i:Incident {crime_type:'robbery'})-[:OCCURRED_AT]->(:Location {suburb:'Midland'}) RETURN p.name"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-026",
+    "question": "Where do the suspects of the Northbridge robbery live?",
+    "num_hops": 2,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Current addresses of INC-001 suspects",
+    "cypher_default": "MATCH (p:Person)-[:SUSPECTED_OF]->(i:Incident {crime_type:'robbery'}), (p)-[:LIVES_AT {active:true}]->(l:Location), (i)-[:OCCURRED_AT]->(:Location {suburb:'Northbridge'}) RETURN p.name, l.address, l.suburb",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-027",
+    "question": "What vehicles were seen near the Cannington homicide location?",
+    "num_hops": 2,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Vehicles with SEEN_AT to LOC-009 (INC-006 location)",
+    "cypher_default": "MATCH (i:Incident {crime_type:'homicide'})-[:OCCURRED_AT]->(l:Location {suburb:'Cannington'}), (v:Vehicle)-[:SEEN_AT]->(l) RETURN v.make, v.model, v.license_plate, v.colour",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-028",
+    "question": "Which officers are assigned to cases involving drug offences?",
+    "num_hops": 2,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Officers assigned to cases that contain drug_offence incidents",
+    "cypher_default": "MATCH (p:Person)-[:ASSIGNED_TO]->(c:Case)-[:CONTAINS]->(i:Incident {crime_type:'drug_offence'}) RETURN DISTINCT p.name, c.case_name",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-029",
+    "question": "What phone calls were made from James Whitfield's phone?",
+    "num_hops": 2,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Outgoing calls from Whitfield's current phone",
+    "cypher_default": "MATCH (p:Person {name:'James Whitfield'})-[:USES_PHONE {active:true}]->(ph1:Phone)-[c:CALLED]->(ph2:Phone) RETURN ph2.phone_number, c.date, c.duration",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-030",
+    "question": "Which organisations are linked to incidents in Northbridge?",
+    "num_hops": 2,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Organisations with INVOLVED_IN to incidents occurring in Northbridge",
+    "cypher_default": "MATCH (o:Organisation)-[:INVOLVED_IN]->(i:Incident)-[:OCCURRED_AT]->(l:Location {suburb:'Northbridge'}) RETURN o.name, i.crime_type, i.date",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-031",
+    "question": "What evidence was collected at the location of the Fremantle burglary?",
+    "num_hops": 2,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Evidence collected at LOC-007",
+    "cypher_default": "MATCH (i:Incident {crime_type:'burglary'})-[:OCCURRED_AT]->(l:Location {suburb:'Fremantle'}), (e:Evidence)-[:COLLECTED_AT]->(l) RETURN e.evidence_id, e.type, e.description",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-032",
+    "question": "List all persons who witnessed incidents in Northbridge.",
+    "num_hops": 2,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Witnesses of incidents occurring in Northbridge suburb",
+    "cypher_default": "MATCH (p:Person)-[:WITNESSED]->(i:Incident)-[:OCCURRED_AT]->(l:Location {suburb:'Northbridge'}) RETURN DISTINCT p.name, i.incident_id",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-033",
+    "question": "Which suspects own SUVs?",
+    "num_hops": 2,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Suspects who currently own SUV-type vehicles",
+    "cypher_default": "MATCH (p:Person {role:'suspect'})-[:OWNS {active:true}]->(v:Vehicle {vehicle_type:'SUV'}) RETURN p.name, v.make, v.model",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-034",
+    "question": "Where was phone DEV-001 located on 2026-01-15?",
+    "num_hops": 2,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Location of DEV-001 on that date",
+    "cypher_default": "MATCH (ph:Phone {device_id:'DEV-001'})-[loc:LOCATED_AT {date:date('2026-01-15')}]->(l:Location) RETURN l.address, l.suburb, loc.time",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-035",
+    "question": "Who are the victims of incidents investigated by David Chen?",
+    "num_hops": 2,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Victims of incidents that PER-001 investigates",
+    "cypher_default": "MATCH (o:Person {name:'David Chen'})-[:INVESTIGATES]->(i:Incident)<-[:VICTIM_OF]-(v:Person) RETURN DISTINCT v.name, i.incident_id, i.crime_type",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-036",
+    "question": "What incidents involved vehicles registered in Cannington?",
+    "num_hops": 2,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Incidents with USED_IN from vehicles registered at Cannington locations",
+    "cypher_default": "MATCH (v:Vehicle)-[:REGISTERED_AT]->(l:Location {suburb:'Cannington'}), (v)-[:USED_IN]->(i:Incident) RETURN v.license_plate, i.incident_id, i.crime_type",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-037",
+    "question": "Which members of the Northbridge Crew have been suspected of crimes?",
+    "num_hops": 2,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Persons who WORKS_FOR ORG-001 and have SUSPECTED_OF relationships",
+    "cypher_default": "MATCH (p:Person)-[:WORKS_FOR]->(o:Organisation {name:'Northbridge Crew'}), (p)-[:SUSPECTED_OF]->(i:Incident) RETURN DISTINCT p.name, i.crime_type",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-038",
+    "question": "What communications relate to Operation Ironside?",
+    "num_hops": 2,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Communications with RELATES_TO to CASE-001 or its incidents",
+    "cypher_default": "MATCH (cm:Communication)-[:RELATES_TO]->(c:Case {case_name:'Operation Ironside \u2014 Northbridge Series'}) RETURN cm.comm_id, cm.type, cm.summary",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-039",
+    "question": "Which suspects have phones registered on the Telstra network?",
+    "num_hops": 2,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Suspects using Telstra phones",
+    "cypher_default": "MATCH (p:Person {role:'suspect'})-[:USES_PHONE {active:true}]->(ph:Phone {carrier:'Telstra'}) RETURN p.name, ph.phone_number",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-040",
+    "question": "List evidence linked to suspects of the drug offence on Great Eastern Highway.",
+    "num_hops": 2,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Evidence LINKED_TO persons who are SUSPECTED_OF INC-002",
+    "cypher_default": "MATCH (p:Person)-[:SUSPECTED_OF]->(i:Incident {crime_type:'drug_offence'}), (e:Evidence)-[:LINKED_TO]->(p), (i)-[:OCCURRED_AT]->(loc_i:Location) WHERE loc_i.address CONTAINS 'Great Eastern Highway' RETURN e.evidence_id, e.type, e.description, p.name",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-041",
+    "question": "Show the people connected to incidents in Midland.",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "All persons connected to incidents in Midland",
+    "cypher_default": "MATCH (p:Person)-[r]->(i:Incident)-[:OCCURRED_AT]->(l:Location {suburb:'Midland'}) RETURN p.name, type(r), i.crime_type",
+    "interpretations": [
+      {
+        "interp": "Only suspects of Midland incidents",
+        "cypher": "MATCH (p:Person)-[:SUSPECTED_OF]->(i:Incident)-[:OCCURRED_AT]->(l:Location {suburb:'Midland'}) RETURN p.name, i.crime_type"
+      },
+      {
+        "interp": "Only witnesses of Midland incidents",
+        "cypher": "MATCH (p:Person)-[:WITNESSED]->(i:Incident)-[:OCCURRED_AT]->(l:Location {suburb:'Midland'}) RETURN p.name, i.crime_type"
+      },
+      {
+        "interp": "Only investigating officers of Midland incidents",
+        "cypher": "MATCH (p:Person)-[:INVESTIGATES]->(i:Incident)-[:OCCURRED_AT]->(l:Location {suburb:'Midland'}) RETURN p.name, i.crime_type"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-042",
+    "question": "Where have suspects of the Northbridge assault been living?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Current addresses of INC-003 suspects",
+    "cypher_default": "MATCH (p:Person)-[:SUSPECTED_OF]->(i:Incident {crime_type:'assault'}), (p)-[:LIVES_AT {active:true}]->(l:Location), (i)-[:OCCURRED_AT]->(:Location {suburb:'Northbridge'}) RETURN p.name, l.address, l.suburb",
+    "interpretations": [
+      {
+        "interp": "Current addresses only",
+        "cypher": "MATCH (p:Person)-[:SUSPECTED_OF]->(i:Incident {crime_type:'assault'}), (p)-[:LIVES_AT {active:true}]->(l:Location), (i)-[:OCCURRED_AT]->(:Location {suburb:'Northbridge'}) RETURN p.name, l.address, l.suburb"
+      },
+      {
+        "interp": "All addresses including historical",
+        "cypher": "MATCH (p:Person)-[:SUSPECTED_OF]->(i:Incident {crime_type:'assault'}), (p)-[r:LIVES_AT]->(l:Location), (i)-[:OCCURRED_AT]->(:Location {suburb:'Northbridge'}) RETURN p.name, l.address, l.suburb, r.from_date, r.to_date, r.active"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-043",
+    "question": "What communication has there been about Operation Ironside?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "Communications that RELATES_TO CASE-001",
+    "cypher_default": "MATCH (cm:Communication)-[:RELATES_TO]->(c:Case {case_name:'Operation Ironside \u2014 Northbridge Series'}) RETURN cm.type, cm.date, cm.summary",
+    "interpretations": [
+      {
+        "interp": "Communications linked directly to the case",
+        "cypher": "MATCH (cm:Communication)-[:RELATES_TO]->(c:Case {case_name:'Operation Ironside \u2014 Northbridge Series'}) RETURN cm.type, cm.date, cm.summary"
+      },
+      {
+        "interp": "Communications linked to any incident within the case",
+        "cypher": "MATCH (c:Case {case_name:'Operation Ironside \u2014 Northbridge Series'})-[:CONTAINS]->(i:Incident)<-[:RELATES_TO]-(cm:Communication) RETURN cm.type, cm.date, cm.summary"
+      },
+      {
+        "interp": "Phone calls between people involved in the case",
+        "cypher": "MATCH (c:Case {case_name:'Operation Ironside \u2014 Northbridge Series'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(p:Person)-[:USES_PHONE]->(ph1:Phone)-[call:CALLED]->(ph2:Phone) RETURN p.name, ph2.phone_number, call.date"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-044",
+    "question": "Which vehicles are connected to the drug network cases?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Vehicles used in drug-related incidents within CASE-002",
+    "cypher_default": "MATCH (c:Case {case_name:'Operation Trident \u2014 Drug Network'})-[:CONTAINS]->(i:Incident)<-[:USED_IN]-(v:Vehicle) RETURN v.make, v.model, v.license_plate",
+    "interpretations": [
+      {
+        "interp": "Only vehicles directly used in case incidents",
+        "cypher": "MATCH (c:Case {case_name:'Operation Trident \u2014 Drug Network'})-[:CONTAINS]->(i:Incident)<-[:USED_IN]-(v:Vehicle) RETURN v.make, v.model, v.license_plate"
+      },
+      {
+        "interp": "Vehicles owned by any suspect in the case",
+        "cypher": "MATCH (c:Case {case_name:'Operation Trident \u2014 Drug Network'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(p:Person)-[:OWNS]->(v:Vehicle) RETURN DISTINCT v.make, v.model, v.license_plate, p.name"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-045",
+    "question": "Who participated in communications about the fraud incidents?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Participants in communications relating to fraud incidents",
+    "cypher_default": "MATCH (p:Person)-[:PARTICIPATED_IN]->(cm:Communication)-[:RELATES_TO]->(i:Incident {crime_type:'fraud'}) RETURN DISTINCT p.name, cm.type, i.incident_id",
+    "interpretations": [
+      {
+        "interp": "Only participants in communications linked to INC-005",
+        "cypher": "MATCH (p:Person)-[:PARTICIPATED_IN]->(cm:Communication)-[:RELATES_TO]->(i:Incident {crime_type:'fraud'})-[:OCCURRED_AT]->(:Location {suburb:'Perth CBD'}) RETURN p.name, cm.type"
+      },
+      {
+        "interp": "Participants in communications linked to any fraud incident",
+        "cypher": "MATCH (p:Person)-[:PARTICIPATED_IN]->(cm:Communication)-[:RELATES_TO]->(i:Incident {crime_type:'fraud'}) RETURN DISTINCT p.name, cm.type, i.incident_id"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-046",
+    "question": "What vehicles do East Side Boys members drive?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Current vehicles owned by ORG-004 members",
+    "cypher_default": "MATCH (p:Person)-[:WORKS_FOR]->(o:Organisation {name:'East Side Boys'}), (p)-[:OWNS {active:true}]->(v:Vehicle) RETURN p.name, v.make, v.model, v.colour",
+    "interpretations": [
+      {
+        "interp": "Currently owned vehicles only",
+        "cypher": "MATCH (p:Person)-[:WORKS_FOR]->(o:Organisation {name:'East Side Boys'}), (p)-[:OWNS {active:true}]->(v:Vehicle) RETURN p.name, v.make, v.model"
+      },
+      {
+        "interp": "All vehicles including previously owned",
+        "cypher": "MATCH (p:Person)-[:WORKS_FOR]->(o:Organisation {name:'East Side Boys'}), (p)-[r:OWNS]->(v:Vehicle) RETURN p.name, v.make, v.model, r.active, r.from_date"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-047",
+    "question": "Show people involved in Operation Sentinel incidents.",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "All persons connected to incidents in CASE-004",
+    "cypher_default": "MATCH (c:Case {case_name:'Operation Sentinel \u2014 Midland Taskforce'})-[:CONTAINS]->(i:Incident)<-[r]-(p:Person) RETURN DISTINCT p.name, type(r), i.crime_type",
+    "interpretations": [
+      {
+        "interp": "Only suspects",
+        "cypher": "MATCH (c:Case {case_name:'Operation Sentinel \u2014 Midland Taskforce'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(p:Person) RETURN DISTINCT p.name, i.crime_type"
+      },
+      {
+        "interp": "Only victims",
+        "cypher": "MATCH (c:Case {case_name:'Operation Sentinel \u2014 Midland Taskforce'})-[:CONTAINS]->(i:Incident)<-[:VICTIM_OF]-(p:Person) RETURN DISTINCT p.name, i.crime_type"
+      },
+      {
+        "interp": "Only investigating officers",
+        "cypher": "MATCH (c:Case {case_name:'Operation Sentinel \u2014 Midland Taskforce'})-[:CONTAINS]->(i:Incident)<-[:INVESTIGATES]-(p:Person) RETURN DISTINCT p.name, i.crime_type"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-048",
+    "question": "Where were vehicles seen near robbery locations?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "Vehicles sighted at locations where robberies occurred",
+    "cypher_default": "MATCH (i:Incident {crime_type:'robbery'})-[:OCCURRED_AT]->(l:Location)<-[:SEEN_AT]-(v:Vehicle) RETURN v.license_plate, v.make, l.address, l.suburb",
+    "interpretations": [
+      {
+        "interp": "Vehicles physically sighted at robbery locations",
+        "cypher": "MATCH (i:Incident {crime_type:'robbery'})-[:OCCURRED_AT]->(l:Location)<-[:SEEN_AT]-(v:Vehicle) RETURN v.license_plate, v.make, l.address"
+      },
+      {
+        "interp": "Vehicles registered at robbery locations",
+        "cypher": "MATCH (i:Incident {crime_type:'robbery'})-[:OCCURRED_AT]->(l:Location)<-[:REGISTERED_AT]-(v:Vehicle) RETURN v.license_plate, v.make, l.address"
+      },
+      {
+        "interp": "Vehicles used in robbery incidents",
+        "cypher": "MATCH (v:Vehicle)-[:USED_IN]->(i:Incident {crime_type:'robbery'}) RETURN v.license_plate, v.make, i.incident_id"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-049",
+    "question": "Who has connections to the Northbridge Crew through incidents?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "All persons linked to incidents involving ORG-001",
+    "cypher_default": "MATCH (o:Organisation {name:'Northbridge Crew'})-[:INVOLVED_IN]->(i:Incident)<-[r]-(p:Person) RETURN DISTINCT p.name, type(r), i.crime_type",
+    "interpretations": [
+      {
+        "interp": "Suspects of incidents involving the Crew",
+        "cypher": "MATCH (o:Organisation {name:'Northbridge Crew'})-[:INVOLVED_IN]->(i:Incident)<-[:SUSPECTED_OF]-(p:Person) RETURN p.name, i.crime_type"
+      },
+      {
+        "interp": "Victims of incidents involving the Crew",
+        "cypher": "MATCH (o:Organisation {name:'Northbridge Crew'})-[:INVOLVED_IN]->(i:Incident)<-[:VICTIM_OF]-(p:Person) RETURN p.name, i.crime_type"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-050",
+    "question": "What evidence is connected to suspects in the fraud case?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "Evidence linked to fraud suspects",
+    "cypher_default": "MATCH (p:Person)-[:SUSPECTED_OF]->(i:Incident {crime_type:'fraud'}), (e:Evidence)-[:LINKED_TO]->(p) RETURN e.evidence_id, e.type, p.name",
+    "interpretations": [
+      {
+        "interp": "Evidence forensically linked to fraud suspects",
+        "cypher": "MATCH (p:Person)-[:SUSPECTED_OF]->(i:Incident {crime_type:'fraud'}), (e:Evidence)-[:LINKED_TO]->(p) RETURN e.evidence_id, e.type, p.name"
+      },
+      {
+        "interp": "Evidence related to fraud incidents directly",
+        "cypher": "MATCH (e:Evidence)-[:RELATED_TO]->(i:Incident {crime_type:'fraud'}) RETURN e.evidence_id, e.type, i.incident_id"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-051",
+    "question": "Where do associates of James Whitfield currently live?",
+    "num_hops": 3,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Current addresses of Whitfield's active associates",
+    "cypher_default": "MATCH (p:Person {name:'James Whitfield'})-[:ASSOCIATED_WITH {active:true}]-(a:Person)-[:LIVES_AT {active:true}]->(l:Location) RETURN a.name, l.address, l.suburb",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-052",
+    "question": "What vehicles are owned by suspects in Operation Ironside incidents?",
+    "num_hops": 3,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Vehicles owned by suspects of incidents in CASE-001",
+    "cypher_default": "MATCH (c:Case {case_name:'Operation Ironside \u2014 Northbridge Series'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(p:Person)-[:OWNS {active:true}]->(v:Vehicle) RETURN DISTINCT p.name, v.make, v.model, v.license_plate",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-053",
+    "question": "Which phones called devices used by Northbridge Crew members?",
+    "num_hops": 3,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Phones that called phones used by ORG-001 members",
+    "cypher_default": "MATCH (p:Person)-[:WORKS_FOR]->(o:Organisation {name:'Northbridge Crew'}), (p)-[:USES_PHONE]->(ph1:Phone)<-[:CALLED]-(ph2:Phone) RETURN DISTINCT ph2.phone_number, p.name, ph1.phone_number",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-054",
+    "question": "List officers assigned to cases containing robbery incidents.",
+    "num_hops": 3,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Officers assigned to cases that contain robbery-type incidents",
+    "cypher_default": "MATCH (p:Person)-[:ASSIGNED_TO]->(c:Case)-[:CONTAINS]->(i:Incident {crime_type:'robbery'}) RETURN DISTINCT p.name, c.case_name, i.incident_id",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-055",
+    "question": "Where were phones of Cannington homicide suspects located?",
+    "num_hops": 3,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Phone location pings for INC-006 suspects",
+    "cypher_default": "MATCH (p:Person)-[:SUSPECTED_OF]->(i:Incident {crime_type:'homicide'}), (p)-[:USES_PHONE]->(ph:Phone)-[loc:LOCATED_AT]->(l:Location), (i)-[:OCCURRED_AT]->(:Location {suburb:'Cannington'}) RETURN p.name, l.address, l.suburb, loc.date, loc.time",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-056",
+    "question": "What evidence was collected by officers assigned to Operation Cerberus?",
+    "num_hops": 3,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Evidence collected by officers assigned to CASE-003",
+    "cypher_default": "MATCH (p:Person)-[:ASSIGNED_TO]->(c:Case {case_name:'Operation Cerberus \u2014 Financial Crimes'}), (p)-[:COLLECTED]->(e:Evidence) RETURN p.name, e.evidence_id, e.type, e.description",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-057",
+    "question": "Who witnessed incidents involving East Side Boys members?",
+    "num_hops": 3,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Witnesses of incidents where ORG-004 members are suspects",
+    "cypher_default": "MATCH (s:Person)-[:WORKS_FOR]->(o:Organisation {name:'East Side Boys'}), (s)-[:SUSPECTED_OF]->(i:Incident)<-[:WITNESSED]-(w:Person) RETURN DISTINCT w.name, i.incident_id, i.crime_type",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-058",
+    "question": "What vehicles were seen at locations where evidence was collected for the robbery?",
+    "num_hops": 3,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Vehicles sighted at evidence collection locations for INC-001",
+    "cypher_default": "MATCH (e:Evidence)-[:RELATED_TO]->(i:Incident {crime_type:'robbery'}), (e)-[:COLLECTED_AT]->(l:Location)<-[:SEEN_AT]-(v:Vehicle), (i)-[:OCCURRED_AT]->(:Location {suburb:'Northbridge'}) RETURN DISTINCT v.make, v.model, v.license_plate, l.address",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-059",
+    "question": "Which suspects in Northbridge incidents are members of known gangs?",
+    "num_hops": 3,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Suspects of Northbridge incidents who WORKS_FOR gang-type organisations",
+    "cypher_default": "MATCH (p:Person)-[:SUSPECTED_OF]->(i:Incident)-[:OCCURRED_AT]->(l:Location {suburb:'Northbridge'}), (p)-[:WORKS_FOR]->(o:Organisation {type:'gang'}) RETURN DISTINCT p.name, o.name, i.crime_type",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-060",
+    "question": "List people who has collected evidence linked to incidents at Cannington locations.",
+    "num_hops": 3,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "People who has collected evidence linked to incidents at Cannington locations",
+    "cypher_default": "MATCH (p:Person)-[r:COLLECTED]->(e:Evidence)-[:RELATED_TO]->(i:Incident)-[:OCCURRED_AT]->(l:Location {suburb:'Cannington'}) RETURN DISTINCT p.name, e.type, i.crime_type",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-061",
+    "question": "What phones have called the devices of persons associated with James Whitfield?",
+    "num_hops": 3,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Phones calling phones used by Whitfield's associates",
+    "cypher_default": "MATCH (p:Person {name:'James Whitfield'})-[:ASSOCIATED_WITH]-(a:Person)-[:USES_PHONE]->(ph1:Phone)<-[:CALLED]-(ph2:Phone) RETURN DISTINCT a.name, ph1.phone_number, ph2.phone_number",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-062",
+    "question": "Where did meetings take place that involved suspects of Northbridge incidents?",
+    "num_hops": 3,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Locations of meeting-type communications involving Northbridge incident suspects",
+    "cypher_default": "MATCH (p:Person)-[:SUSPECTED_OF]->(i:Incident)-[:OCCURRED_AT]->(l1:Location {suburb:'Northbridge'}), (p)-[:PARTICIPATED_IN]->(cm:Communication {type:'meeting'})-[:TOOK_PLACE_AT]->(l2:Location) RETURN DISTINCT p.name, l2.address, l2.suburb, cm.date",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-063",
+    "question": "Which officers investigated incidents where Danny Kovac is a suspect?",
+    "num_hops": 3,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Officers investigating incidents with Kovac as suspect",
+    "cypher_default": "MATCH (s:Person {name:'Danny Kovac'})-[:SUSPECTED_OF]->(i:Incident)<-[:INVESTIGATES]-(o:Person {role:'officer'}) RETURN DISTINCT o.name, i.incident_id, i.crime_type",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-064",
+    "question": "What organisations have members who live in Northbridge?",
+    "num_hops": 3,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Organisations with members living in Northbridge",
+    "cypher_default": "MATCH (p:Person)-[:WORKS_FOR]->(o:Organisation), (p)-[:LIVES_AT {active:true}]->(l:Location {suburb:'Northbridge'}) RETURN DISTINCT o.name, p.name, l.address",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-065",
+    "question": "Which locations have evidence linked to suspects of Operation Ironside?",
+    "num_hops": 3,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Collection locations of evidence linked to CASE-001 suspects",
+    "cypher_default": "MATCH (c:Case {case_name:'Operation Ironside \u2014 Northbridge Series'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(p:Person)<-[:LINKED_TO]-(e:Evidence)-[:COLLECTED_AT]->(l:Location) RETURN DISTINCT l.address, l.suburb, e.evidence_id, p.name",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-066",
+    "question": "Show people connected to associates of suspects in the homicide.",
+    "num_hops": 3,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "All persons connected to associates of INC-006 suspects",
+    "cypher_default": "MATCH (s:Person)-[:SUSPECTED_OF]->(i:Incident {crime_type:'homicide'}), (s)-[:ASSOCIATED_WITH]-(a:Person)-[r]-(other:Person), (i)-[:OCCURRED_AT]->(:Location {suburb:'Cannington'}) WHERE other <> s RETURN DISTINCT other.name, type(r), a.name",
+    "interpretations": [
+      {
+        "interp": "Only criminal associates of the suspects' associates",
+        "cypher": "MATCH (s:Person)-[:SUSPECTED_OF]->(i:Incident {crime_type:'homicide'}), (s)-[:ASSOCIATED_WITH]-(a:Person)-[:ASSOCIATED_WITH]-(other:Person), (i)-[:OCCURRED_AT]->(:Location {suburb:'Cannington'}) WHERE other <> s RETURN DISTINCT other.name, a.name"
+      },
+      {
+        "interp": "All known connections (KNOWS) of the suspects' associates",
+        "cypher": "MATCH (s:Person)-[:SUSPECTED_OF]->(i:Incident {crime_type:'homicide'}), (s)-[:ASSOCIATED_WITH]-(a:Person)-[:KNOWS]-(other:Person), (i)-[:OCCURRED_AT]->(:Location {suburb:'Cannington'}) WHERE other <> s RETURN DISTINCT other.name, a.name"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-067",
+    "question": "Where have the suspects of Midland incidents been living?",
+    "num_hops": 3,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Current addresses of Midland incident suspects",
+    "cypher_default": "MATCH (p:Person)-[:SUSPECTED_OF]->(i:Incident)-[:OCCURRED_AT]->(l1:Location {suburb:'Midland'}), (p)-[:LIVES_AT {active:true}]->(l2:Location) RETURN DISTINCT p.name, l2.address, l2.suburb",
+    "interpretations": [
+      {
+        "interp": "Current addresses only",
+        "cypher": "MATCH (p:Person)-[:SUSPECTED_OF]->(i:Incident)-[:OCCURRED_AT]->(l1:Location {suburb:'Midland'}), (p)-[:LIVES_AT {active:true}]->(l2:Location) RETURN DISTINCT p.name, l2.address, l2.suburb"
+      },
+      {
+        "interp": "All addresses including historical residences",
+        "cypher": "MATCH (p:Person)-[:SUSPECTED_OF]->(i:Incident)-[:OCCURRED_AT]->(l1:Location {suburb:'Midland'}), (p)-[r:LIVES_AT]->(l2:Location) RETURN DISTINCT p.name, l2.address, l2.suburb, r.from_date, r.to_date, r.active"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-068",
+    "question": "What contact have Operation Cerberus suspects had with each other?",
+    "num_hops": 3,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "All forms of contact between CASE-003 suspects",
+    "cypher_default": "MATCH (c:Case {case_name:'Operation Cerberus \u2014 Financial Crimes'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(p1:Person)-[r]-(p2:Person)-[:SUSPECTED_OF]->(i2:Incident)<-[:CONTAINS]-(c) RETURN DISTINCT p1.name, p2.name, type(r)",
+    "interpretations": [
+      {
+        "interp": "Phone calls between their devices",
+        "cypher": "MATCH (c:Case {case_name:'Operation Cerberus \u2014 Financial Crimes'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(p1:Person)-[:USES_PHONE]->(ph1:Phone)-[:CALLED]-(ph2:Phone)<-[:USES_PHONE]-(p2:Person)-[:SUSPECTED_OF]->(i2:Incident)<-[:CONTAINS]-(c) WHERE p1 <> p2 RETURN DISTINCT p1.name, p2.name, ph1.phone_number, ph2.phone_number"
+      },
+      {
+        "interp": "Shared communications (meetings, intercepts)",
+        "cypher": "MATCH (c:Case {case_name:'Operation Cerberus \u2014 Financial Crimes'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(p1:Person)-[:PARTICIPATED_IN]->(cm:Communication)<-[:PARTICIPATED_IN]-(p2:Person)-[:SUSPECTED_OF]->(i2:Incident)<-[:CONTAINS]-(c) WHERE p1 <> p2 RETURN DISTINCT p1.name, p2.name, cm.type, cm.date"
+      },
+      {
+        "interp": "Direct association relationships",
+        "cypher": "MATCH (c:Case {case_name:'Operation Cerberus \u2014 Financial Crimes'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(p1:Person)-[r:ASSOCIATED_WITH]-(p2:Person)-[:SUSPECTED_OF]->(i2:Incident)<-[:CONTAINS]-(c) RETURN DISTINCT p1.name, p2.name, r.association_type"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-069",
+    "question": "Which officers have handled evidence linked to gang members?",
+    "num_hops": 3,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Officers who collected evidence linked to gang organisation members",
+    "cypher_default": "MATCH (p:Person)-[:WORKS_FOR]->(o:Organisation {type:'gang'}), (e:Evidence)-[:LINKED_TO]->(p), (off:Person)-[:COLLECTED]->(e) RETURN DISTINCT off.name, e.evidence_id, p.name, o.name",
+    "interpretations": [
+      {
+        "interp": "Evidence linked to members of any gang",
+        "cypher": "MATCH (p:Person)-[:WORKS_FOR]->(o:Organisation {type:'gang'}), (e:Evidence)-[:LINKED_TO]->(p), (off:Person)-[:COLLECTED]->(e) RETURN DISTINCT off.name, e.evidence_id, p.name, o.name"
+      },
+      {
+        "interp": "Evidence linked specifically to Northbridge Crew members",
+        "cypher": "MATCH (p:Person)-[:WORKS_FOR]->(o:Organisation {name:'Northbridge Crew'}), (e:Evidence)-[:LINKED_TO]->(p), (off:Person)-[:COLLECTED]->(e) RETURN DISTINCT off.name, e.evidence_id, p.name"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-070",
+    "question": "What vehicles do people connected to Operation Sentinel drive?",
+    "num_hops": 3,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Current vehicles owned by suspects in CASE-004 incidents",
+    "cypher_default": "MATCH (c:Case {case_name:'Operation Sentinel \u2014 Midland Taskforce'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(p:Person)-[:OWNS {active:true}]->(v:Vehicle) RETURN DISTINCT p.name, v.make, v.model, v.license_plate",
+    "interpretations": [
+      {
+        "interp": "Current vehicles of suspects only",
+        "cypher": "MATCH (c:Case {case_name:'Operation Sentinel \u2014 Midland Taskforce'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(p:Person)-[:OWNS {active:true}]->(v:Vehicle) RETURN DISTINCT p.name, v.make, v.model"
+      },
+      {
+        "interp": "All vehicles (current and historical) of suspects",
+        "cypher": "MATCH (c:Case {case_name:'Operation Sentinel \u2014 Midland Taskforce'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(p:Person)-[r:OWNS]->(v:Vehicle) RETURN DISTINCT p.name, v.make, v.model, r.active"
+      },
+      {
+        "interp": "Vehicles of all connected persons (suspects, witnesses, officers)",
+        "cypher": "MATCH (c:Case {case_name:'Operation Sentinel \u2014 Midland Taskforce'})-[:CONTAINS]->(i:Incident)<-[rel]-(p:Person)-[:OWNS {active:true}]->(v:Vehicle) RETURN DISTINCT p.name, type(rel), v.make, v.model"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-071",
+    "question": "Who are the witnesses of incidents linked to organisations under investigation?",
+    "num_hops": 3,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Witnesses of incidents where under-investigation orgs are INVOLVED_IN",
+    "cypher_default": "MATCH (o:Organisation {status:'under_investigation'})-[:INVOLVED_IN]->(i:Incident)<-[:WITNESSED]-(w:Person) RETURN DISTINCT w.name, i.crime_type, o.name",
+    "interpretations": [
+      {
+        "interp": "Witnesses of org-linked incidents only",
+        "cypher": "MATCH (o:Organisation {status:'under_investigation'})-[:INVOLVED_IN]->(i:Incident)<-[:WITNESSED]-(w:Person) RETURN DISTINCT w.name, i.crime_type, o.name"
+      },
+      {
+        "interp": "All witnesses of incidents where org members are suspects",
+        "cypher": "MATCH (m:Person)-[:WORKS_FOR]->(o:Organisation {status:'under_investigation'}), (m)-[:SUSPECTED_OF]->(i:Incident)<-[:WITNESSED]-(w:Person) RETURN DISTINCT w.name, i.crime_type, o.name"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-072",
+    "question": "What incidents are linked to persons who attended meetings in Northbridge?",
+    "num_hops": 3,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Incidents connected to persons who participated in Northbridge meetings",
+    "cypher_default": "MATCH (p:Person)-[:PARTICIPATED_IN]->(cm:Communication {type:'meeting'})-[:TOOK_PLACE_AT]->(l:Location {suburb:'Northbridge'}), (p)-[r]->(i:Incident) RETURN DISTINCT p.name, type(r), i.incident_id, i.crime_type",
+    "interpretations": [
+      {
+        "interp": "Incidents where meeting participants are suspects",
+        "cypher": "MATCH (p:Person)-[:PARTICIPATED_IN]->(cm:Communication {type:'meeting'})-[:TOOK_PLACE_AT]->(l:Location {suburb:'Northbridge'}), (p)-[:SUSPECTED_OF]->(i:Incident) RETURN DISTINCT p.name, i.incident_id, i.crime_type"
+      },
+      {
+        "interp": "All incidents connected to meeting participants in any role",
+        "cypher": "MATCH (p:Person)-[:PARTICIPATED_IN]->(cm:Communication {type:'meeting'})-[:TOOK_PLACE_AT]->(l:Location {suburb:'Northbridge'}), (p)-[r]->(i:Incident) RETURN DISTINCT p.name, type(r), i.incident_id"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-073",
+    "question": "Where and when were the phones of Northbridge Crew members located?",
+    "num_hops": 3,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "All phone location pings for ORG-001 members",
+    "cypher_default": "MATCH (p:Person)-[:WORKS_FOR]->(o:Organisation {name:'Northbridge Crew'}), (p)-[:USES_PHONE]->(ph:Phone)-[loc:LOCATED_AT]->(l:Location) RETURN p.name, l.address, l.suburb, loc.date, loc.time",
+    "interpretations": [
+      {
+        "interp": "Most recent location only",
+        "cypher": "MATCH (p:Person)-[:WORKS_FOR]->(o:Organisation {name:'Northbridge Crew'}), (p)-[:USES_PHONE {active:true}]->(ph:Phone)-[loc:LOCATED_AT]->(l:Location) RETURN p.name, l.address, l.suburb, loc.date ORDER BY loc.date DESC LIMIT 5"
+      },
+      {
+        "interp": "All historical location pings",
+        "cypher": "MATCH (p:Person)-[:WORKS_FOR]->(o:Organisation {name:'Northbridge Crew'}), (p)-[:USES_PHONE]->(ph:Phone)-[loc:LOCATED_AT]->(l:Location) RETURN p.name, l.address, l.suburb, loc.date, loc.time"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-074",
+    "question": "Show the connections between people involved in the financial crimes case.",
+    "num_hops": 3,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "All connections between CASE-003 involved persons",
+    "cypher_default": "MATCH (c:Case {case_name:'Operation Cerberus \u2014 Financial Crimes'})-[:CONTAINS]->(i:Incident)<-[r1]-(p1:Person)-[r2]-(p2:Person)-[r3]->(i2:Incident)<-[:CONTAINS]-(c) WHERE p1 <> p2 RETURN DISTINCT p1.name, type(r2), p2.name",
+    "interpretations": [
+      {
+        "interp": "Criminal association links only",
+        "cypher": "MATCH (c:Case {case_name:'Operation Cerberus \u2014 Financial Crimes'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(p1:Person)-[r:ASSOCIATED_WITH]-(p2:Person) RETURN DISTINCT p1.name, p2.name, r.association_type"
+      },
+      {
+        "interp": "Communication links (meetings, emails, intercepts)",
+        "cypher": "MATCH (c:Case {case_name:'Operation Cerberus \u2014 Financial Crimes'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(p1:Person)-[:PARTICIPATED_IN]->(cm:Communication)<-[:PARTICIPATED_IN]-(p2:Person) WHERE p1 <> p2 RETURN DISTINCT p1.name, p2.name, cm.type, cm.date"
+      },
+      {
+        "interp": "Phone call links",
+        "cypher": "MATCH (c:Case {case_name:'Operation Cerberus \u2014 Financial Crimes'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(p1:Person)-[:USES_PHONE]->(ph1:Phone)-[:CALLED]-(ph2:Phone)<-[:USES_PHONE]-(p2:Person) WHERE p1 <> p2 RETURN DISTINCT p1.name, p2.name"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-075",
+    "question": "Which persons live near incident locations in the South East Metropolitan district?",
+    "num_hops": 3,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "All persons living in the same suburb as SE Metropolitan incidents",
+    "cypher_default": "MATCH (i:Incident)-[:OCCURRED_AT]->(l1:Location {district:'South East Metropolitan'}), (p:Person)-[:LIVES_AT {active:true}]->(l2:Location {district:'South East Metropolitan'}) RETURN DISTINCT p.name, p.role, l2.suburb",
+    "interpretations": [
+      {
+        "interp": "Only suspects living near SE Metro incidents",
+        "cypher": "MATCH (i:Incident)-[:OCCURRED_AT]->(l1:Location {district:'South East Metropolitan'}), (p:Person {role:'suspect'})-[:LIVES_AT {active:true}]->(l2:Location {district:'South East Metropolitan'}) RETURN DISTINCT p.name, l2.suburb"
+      },
+      {
+        "interp": "All persons regardless of role",
+        "cypher": "MATCH (i:Incident)-[:OCCURRED_AT]->(l1:Location {district:'South East Metropolitan'}), (p:Person)-[:LIVES_AT {active:true}]->(l2:Location {district:'South East Metropolitan'}) RETURN DISTINCT p.name, p.role, l2.suburb"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-076",
+    "question": "Where do associates of suspects in Operation Ironside incidents currently live?",
+    "num_hops": 4,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Current addresses of associates of CASE-001 incident suspects",
+    "cypher_default": "MATCH (c:Case {case_name:'Operation Ironside \u2014 Northbridge Series'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(s:Person)-[:ASSOCIATED_WITH]-(a:Person)-[:LIVES_AT {active:true}]->(l:Location) RETURN DISTINCT a.name, l.address, l.suburb, s.name",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-077",
+    "question": "What vehicles are owned by people whose phones called devices used by Northbridge Crew members?",
+    "num_hops": 4,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Vehicles owned by callers of ORG-001 members' phones",
+    "cypher_default": "MATCH (m:Person)-[:WORKS_FOR]->(o:Organisation {name:'Northbridge Crew'}), (m)-[:USES_PHONE]->(ph1:Phone)<-[:CALLED]-(ph2:Phone)<-[:USES_PHONE]-(caller:Person)-[:OWNS]->(v:Vehicle) RETURN DISTINCT caller.name, v.make, v.model, v.license_plate",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-078",
+    "question": "Which officers assigned to Operation Sentinel collected evidence linked to gang members?",
+    "num_hops": 4,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "CASE-004 officers who collected evidence linked to persons in gang organisations",
+    "cypher_default": "MATCH (off:Person)-[:ASSIGNED_TO]->(c:Case {case_name:'Operation Sentinel \u2014 Midland Taskforce'}), (off)-[:COLLECTED]->(e:Evidence)-[:LINKED_TO]->(p:Person)-[:WORKS_FOR]->(o:Organisation {type:'gang'}) RETURN DISTINCT off.name, e.evidence_id, p.name, o.name",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-079",
+    "question": "Where were phones located that called devices of suspects in Cannington incidents?",
+    "num_hops": 4,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Phone locations of callers to Cannington incident suspects' phones",
+    "cypher_default": "MATCH (s:Person)-[:SUSPECTED_OF]->(i:Incident)-[:OCCURRED_AT]->(l1:Location {suburb:'Cannington'}), (s)-[:USES_PHONE]->(ph1:Phone)<-[:CALLED]-(ph2:Phone)-[loc:LOCATED_AT]->(l2:Location) RETURN DISTINCT l2.address, l2.suburb, loc.date, s.name",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-080",
+    "question": "What evidence was collected at locations where vehicles owned by fraud suspects were seen?",
+    "num_hops": 4,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Evidence at locations where fraud suspect vehicles were sighted",
+    "cypher_default": "MATCH (p:Person)-[:SUSPECTED_OF]->(i:Incident {crime_type:'fraud'}), (p)-[:OWNS]->(v:Vehicle)-[:SEEN_AT]->(l:Location)<-[:COLLECTED_AT]-(e:Evidence) RETURN DISTINCT e.evidence_id, e.type, l.address, v.license_plate, p.name",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-081",
+    "question": "Which witnesses of Northbridge incidents live in the same suburb as suspects?",
+    "num_hops": 4,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Witnesses and suspects of Northbridge incidents sharing a suburb",
+    "cypher_default": "MATCH (w:Person)-[:WITNESSED]->(i:Incident)-[:OCCURRED_AT]->(l1:Location {suburb:'Northbridge'}), (w)-[:LIVES_AT {active:true}]->(l2:Location), (s:Person)-[:SUSPECTED_OF]->(i), (s)-[:LIVES_AT {active:true}]->(l3:Location) WHERE l2.suburb = l3.suburb RETURN DISTINCT w.name, s.name, l2.suburb",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-082",
+    "question": "List organisations whose members' phones were located at incident scenes.",
+    "num_hops": 4,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Organisations with members whose phones pinged at incident locations",
+    "cypher_default": "MATCH (p:Person)-[:WORKS_FOR]->(o:Organisation), (p)-[:USES_PHONE]->(ph:Phone)-[:LOCATED_AT]->(l:Location)<-[:OCCURRED_AT]-(i:Incident) RETURN DISTINCT o.name, p.name, l.address, i.incident_id",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-083",
+    "question": "What incidents are connected to persons who attended meetings with informants?",
+    "num_hops": 4,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Incidents where meeting-with-informant participants are suspects",
+    "cypher_default": "MATCH (inf:Person {role:'informant'})-[:PARTICIPATED_IN]->(cm:Communication)<-[:PARTICIPATED_IN]-(p:Person), (p)-[:SUSPECTED_OF]->(i:Incident) WHERE p <> inf RETURN DISTINCT p.name, i.incident_id, i.crime_type, cm.type",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-084",
+    "question": "Where do people who called phones of Operation Ironside suspects live?",
+    "num_hops": 4,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Addresses of callers to CASE-001 suspect phones",
+    "cypher_default": "MATCH (c:Case {case_name:'Operation Ironside \u2014 Northbridge Series'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(s:Person)-[:USES_PHONE]->(ph1:Phone)<-[:CALLED]-(ph2:Phone)<-[:USES_PHONE]-(caller:Person)-[:LIVES_AT {active:true}]->(l:Location) RETURN DISTINCT caller.name, l.address, l.suburb, s.name",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-085",
+    "question": "Which gang members have vehicles registered at locations where evidence was collected?",
+    "num_hops": 4,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Gang org members with vehicles registered at evidence collection sites",
+    "cypher_default": "MATCH (p:Person)-[:WORKS_FOR]->(o:Organisation {type:'gang'}), (p)-[:OWNS]->(v:Vehicle)-[:REGISTERED_AT]->(l:Location)<-[:COLLECTED_AT]-(e:Evidence) RETURN DISTINCT p.name, o.name, v.license_plate, l.address, e.evidence_id",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-086",
+    "question": "What phones called devices of persons who participated in communications about the robbery?",
+    "num_hops": 4,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Phones calling phones of COMM-005 and COMM-001 participants (robbery-related comms)",
+    "cypher_default": "MATCH (p:Person)-[:PARTICIPATED_IN]->(cm:Communication)-[:RELATES_TO]->(i:Incident {crime_type:'robbery'}), (p)-[:USES_PHONE]->(ph1:Phone)<-[:CALLED]-(ph2:Phone) RETURN DISTINCT ph2.phone_number, p.name, cm.type",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-087",
+    "question": "List officers investigating cases that contain incidents with East Side Boys involvement.",
+    "num_hops": 4,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Officers assigned to cases containing incidents where ORG-004 is involved",
+    "cypher_default": "MATCH (off:Person)-[:ASSIGNED_TO]->(c:Case)-[:CONTAINS]->(i:Incident)<-[:INVOLVED_IN]-(o:Organisation {name:'East Side Boys'}) RETURN DISTINCT off.name, c.case_name, i.incident_id",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-088",
+    "question": "Which suspects of Operation Ironside incidents have associates living in Midland?",
+    "num_hops": 4,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "CASE-001 suspects whose associates live in Midland",
+    "cypher_default": "MATCH (c:Case {case_name:'Operation Ironside \u2014 Northbridge Series'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(s:Person)-[:ASSOCIATED_WITH]-(a:Person)-[:LIVES_AT {active:true}]->(l:Location {suburb:'Midland'}) RETURN DISTINCT s.name, a.name, l.address",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-089",
+    "question": "What evidence is linked to persons whose phones were located near Northbridge crime scenes?",
+    "num_hops": 4,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Evidence linked to persons whose phones pinged at Northbridge incident locations",
+    "cypher_default": "MATCH (i:Incident)-[:OCCURRED_AT]->(l:Location {suburb:'Northbridge'})<-[:LOCATED_AT]-(ph:Phone)<-[:USES_PHONE]-(p:Person)<-[:LINKED_TO]-(e:Evidence) RETURN DISTINCT e.evidence_id, e.type, p.name, l.address",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-090",
+    "question": "Where were the vehicles of fraud suspect associates seen?",
+    "num_hops": 4,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Sighting locations of vehicles owned by associates of fraud suspects",
+    "cypher_default": "MATCH (s:Person)-[:SUSPECTED_OF]->(i:Incident {crime_type:'fraud'}), (s)-[:ASSOCIATED_WITH]-(a:Person)-[:OWNS]->(v:Vehicle)-[:SEEN_AT]->(l:Location) RETURN DISTINCT a.name, v.make, v.model, l.address, l.suburb",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-091",
+    "question": "Who are the associates of suspects in cases that contain drug offences?",
+    "num_hops": 4,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Current associates of suspects in drug offence cases",
+    "cypher_default": "MATCH (c:Case)-[:CONTAINS]->(i:Incident {crime_type:'drug_offence'})<-[:SUSPECTED_OF]-(s:Person)-[:ASSOCIATED_WITH {active:true}]-(a:Person) RETURN DISTINCT a.name, s.name, c.case_name",
+    "interpretations": [
+      {
+        "interp": "Current associates only",
+        "cypher": "MATCH (c:Case)-[:CONTAINS]->(i:Incident {crime_type:'drug_offence'})<-[:SUSPECTED_OF]-(s:Person)-[:ASSOCIATED_WITH {active:true}]-(a:Person) RETURN DISTINCT a.name, s.name, c.case_name"
+      },
+      {
+        "interp": "All associates including former",
+        "cypher": "MATCH (c:Case)-[:CONTAINS]->(i:Incident {crime_type:'drug_offence'})<-[:SUSPECTED_OF]-(s:Person)-[r:ASSOCIATED_WITH]-(a:Person) RETURN DISTINCT a.name, s.name, r.active, r.from_date"
+      },
+      {
+        "interp": "All known connections (associates + social)",
+        "cypher": "MATCH (c:Case)-[:CONTAINS]->(i:Incident {crime_type:'drug_offence'})<-[:SUSPECTED_OF]-(s:Person)-[r]-(a:Person) WHERE type(r) IN ['ASSOCIATED_WITH','KNOWS'] RETURN DISTINCT a.name, s.name, type(r)"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-092",
+    "question": "What contact links exist between suspects of Northbridge incidents and suspects of Midland incidents?",
+    "num_hops": 4,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "All connection types between Northbridge and Midland suspects",
+    "cypher_default": "MATCH (p1:Person)-[:SUSPECTED_OF]->(i1:Incident)-[:OCCURRED_AT]->(l1:Location {suburb:'Northbridge'}), (p2:Person)-[:SUSPECTED_OF]->(i2:Incident)-[:OCCURRED_AT]->(l2:Location {suburb:'Midland'}), (p1)-[r]-(p2) RETURN DISTINCT p1.name, p2.name, type(r)",
+    "interpretations": [
+      {
+        "interp": "Direct association relationships",
+        "cypher": "MATCH (p1:Person)-[:SUSPECTED_OF]->(i1:Incident)-[:OCCURRED_AT]->(:Location {suburb:'Northbridge'}), (p2:Person)-[:SUSPECTED_OF]->(i2:Incident)-[:OCCURRED_AT]->(:Location {suburb:'Midland'}), (p1)-[r:ASSOCIATED_WITH]-(p2) RETURN p1.name, p2.name, r.association_type"
+      },
+      {
+        "interp": "Phone call connections between their devices",
+        "cypher": "MATCH (p1:Person)-[:SUSPECTED_OF]->(i1:Incident)-[:OCCURRED_AT]->(:Location {suburb:'Northbridge'}), (p1)-[:USES_PHONE]->(ph1:Phone)-[:CALLED]-(ph2:Phone)<-[:USES_PHONE]-(p2:Person)-[:SUSPECTED_OF]->(i2:Incident)-[:OCCURRED_AT]->(:Location {suburb:'Midland'}) RETURN p1.name, p2.name, ph1.phone_number, ph2.phone_number"
+      },
+      {
+        "interp": "Shared communications",
+        "cypher": "MATCH (p1:Person)-[:SUSPECTED_OF]->(i1:Incident)-[:OCCURRED_AT]->(:Location {suburb:'Northbridge'}), (p1)-[:PARTICIPATED_IN]->(cm:Communication)<-[:PARTICIPATED_IN]-(p2:Person)-[:SUSPECTED_OF]->(i2:Incident)-[:OCCURRED_AT]->(:Location {suburb:'Midland'}) RETURN p1.name, p2.name, cm.type, cm.date"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-093",
+    "question": "Where have the associates of Operation Sentinel suspects been living?",
+    "num_hops": 4,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Current addresses of associates of CASE-004 suspects",
+    "cypher_default": "MATCH (c:Case {case_name:'Operation Sentinel \u2014 Midland Taskforce'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(s:Person)-[:ASSOCIATED_WITH]-(a:Person)-[:LIVES_AT {active:true}]->(l:Location) RETURN DISTINCT a.name, l.address, l.suburb",
+    "interpretations": [
+      {
+        "interp": "Current addresses only",
+        "cypher": "MATCH (c:Case {case_name:'Operation Sentinel \u2014 Midland Taskforce'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(s:Person)-[:ASSOCIATED_WITH]-(a:Person)-[:LIVES_AT {active:true}]->(l:Location) RETURN DISTINCT a.name, l.address, l.suburb"
+      },
+      {
+        "interp": "All addresses including historical",
+        "cypher": "MATCH (c:Case {case_name:'Operation Sentinel \u2014 Midland Taskforce'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(s:Person)-[:ASSOCIATED_WITH]-(a:Person)-[r:LIVES_AT]->(l:Location) RETURN DISTINCT a.name, l.address, l.suburb, r.from_date, r.to_date, r.active"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-094",
+    "question": "Who are the people connected to incidents involving organisations whose members live in Cottesloe?",
+    "num_hops": 4,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "All persons connected to org-linked incidents where org members live in Cottesloe",
+    "cypher_default": "MATCH (m:Person)-[:WORKS_FOR]->(o:Organisation)-[:INVOLVED_IN]->(i:Incident), (m)-[:LIVES_AT {active:true}]->(l:Location {suburb:'Cottesloe'}), (p:Person)-[r]->(i) RETURN DISTINCT p.name, type(r), i.crime_type, o.name",
+    "interpretations": [
+      {
+        "interp": "Only suspects",
+        "cypher": "MATCH (m:Person)-[:WORKS_FOR]->(o:Organisation)-[:INVOLVED_IN]->(i:Incident), (m)-[:LIVES_AT {active:true}]->(:Location {suburb:'Cottesloe'}), (p:Person)-[:SUSPECTED_OF]->(i) RETURN DISTINCT p.name, i.crime_type, o.name"
+      },
+      {
+        "interp": "Only investigating officers",
+        "cypher": "MATCH (m:Person)-[:WORKS_FOR]->(o:Organisation)-[:INVOLVED_IN]->(i:Incident), (m)-[:LIVES_AT {active:true}]->(:Location {suburb:'Cottesloe'}), (p:Person)-[:INVESTIGATES]->(i) RETURN DISTINCT p.name, i.crime_type, o.name"
+      },
+      {
+        "interp": "All persons in any role",
+        "cypher": "MATCH (m:Person)-[:WORKS_FOR]->(o:Organisation)-[:INVOLVED_IN]->(i:Incident), (m)-[:LIVES_AT {active:true}]->(:Location {suburb:'Cottesloe'}), (p:Person)-[r]->(i) RETURN DISTINCT p.name, type(r), i.crime_type"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-095",
+    "question": "What vehicles were seen at locations where communications relating to drug cases took place?",
+    "num_hops": 4,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Vehicles sighted at meeting locations of drug case communications",
+    "cypher_default": "MATCH (cm:Communication)-[:RELATES_TO]->(c:Case)-[:CONTAINS]->(i:Incident {crime_type:'drug_offence'}), (cm)-[:TOOK_PLACE_AT]->(l:Location)<-[:SEEN_AT]-(v:Vehicle) RETURN DISTINCT v.make, v.model, v.license_plate, l.address",
+    "interpretations": [
+      {
+        "interp": "Only vehicles at locations of case-level communications",
+        "cypher": "MATCH (cm:Communication)-[:RELATES_TO]->(c:Case)-[:CONTAINS]->(i:Incident {crime_type:'drug_offence'}), (cm)-[:TOOK_PLACE_AT]->(l:Location)<-[:SEEN_AT]-(v:Vehicle) RETURN DISTINCT v.make, v.model, v.license_plate, l.address"
+      },
+      {
+        "interp": "Vehicles at locations of incident-level drug communications",
+        "cypher": "MATCH (cm:Communication)-[:RELATES_TO]->(i:Incident {crime_type:'drug_offence'}), (cm)-[:TOOK_PLACE_AT]->(l:Location)<-[:SEEN_AT]-(v:Vehicle) RETURN DISTINCT v.make, v.model, v.license_plate, l.address"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-096",
+    "question": "Which officers investigating fraud cases have collected evidence linked to persons in dissolved organisations?",
+    "num_hops": 4,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Officers on fraud cases who collected evidence linked to dissolved-org members",
+    "cypher_default": "MATCH (off:Person)-[:ASSIGNED_TO]->(c:Case)-[:CONTAINS]->(i:Incident {crime_type:'fraud'}), (off)-[:COLLECTED]->(e:Evidence)-[:LINKED_TO]->(p:Person)-[:WORKS_FOR]->(o:Organisation {status:'dissolved'}) RETURN DISTINCT off.name, e.evidence_id, p.name, o.name",
+    "interpretations": [
+      {
+        "interp": "Only currently dissolved organisations",
+        "cypher": "MATCH (off:Person)-[:ASSIGNED_TO]->(c:Case)-[:CONTAINS]->(i:Incident {crime_type:'fraud'}), (off)-[:COLLECTED]->(e:Evidence)-[:LINKED_TO]->(p:Person)-[:WORKS_FOR]->(o:Organisation {status:'dissolved'}) RETURN DISTINCT off.name, e.evidence_id, p.name, o.name"
+      },
+      {
+        "interp": "All organisations under investigation or dissolved",
+        "cypher": "MATCH (off:Person)-[:ASSIGNED_TO]->(c:Case)-[:CONTAINS]->(i:Incident {crime_type:'fraud'}), (off)-[:COLLECTED]->(e:Evidence)-[:LINKED_TO]->(p:Person)-[:WORKS_FOR]->(o:Organisation) WHERE o.status IN ['dissolved','under_investigation'] RETURN DISTINCT off.name, e.evidence_id, p.name, o.name, o.status"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-097",
+    "question": "Show the phone network between persons involved in communications about the Northbridge robbery and their associates.",
+    "num_hops": 4,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "Phone calls between robbery communication participants and their associates",
+    "cypher_default": "MATCH (p:Person)-[:PARTICIPATED_IN]->(cm:Communication)-[:RELATES_TO]->(i:Incident {crime_type:'robbery'}), (p)-[:ASSOCIATED_WITH]-(a:Person)-[:USES_PHONE]->(ph1:Phone)-[:CALLED]-(ph2:Phone), (i)-[:OCCURRED_AT]->(:Location {suburb:'Northbridge'}) RETURN DISTINCT p.name, a.name, ph1.phone_number, ph2.phone_number",
+    "interpretations": [
+      {
+        "interp": "Phone calls made by associates",
+        "cypher": "MATCH (p:Person)-[:PARTICIPATED_IN]->(cm:Communication)-[:RELATES_TO]->(i:Incident {crime_type:'robbery'}), (p)-[:ASSOCIATED_WITH]-(a:Person)-[:USES_PHONE]->(ph1:Phone)-[:CALLED]->(ph2:Phone), (i)-[:OCCURRED_AT]->(:Location {suburb:'Northbridge'}) RETURN DISTINCT a.name, ph1.phone_number, ph2.phone_number"
+      },
+      {
+        "interp": "Text messages sent by associates",
+        "cypher": "MATCH (p:Person)-[:PARTICIPATED_IN]->(cm:Communication)-[:RELATES_TO]->(i:Incident {crime_type:'robbery'}), (p)-[:ASSOCIATED_WITH]-(a:Person)-[:USES_PHONE]->(ph1:Phone)-[:MESSAGED]->(ph2:Phone), (i)-[:OCCURRED_AT]->(:Location {suburb:'Northbridge'}) RETURN DISTINCT a.name, ph1.phone_number, ph2.phone_number"
+      },
+      {
+        "interp": "All communication between participants and their associates (calls + messages + meetings)",
+        "cypher": "MATCH (p:Person)-[:PARTICIPATED_IN]->(cm:Communication)-[:RELATES_TO]->(i:Incident {crime_type:'robbery'}), (p)-[:ASSOCIATED_WITH]-(a:Person)-[:PARTICIPATED_IN]->(cm2:Communication), (i)-[:OCCURRED_AT]->(:Location {suburb:'Northbridge'}) RETURN DISTINCT p.name, a.name, cm2.type, cm2.date"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-098",
+    "question": "What vehicles do people connected to Operation Cerberus suspects own?",
+    "num_hops": 4,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Current vehicles owned by associates of CASE-003 suspects",
+    "cypher_default": "MATCH (c:Case {case_name:'Operation Cerberus \u2014 Financial Crimes'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(s:Person)-[:ASSOCIATED_WITH]-(a:Person)-[:OWNS {active:true}]->(v:Vehicle) RETURN DISTINCT a.name, v.make, v.model, v.license_plate, s.name",
+    "interpretations": [
+      {
+        "interp": "Current vehicles of criminal associates only",
+        "cypher": "MATCH (c:Case {case_name:'Operation Cerberus \u2014 Financial Crimes'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(s:Person)-[:ASSOCIATED_WITH]-(a:Person)-[:OWNS {active:true}]->(v:Vehicle) RETURN DISTINCT a.name, v.make, v.model, s.name"
+      },
+      {
+        "interp": "All vehicles including historically owned",
+        "cypher": "MATCH (c:Case {case_name:'Operation Cerberus \u2014 Financial Crimes'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(s:Person)-[:ASSOCIATED_WITH]-(a:Person)-[r:OWNS]->(v:Vehicle) RETURN DISTINCT a.name, v.make, v.model, r.active, r.from_date"
+      },
+      {
+        "interp": "Vehicles of all connected persons (associates + social connections)",
+        "cypher": "MATCH (c:Case {case_name:'Operation Cerberus \u2014 Financial Crimes'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(s:Person)-[rel]-(a:Person)-[:OWNS {active:true}]->(v:Vehicle) WHERE type(rel) IN ['ASSOCIATED_WITH','KNOWS'] RETURN DISTINCT a.name, type(rel), v.make, v.model"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-099",
+    "question": "Which witnesses of incidents in Operation Ironside have connections to suspects through shared organisations?",
+    "num_hops": 4,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "Witnesses of CASE-001 incidents who share organisations with suspects",
+    "cypher_default": "MATCH (c:Case {case_name:'Operation Ironside \u2014 Northbridge Series'})-[:CONTAINS]->(i:Incident)<-[:WITNESSED]-(w:Person)-[:WORKS_FOR]->(o:Organisation)<-[:WORKS_FOR]-(s:Person)-[:SUSPECTED_OF]->(i) RETURN DISTINCT w.name, s.name, o.name, i.crime_type",
+    "interpretations": [
+      {
+        "interp": "Shared organisation membership",
+        "cypher": "MATCH (c:Case {case_name:'Operation Ironside \u2014 Northbridge Series'})-[:CONTAINS]->(i:Incident)<-[:WITNESSED]-(w:Person)-[:WORKS_FOR]->(o:Organisation)<-[:WORKS_FOR]-(s:Person)-[:SUSPECTED_OF]->(i) RETURN DISTINCT w.name, s.name, o.name"
+      },
+      {
+        "interp": "Direct personal connections (KNOWS or ASSOCIATED_WITH)",
+        "cypher": "MATCH (c:Case {case_name:'Operation Ironside \u2014 Northbridge Series'})-[:CONTAINS]->(i:Incident)<-[:WITNESSED]-(w:Person)-[r]-(s:Person)-[:SUSPECTED_OF]->(i) WHERE type(r) IN ['KNOWS','ASSOCIATED_WITH'] RETURN DISTINCT w.name, s.name, type(r)"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-100",
+    "question": "Where have the phones of persons who attended meetings about Operation Sentinel been located?",
+    "num_hops": 4,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "All phone locations of CASE-004 meeting participants",
+    "cypher_default": "MATCH (p:Person)-[:PARTICIPATED_IN]->(cm:Communication)-[:RELATES_TO]->(c:Case {case_name:'Operation Sentinel \u2014 Midland Taskforce'}), (p)-[:USES_PHONE]->(ph:Phone)-[loc:LOCATED_AT]->(l:Location) RETURN DISTINCT p.name, l.address, l.suburb, loc.date, loc.time",
+    "interpretations": [
+      {
+        "interp": "Only the most recent phone locations",
+        "cypher": "MATCH (p:Person)-[:PARTICIPATED_IN]->(cm:Communication)-[:RELATES_TO]->(c:Case {case_name:'Operation Sentinel \u2014 Midland Taskforce'}), (p)-[:USES_PHONE {active:true}]->(ph:Phone)-[loc:LOCATED_AT]->(l:Location) RETURN p.name, l.address, l.suburb, loc.date ORDER BY loc.date DESC"
+      },
+      {
+        "interp": "All historical phone location pings",
+        "cypher": "MATCH (p:Person)-[:PARTICIPATED_IN]->(cm:Communication)-[:RELATES_TO]->(c:Case {case_name:'Operation Sentinel \u2014 Midland Taskforce'}), (p)-[:USES_PHONE]->(ph:Phone)-[loc:LOCATED_AT]->(l:Location) RETURN p.name, l.address, l.suburb, loc.date, loc.time ORDER BY loc.date"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-101",
+    "question": "What phones called phones used by associates of Operation Ironside suspects?",
+    "num_hops": 5,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Phones that called phones of associates of CASE-001 suspects",
+    "cypher_default": "MATCH (c:Case {case_name:'Operation Ironside \u2014 Northbridge Series'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(s:Person)-[:ASSOCIATED_WITH]-(a:Person)-[:USES_PHONE]->(ph1:Phone)<-[:CALLED]-(ph2:Phone) RETURN DISTINCT ph2.phone_number, a.name, s.name, ph1.phone_number",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-102",
+    "question": "Where were vehicles seen that are owned by associates of Operation Sentinel suspects?",
+    "num_hops": 5,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Sighting locations of vehicles owned by associates of CASE-004 suspects",
+    "cypher_default": "MATCH (c:Case {case_name:'Operation Sentinel \u2014 Midland Taskforce'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(s:Person)-[:ASSOCIATED_WITH]-(a:Person)-[:OWNS]->(v:Vehicle)-[:SEEN_AT]->(l:Location) RETURN DISTINCT a.name, v.make, v.model, l.address, l.suburb",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-103",
+    "question": "Who lives at locations where meetings involving Operation Ironside suspects took place?",
+    "num_hops": 5,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Persons living at meeting locations of CASE-001 suspect communications",
+    "cypher_default": "MATCH (c:Case {case_name:'Operation Ironside \u2014 Northbridge Series'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(s:Person)-[:PARTICIPATED_IN]->(cm:Communication {type:'meeting'})-[:TOOK_PLACE_AT]->(l:Location)<-[:LIVES_AT]-(resident:Person) RETURN DISTINCT resident.name, l.address, l.suburb, s.name",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-104",
+    "question": "Where did incidents occur that involve organisations employing Operation Cerberus suspects?",
+    "num_hops": 5,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Locations of incidents where orgs of CASE-003 suspects are INVOLVED_IN",
+    "cypher_default": "MATCH (c:Case {case_name:'Operation Cerberus \u2014 Financial Crimes'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(s:Person)-[:WORKS_FOR]->(o:Organisation)-[:INVOLVED_IN]->(i2:Incident)-[:OCCURRED_AT]->(l:Location) RETURN DISTINCT l.address, l.suburb, o.name, i2.crime_type, s.name",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-105",
+    "question": "What evidence is related to incidents at locations where Northbridge Crew members' phones were detected?",
+    "num_hops": 5,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Evidence for incidents at phone-ping locations of ORG-001 members",
+    "cypher_default": "MATCH (p:Person)-[:WORKS_FOR]->(o:Organisation {name:'Northbridge Crew'}), (p)-[:USES_PHONE]->(ph:Phone)-[:LOCATED_AT]->(l:Location)<-[:OCCURRED_AT]-(i:Incident)<-[:RELATED_TO]-(e:Evidence) RETURN DISTINCT e.evidence_id, e.type, i.crime_type, l.suburb, p.name",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-106",
+    "question": "Which officers assigned to Operation Sentinel collected evidence linked to associates of homicide suspects?",
+    "num_hops": 5,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "CASE-004 officers who collected evidence linked to persons associated with INC-006 suspects",
+    "cypher_default": "MATCH (off:Person)-[:ASSIGNED_TO]->(c:Case {case_name:'Operation Sentinel \u2014 Midland Taskforce'}), (off)-[:COLLECTED]->(e:Evidence)-[:LINKED_TO]->(a:Person)-[:ASSOCIATED_WITH]-(s:Person)-[:SUSPECTED_OF]->(i:Incident {crime_type:'homicide'})-[:OCCURRED_AT]->(:Location {suburb:'Cannington'}) RETURN DISTINCT off.name, e.evidence_id, a.name, s.name",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-107",
+    "question": "What vehicles are registered at locations where incidents occurred that are part of Operation Ironside?",
+    "num_hops": 5,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Vehicles registered at CASE-001 incident locations",
+    "cypher_default": "MATCH (off:Person)-[:ASSIGNED_TO]->(c:Case {case_name:'Operation Ironside \u2014 Northbridge Series'})-[:CONTAINS]->(i:Incident)-[:OCCURRED_AT]->(l:Location)<-[:REGISTERED_AT]-(v:Vehicle) RETURN DISTINCT v.make, v.model, v.license_plate, l.address, l.suburb, i.crime_type",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-108",
+    "question": "Which gang members' associates have phones that called phones used by Operation Ironside suspects?",
+    "num_hops": 5,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Associates of gang members whose phones called CASE-001 suspect phones",
+    "cypher_default": "MATCH (c:Case {case_name:'Operation Ironside \u2014 Northbridge Series'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(s:Person)-[:USES_PHONE]->(ph1:Phone)<-[:CALLED]-(ph2:Phone)<-[:USES_PHONE]-(caller:Person)-[:WORKS_FOR]->(o:Organisation {type:'gang'}) RETURN DISTINCT caller.name, o.name, ph2.phone_number, s.name",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-109",
+    "question": "What incidents have evidence collected at locations where vehicles of drug offence suspects were seen?",
+    "num_hops": 5,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Incidents with evidence at vehicle sighting locations of drug suspects",
+    "cypher_default": "MATCH (s:Person)-[:SUSPECTED_OF]->(i:Incident {crime_type:'drug_offence'}), (s)-[:OWNS]->(v:Vehicle)-[:SEEN_AT]->(l:Location)<-[:COLLECTED_AT]-(e:Evidence)-[:RELATED_TO]->(i2:Incident) RETURN DISTINCT i2.incident_id, i2.crime_type, e.evidence_id, l.address, v.license_plate",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-110",
+    "question": "Where do people live who received calls from phones used by associates of James Whitfield?",
+    "num_hops": 5,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Addresses of people whose phones were called by Whitfield's associates' phones",
+    "cypher_default": "MATCH (p:Person {name:'James Whitfield'})-[:ASSOCIATED_WITH]-(a:Person)-[:USES_PHONE]->(ph1:Phone)-[:CALLED]->(ph2:Phone)<-[:USES_PHONE]-(receiver:Person)-[:LIVES_AT {active:true}]->(l:Location) RETURN DISTINCT receiver.name, l.address, l.suburb, a.name",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-111",
+    "question": "Which officers investigating Operation Ironside incidents collected evidence found at locations of Northbridge Crew-linked incidents?",
+    "num_hops": 5,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Officers investigating CASE-001 incidents who collected evidence at ORG-001 incident locations",
+    "cypher_default": "MATCH (off:Person)-[:INVESTIGATES]->(i:Incident)<-[:CONTAINS]-(c:Case {case_name:'Operation Ironside \u2014 Northbridge Series'}), (o:Organisation {name:'Northbridge Crew'})-[:INVOLVED_IN]->(i2:Incident)-[:OCCURRED_AT]->(l:Location)<-[:COLLECTED_AT]-(e:Evidence)<-[:COLLECTED]-(off) RETURN DISTINCT off.name, e.evidence_id, l.address, i2.crime_type",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-112",
+    "question": "What phones were located at locations of incidents in cases assigned to Priya Sharma?",
+    "num_hops": 5,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Phones with location pings at incident locations in Sharma's assigned cases",
+    "cypher_default": "MATCH (off:Person {name:'Priya Sharma'})-[:ASSIGNED_TO]->(c:Case)-[:CONTAINS]->(i:Incident)-[:OCCURRED_AT]->(l:Location)<-[:LOCATED_AT]-(ph:Phone) RETURN DISTINCT ph.phone_number, ph.device_id, l.address, l.suburb, i.incident_id",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-113",
+    "question": "Which suspects of incidents in Operation Trident have associates who are members of the Northbridge Crew?",
+    "num_hops": 5,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "CASE-002 suspects whose associates work for ORG-001",
+    "cypher_default": "MATCH (c:Case {case_name:'Operation Trident \u2014 Drug Network'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(s:Person)-[:ASSOCIATED_WITH]-(a:Person)-[:WORKS_FOR]->(o:Organisation {name:'Northbridge Crew'}) RETURN DISTINCT s.name, a.name, i.crime_type",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-114",
+    "question": "What vehicles were seen at locations of incidents where evidence is linked to East Side Boys members?",
+    "num_hops": 5,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Vehicles sighted at incident locations where evidence links to ORG-004 members",
+    "cypher_default": "MATCH (p:Person)-[:WORKS_FOR]->(o:Organisation {name:'East Side Boys'}), (e:Evidence)-[:LINKED_TO]->(p), (e)-[:RELATED_TO]->(i:Incident)-[:OCCURRED_AT]->(l:Location)<-[:SEEN_AT]-(v:Vehicle) RETURN DISTINCT v.make, v.model, v.license_plate, l.address, p.name",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-115",
+    "question": "List persons who participated in communications about incidents where Northbridge Crew is involved, and where those communications took place.",
+    "num_hops": 5,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Participants and locations of communications relating to ORG-001 incidents",
+    "cypher_default": "MATCH (o:Organisation {name:'Northbridge Crew'})-[:INVOLVED_IN]->(i:Incident)<-[:RELATES_TO]-(cm:Communication)-[:TOOK_PLACE_AT]->(l:Location), (p:Person)-[:PARTICIPATED_IN]->(cm) RETURN DISTINCT p.name, cm.type, l.address, l.suburb, i.crime_type",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-116",
+    "question": "Who are the people connected to incidents involving organisations that employ associates of Operation Ironside suspects?",
+    "num_hops": 5,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "All persons connected to incidents involving orgs of CASE-001 suspect associates",
+    "cypher_default": "MATCH (c:Case {case_name:'Operation Ironside \u2014 Northbridge Series'})-[:CONTAINS]->(i1:Incident)<-[:SUSPECTED_OF]-(s:Person)-[:ASSOCIATED_WITH]-(a:Person)-[:WORKS_FOR]->(o:Organisation)-[:INVOLVED_IN]->(i2:Incident)<-[r]-(p:Person) RETURN DISTINCT p.name, type(r), i2.crime_type, o.name",
+    "interpretations": [
+      {
+        "interp": "Only suspects of those incidents",
+        "cypher": "MATCH (c:Case {case_name:'Operation Ironside \u2014 Northbridge Series'})-[:CONTAINS]->(i1:Incident)<-[:SUSPECTED_OF]-(s:Person)-[:ASSOCIATED_WITH]-(a:Person)-[:WORKS_FOR]->(o:Organisation)-[:INVOLVED_IN]->(i2:Incident)<-[:SUSPECTED_OF]-(p:Person) RETURN DISTINCT p.name, i2.crime_type, o.name"
+      },
+      {
+        "interp": "Only investigating officers of those incidents",
+        "cypher": "MATCH (c:Case {case_name:'Operation Ironside \u2014 Northbridge Series'})-[:CONTAINS]->(i1:Incident)<-[:SUSPECTED_OF]-(s:Person)-[:ASSOCIATED_WITH]-(a:Person)-[:WORKS_FOR]->(o:Organisation)-[:INVOLVED_IN]->(i2:Incident)<-[:INVESTIGATES]-(p:Person) RETURN DISTINCT p.name, i2.crime_type, o.name"
+      },
+      {
+        "interp": "Only victims of those incidents",
+        "cypher": "MATCH (c:Case {case_name:'Operation Ironside \u2014 Northbridge Series'})-[:CONTAINS]->(i1:Incident)<-[:SUSPECTED_OF]-(s:Person)-[:ASSOCIATED_WITH]-(a:Person)-[:WORKS_FOR]->(o:Organisation)-[:INVOLVED_IN]->(i2:Incident)<-[:VICTIM_OF]-(p:Person) RETURN DISTINCT p.name, i2.crime_type, o.name"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-117",
+    "question": "Where have the associates of Operation Sentinel suspects' associates been living?",
+    "num_hops": 5,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Current addresses of second-degree associates of CASE-004 suspects",
+    "cypher_default": "MATCH (c:Case {case_name:'Operation Sentinel \u2014 Midland Taskforce'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(s:Person)-[:ASSOCIATED_WITH]-(a1:Person)-[:ASSOCIATED_WITH]-(a2:Person)-[:LIVES_AT {active:true}]->(l:Location) WHERE a2 <> s RETURN DISTINCT a2.name, l.address, l.suburb, a1.name, s.name",
+    "interpretations": [
+      {
+        "interp": "Current addresses only",
+        "cypher": "MATCH (c:Case {case_name:'Operation Sentinel \u2014 Midland Taskforce'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(s:Person)-[:ASSOCIATED_WITH]-(a1:Person)-[:ASSOCIATED_WITH]-(a2:Person)-[:LIVES_AT {active:true}]->(l:Location) WHERE a2 <> s RETURN DISTINCT a2.name, l.address, l.suburb"
+      },
+      {
+        "interp": "All addresses including historical",
+        "cypher": "MATCH (c:Case {case_name:'Operation Sentinel \u2014 Midland Taskforce'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(s:Person)-[:ASSOCIATED_WITH]-(a1:Person)-[:ASSOCIATED_WITH]-(a2:Person)-[r:LIVES_AT]->(l:Location) WHERE a2 <> s RETURN DISTINCT a2.name, l.address, l.suburb, r.from_date, r.to_date, r.active"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-118",
+    "question": "What is the phone network between suspects of Operation Ironside incidents and members of the East Side Boys?",
+    "num_hops": 5,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "Phone calls between CASE-001 suspect phones and ORG-004 member phones",
+    "cypher_default": "MATCH (c:Case {case_name:'Operation Ironside \u2014 Northbridge Series'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(s:Person)-[:USES_PHONE]->(ph1:Phone)-[:CALLED]-(ph2:Phone)<-[:USES_PHONE]-(m:Person)-[:WORKS_FOR]->(o:Organisation {name:'East Side Boys'}) RETURN DISTINCT s.name, ph1.phone_number, ph2.phone_number, m.name",
+    "interpretations": [
+      {
+        "interp": "Phone calls between them",
+        "cypher": "MATCH (c:Case {case_name:'Operation Ironside \u2014 Northbridge Series'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(s:Person)-[:USES_PHONE]->(ph1:Phone)-[:CALLED]-(ph2:Phone)<-[:USES_PHONE]-(m:Person)-[:WORKS_FOR]->(o:Organisation {name:'East Side Boys'}) RETURN DISTINCT s.name, ph1.phone_number, ph2.phone_number, m.name"
+      },
+      {
+        "interp": "Text messages between them",
+        "cypher": "MATCH (c:Case {case_name:'Operation Ironside \u2014 Northbridge Series'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(s:Person)-[:USES_PHONE]->(ph1:Phone)-[:MESSAGED]-(ph2:Phone)<-[:USES_PHONE]-(m:Person)-[:WORKS_FOR]->(o:Organisation {name:'East Side Boys'}) RETURN DISTINCT s.name, ph1.phone_number, ph2.phone_number, m.name"
+      },
+      {
+        "interp": "Shared communications (meetings, intercepts)",
+        "cypher": "MATCH (c:Case {case_name:'Operation Ironside \u2014 Northbridge Series'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(s:Person)-[:PARTICIPATED_IN]->(cm:Communication)<-[:PARTICIPATED_IN]-(m:Person)-[:WORKS_FOR]->(o:Organisation {name:'East Side Boys'}) RETURN DISTINCT s.name, m.name, cm.type, cm.date"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-119",
+    "question": "Which vehicles owned by associates of Northbridge Crew members were seen near incident locations in the Central Metropolitan district?",
+    "num_hops": 5,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Vehicles owned by associates of ORG-001 members seen at Central Metro incident locations",
+    "cypher_default": "MATCH (p:Person)-[:WORKS_FOR]->(o:Organisation {name:'Northbridge Crew'}), (p)-[:ASSOCIATED_WITH]-(a:Person)-[:OWNS]->(v:Vehicle)-[:SEEN_AT]->(l:Location)<-[:OCCURRED_AT]-(i:Incident) WHERE l.district = 'Central Metropolitan' RETURN DISTINCT v.make, v.model, v.license_plate, l.address, l.suburb, a.name",
+    "interpretations": [
+      {
+        "interp": "Only at Northbridge incident locations specifically",
+        "cypher": "MATCH (p:Person)-[:WORKS_FOR]->(o:Organisation {name:'Northbridge Crew'}), (p)-[:ASSOCIATED_WITH]-(a:Person)-[:OWNS]->(v:Vehicle)-[:SEEN_AT]->(l:Location {suburb:'Northbridge'})<-[:OCCURRED_AT]-(i:Incident) RETURN DISTINCT v.make, v.model, v.license_plate, l.address, a.name"
+      },
+      {
+        "interp": "At any Central Metropolitan district incident location",
+        "cypher": "MATCH (p:Person)-[:WORKS_FOR]->(o:Organisation {name:'Northbridge Crew'}), (p)-[:ASSOCIATED_WITH]-(a:Person)-[:OWNS]->(v:Vehicle)-[:SEEN_AT]->(l:Location)<-[:OCCURRED_AT]-(i:Incident) WHERE l.district = 'Central Metropolitan' RETURN DISTINCT v.make, v.model, v.license_plate, l.address, l.suburb, a.name"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-120",
+    "question": "What contact exists between people who attended communications about Operation Cerberus and associates of its suspects?",
+    "num_hops": 5,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "All connections between CASE-003 communication participants and suspect associates",
+    "cypher_default": "MATCH (c:Case {case_name:'Operation Cerberus \u2014 Financial Crimes'})<-[:RELATES_TO]-(cm:Communication)<-[:PARTICIPATED_IN]-(participant:Person), (c)-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(s:Person)-[:ASSOCIATED_WITH]-(a:Person) WHERE participant <> a AND participant <> s RETURN DISTINCT participant.name, a.name, cm.type",
+    "interpretations": [
+      {
+        "interp": "Phone calls between their devices",
+        "cypher": "MATCH (c:Case {case_name:'Operation Cerberus \u2014 Financial Crimes'})<-[:RELATES_TO]-(cm:Communication)<-[:PARTICIPATED_IN]-(participant:Person)-[:USES_PHONE]->(ph1:Phone)-[:CALLED]-(ph2:Phone)<-[:USES_PHONE]-(a:Person)-[:ASSOCIATED_WITH]-(s:Person)-[:SUSPECTED_OF]->(i:Incident)<-[:CONTAINS]-(c) RETURN DISTINCT participant.name, a.name, ph1.phone_number, ph2.phone_number"
+      },
+      {
+        "interp": "Direct personal relationships (KNOWS or ASSOCIATED_WITH)",
+        "cypher": "MATCH (c:Case {case_name:'Operation Cerberus \u2014 Financial Crimes'})<-[:RELATES_TO]-(cm:Communication)<-[:PARTICIPATED_IN]-(participant:Person)-[r]-(a:Person)-[:ASSOCIATED_WITH]-(s:Person)-[:SUSPECTED_OF]->(i:Incident)<-[:CONTAINS]-(c) WHERE type(r) IN ['KNOWS','ASSOCIATED_WITH'] AND participant <> s RETURN DISTINCT participant.name, a.name, type(r)"
+      },
+      {
+        "interp": "Shared participation in other communications",
+        "cypher": "MATCH (c:Case {case_name:'Operation Cerberus \u2014 Financial Crimes'})<-[:RELATES_TO]-(cm:Communication)<-[:PARTICIPATED_IN]-(participant:Person)-[:PARTICIPATED_IN]->(cm2:Communication)<-[:PARTICIPATED_IN]-(a:Person)-[:ASSOCIATED_WITH]-(s:Person)-[:SUSPECTED_OF]->(i:Incident)<-[:CONTAINS]-(c) WHERE cm2 <> cm AND participant <> s RETURN DISTINCT participant.name, a.name, cm2.type, cm2.date"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-121",
+    "question": "What vehicles do people own who were called by phones of suspects in cases containing Northbridge Crew incidents?",
+    "num_hops": 5,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Current vehicles owned by people who received calls from suspects in ORG-001 incident cases",
+    "cypher_default": "MATCH (o:Organisation {name:'Northbridge Crew'})-[:INVOLVED_IN]->(i:Incident)<-[:CONTAINS]-(c:Case)-[:CONTAINS]->(i2:Incident)<-[:SUSPECTED_OF]-(s:Person)-[:USES_PHONE]->(ph1:Phone)-[:CALLED]->(ph2:Phone)<-[:USES_PHONE]-(receiver:Person)-[:OWNS {active:true}]->(v:Vehicle) WHERE i <> i2 RETURN DISTINCT receiver.name, v.make, v.model, v.license_plate, s.name",
+    "interpretations": [
+      {
+        "interp": "Currently owned vehicles only",
+        "cypher": "MATCH (o:Organisation {name:'Northbridge Crew'})-[:INVOLVED_IN]->(i:Incident)<-[:CONTAINS]-(c:Case)-[:CONTAINS]->(i2:Incident)<-[:SUSPECTED_OF]-(s:Person)-[:USES_PHONE]->(ph1:Phone)-[:CALLED]->(ph2:Phone)<-[:USES_PHONE]-(receiver:Person)-[:OWNS {active:true}]->(v:Vehicle) WHERE i <> i2 RETURN DISTINCT receiver.name, v.make, v.model, s.name"
+      },
+      {
+        "interp": "All vehicles including previously owned",
+        "cypher": "MATCH (o:Organisation {name:'Northbridge Crew'})-[:INVOLVED_IN]->(i:Incident)<-[:CONTAINS]-(c:Case)-[:CONTAINS]->(i2:Incident)<-[:SUSPECTED_OF]-(s:Person)-[:USES_PHONE]->(ph1:Phone)-[:CALLED]->(ph2:Phone)<-[:USES_PHONE]-(receiver:Person)-[r:OWNS]->(v:Vehicle) WHERE i <> i2 RETURN DISTINCT receiver.name, v.make, v.model, r.active, r.from_date"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-122",
+    "question": "Who is linked to evidence collected at locations where vehicles of Operation Sentinel suspects were seen?",
+    "num_hops": 5,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Persons linked to evidence at locations where CASE-004 suspect vehicles were sighted",
+    "cypher_default": "MATCH (c:Case {case_name:'Operation Sentinel \u2014 Midland Taskforce'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(s:Person)-[:OWNS]->(v:Vehicle)-[:SEEN_AT]->(l:Location)<-[:COLLECTED_AT]-(e:Evidence)-[:LINKED_TO]->(linked:Person) RETURN DISTINCT linked.name, linked.role, e.evidence_id, l.address, v.license_plate",
+    "interpretations": [
+      {
+        "interp": "Only suspects linked to that evidence",
+        "cypher": "MATCH (c:Case {case_name:'Operation Sentinel \u2014 Midland Taskforce'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(s:Person)-[:OWNS]->(v:Vehicle)-[:SEEN_AT]->(l:Location)<-[:COLLECTED_AT]-(e:Evidence)-[:LINKED_TO]->(linked:Person {role:'suspect'}) RETURN DISTINCT linked.name, e.evidence_id, l.address"
+      },
+      {
+        "interp": "All persons regardless of role",
+        "cypher": "MATCH (c:Case {case_name:'Operation Sentinel \u2014 Midland Taskforce'})-[:CONTAINS]->(i:Incident)<-[:SUSPECTED_OF]-(s:Person)-[:OWNS]->(v:Vehicle)-[:SEEN_AT]->(l:Location)<-[:COLLECTED_AT]-(e:Evidence)-[:LINKED_TO]->(linked:Person) RETURN DISTINCT linked.name, linked.role, e.evidence_id, l.address"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-123",
+    "question": "What incidents are connected to persons who attended meetings at locations where associates of fraud suspects live?",
+    "num_hops": 5,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "All incidents connected to meeting attendees at locations where fraud suspect associates reside",
+    "cypher_default": "MATCH (s:Person)-[:SUSPECTED_OF]->(i:Incident {crime_type:'fraud'}), (s)-[:ASSOCIATED_WITH]-(a:Person)-[:LIVES_AT {active:true}]->(l:Location)<-[:TOOK_PLACE_AT]-(cm:Communication {type:'meeting'})<-[:PARTICIPATED_IN]-(attendee:Person)-[r]->(i2:Incident) RETURN DISTINCT attendee.name, type(r), i2.crime_type, l.suburb",
+    "interpretations": [
+      {
+        "interp": "Only incidents where attendees are suspects",
+        "cypher": "MATCH (s:Person)-[:SUSPECTED_OF]->(i:Incident {crime_type:'fraud'}), (s)-[:ASSOCIATED_WITH]-(a:Person)-[:LIVES_AT {active:true}]->(l:Location)<-[:TOOK_PLACE_AT]-(cm:Communication {type:'meeting'})<-[:PARTICIPATED_IN]-(attendee:Person)-[:SUSPECTED_OF]->(i2:Incident) RETURN DISTINCT attendee.name, i2.crime_type, l.suburb"
+      },
+      {
+        "interp": "Only incidents where attendees are investigating officers",
+        "cypher": "MATCH (s:Person)-[:SUSPECTED_OF]->(i:Incident {crime_type:'fraud'}), (s)-[:ASSOCIATED_WITH]-(a:Person)-[:LIVES_AT {active:true}]->(l:Location)<-[:TOOK_PLACE_AT]-(cm:Communication {type:'meeting'})<-[:PARTICIPATED_IN]-(attendee:Person)-[:INVESTIGATES]->(i2:Incident) RETURN DISTINCT attendee.name, i2.crime_type, l.suburb"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-124",
+    "question": "Where were phones located that belong to people who work for organisations involved in incidents within Operation Trident?",
+    "num_hops": 5,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Phone locations of org members where orgs are involved in CASE-002 incidents",
+    "cypher_default": "MATCH (c:Case {case_name:'Operation Trident \u2014 Drug Network'})-[:CONTAINS]->(i:Incident)<-[:INVOLVED_IN]-(o:Organisation)<-[:WORKS_FOR]-(m:Person)-[:USES_PHONE]->(ph:Phone)-[loc:LOCATED_AT]->(l:Location) RETURN DISTINCT m.name, o.name, l.address, l.suburb, loc.date",
+    "interpretations": [
+      {
+        "interp": "Only phone locations in the same district as the incidents",
+        "cypher": "MATCH (c:Case {case_name:'Operation Trident \u2014 Drug Network'})-[:CONTAINS]->(i:Incident)-[:OCCURRED_AT]->(il:Location), (i)<-[:INVOLVED_IN]-(o:Organisation)<-[:WORKS_FOR]-(m:Person)-[:USES_PHONE]->(ph:Phone)-[loc:LOCATED_AT]->(l:Location) WHERE l.district = il.district RETURN DISTINCT m.name, o.name, l.address, l.suburb, loc.date"
+      },
+      {
+        "interp": "All phone locations regardless of proximity to incidents",
+        "cypher": "MATCH (c:Case {case_name:'Operation Trident \u2014 Drug Network'})-[:CONTAINS]->(i:Incident)<-[:INVOLVED_IN]-(o:Organisation)<-[:WORKS_FOR]-(m:Person)-[:USES_PHONE]->(ph:Phone)-[loc:LOCATED_AT]->(l:Location) RETURN DISTINCT m.name, o.name, l.address, l.suburb, loc.date"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-125",
+    "question": "What evidence was collected by officers investigating incidents where associates of Northbridge Crew suspects are also suspects?",
+    "num_hops": 5,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Evidence collected by officers of incidents where NB Crew suspect associates are also suspects",
+    "cypher_default": "MATCH (p:Person)-[:WORKS_FOR]->(o:Organisation {name:'Northbridge Crew'}), (p)-[:SUSPECTED_OF]->(i1:Incident), (p)-[:ASSOCIATED_WITH]-(a:Person)-[:SUSPECTED_OF]->(i2:Incident)<-[:INVESTIGATES]-(off:Person)-[:COLLECTED]->(e:Evidence) WHERE i1 <> i2 RETURN DISTINCT off.name, e.evidence_id, e.type, a.name, i2.crime_type",
+    "interpretations": [
+      {
+        "interp": "Only evidence directly related to the associate's incident",
+        "cypher": "MATCH (p:Person)-[:WORKS_FOR]->(o:Organisation {name:'Northbridge Crew'}), (p)-[:SUSPECTED_OF]->(i1:Incident), (p)-[:ASSOCIATED_WITH]-(a:Person)-[:SUSPECTED_OF]->(i2:Incident)<-[:INVESTIGATES]-(off:Person)-[:COLLECTED]->(e:Evidence)-[:RELATED_TO]->(i2) WHERE i1 <> i2 RETURN DISTINCT off.name, e.evidence_id, e.type, a.name, i2.crime_type"
+      },
+      {
+        "interp": "All evidence collected by those officers regardless of which incident it relates to",
+        "cypher": "MATCH (p:Person)-[:WORKS_FOR]->(o:Organisation {name:'Northbridge Crew'}), (p)-[:SUSPECTED_OF]->(i1:Incident), (p)-[:ASSOCIATED_WITH]-(a:Person)-[:SUSPECTED_OF]->(i2:Incident)<-[:INVESTIGATES]-(off:Person)-[:COLLECTED]->(e:Evidence) WHERE i1 <> i2 RETURN DISTINCT off.name, e.evidence_id, e.type, a.name, i2.crime_type"
+      }
+    ]
+  }
+]
