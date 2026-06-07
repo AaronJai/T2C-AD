@@ -1,0 +1,35 @@
+# config/schema_linker_train.yaml — shared Schema Linker SFT hyperparameters ONLY.
+#
+# Per-model fields (base, target_modules, dtype, load_in_4bit) live in config/models.yaml;
+# `output_dir` is derived from the chosen --model_key. This YAML is base-independent and is
+# reused verbatim across bases (the QG equivalent is config/query_generator_train.yaml in 2.4).
+
+peft:
+  method: "lora"
+  r: 16
+  lora_alpha: 32
+  lora_dropout: 0.05
+  bias: "none"
+  task_type: "CAUSAL_LM"
+  # target_modules: comes from config/models.yaml (per architecture)
+
+training:
+  # output_dir: derived -> checkpoints/{model_key}/sl_adapter
+  num_train_epochs: 3
+  per_device_train_batch_size: 4
+  gradient_accumulation_steps: 8         # effective batch = 32
+  learning_rate: 2.0e-4
+  lr_scheduler_type: "cosine"
+  warmup_ratio: 0.03
+  max_seq_length: 1024                   # default from the token-length sub-task (was 512); see decisions-log
+  weight_decay: 0.001
+  bf16: true
+  fp16: false
+  logging_steps: 50
+  save_strategy: "epoch"
+  evaluation_strategy: "epoch"
+
+data:
+  train_path: "data/ozsoy_schema_linker_train.jsonl"
+  eval_path:  "data/ozsoy_schema_linker_eval.jsonl"
+  format: "prompt_completion"

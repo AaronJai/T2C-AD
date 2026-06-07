@@ -29,7 +29,7 @@
 
 | Step | Spec file | Depends on | Status | Outputs / Handoff note |
 |------|-----------|------------|--------|------------------------|
-| 2.1 | `2.1-sl-training.md` | 1.2, 0.2 | not started | |
+| 2.1 | `2.1-sl-training.md` | 1.2, 0.2 | done | `pipeline/sft.py` (`build_model_inputs` — completion-only loss masking; `run_sft(config) -> adapter_path` — LoRA/QLoRA harness reused unchanged by 2.4; `measure_token_lengths` — `max_seq_length` sub-task helper) + `config/models.yaml` (base registry: `mistral7b`, `llama31-8b`; per-model `base`/`target_modules`/`dtype`/`load_in_4bit`) + `config/schema_linker_train.yaml` (shared hyperparameters only; `max_seq_length: 1024`, not 512) + `experiments/train_schema_linker.py` (`--model_key`; `build_run_config` merges registry+hp → namespaced `checkpoints/{model_key}/sl_adapter`; unknown key exits with known list). Handoff: 2.4 reuses `pipeline/sft.py` + `config/models.yaml` verbatim (QG = own YAML + `qg_adapter`); 3.1 loads `checkpoints/{model_key}/sl_adapter` via `HuggingFaceLLM(base, peft_adapter_path=...)`; 2.2/2.3 probe that adapter; 5.4 resolves base+adapter from the registry. Now-set acceptance (criteria 1–3) passes via `tests/test_sft.py` (7 tests; full suite 55). Deferred (GPU): 3-epoch train + eval-loss + adapter weights, sibling-dir namespacing, and the token-length measurement (1.2 jsonl not materialised yet → default 1024 retained; run `measure_token_lengths` then adjust — see decisions-log). |
 | 2.2 | `2.2-diversity-penalty-sweep.md` | 2.1, 1.2, 0.2, 0.3, 0.4 | not started | |
 | 2.3 | `2.3-probe-rerun.md` | 2.1, 2.2 | not started | |
 | 2.4 | `2.4-qg-training.md` | 1.3, 0.2, 2.1 *(sft.py only)* | not started | |
@@ -136,15 +136,17 @@ app/
 └── gradio_demo.py                  [6.2]
 
 config/
-├── schema_linker_train.yaml        [2.1]
+├── models.yaml                     [2.1]  base-model registry (key → base, target_modules, dtype, 4bit)
+├── schema_linker_train.yaml        [2.1]  shared SL hyperparameters (no per-model fields)
 ├── schema_linker_inference.yaml    [2.2]  locked diversity_penalty for 3.1
-├── query_generator_train.yaml      [2.4]
-└── pipeline.yaml                   [5.4]  neo4j + model/adapter/backend config for the harness
+├── query_generator_train.yaml      [2.4]  shared QG hyperparameters (no per-model fields)
+└── pipeline.yaml                   [5.4]  neo4j + active_model + AD/Dis backend config
 
 data/
 └── benchmark-updated.json          [canonical, provided]
 
-checkpoints/
-├── sl_adapter/                     [2.1 output]
-└── qg_adapter/                     [2.4 output]
+checkpoints/                        # namespaced by model_key (supports N bases)
+└── {model_key}/                    # e.g. mistral7b/, llama31-8b/
+    ├── sl_adapter/                 [2.1 output]
+    └── qg_adapter/                 [2.4 output]
 ```

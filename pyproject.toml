@@ -14,6 +14,10 @@ dependencies = [
     "datasets",        # loads neo4j/text2cypher-2025v1 (auto-download + cache)
     "neo4j",           # CyVer SyntaxValidator driver (lazy; only when a live DB is configured)
     "CyVer",           # SyntaxValidator pass on extracted patterns (lazy; needs live Neo4j)
+    # 2.1 — LoRA SFT harness + config
+    "pyyaml",          # reads config/models.yaml + config/schema_linker_train.yaml
+    "accelerate",      # transformers.Trainer backend (lazy; SFT GPU run)
+    "bitsandbytes",    # 4-bit QLoRA quantisation (lazy; SFT GPU run)
 ]
 
 [build-system]

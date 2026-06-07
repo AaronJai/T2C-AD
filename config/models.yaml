@@ -1,0 +1,32 @@
+# config/models.yaml — the set of trainable base models (extend freely).
+#
+# One entry per base, keyed by a short `model_key`. Adding a new base later is a single
+# new entry here — no code or spec change. These are the PER-MODEL / PER-ARCHITECTURE
+# fields; shared hyperparameters live in config/schema_linker_train.yaml (and the QG
+# equivalent in 2.4). Adapters are namespaced checkpoints/{model_key}/sl_adapter so
+# multiple bases coexist without overwriting each other.
+#
+# `target_modules` is architecture-specific and therefore lives here, not in the shared
+# YAML: ["q_proj","v_proj"] covers the Mistral/Llama family; Gemma/Qwen/Phi differ.
+# `load_in_4bit: true` (QLoRA) is the default because a 7-8B base won't fit in bf16 on a
+# 16 GB card (e.g. the RTX 5080); set it false only on a larger GPU. Record any per-model
+# choice in decisions-log.md.
+
+mistral7b:
+  base: "mistralai/Mistral-7B-v0.1"
+  target_modules: ["q_proj", "v_proj"]      # Mistral/Llama attention proj names
+  dtype: "bfloat16"
+  load_in_4bit: true                         # QLoRA — required to fit a 7-8B base on a 16 GB GPU
+
+llama31-8b:
+  base: "meta-llama/Llama-3.1-8B"
+  target_modules: ["q_proj", "v_proj"]       # Llama-family: same names as Mistral
+  dtype: "bfloat16"
+  load_in_4bit: true
+
+# Example future model (different family -> different target_modules):
+# gemma2-9b:
+#   base: "google/gemma-2-9b"
+#   target_modules: ["q_proj", "k_proj", "v_proj", "o_proj"]
+#   dtype: "bfloat16"
+#   load_in_4bit: true
