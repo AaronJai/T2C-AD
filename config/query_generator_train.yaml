@@ -1,0 +1,40 @@
+# config/query_generator_train.yaml — shared Query Generator SFT hyperparameters ONLY.
+#
+# Per-model fields (base, target_modules, dtype, load_in_4bit) live in config/models.yaml;
+# `output_dir` is derived from the chosen --model_key -> checkpoints/{model_key}/qg_adapter.
+# This YAML is base-independent and is reused verbatim across bases. It is identical in shape
+# to config/schema_linker_train.yaml (2.1) and differs only in `data` paths (QG jsonl) — the
+# two tasks share the harness, masking, registry and --model_key mechanism (see 2.4 spec).
+
+peft:
+  method: "lora"
+  r: 16
+  lora_alpha: 32
+  lora_dropout: 0.05
+  bias: "none"
+  task_type: "CAUSAL_LM"
+  # target_modules: comes from config/models.yaml (per architecture)
+
+training:
+  # output_dir: derived -> checkpoints/{model_key}/qg_adapter
+  num_train_epochs: 3
+  per_device_train_batch_size: 4
+  gradient_accumulation_steps: 8         # effective batch = 32
+  learning_rate: 2.0e-4
+  lr_scheduler_type: "cosine"
+  warmup_ratio: 0.03
+  max_seq_length: 1024                   # schema + committed_pattern + question + cypher;
+                                         # QG prompts run longer than SL — re-measure on the
+                                         # 1.3 jsonl (measure_token_lengths) and raise if
+                                         # p99 > 1024; see decisions-log
+  weight_decay: 0.001
+  bf16: true
+  fp16: false
+  logging_steps: 50
+  save_strategy: "epoch"
+  evaluation_strategy: "epoch"
+
+data:
+  train_path: "data/ozsoy_qg_train.jsonl"
+  eval_path:  "data/ozsoy_qg_eval.jsonl"
+  format: "prompt_completion"
