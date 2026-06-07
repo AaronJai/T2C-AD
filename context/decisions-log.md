@@ -14,7 +14,8 @@ One row per deviation. Keep the *why* concrete.
 
 | Date | Step | Spec said | What we did | Why |
 |------|------|-----------|-------------|-----|
-| | | | | |
+| 2026-06-07 | 1.1 | Prefer CyVer's internal parser for isolating the MATCH clause | Wrote a self-contained depth-aware MATCH-clause parser; did not use CyVer | CyVer's `SyntaxValidator` requires a *live* `neo4j.Driver` (it runs EXPLAIN against the DB) and exposes no offline AST/parser. Neo4j isn't available until phase 3.2, and 1.1's acceptance criteria must run now with no DB. The spec explicitly allows a targeted MATCH-clause parser. The final CyVer SyntaxValidator filtering pass still happens later in 1.2/1.3 where a driver exists. |
+| 2026-06-07 | 1.1 | Implementation block declares only `extract_schema_pattern` | Also exposed `has_relationship_type(pattern) -> bool` from the same module | Acceptance criterion #2 requires testing the relationship-type *filter predicate* now. Defining it alongside extraction keeps one source of truth for "pattern has a rel type"; 1.2/1.3 import it as one clause of their exclusion filter rather than re-deriving it. |
 
 ---
 

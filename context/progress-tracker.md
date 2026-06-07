@@ -21,7 +21,7 @@
 
 | Step | Spec file | Depends on | Status | Outputs / Handoff note |
 |------|-----------|------------|--------|------------------------|
-| 1.1 | `1.1-pattern-extraction.md` | 0.1 | not started | |
+| 1.1 | `1.1-pattern-extraction.md` | 0.1 | done | `pipeline/schema_linker/__init__.py` + `pipeline/schema_linker/pattern_extraction.py` exposing `extract_schema_pattern(cypher) -> Optional[str]` (canonical committed-pattern format) and `has_relationship_type(pattern) -> bool` (the rel-type exclusion predicate). Self-contained depth-aware MATCH-clause parser — CyVer not used (needs live driver; see decisions-log). Handoff: 1.2 builds SL targets and 1.3 builds QG `committed_pattern` by calling `extract_schema_pattern`, then excluding rows where it returns `None`, `has_relationship_type` is False, or the CyVer SyntaxValidator (live driver) fails. Output format is the contract `_build_cypher_pattern` (0.1) and 3.5 must match. All acceptance criteria pass via `tests/schema_linker/test_pattern_extraction.py` (14 tests); CyVer SyntaxValidator filtering deferred to 1.2/1.3 (needs Neo4j). |
 | 1.2 | `1.2-sl-training-data.md` | 1.1, 0.3 | not started | |
 | 1.3 | `1.3-qg-training-data.md` | 1.1 | not started | |
 
