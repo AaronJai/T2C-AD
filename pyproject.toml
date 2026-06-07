@@ -10,6 +10,10 @@ dependencies = [
     "openai",
     "anthropic",
     "peft",            # lazily imported by HuggingFaceLLM only when a LoRA adapter is given
+    # 1.2 — Schema Linker training data
+    "datasets",        # loads neo4j/text2cypher-2025v1 (auto-download + cache)
+    "neo4j",           # CyVer SyntaxValidator driver (lazy; only when a live DB is configured)
+    "CyVer",           # SyntaxValidator pass on extracted patterns (lazy; needs live Neo4j)
 ]
 
 [build-system]
