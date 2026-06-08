@@ -1,0 +1,11 @@
+/uwahpc/rocky9/python/anaconda3/2024.06/lib/python3.12/site-packages/conda/base/context.py:201: FutureWarning: Adding 'defaults' to channel list implicitly is deprecated and will be removed in 25.3. 
+
+To remove this warning, please choose a default channel explicitly with conda's regular configuration system, e.g. by adding 'defaults' to the list of channels:
+
+  conda config --add channels defaults
+
+For more information see https://docs.conda.io/projects/conda/en/stable/user-guide/configuration/use-condarc.html
+
+  deprecated.topic(
+Using the latest cached version of the dataset since neo4j/text2cypher-2025v1 couldn't be found on the Hugging Face Hub (offline mode is enabled).
+Found the latest cached dataset configuration 'default' at /group/pmc084/atan/hf_cache/datasets/neo4j___text2cypher-2025v1/default/0.0.0/d88b8a7d477c8c1809218f6c566bd31f1ad1e504 (last modified on Mon Jun  8 12:05:30 2026).

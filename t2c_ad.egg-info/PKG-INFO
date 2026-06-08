@@ -1,0 +1,16 @@
+Metadata-Version: 2.4
+Name: t2c-ad
+Version: 0.1.0
+Summary: Multi-agent Text-to-Cypher pipeline with explicit ambiguity detection and disambiguation.
+Requires-Python: >=3.11
+Requires-Dist: torch
+Requires-Dist: transformers
+Requires-Dist: openai
+Requires-Dist: anthropic
+Requires-Dist: peft
+Requires-Dist: datasets
+Requires-Dist: neo4j
+Requires-Dist: CyVer
+Requires-Dist: pyyaml
+Requires-Dist: accelerate
+Requires-Dist: bitsandbytes
