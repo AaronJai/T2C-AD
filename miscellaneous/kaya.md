@@ -2,6 +2,41 @@
 
 **University of Western Australia — High Performance Computing**
 
+### Information for me (my Kaya account)
+- Account has been set up.
+
+The HPC system uses the SLURM resource management service.
+All work must be submitted to the cluster using SLURM,
+please do NOT run work directly on the login node itself.
+If you need assistance using SLURM there is documentation
+and guidance available upon request.
+
+
+SLURM Overview
+User: atan                      :       SLURM account
+Project: pmc084                 :       SLURM project (default project)
+Partitions (gpu/work/long)      :       SLURM partitions (or 'queues') for job submission
+
+DATA Overview
+/home/atan                      :       Capped at 20G. Environment files and user/software preferences, no research data.
+/group/pmc084/atan                      :       Research data input/output.
+The storage quota for everything in /group/pmc084 is 1T.
+/scratch/pmc084/atan            :       Temporary data, these files will be purged if not accessed for 21 days.
+/tmp (node only)                :       Temporary data directly related to active jobs.
+
+SOFTWARE Overview
+Modules                 :       Use 'module avail' to list available software.
+Software requests               :       Send to the HPC team via the IT Helpdesk.
+
+MONITORING Overview
+monitor.hpc.uwa.edu.au          :       Monitoring of cluster usage (RAM/CPU/DISK)
+metrics.hpc.uwa.edu.au          :       Metrics of SLURM job history
+
+For any issues, software requests, usage help, or general feedback
+please submit a ticket to the HPC Team via the IT Helpdesk.
+Please include a line "Please forward to the HPC Team" in your request.
+
+
 ---
 
 ## Table of Contents
