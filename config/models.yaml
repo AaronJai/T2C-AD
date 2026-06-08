@@ -15,7 +15,8 @@
 mistral7b:
   base: "mistralai/Mistral-7B-v0.1"
   target_modules: ["q_proj", "v_proj"]      # Mistral/Llama attention proj names
-  dtype: "bfloat16"
+  dtype: "float16"                           # Kaya branch: V100 (Volta) has no bf16 — fp16 here
+                                             # (also sets bnb_4bit_compute_dtype). See decisions-log.
   load_in_4bit: true                         # QLoRA — required to fit a 7-8B base on a 16 GB GPU
 
 llama31-8b:

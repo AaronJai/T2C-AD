@@ -23,8 +23,8 @@ training:
   warmup_ratio: 0.03
   max_seq_length: 1024                   # default from the token-length sub-task (was 512); see decisions-log
   weight_decay: 0.001
-  bf16: true
-  fp16: false
+  bf16: false                            # Kaya branch: V100 (Volta) has no bf16 — train in fp16
+  fp16: true
   logging_steps: 50
   save_strategy: "epoch"
   evaluation_strategy: "epoch"
