@@ -1,0 +1,110 @@
+/uwahpc/rocky9/python/anaconda3/2024.06/lib/python3.12/site-packages/conda/base/context.py:201: FutureWarning: Adding 'defaults' to channel list implicitly is deprecated and will be removed in 25.3. 
+
+To remove this warning, please choose a default channel explicitly with conda's regular configuration system, e.g. by adding 'defaults' to the list of channels:
+
+  conda config --add channels defaults
+
+For more information see https://docs.conda.io/projects/conda/en/stable/user-guide/configuration/use-condarc.html
+
+  deprecated.topic(
+Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards:  33%|███▎      | 1/3 [00:13<00:27, 13.99s/it]Loading checkpoint shards:  67%|██████▋   | 2/3 [00:27<00:13, 13.81s/it]Loading checkpoint shards: 100%|██████████| 3/3 [00:39<00:00, 13.12s/it]Loading checkpoint shards: 100%|██████████| 3/3 [00:39<00:00, 13.32s/it]
+/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/transformers/training_args.py:1545: FutureWarning: `evaluation_strategy` is deprecated and will be removed in version 4.46 of 🤗 Transformers. Use `eval_strategy` instead
+  warnings.warn(
+  0%|          | 0/3030 [00:00<?, ?it/s]`use_cache=True` is incompatible with gradient checkpointing. Setting `use_cache=False`...
+/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/torch/_dynamo/eval_frame.py:745: UserWarning: torch.utils.checkpoint: the use_reentrant parameter should be passed explicitly. In version 2.5 we will raise an exception if use_reentrant is not passed. use_reentrant=False is recommended, but if you need to preserve the current default behavior, you can pass use_reentrant=True. Refer to docs for more details on the differences between the two variants.
+  return fn(*args, **kwargs)
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/mmfs1/data/group/pmc084/atan/T2C-AD/experiments/train_query_generator.py", line 52, in <module>
+    main()
+  File "/mmfs1/data/group/pmc084/atan/T2C-AD/experiments/train_query_generator.py", line 48, in main
+    run_sft(config)
+  File "/mmfs1/data/group/pmc084/atan/T2C-AD/pipeline/sft.py", line 174, in run_sft
+    trainer.train()
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/transformers/trainer.py", line 2052, in train
+    return inner_training_loop(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/transformers/trainer.py", line 2388, in _inner_training_loop
+    tr_loss_step = self.training_step(model, inputs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/transformers/trainer.py", line 3485, in training_step
+    loss = self.compute_loss(model, inputs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/transformers/trainer.py", line 3532, in compute_loss
+    outputs = model(**inputs)
+              ^^^^^^^^^^^^^^^
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/accelerate/utils/operations.py", line 823, in forward
+    return model_forward(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/accelerate/utils/operations.py", line 811, in __call__
+    return convert_to_fp32(self.model_forward(*args, **kwargs))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/torch/amp/autocast_mode.py", line 44, in decorate_autocast
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/peft/peft_model.py", line 1993, in forward
+    return self.base_model(
+           ^^^^^^^^^^^^^^^^
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/peft/tuners/tuners_utils.py", line 330, in forward
+    return self.model.forward(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/transformers/models/mistral/modeling_mistral.py", line 1039, in forward
+    outputs = self.model(
+              ^^^^^^^^^^^
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/transformers/models/mistral/modeling_mistral.py", line 805, in forward
+    layer_outputs = self._gradient_checkpointing_func(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/torch/_compile.py", line 32, in inner
+    return disable_fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/torch/_dynamo/eval_frame.py", line 745, in _fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/torch/utils/checkpoint.py", line 489, in checkpoint
+    return CheckpointFunction.apply(function, preserve, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/torch/autograd/function.py", line 575, in apply
+    return super().apply(*args, **kwargs)  # type: ignore[misc]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/torch/utils/checkpoint.py", line 264, in forward
+    outputs = run_function(*args)
+              ^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/transformers/models/mistral/modeling_mistral.py", line 566, in forward
+    hidden_states = self.mlp(hidden_states)
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/transformers/models/mistral/modeling_mistral.py", line 158, in forward
+    return self.down_proj(self.act_fn(self.gate_proj(hidden_state)) * self.up_proj(hidden_state))
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 784.00 MiB. GPU 0 has a total capacity of 15.77 GiB of which 130.25 MiB is free. Including non-PyTorch memory, this process has 15.63 GiB memory in use. Of the allocated memory 13.34 GiB is allocated by PyTorch, and 1.93 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+  0%|          | 0/3030 [00:05<?, ?it/s]
