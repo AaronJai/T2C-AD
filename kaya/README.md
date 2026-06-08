@@ -50,7 +50,7 @@ module load Anaconda3/2024.06 && conda init bash && source ~/.bashrc
 # create the env + install deps (PyTorch cu124, transformers<4.46, peft, bitsandbytes, …)
 bash kaya/setup_env.sh
 
-# accept the Mistral-7B-v0.1 licence on its Hugging Face page, then:
+# accept the Mistral-7B-v0.3 licence on its Hugging Face page, then:
 conda activate /group/pmc084/$USER/envs/t2c
 export HF_HOME=/group/pmc084/$USER/hf_cache
 huggingface-cli login

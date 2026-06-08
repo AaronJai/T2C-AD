@@ -8,7 +8,7 @@ is gated). It writes into $HF_HOME (point that at /group, never /home — see RE
     module load Anaconda3/2024.06
     conda activate /group/pmc084/$USER/envs/t2c
     export HF_HOME=/group/pmc084/$USER/hf_cache
-    huggingface-cli login        # accept the Mistral-7B-v0.1 licence on its HF page first
+    huggingface-cli login        # accept the Mistral-7B-v0.3 licence on its HF page first
     python kaya/predownload.py
 """
 from __future__ import annotations

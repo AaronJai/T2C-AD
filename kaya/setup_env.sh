@@ -34,5 +34,5 @@ pip install -e . --no-deps
 
 echo
 echo "Env ready: $GROUP/envs/t2c"
-echo "Next: huggingface-cli login   (accept the Mistral-7B-v0.1 licence on HF first)"
+echo "Next: huggingface-cli login   (accept the Mistral-7B-v0.3 licence on HF first)"
 echo "Then: HF_HOME=$HF_HOME python kaya/predownload.py"
