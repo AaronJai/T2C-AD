@@ -1,0 +1,8 @@
+Job 490628 on k010 at Mon 08 Jun 2026 12:42:03 AWST
+SL dataset report: {'total_rows': 35946, 'kept': 16957, 'train': 15262, 'eval': 1695, 'excluded_parse_fail': 14, 'excluded_node_only': 18975, 'excluded_syntax_fail': 0}
+QG dataset report: {'total_rows': 35946, 'kept': 35932, 'train': 32339, 'eval': 3593, 'excluded_parse_fail': 14}
+SL token lengths: {'count': 15262, 'max': 3523, 'mean': 1158.158039575416, 'p50': 749, 'p90': 3152, 'p95': 3460, 'p99': 3473}
+QG token lengths: {'count': 32339, 'max': 3646, 'mean': 938.8693527938402, 'p50': 633, 'p90': 2309, 'p95': 3439, 'p99': 3486}
+
+If either p99 > 1024, raise max_seq_length in the matching train YAML before training (see decisions-log 2.1/2.4).
+Finished at Mon 08 Jun 2026 12:43:22 AWST

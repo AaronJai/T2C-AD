@@ -27,6 +27,8 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 # Pin transformers < 4.46 — run_sft passes TrainingArguments(evaluation_strategy=...),
 # which 4.46+ renamed to eval_strategy and later removed.
 pip install "transformers>=4.40,<4.46" accelerate peft bitsandbytes datasets pyyaml huggingface_hub
+# sentencepiece + protobuf: required to load Mistral's tokenizer (SentencePiece -> fast conversion).
+pip install sentencepiece protobuf
 
 # Editable install of the pipeline package WITHOUT its declared deps (we installed the needed
 # ones above and deliberately skip CyVer/neo4j).
