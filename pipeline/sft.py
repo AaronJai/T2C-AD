@@ -81,15 +81,23 @@ def run_sft(config: dict) -> str:
       config["training"] : {"output_dir", "num_train_epochs", "per_device_train_batch_size",
                             "gradient_accumulation_steps", "learning_rate", "lr_scheduler_type",
                             "warmup_ratio", "max_seq_length", "weight_decay", "bf16", "fp16",
-                            "logging_steps", "save_strategy", "evaluation_strategy"}
+                            "logging_steps", "save_strategy", "evaluation_strategy",
+                            "per_device_eval_batch_size" (optional, default 1)}
       config["data"]     : {"train_path", "eval_path"}  # eval_path optional
 
     Steps:
       1. Load base + tokenizer; apply dtype and, if load_in_4bit, a 4-bit QLoRA config.
       2. Wrap with PEFT LoraConfig (target_modules from the registry).
       3. Build train/eval datasets via build_model_inputs (completion-only loss).
-      4. transformers.Trainer with TrainingArguments from config["training"]; train.
+      4. transformers.Trainer with TrainingArguments from config["training"]; train,
+         resuming from the last checkpoint in output_dir if one exists.
       5. Save the adapter to output_dir; return that path.
+
+    Idempotent: if output_dir already holds a saved adapter (``adapter_model.safetensors``
+    from a prior completed run), training is skipped entirely and that path is returned —
+    this lets a chained sequence of wall-clock-limited jobs re-invoke run_sft as a no-op
+    once an earlier link in the chain has already finished. See the 2026-06-08 decisions-log
+    entry on chaining 2.1/2.4 runs across the cluster's per-job time cap.
     """
     from transformers import (
         AutoModelForCausalLM,
@@ -99,11 +107,16 @@ def run_sft(config: dict) -> str:
         TrainingArguments,
         default_data_collator,
     )
+    from transformers.trainer_utils import get_last_checkpoint
 
     model_cfg = config["model"]
     peft_cfg = config["peft"]
     train_cfg = config["training"]
     data_cfg = config["data"]
+    output_dir = train_cfg["output_dir"]
+
+    if (Path(output_dir) / "adapter_model.safetensors").exists():
+        return output_dir
 
     # 1. Base model + tokenizer (dtype + optional QLoRA 4-bit).
     dtype = getattr(torch, model_cfg["dtype"])
@@ -148,9 +161,9 @@ def run_sft(config: dict) -> str:
     eval_path = data_cfg.get("eval_path")
     eval_ds = _JsonlSFTDataset(eval_path, tokenizer, max_seq_length) if eval_path else None
 
-    # 4. Trainer.
+    # 4. Trainer; resume from the last epoch checkpoint if a prior chained run left one.
     args = TrainingArguments(
-        output_dir=train_cfg["output_dir"],
+        output_dir=output_dir,
         num_train_epochs=train_cfg["num_train_epochs"],
         per_device_train_batch_size=train_cfg["per_device_train_batch_size"],
         gradient_accumulation_steps=train_cfg["gradient_accumulation_steps"],
@@ -163,6 +176,7 @@ def run_sft(config: dict) -> str:
         logging_steps=train_cfg["logging_steps"],
         save_strategy=train_cfg["save_strategy"],
         evaluation_strategy=train_cfg["evaluation_strategy"] if eval_ds else "no",
+        per_device_eval_batch_size=train_cfg.get("per_device_eval_batch_size", 1),
     )
     trainer = Trainer(
         model=model,
@@ -171,10 +185,10 @@ def run_sft(config: dict) -> str:
         eval_dataset=eval_ds,
         data_collator=default_data_collator,
     )
-    trainer.train()
+    last_checkpoint = get_last_checkpoint(output_dir) if Path(output_dir).is_dir() else None
+    trainer.train(resume_from_checkpoint=last_checkpoint)
 
     # 5. Save the adapter; return its path.
-    output_dir = train_cfg["output_dir"]
     model.save_pretrained(output_dir)
     tokenizer.save_pretrained(output_dir)
     return output_dir

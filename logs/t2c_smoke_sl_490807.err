@@ -1,0 +1,16 @@
+/uwahpc/rocky9/python/anaconda3/2024.06/lib/python3.12/site-packages/conda/base/context.py:201: FutureWarning: Adding 'defaults' to channel list implicitly is deprecated and will be removed in 25.3. 
+
+To remove this warning, please choose a default channel explicitly with conda's regular configuration system, e.g. by adding 'defaults' to the list of channels:
+
+  conda config --add channels defaults
+
+For more information see https://docs.conda.io/projects/conda/en/stable/user-guide/configuration/use-condarc.html
+
+  deprecated.topic(
+Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards:  33%|███▎      | 1/3 [00:15<00:31, 15.70s/it]Loading checkpoint shards:  67%|██████▋   | 2/3 [00:31<00:15, 15.53s/it]Loading checkpoint shards: 100%|██████████| 3/3 [00:44<00:00, 14.39s/it]Loading checkpoint shards: 100%|██████████| 3/3 [00:44<00:00, 14.71s/it]
+/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/transformers/training_args.py:1545: FutureWarning: `evaluation_strategy` is deprecated and will be removed in version 4.46 of 🤗 Transformers. Use `eval_strategy` instead
+  warnings.warn(
+  0%|          | 0/1428 [00:00<?, ?it/s]`use_cache=True` is incompatible with gradient checkpointing. Setting `use_cache=False`...
+/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/torch/_dynamo/eval_frame.py:745: UserWarning: torch.utils.checkpoint: the use_reentrant parameter should be passed explicitly. In version 2.5 we will raise an exception if use_reentrant is not passed. use_reentrant=False is recommended, but if you need to preserve the current default behavior, you can pass use_reentrant=True. Refer to docs for more details on the differences between the two variants.
+  return fn(*args, **kwargs)
+  0%|          | 1/1428 [02:07<50:30:28, 127.42s/it]  0%|          | 2/1428 [04:13<50:09:14, 126.62s/it]  0%|          | 3/1428 [06:19<50:01:45, 126.39s/it]  0%|          | 4/1428 [08:25<49:57:20, 126.29s/it]  0%|          | 5/1428 [10:32<49:54:59, 126.28s/it]  0%|          | 6/1428 [12:38<49:51:38, 126.23s/it]  0%|          | 7/1428 [14:44<49:49:45, 126.24s/it]  1%|          | 8/1428 [16:50<49:48:27, 126.27s/it]  1%|          | 9/1428 [18:56<49:45:25, 126.23s/it]  1%|          | 10/1428 [21:03<49:43:23, 126.24s/it]  1%|          | 11/1428 [23:09<49:40:36, 126.21s/it]  1%|          | 12/1428 [25:15<49:36:56, 126.14s/it]  1%|          | 13/1428 [27:21<49:33:09, 126.07s/it]slurmstepd: error: *** JOB 490807 ON k026 CANCELLED AT 2026-06-08T15:00:15 DUE TO TIME LIMIT ***

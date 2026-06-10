@@ -1,7 +1,7 @@
 #!/bin/bash --login
 #SBATCH --job-name=t2c_qg
 #SBATCH --partition=gpu
-#SBATCH --time=24:00:00
+#SBATCH --time=3-00:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
@@ -12,7 +12,23 @@
 #
 # Step 2.4 — Query Generator LoRA/QLoRA adapter (3 epochs, fp16 on V100).
 # Writes checkpoints/mistral7b/qg_adapter. Independent of the sweep/probe — can run in
-# parallel with 10_train_sl.slurm.  Submit from repo root: sbatch kaya/20_train_qg.slurm
+# parallel with 10_train_sl.slurm.
+#
+# At the ~126s/optimizer-step rate the 05 smoke test measured on Kaya's V100, QG's 3030
+# steps need ~106h — more than even the `gpu` partition's 3-day (72h) cap, so one job
+# cannot finish it (see decisions-log 2026-06-08, "QG runtime exceeds the 72h cap").
+# `pipeline.sft.run_sft` now resumes from the last `save_strategy: epoch` checkpoint in
+# output_dir, and is a no-op (returns immediately) if `adapter_model.safetensors` is
+# already there — so chain two jobs with a SLURM dependency, e.g.:
+#
+#   JOB1=$(sbatch --parsable kaya/20_train_qg.slurm)
+#   sbatch --dependency=afterany:$JOB1 kaya/20_train_qg.slurm
+#
+# Job 2 starts only once job 1 ends — by completion or time limit, either way — and either
+# resumes mid-training from job 1's last epoch checkpoint, or, if job 1 already finished
+# (e.g. the rate runs faster than estimated), exits immediately as a no-op.
+#
+# Submit from repo root: sbatch kaya/20_train_qg.slurm
 
 module load Anaconda3/2024.06
 module load cuda/12.6.3

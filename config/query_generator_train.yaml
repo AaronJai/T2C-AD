@@ -19,6 +19,8 @@ training:
   # output_dir: derived -> checkpoints/{model_key}/qg_adapter
   num_train_epochs: 3
   per_device_train_batch_size: 2
+  per_device_eval_batch_size: 1         # default is 8; eval has no gradient checkpointing so
+                                         # 8×3584 tokens OOMs a 16 GB V100 — see decisions-log
   gradient_accumulation_steps: 16        # effective batch = 32 (halved/doubled vs. 4/8 — see
                                          # decisions-log 2026-06-08 OOM entry: max_seq_length
                                          # 3584 + batch_size 4 OOM'd a 16 GB V100 at step 0)
