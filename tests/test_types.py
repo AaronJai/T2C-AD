@@ -7,6 +7,7 @@ from pathlib import Path
 from pipeline.types import (
     BenchmarkItem,
     CandidateMapping,
+    PipelineState,
     SchemaCandidate,
     SchemaElement,
     SchemaMapping,
@@ -80,6 +81,18 @@ def test_top1_mapping_contract() -> None:
     assert result.resolution_mode == "automated"
     assert result.committed["connected to"].name == "SUSPECTED_OF"
     assert result.committed["incident"].name == "Incident"
+
+
+def test_pipeline_state_attempt_history_fields() -> None:
+    """Spec 0.1 (amended 2026-06-10): attempt-history fields exist with safe defaults and
+    are per-instance (no shared mutable default)."""
+    s1 = PipelineState(question="q?", benchmark_item=None, condition="baseline")
+    s2 = PipelineState(question="q?", benchmark_item=None, condition="baseline")
+    assert s1.evaluation_history == []
+    assert s1.first_validation_result is None
+    assert s1.previously_tried_mappings == []
+    s1.evaluation_history.append("sentinel")  # type: ignore[arg-type]
+    assert s2.evaluation_history == []        # default_factory, not shared state
 
 
 def test_build_cypher_pattern_contract() -> None:

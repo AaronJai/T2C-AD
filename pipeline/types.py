@@ -258,10 +258,21 @@ class PipelineState:
     is_failed: bool = False
     failure_reason: Optional[str] = None
 
-    # Semantic-mismatch carry-forward. Accumulates every SchemaMapping committed in
-    # this run. CLEARED on a Schema Linker outer-loop reset (new CandidateMapping);
-    # NOT cleared on a disambiguation retry (same CandidateMapping — tells the
-    # Disambiguator what to avoid).
+    # Attempt history. evaluation_result above holds only
+    # the FINAL attempt; the metrics (4.2) need per-attempt data (Pass@1, repair rates):
+    #   evaluation_history — every EvaluationResult produced in this run, in order
+    #     (the orchestrator appends on each evaluation; evaluation_result is the last entry).
+    #   first_validation_result — the run's very first CyVer result, set once and never
+    #     overwritten (drives initial-validity / structural-repair metrics).
+    evaluation_history: list[EvaluationResult] = field(default_factory=list)
+    first_validation_result: Optional[ValidationResult] = None
+
+    # Semantic-mismatch carry-forward (spec 0.1, amended 2026-06-10). Accumulates every
+    # SchemaMapping committed in this run. PERSISTS across BOTH disambiguation retries AND
+    # Schema Linker outer-loop retries: the linker is deterministic (do_sample=False), so an
+    # outer retry reproduces the same candidate set — persisting the tried list is what makes
+    # an outer retry able to commit a *different* interpretation instead of repeating the
+    # failed one. Never cleared. (Supersedes the original "cleared on outer reset" rule.)
     previously_tried_mappings: list[SchemaMapping] = field(default_factory=list)
 
     # Detection-F1 support: (question_id, AD_predicted_is_ambiguous). Condition 3 only.

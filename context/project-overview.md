@@ -215,8 +215,12 @@ beats SOTA. Concretely:
   NL question). The original question is never modified.
 - CyVer schema/properties failure routes back to the **Schema Linker**, not just the
   Query Generator.
-- `previously_tried_mappings` persists across disambiguation retries; cleared on a
-  Schema Linker outer-loop reset.
+- `previously_tried_mappings` persists across disambiguation retries **and** Schema Linker
+  outer-loop retries (amended 2026-06-10: the linker decodes deterministically, so an outer
+  retry reproduces the same candidate set — persistence is what makes the retry able to commit
+  a different interpretation). Retry loops carry CyVer diagnostics back into the Query
+  Generator prompt as inference-only `error_feedback`; without it, deterministic decoding
+  would reproduce the identical failure on every retry.
 - Ambiguity type labels are **post-hoc annotation for evaluation only** — never fed to
   any LLM at inference time.
 - Entity ambiguity requires a **live Neo4j connection** — it matches against real node

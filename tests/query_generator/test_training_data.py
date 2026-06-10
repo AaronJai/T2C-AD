@@ -44,6 +44,48 @@ def test_build_qg_prompt_empty_pattern_is_zero_shot():
     assert "Committed pattern:" not in build_qg_prompt("q?", "<schema>", committed_pattern="")
 
 
+# ── Acceptance 1b: error_feedback retry block ───────
+def test_build_qg_prompt_without_feedback_is_byte_identical_to_training_format():
+    """error_feedback=None must produce the EXACT training-time prompt — the guarantee that
+    the in-flight fine-tune is unaffected by the retry-feedback amendment."""
+    expected_with_pattern = (
+        f"{SYSTEM_PROMPT_WITH_PATTERN}\n\n"
+        "Schema:\n<schema block>\n\n"
+        "Committed pattern:\n(p:Person)-[:LIVES_AT]->(l:Location)\n\n"
+        "Question: Where does X live?\n"
+        "Cypher:"
+    )
+    assert build_qg_prompt(
+        "Where does X live?", "<schema block>",
+        committed_pattern="(p:Person)-[:LIVES_AT]->(l:Location)",
+    ) == expected_with_pattern
+
+    expected_zero_shot = (
+        f"{SYSTEM_PROMPT_ZERO_SHOT}\n\n"
+        "Schema:\n<schema block>\n\n"
+        "Question: Where does X live?\n"
+        "Cypher:"
+    )
+    assert build_qg_prompt("Where does X live?", "<schema block>") == expected_zero_shot
+
+
+def test_build_qg_prompt_with_feedback_inserts_block_before_question():
+    prompt = build_qg_prompt(
+        "Where does X live?", "<schema block>",
+        committed_pattern="(p:Person)-[:LIVES_AT]->(l:Location)",
+        error_feedback="MATCH (p:Person -> RETURN p\nValidation errors (syntax): unbalanced",
+    )
+    assert "Previous attempt (rejected by the validator" in prompt
+    assert "unbalanced" in prompt
+    # Block sits between the committed pattern and the question, prompt still ends with Cypher:
+    assert prompt.index("Committed pattern:") < prompt.index("Previous attempt") < prompt.index("Question:")
+    assert prompt.endswith("Cypher:")
+    # Zero-shot mode carries the block too (C1 retries).
+    zs = build_qg_prompt("q?", "<schema>", error_feedback="bad query\nErrors: x")
+    assert "Previous attempt (rejected by the validator" in zs
+    assert zs.index("Schema:") < zs.index("Previous attempt") < zs.index("Question:")
+
+
 # ── Acceptance 2: per-row instance ────────────────────────────────────────────────
 def test_instance_kept_for_parseable_cypher():
     gold = (
