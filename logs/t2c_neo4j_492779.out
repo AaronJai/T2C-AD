@@ -1,0 +1,32 @@
+Job 492779 on k008 at Thu 11 Jun 2026 21:43:27 AWST
+Directories in use:
+home:         /var/lib/neo4j
+config:       /var/lib/neo4j/conf
+logs:         /var/lib/neo4j/logs
+plugins:      /var/lib/neo4j/plugins
+import:       /var/lib/neo4j/import
+data:         /var/lib/neo4j/data
+certificates: /var/lib/neo4j/certificates
+licenses:     /var/lib/neo4j/licenses
+run:          /var/lib/neo4j/run
+Starting Neo4j.
+2026-06-11 13:43:31.509+0000 INFO  Logging config in use: File '/var/lib/neo4j/conf/user-logs.xml'
+2026-06-11 13:43:31.532+0000 INFO  Starting...
+2026-06-11 13:43:32.986+0000 INFO  This instance is ServerId{e7c3db60} (e7c3db60-4c76-4c02-b054-a3c1543ed515)
+2026-06-11 13:43:34.430+0000 INFO  ======== Neo4j 5.26.27 ========
+2026-06-11 13:43:36.748+0000 INFO  Anonymous Usage Data is being sent to Neo4j, see https://neo4j.com/docs/usage-data/
+2026-06-11 13:43:36.794+0000 INFO  Bolt enabled on localhost:7687.
+2026-06-11 13:43:38.358+0000 INFO  HTTP enabled on localhost:7474.
+2026-06-11 13:43:38.361+0000 INFO  Remote interface available at http://localhost:7474/
+2026-06-11 13:43:38.363+0000 INFO  id: 9D5AB278DB09F1FE64A62588A040A168D4EB28C67F3AEFF7BEC7D8FB49C3BF8F
+2026-06-11 13:43:38.363+0000 INFO  name: system
+2026-06-11 13:43:38.363+0000 INFO  creationDate: 2026-06-11T13:39:03.976Z
+2026-06-11 13:43:38.364+0000 INFO  Started.
+2026-06-11 13:43:38.894+0000 WARN  [bolt-0] The client is unauthorized due to authentication failure.
+Reusing existing DB volume at /group/pmc084/atan/neo4j_data/data — skipping init/schema load.
+Neo4j ready: bolt://localhost:7687 (user neo4j, password $NEO4J_PASSWORD=pole-dev-password)
+Node: k008 — connect from a job/session on the same node.
+Stopping neo4j (pid 3037291) at Fri 12 Jun 2026 01:43:47 AWST
+2026-06-11 17:43:47.029+0000 INFO  Neo4j Server shutdown initiated by request
+2026-06-11 17:43:47.033+0000 INFO  Stopping...
+2026-06-11 17:43:59.464+0000 INFO  Stopped.

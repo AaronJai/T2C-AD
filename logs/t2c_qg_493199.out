@@ -1,0 +1,45 @@
+Job 493199 on k030 at Sat 13 Jun 2026 14:12:39 AWST
+Sat Jun 13 14:12:39 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.57.08              Driver Version: 575.57.08      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla V100-PCIE-16GB           Off |   00000000:AF:00.0 Off |                    0 |
+| N/A   28C    P0             24W /  250W |       0MiB /  16384MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+CUDA: True Tesla V100-PCIE-16GB
+{'loss': 0.0292, 'grad_norm': 0.3267463147640228, 'learning_rate': 5.003086059696789e-05, 'epoch': 2.03}
+{'loss': 0.0311, 'grad_norm': 0.44329217076301575, 'learning_rate': 4.547485141369964e-05, 'epoch': 2.08}
+{'loss': 0.0272, 'grad_norm': 0.2571731209754944, 'learning_rate': 4.107455852314499e-05, 'epoch': 2.13}
+{'loss': 0.0267, 'grad_norm': 0.23913714289665222, 'learning_rate': 3.684254855397973e-05, 'epoch': 2.18}
+{'loss': 0.0285, 'grad_norm': 0.3060179650783539, 'learning_rate': 3.2790907542101226e-05, 'epoch': 2.23}
+{'loss': 0.0274, 'grad_norm': 0.29780313372612, 'learning_rate': 2.8931206414579525e-05, 'epoch': 2.28}
+{'loss': 0.0239, 'grad_norm': 0.4653390347957611, 'learning_rate': 2.527446794468793e-05, 'epoch': 2.33}
+{'loss': 0.0277, 'grad_norm': 0.2679765224456787, 'learning_rate': 2.1831135272385173e-05, 'epoch': 2.38}
+{'loss': 0.0254, 'grad_norm': 0.3377062976360321, 'learning_rate': 1.86110420801501e-05, 'epoch': 2.43}
+{'loss': 0.0249, 'grad_norm': 0.2960081100463867, 'learning_rate': 1.562338450934293e-05, 'epoch': 2.47}
+{'loss': 0.024, 'grad_norm': 0.3157031238079071, 'learning_rate': 1.2876694897295805e-05, 'epoch': 2.52}
+{'loss': 0.0245, 'grad_norm': 0.2465277910232544, 'learning_rate': 1.0378817410135988e-05, 'epoch': 2.57}
+{'loss': 0.0223, 'grad_norm': 0.2690127491950989, 'learning_rate': 8.136885640930858e-06, 'epoch': 2.62}
+{'loss': 0.0254, 'grad_norm': 0.38045257329940796, 'learning_rate': 6.157302237131524e-06, 'epoch': 2.67}
+{'loss': 0.0232, 'grad_norm': 0.4086269438266754, 'learning_rate': 4.445720615496097e-06, 'epoch': 2.72}
+{'loss': 0.0235, 'grad_norm': 0.24408887326717377, 'learning_rate': 3.0070288167123984e-06, 'epoch': 2.77}
+{'loss': 0.0229, 'grad_norm': 0.34527164697647095, 'learning_rate': 1.8453355458288525e-06, 'epoch': 2.82}
+{'loss': 0.0211, 'grad_norm': 0.2051105499267578, 'learning_rate': 9.639584383605127e-07, 'epoch': 2.87}
+{'loss': 0.0238, 'grad_norm': 0.37411051988601685, 'learning_rate': 3.6541458558022604e-07, 'epoch': 2.92}
+{'loss': 0.0226, 'grad_norm': 0.32152265310287476, 'learning_rate': 5.141334605367476e-08, 'epoch': 2.97}
+{'eval_loss': 0.035714782774448395, 'eval_runtime': 3977.3424, 'eval_samples_per_second': 0.903, 'eval_steps_per_second': 0.903, 'epoch': 3.0}
+{'train_runtime': 129751.5114, 'train_samples_per_second': 0.748, 'train_steps_per_second': 0.023, 'train_loss': 0.008377811892984723, 'epoch': 3.0}
+Finished at Mon 15 Jun 2026 02:17:21 AWST

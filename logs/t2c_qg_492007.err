@@ -1,0 +1,38 @@
+/uwahpc/rocky9/python/anaconda3/2024.06/lib/python3.12/site-packages/conda/base/context.py:201: FutureWarning: Adding 'defaults' to channel list implicitly is deprecated and will be removed in 25.3. 
+
+To remove this warning, please choose a default channel explicitly with conda's regular configuration system, e.g. by adding 'defaults' to the list of channels:
+
+  conda config --add channels defaults
+
+For more information see https://docs.conda.io/projects/conda/en/stable/user-guide/configuration/use-condarc.html
+
+  deprecated.topic(
+Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards:  33%|███▎      | 1/3 [00:17<00:34, 17.27s/it]Loading checkpoint shards:  67%|██████▋   | 2/3 [00:35<00:17, 17.97s/it]Loading checkpoint shards: 100%|██████████| 3/3 [00:51<00:00, 17.17s/it]Loading checkpoint shards: 100%|██████████| 3/3 [00:51<00:00, 17.32s/it]
+/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/transformers/training_args.py:1545: FutureWarning: `evaluation_strategy` is deprecated and will be removed in version 4.46 of 🤗 Transformers. Use `eval_strategy` instead
+  warnings.warn(
+  0%|          | 0/3030 [00:00<?, ?it/s]Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/mmfs1/data/group/pmc084/atan/T2C-AD/experiments/train_query_generator.py", line 52, in <module>
+    main()
+  File "/mmfs1/data/group/pmc084/atan/T2C-AD/experiments/train_query_generator.py", line 48, in main
+    run_sft(config)
+  File "/mmfs1/data/group/pmc084/atan/T2C-AD/pipeline/sft.py", line 189, in run_sft
+    trainer.train(resume_from_checkpoint=last_checkpoint)
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/transformers/trainer.py", line 2052, in train
+    return inner_training_loop(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/transformers/trainer.py", line 2369, in _inner_training_loop
+    self._load_rng_state(resume_from_checkpoint)
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/transformers/trainer.py", line 2944, in _load_rng_state
+    checkpoint_rng_state = torch.load(rng_file)
+                           ^^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/torch/serialization.py", line 1470, in load
+    raise pickle.UnpicklingError(_get_wo_message(str(e))) from None
+_pickle.UnpicklingError: Weights only load failed. This file can still be loaded, to do so you have two options, [1mdo those steps only if you trust the source of the checkpoint[0m. 
+	(1) In PyTorch 2.6, we changed the default value of the `weights_only` argument in `torch.load` from `False` to `True`. Re-running `torch.load` with `weights_only` set to `False` will likely succeed, but it can result in arbitrary code execution. Do it only if you got the file from a trusted source.
+	(2) Alternatively, to load with `weights_only=True` please check the recommended steps in the following error message.
+	WeightsUnpickler error: Unsupported global: GLOBAL numpy._core.multiarray._reconstruct was not an allowed global by default. Please use `torch.serialization.add_safe_globals([_reconstruct])` or the `torch.serialization.safe_globals([_reconstruct])` context manager to allowlist this global if you trust this class/function.
+
+Check the documentation of torch.load to learn more about types accepted by default with weights_only https://pytorch.org/docs/stable/generated/torch.load.html.
+  0%|          | 0/3030 [00:00<?, ?it/s]

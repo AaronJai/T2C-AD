@@ -1,4 +1,0 @@
-Job 490522 on k002 at Mon 08 Jun 2026 12:17:25 AWST
-SL dataset report: {'total_rows': 35946, 'kept': 16957, 'train': 15262, 'eval': 1695, 'excluded_parse_fail': 14, 'excluded_node_only': 18975, 'excluded_syntax_fail': 0}
-QG dataset report: {'total_rows': 35946, 'kept': 35932, 'train': 32339, 'eval': 3593, 'excluded_parse_fail': 14}
-Finished at Mon 08 Jun 2026 12:18:10 AWST

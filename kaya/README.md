@@ -128,6 +128,48 @@ data/ozsoy_*.jsonl
 
 ---
 
+---
+
+## Neo4j on Kaya (for Phase 3.2+)
+
+`50_neo4j_pull.sh` + `55_neo4j.slurm` run **SyntheticPoliceKG** in Neo4j via Apptainer,
+co-located with the GPU adapters — needed once Phase 3 (Entity Lookup, 3.2 onward) requires
+a live DB.
+
+```bash
+# one-time, on the LOGIN node (has internet):
+bash kaya/50_neo4j_pull.sh
+
+# per session:
+sbatch kaya/55_neo4j.slurm
+squeue -u $USER                 # note the JOBID and node it lands on
+```
+
+Apptainer shares the host network namespace, so bolt is reachable at
+`bolt://localhost:7687` **only from that same node**. `ssh <node>` from the login node is
+not available on Kaya — instead, attach to the running job's allocation with
+`srun --jobid=<jobid> --overlap <command>`, e.g.:
+
+```bash
+SIF=$MYGROUP/containers/neo4j.sif
+srun --jobid=<jobid> --overlap apptainer exec --no-mount /opt "$SIF" \
+    cypher-shell -a bolt://localhost:7687 -u neo4j -p "$NEO4J_PASSWORD" "MATCH (n) RETURN count(*)"
+```
+
+For a step that needs both the adapter (GPU) and the DB, run both in the same job/node —
+e.g. start `55_neo4j.slurm`'s `neo4j console` invocation in the background within a GPU job
+script (same `--no-mount /opt --writable-tmpfs` flags), or `salloc` a GPU node and `srun
+--overlap` both pieces onto it. The DB volume persists in `$MYGROUP/neo4j_data/`, so the
+password-set + schema load only happen on the very first run.
+
+Two Apptainer quirks this script works around (see inline comments for details):
+Kaya's site-wide config shadows the image's `/opt` (where its JDK lives) — fixed with
+`--no-mount /opt`; and this image's `instance start` startscript is empty, so `neo4j
+console` is run directly via `apptainer exec` with `--writable-tmpfs` (neo4j needs to write
+its pidfile under the read-only image root).
+
+---
+
 ## Gotchas (already handled in the scripts, here for debugging)
 
 - **Offline nodes** — compute nodes have no internet; jobs set `HF_HUB_OFFLINE=1`

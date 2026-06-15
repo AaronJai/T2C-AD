@@ -11,6 +11,7 @@ Two public entry points, identical for both adapters:
 """
 from __future__ import annotations
 
+import functools
 import json
 from pathlib import Path
 
@@ -186,7 +187,16 @@ def run_sft(config: dict) -> str:
         data_collator=default_data_collator,
     )
     last_checkpoint = get_last_checkpoint(output_dir) if Path(output_dir).is_dir() else None
-    trainer.train(resume_from_checkpoint=last_checkpoint)
+    # transformers 4.45.2's _load_rng_state() calls torch.load(rng_file) with no kwargs;
+    # torch>=2.6 defaults weights_only=True, which can't unpickle the numpy RNG state in
+    # our own (trusted, just-saved-by-us) checkpoints. Relax the default for this resume
+    # call only — see decisions-log.
+    _orig_torch_load = torch.load
+    torch.load = functools.partial(torch.load, weights_only=False)
+    try:
+        trainer.train(resume_from_checkpoint=last_checkpoint)
+    finally:
+        torch.load = _orig_torch_load
 
     # 5. Save the adapter; return its path.
     model.save_pretrained(output_dir)

@@ -1,0 +1,4 @@
+INFO:    Instance stats will not be available - XDG_RUNTIME_DIR "/run/user/137176" not accessible: stat /run/user/137176: no such file or directory
+INFO:    instance started successfully
+Unable to connect to localhost:7687, ensure the database is running and that there is a working network connection to it.
+INFO:    Stopping t2c_neo4j_492777 instance of /group/pmc084/atan/containers/neo4j.sif (PID=3031938)
