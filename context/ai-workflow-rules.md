@@ -111,3 +111,25 @@ in the implementing session.
 - Record any new compute-driven deviation found while running these (library bugs,
   OOMs, format mismatches) in `decisions-log.md` per rule 4 — e.g. the `transformers`
   group-beam-search `compute_transition_scores` off-by-one found 2026-06-15.
+
+---
+
+## 8. Python environment (read when the prompt says "we are developing in Kaya")
+
+There is a project conda env — **use it for every `python` / `pytest` invocation**. The
+login-node base anaconda has NO `torch`, so running tests against it raises
+`ModuleNotFoundError: No module named 'torch'` on the GPU-touching modules (`tests/test_sft.py`,
+`tests/test_probe_utils.py`, `tests/llm/`, `tests/schema_linker/`, `tests/query_generator/`).
+That error means the wrong interpreter — not a broken step.
+
+- **Env:** `/group/pmc084/atan/envs/t2c` (torch 2.6.0+cu124, transformers, pytest, rapidfuzz,
+  neo4j, …). A sibling `pytorch_env` also exists; `t2c` is the project one. Env spec lives at
+  `/group/pmc084/atan/envs/environment.yml`.
+- **Activate before running anything Python:**
+  ```bash
+  source activate /group/pmc084/atan/envs/t2c
+  ```
+- **Run the full suite from the repo root** after activating: `python -m pytest -q` (expect a
+  green suite; record the count in the step's handoff note).
+- New runtime deps still get declared in `pyproject.toml` per `code-standards.md`; if a dep is
+  missing from the env, install it into `t2c` (don't fall back to base) and note it.
