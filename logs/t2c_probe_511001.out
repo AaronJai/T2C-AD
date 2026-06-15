@@ -1,0 +1,31 @@
+Job 511001 on k036 at Mon 15 Jun 2026 12:05:16 AWST
+Mon Jun 15 12:05:16 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.57.08              Driver Version: 575.57.08      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla V100-PCIE-16GB           Off |   00000000:AF:00.0 Off |                    0 |
+| N/A   44C    P0             33W /  250W |       0MiB /  16384MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Generated + cached 125 beam records to results/beams_pole.jsonl.
+
+diversity_penalty = 0.2   (k=5)
+            signal | POLE-SFT AUC |  prior
+ h_norm_candidates |        0.592 |  0.622
+      h_norm_beams |        0.587 |  0.624
+top_beam_dominance |        0.594 |  0.625
+
+POLE-SFT entropy AUC (0.592) is flat/at the ~0.62 general-model baseline. This is still acceptable: the design treats the entropy signal as secondary and the LLM self-assessment as primary — note it, do not change the architecture. Ablations remain flat (spread 0.007 <= 0.01): the scoring function is not the bottleneck (beam diversity is), so 3.3 may use the simplest scorer (normalised entropy) without loss.
+Finished at Mon 15 Jun 2026 12:19:08 AWST

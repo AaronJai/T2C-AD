@@ -67,6 +67,12 @@ class HuggingFaceLLM(BaseLLM):
         texts = self.tokenizer.batch_decode(gen, skip_special_tokens=True)
         # Uniform log-prob scoring across greedy/beam/sample via transition scores.
         beam_indices = getattr(outputs, "beam_indices", None)
+        if beam_indices is not None:
+            # transformers==4.45.2's (group) beam search returns beam_indices with one more
+            # valid (non -1) column than len(outputs.scores) steps, which makes
+            # compute_transition_scores's internal gather raise a shape mismatch. Trim to
+            # the number of scored steps — see decisions-log.
+            beam_indices = beam_indices[:, :len(outputs.scores)]
         trans = self.model.compute_transition_scores(
             outputs.sequences, outputs.scores, beam_indices, normalize_logits=True
         )

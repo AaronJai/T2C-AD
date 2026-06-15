@@ -1,0 +1,29 @@
+Job 511000 on k036 at Mon 15 Jun 2026 11:11:58 AWST
+Mon Jun 15 11:11:58 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.57.08              Driver Version: 575.57.08      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla V100-PCIE-16GB           Off |   00000000:AF:00.0 Off |                    0 |
+| N/A   28C    P0             28W /  250W |       0MiB /  16384MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+ penalty | entropy AUC |  Cov@5 | halluc.
+     0.2 |       0.587 |  0.000 |   0.024
+     0.5 |       0.563 |  0.000 |   0.026
+     1.0 |       0.534 |  0.000 |   0.030
+
+Chosen diversity_penalty = 0.2
+NO penalty cleared Cov@5 ≥ 0.85; picked best Cov@5/AUC trade-off (Cov@5=0.000, AUC=0.587). RECORD THIS IN decisions-log.md.
+Finished at Mon 15 Jun 2026 12:05:09 AWST

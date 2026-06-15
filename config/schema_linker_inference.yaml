@@ -1,0 +1,4 @@
+# config/schema_linker_inference.yaml
+# Locked Schema Linker inference parameters. `diversity_penalty` was selected by the
+# 2.2 sweep (max entropy AUC under the Cov@5 guardrail) and feeds 3.1's GenerationConfig.
+diversity_penalty: 0.2

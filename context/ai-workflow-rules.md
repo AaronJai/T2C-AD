@@ -85,3 +85,29 @@ When the step is done:
 - Entity Lookup and any validation/execution/evaluation step need a **live Neo4j** with
   the KG loaded. If the database isn't available, implement against the contract and mark
   validation deferred — do not stub the data.
+
+---
+
+## 7. Kaya cluster ops (GPU + Neo4j availability)
+
+As of 2026-06-15, Phase 2 is fully complete: both adapters are trained
+(`checkpoints/mistral7b/{sl_adapter,qg_adapter}`), and the 2.2/2.3 GPU probes have run.
+A GPU and a live Neo4j (loaded with SyntheticPoliceKG) are both available on Kaya — so
+**3.1 onward generally should NOT defer GPU/Neo4j acceptance criteria**; run them for real
+in the implementing session.
+
+- **GPU steps** (3.1, 3.6, and anything loading the trained adapters): submit a short
+  `kaya/*.slurm` job (follow the pattern in `kaya/30_sweep.slurm`/`kaya/40_probe.slurm` —
+  `sbatch`, then check `logs/<name>_<jobid>.out/.err`). Don't try to load a 7B model on
+  the login node.
+- **3.2 (Entity Lookup) and any step needing live Neo4j**: `sbatch kaya/55_neo4j.slurm`,
+  note the job's node from `squeue --me`, then reach `bolt://localhost:7687` via
+  `srun --jobid=<id> --overlap <command>` (full details + the `cypher-shell` example in
+  `kaya/README.md` § "Neo4j on Kaya (for Phase 3.2+)"). Bolt is only reachable from that
+  job's node — not via plain `ssh`.
+- If a step needs **both** GPU and Neo4j, either start the Neo4j console in the
+  background within the GPU job script (same `--no-mount /opt --writable-tmpfs` flags as
+  `55_neo4j.slurm`), or `salloc` a GPU node and `srun --overlap` both pieces onto it.
+- Record any new compute-driven deviation found while running these (library bugs,
+  OOMs, format mismatches) in `decisions-log.md` per rule 4 — e.g. the `transformers`
+  group-beam-search `compute_transition_scores` off-by-one found 2026-06-15.
