@@ -23,6 +23,8 @@ dependencies = [
     "pyyaml",          # reads config/models.yaml + config/schema_linker_train.yaml
     "accelerate",      # transformers.Trainer backend (lazy; SFT GPU run)
     "bitsandbytes",    # 4-bit QLoRA quantisation (lazy; SFT GPU run)
+    # 3.2 — Entity Lookup
+    "rapidfuzz",       # fuzzy match of mention spans against live KG node names
 ]
 
 [build-system]

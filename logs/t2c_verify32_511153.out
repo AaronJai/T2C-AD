@@ -1,0 +1,54 @@
+Job 511153 on k005 at Mon 15 Jun 2026 14:59:20 AWST
+Directories in use:
+home:         /var/lib/neo4j
+config:       /var/lib/neo4j/conf
+logs:         /var/lib/neo4j/logs
+plugins:      /var/lib/neo4j/plugins
+import:       /var/lib/neo4j/import
+data:         /var/lib/neo4j/data
+certificates: /var/lib/neo4j/certificates
+licenses:     /var/lib/neo4j/licenses
+run:          /var/lib/neo4j/run
+Starting Neo4j.
+2026-06-15 06:59:25.058+0000 INFO  Logging config in use: File '/var/lib/neo4j/conf/user-logs.xml'
+2026-06-15 06:59:25.072+0000 INFO  Starting...
+2026-06-15 06:59:25.919+0000 INFO  This instance is ServerId{e7c3db60} (e7c3db60-4c76-4c02-b054-a3c1543ed515)
+2026-06-15 06:59:26.896+0000 INFO  ======== Neo4j 5.26.27 ========
+2026-06-15 06:59:30.144+0000 INFO  Anonymous Usage Data is being sent to Neo4j, see https://neo4j.com/docs/usage-data/
+2026-06-15 06:59:30.175+0000 INFO  Bolt enabled on localhost:7687.
+2026-06-15 06:59:31.198+0000 INFO  HTTP enabled on localhost:7474.
+2026-06-15 06:59:31.199+0000 INFO  Remote interface available at http://localhost:7474/
+2026-06-15 06:59:31.200+0000 INFO  id: 9D5AB278DB09F1FE64A62588A040A168D4EB28C67F3AEFF7BEC7D8FB49C3BF8F
+2026-06-15 06:59:31.200+0000 INFO  name: system
+2026-06-15 06:59:31.200+0000 INFO  creationDate: 2026-06-11T13:39:03.976Z
+2026-06-15 06:59:31.201+0000 INFO  Started.
+Neo4j ready: bolt://localhost:7687
+=== EntityCache.load — name-searchable node counts (live POLE graph) ===
+  Person        got= 35  expected≈ 35  [OK]
+  Organisation  got=  5  expected≈  5  [OK]
+  Case          got=  4  expected≈  4  [OK]
+  Location      got= 18  expected≈ 18  [OK]
+  total nodes cached: 62
+
+  sample Person:
+    id='PER-001' display='David Chen' names=['David Chen'] extra={'role': 'officer'}
+    id='PER-002' display='Ryan Clarke' names=['Ryan Clarke'] extra={'role': 'officer'}
+
+  sample Organisation:
+    id='ORG-001' display='Northbridge Crew' names=['Northbridge Crew'] extra={'type': 'gang', 'status': 'under_investigation'}
+    id='ORG-002' display='Metro Security Services' names=['Metro Security Services'] extra={'type': 'company', 'status': 'active'}
+
+  sample Case:
+    id='CASE-001' display='Operation Ironside — Northbridge Series' names=['Operation Ironside — Northbridge Series'] extra={'status': 'open'}
+    id='CASE-002' display='Operation Trident — Drug Network' names=['Operation Trident — Drug Network'] extra={'status': 'open'}
+
+  sample Location:
+    id='LOC-001' display='Northbridge' names=['Northbridge', '142 William Street'] extra={'district': 'Central Metropolitan'}
+    id='LOC-002' display='Northbridge' names=['Northbridge', '27 James Street'] extra={'district': 'Central Metropolitan'}
+
+All label counts within tolerance of expected.
+Verification exit: 0
+Stopping neo4j (pid 1802701) at Mon 15 Jun 2026 14:59:43 AWST
+2026-06-15 06:59:43.282+0000 INFO  Neo4j Server shutdown initiated by request
+2026-06-15 06:59:43.283+0000 INFO  Stopping...
+2026-06-15 06:59:53.636+0000 INFO  Stopped.
