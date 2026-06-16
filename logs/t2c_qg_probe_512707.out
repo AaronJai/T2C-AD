@@ -1,0 +1,68 @@
+Job 512707 on k027 at Tue 16 Jun 2026 10:47:55 AWST
+Tue Jun 16 10:47:55 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.57.08              Driver Version: 575.57.08      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla V100-PCIE-16GB           Off |   00000000:AF:00.0 Off |                    0 |
+| N/A   28C    P0             24W /  250W |       0MiB /  16384MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Sampled 8 questions; base=mistralai/Mistral-7B-v0.3 dp=0.2
+  [Q-016] SL gave no committable top-1 (Only 0 parseable in-schema beam(s) among 5 completions; need >= 1.); zero-shot only
+
+==================== QUERY GENERATOR OUTPUT ====================
+
+[Q-016] (schema) Show people connected to the Northbridge robbery.
+  committed pattern: (none → zero-shot)
+  C2/C3 cypher [clean]: "MATCH (p:Person)\nWHERE EXISTS {(p)-[:ASSIGNED_TO]->(c:Case)-[:CONTAINS]->(i:Incident)-[:OCCURRED_AT]->(l:Location {name: 'Northbridge'})}\nRETURN p"
+  C1 zero-shot cypher [clean]: "MATCH (p:Person)\nWHERE EXISTS {(p)-[:ASSIGNED_TO]->(c:Case)-[:CONTAINS]->(i:Incident)-[:OCCURRED_AT]->(l:Location {name: 'Northbridge'})}\nRETURN p"
+
+[Q-019] (schema) Who is involved in the Cannington homicide?
+  committed pattern: (p:Person)-[:ASSOCIATED_WITH]->(o:Organisation)
+  C2/C3 cypher [clean]: "MATCH (p:Person)-[:ASSOCIATED_WITH]->(o:Organisation) \nWHERE o.name = 'Cannington Homicide' \nRETURN p"
+  C1 zero-shot cypher [clean]: "MATCH (p:Person)\nWHERE EXISTS {(p)-[:ASSIGNED_TO]->(c:Case)-[:CONTAINS]->(i:Incident)-[:OCCURRED_AT]->(l:Location {name: 'Cannington'})}\nRETURN p"
+
+[Q-020] (entity) What contact has there been between Whitfield and Petrova?
+  committed pattern: (p:Person)-[:KNOWS]->(p:Person)
+  C2/C3 cypher [clean]: "MATCH (p:Person {name: 'Whitfield'})-[:KNOWS]->(p:Person {name: 'Petrova'})\nRETURN p"
+  C1 zero-shot cypher [clean]: 'MATCH (Whitfield)-[:KNOWS]->(Petrova)\nRETURN DISTINCT Whitfield, Petrova'
+
+[Q-017] (temporal) Where does James Whitfield live?
+  committed pattern: (p:Person)-[:LIVES_AT]->(l:Location)
+  C2/C3 cypher [clean]: "MATCH (p:Person {name: 'James Whitfield'})-[:LIVES_AT]->(l:Location) \nRETURN l"
+  C1 zero-shot cypher [clean]: "MATCH (james:Person {name: 'James Whitfield'})\nRETURN james.lives_at"
+
+[Q-021] (intent) Show incidents in the Central Metropolitan district.
+  committed pattern: (i:Incident)-[:OCCURRED_AT]->(l:Location)
+  C2/C3 cypher [clean]: "MATCH (i:Incident)-[:OCCURRED_AT]->(l:Location)\nWHERE l.district = 'Central Metropolitan'\nRETURN i"
+  C1 zero-shot cypher [clean]: "MATCH (i:Incident)\nWHERE i.location.district = 'Central Metropolitan'\nRETURN i"
+
+[Q-001] (null) Who is suspected of the armed robbery on William Street?
+  committed pattern: (p:Person)-[:SUSPECTED_OF]->(i:Incident)
+  C2/C3 cypher [clean]: "MATCH (p:Person)-[:SUSPECTED_OF]->(i:Incident {name: 'armed robbery on William Street'}) \nRETURN p"
+  C1 zero-shot cypher [clean]: "MATCH (p:Person {Name: 'William Street'})-[:SUSPECTED_OF]->(i:Incident)\nRETURN p.Name"
+
+[Q-002] (null) Which officer is investigating the Cannington homicide?
+  committed pattern: (p:Person)-[:INVESTIGATES]->(i:Incident)
+  C2/C3 cypher [clean]: "MATCH (p:Person)-[:INVESTIGATES]->(i:Incident) \nWHERE i.NAME = 'Cannington homicide' \nRETURN p.NAME"
+  C1 zero-shot cypher [clean]: "MATCH (c:Case {Name: 'Cannington homicide'})-[:INVESTIGATES]->(p:Person)\nRETURN p.Name"
+
+[Q-003] (null) What vehicle does James Whitfield own?
+  committed pattern: (p:Person)-[:OWNS]->(v:Vehicle)
+  C2/C3 cypher [clean]: "MATCH (p:Person {name: 'James Whitfield'})-[:OWNS]->(v:Vehicle) \nRETURN v"
+  C1 zero-shot cypher [clean]: "MATCH (james:Person {name: 'James Whitfield'})-[:OWNS]->(vehicle:Vehicle)\nRETURN vehicle"
+
+Clean MATCH…RETURN: committed 8/8, zero-shot 8/8.
+Finished at Tue 16 Jun 2026 10:50:53 AWST
