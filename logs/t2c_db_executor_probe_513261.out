@@ -1,0 +1,38 @@
+Job 513261 on k005 at Tue 16 Jun 2026 12:12:22 AWST
+Directories in use:
+home:         /var/lib/neo4j
+config:       /var/lib/neo4j/conf
+logs:         /var/lib/neo4j/logs
+plugins:      /var/lib/neo4j/plugins
+import:       /var/lib/neo4j/import
+data:         /var/lib/neo4j/data
+certificates: /var/lib/neo4j/certificates
+licenses:     /var/lib/neo4j/licenses
+run:          /var/lib/neo4j/run
+Starting Neo4j.
+2026-06-16 04:12:26.886+0000 INFO  Logging config in use: File '/var/lib/neo4j/conf/user-logs.xml'
+2026-06-16 04:12:26.931+0000 INFO  Starting...
+2026-06-16 04:12:27.724+0000 INFO  This instance is ServerId{e7c3db60} (e7c3db60-4c76-4c02-b054-a3c1543ed515)
+2026-06-16 04:12:28.643+0000 INFO  ======== Neo4j 5.26.27 ========
+2026-06-16 04:12:31.691+0000 INFO  Anonymous Usage Data is being sent to Neo4j, see https://neo4j.com/docs/usage-data/
+2026-06-16 04:12:31.714+0000 INFO  Bolt enabled on localhost:7687.
+2026-06-16 04:12:32.698+0000 INFO  HTTP enabled on localhost:7474.
+2026-06-16 04:12:32.698+0000 INFO  Remote interface available at http://localhost:7474/
+2026-06-16 04:12:32.701+0000 INFO  id: 9D5AB278DB09F1FE64A62588A040A168D4EB28C67F3AEFF7BEC7D8FB49C3BF8F
+2026-06-16 04:12:32.701+0000 INFO  name: system
+2026-06-16 04:12:32.701+0000 INFO  creationDate: 2026-06-11T13:39:03.976Z
+2026-06-16 04:12:32.701+0000 INFO  Started.
+Neo4j ready after 3 checks.
+case                                     ok   detail
+----------------------------------------------------------------------------------------------------
+rows / success                           YES  success=True n=5 t_ms=187.71 sample=[{'name': 'Amir Hassan'}]
+empty result / success                   YES  success=True result_set=[] t_ms=112.12
+relationship+node / nested dict          YES  success=True n=3 sample=[{'suspect': 'James Whitfield', 'i': {'date': neo4j.time.Date(2026, 1, 15), 'severity': 'high', 'incident_id': 'INC-001', 'description': 'Armed robbery at a convenience store on William Street. Suspect fled on foot heading north.', 'crime_type': 'robbery', 'time': neo4j.time.Time(22, 30, 0, 0, tzinfo=<UTC>), 'status': 'under_investigation'}}]
+heavy var-length / timeout fail          YES  success=False t_ms=2499.20 error='{neo4j_code: Neo.ClientError.Transaction.TransactionTimedOutClientConfiguration} {message: The transaction has been terminated. Retry your operation in a new transaction, and you should see a successful result. The transaction has not completed within the timeout specified at its start by the client. You may want to retry with a longer timeout. } {gql_status: 50N42} {gql_status_description: error: general processing exception - unexpected error. Unexpected error has occurred. See debug log for details.}'
+----------------------------------------------------------------------------------------------------
+ALL CHECKS PASSED
+Finished at Tue 16 Jun 2026 12:12:47 AWST
+Stopping neo4j (pid 2170725) at Tue 16 Jun 2026 12:12:47 AWST
+2026-06-16 04:12:47.009+0000 INFO  Neo4j Server shutdown initiated by request
+2026-06-16 04:12:47.009+0000 INFO  Stopping...
+2026-06-16 04:12:57.354+0000 INFO  Stopped.
