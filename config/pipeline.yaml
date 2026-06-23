@@ -1,0 +1,31 @@
+# config/pipeline.yaml — the run-the-experiment config for experiments/run_evaluation.py (5.4).
+#
+# Everything that varies between runs lives here, not in code: the Neo4j connection, which
+# base model to evaluate (a key into config/models.yaml), the benchmark path, and the AD/Dis
+# backends. Running a different base is a one-line change (set `active_model` to another key).
+
+neo4j:
+  uri: "bolt://localhost:7687"
+  user: "neo4j"
+  # password via env var NEO4J_PASSWORD (do not commit real credentials)
+  database: "neo4j"
+
+models_registry: "config/models.yaml"       # the per-base registry from 2.1
+active_model: "mistral7b"                    # which model_key to evaluate (must be in the registry)
+# base + adapter paths are DERIVED from active_model:
+#   base       = registry[active_model].base
+#   sl_adapter = checkpoints/{active_model}/sl_adapter
+#   qg_adapter = checkpoints/{active_model}/qg_adapter
+
+# AD / Dis backends are the config swap points (5.3). Leave null to default to the active
+# model's base (one shared base, no extra model loaded) — the harness fills in
+# {backend: huggingface, model_name_or_path: <active base>} when `ad` is null, and `dis`
+# null means "share the AD backend". To use an API backend instead, give a build_llm spec,
+# e.g.  ad: {backend: "anthropic", model_name_or_path: "claude-..."}
+ad: null                                     # null → default to the active model's base
+dis: null                                    # null → share the AD backend
+
+benchmark: "data/benchmark-updated.json"
+schema_linker_inference: "config/schema_linker_inference.yaml"   # holds locked diversity_penalty (2.2)
+use_embedding_model: true                    # load sentence-transformers for the evaluator fallback
+results_dir: "results/"
