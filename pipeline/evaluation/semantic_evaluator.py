@@ -17,35 +17,56 @@ def _is_id_field(v: str) -> bool:
 
 
 def _normalise_value(v):
-    return round(v, 6) if isinstance(v, float) else v   # absorb float variance
+    """Canonicalise a record value to a hashable form for frozenset comparison.
+
+    Floats are rounded to absorb variance. A generated query (esp. zero-shot C1) may RETURN a
+    whole node/relationship (→ a dict of properties) or a list (→ e.g. collect()); those are
+    unhashable, so recurse — dict to a frozenset of normalised items (order-insensitive, like a
+    record), list/tuple to a tuple (order-preserving, as Cypher lists are ordered) — keeping
+    `norm`'s frozenset construction total. A node-dict vs a scalar simply compares unequal.
+    """
+    if isinstance(v, float):
+        return round(v, 6)                              # absorb float variance
+    if isinstance(v, dict):
+        return frozenset((k, _normalise_value(x)) for k, x in v.items())
+    if isinstance(v, (list, tuple)):
+        return tuple(_normalise_value(x) for x in v)
+    return v
 
 
 def _result_sets_equal(generated: list[dict], ground_truth: list[dict],
                        embedding_model=None, string_sim_threshold: float = 0.95) -> bool:
-    """Order- and duplicate-insensitive comparison.
+    """Order-, duplicate- and COLUMN-NAME-insensitive comparison.
 
-    Primary: frozenset equality on records normalised to frozenset of (key, _normalise_value)
-      tuples.
-    Fallback (only if the fast path fails AND sizes match AND an embedding_model is given):
-      sort both sets by a canonical key, align row-wise, and require every field equal — except
-      non-ID string fields, which pass on cosine similarity ≥ string_sim_threshold. ID-pattern
-      and numeric fields are ALWAYS exact. Without an embedding_model, no fallback (returns False).
+    Each record is reduced to the tuple of its values in RETURN-clause order, NOT its column
+    names: a generated query that returns the right values under a different variable/alias
+    (`x.name` vs the gold's `p.name`, or `RETURN x` vs `RETURN v`) must still count as correct.
+    The benchmark gold and the model (Ozsoy-trained QG / zero-shot C1) rarely share variable
+    names, so keying on `record.data()` names made EX a strict lower bound — see decisions-log
+    2026-06-27. Column COUNT and per-position values must still match (values are not a bag).
+
+    Primary: frozenset equality on records normalised to the ordered tuple of `_normalise_value`'d
+      values.
+    Fallback (only if the fast path fails AND row counts match AND an embedding_model is given):
+      align rows by a value-based sort key, compare position-by-position, and require every field
+      equal — except non-ID string fields, which pass on cosine similarity ≥ string_sim_threshold.
+      ID-pattern and numeric fields are ALWAYS exact. Without an embedding_model, no fallback.
     Empty sets: equal iff both empty.
     """
-    def norm(r: dict) -> frozenset:
-        return frozenset((k, _normalise_value(v)) for k, v in r.items())
+    def row_values(r: dict) -> tuple:
+        return tuple(_normalise_value(v) for v in r.values())
 
-    if frozenset(norm(r) for r in generated) == frozenset(norm(r) for r in ground_truth):
+    if frozenset(row_values(r) for r in generated) == frozenset(row_values(r) for r in ground_truth):
         return True
     if len(generated) != len(ground_truth) or embedding_model is None:
         return False
 
-    def sort_key(r): return tuple(sorted((k, str(v)) for k, v in r.items()))
+    def sort_key(r): return tuple(sorted(str(v) for v in r.values()))
     for g, t in zip(sorted(generated, key=sort_key), sorted(ground_truth, key=sort_key)):
-        if g.keys() != t.keys():
+        gv_row, tv_row = list(g.values()), list(t.values())
+        if len(gv_row) != len(tv_row):           # differing column count → not equal
             return False
-        for k in g:
-            gv, tv = g[k], t[k]
+        for gv, tv in zip(gv_row, tv_row):       # position-aligned (RETURN-clause order)
             if isinstance(gv, str) and isinstance(tv, str) and not (_is_id_field(gv) or _is_id_field(tv)):
                 # cosine similarity on free-text strings (e.g. descriptions) via sentence-transformers
                 import torch

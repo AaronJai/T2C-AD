@@ -22,6 +22,9 @@ from huggingface_hub import snapshot_download
 
 MODEL_KEY = "mistral7b"
 DATASET = "neo4j/text2cypher-2025v1"
+# Semantic Evaluator (4.1) AREA cosine fallback when config/pipeline.yaml use_embedding_model: true.
+# SentenceTransformer("all-MiniLM-L6-v2") resolves to this repo; cache it so the offline 5.4 run finds it.
+EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 
 
 def main() -> None:
@@ -35,6 +38,9 @@ def main() -> None:
 
     print(f"Downloading base model snapshot: {base} …")
     snapshot_download(repo_id=base)
+
+    print(f"Downloading embedding model snapshot: {EMBEDDING_MODEL} …")
+    snapshot_download(repo_id=EMBEDDING_MODEL)
     print("Done. Compute-node jobs can now run with *_OFFLINE=1.")
 
 

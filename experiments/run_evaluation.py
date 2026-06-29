@@ -76,7 +76,14 @@ def main(config_path: str = "config/pipeline.yaml") -> None:
     base = registry[key]["base"]
     sl_adapter = f"checkpoints/{key}/sl_adapter"
     qg_adapter = f"checkpoints/{key}/qg_adapter"
-    ad_spec = cfg.get("ad") or {"backend": "huggingface", "model_name_or_path": base}
+    # Quantisation/dtype come from the registry (config/models.yaml) so inference loads the base
+    # the same way training did (QLoRA 4-bit + fp16 on V100). Loading the SL/QG/AD 7B models in
+    # full precision OOMs a 32 GB (2×16 GB V100) node — see decisions-log 2026-06-23.
+    load_in_4bit = registry[key].get("load_in_4bit", False)
+    torch_dtype = registry[key].get("dtype", "bfloat16")
+    hf_base_spec = {"backend": "huggingface", "model_name_or_path": base,
+                    "load_in_4bit": load_in_4bit, "torch_dtype": torch_dtype}
+    ad_spec = cfg.get("ad") or dict(hf_base_spec)
     dis_spec = cfg.get("dis")
 
     schema = build_pole_schema_repr()
@@ -94,7 +101,7 @@ def main(config_path: str = "config/pipeline.yaml") -> None:
     bundles: dict[Condition, MetricBundle] = {}
 
     with build_condition1(neo4j_uri=neo4j_uri, neo4j_auth=neo4j_auth, database_name=database,
-                          base_model_spec={"backend": "huggingface", "model_name_or_path": base},
+                          base_model_spec=dict(hf_base_spec),
                           schema=schema) as c1:
         c1.embedding_model = embedding_model
         results, _ = run_condition(benchmark, c1, "baseline")
@@ -102,7 +109,7 @@ def main(config_path: str = "config/pipeline.yaml") -> None:
 
     with build_condition2(neo4j_uri=neo4j_uri, neo4j_auth=neo4j_auth, database_name=database,
                           base_model=base, sl_adapter=sl_adapter, qg_adapter=qg_adapter,
-                          schema=schema) as c2:
+                          schema=schema, load_in_4bit=load_in_4bit, torch_dtype=torch_dtype) as c2:
         c2.embedding_model = embedding_model
         results, _ = run_condition(benchmark, c2, "schema_grounded")
         bundles["schema_grounded"] = compute_metrics(results, ad_predictions=None)
@@ -111,6 +118,7 @@ def main(config_path: str = "config/pipeline.yaml") -> None:
                           base_model=base, sl_adapter=sl_adapter, qg_adapter=qg_adapter,
                           schema=schema, diversity_penalty=diversity_penalty,
                           ad_spec=ad_spec, dis_spec=dis_spec,
+                          load_in_4bit=load_in_4bit, torch_dtype=torch_dtype,
                           embedding_model=embedding_model) as c3:
         results, ad_preds = run_condition(benchmark, c3, "disambiguation_enhanced")
         bundles["disambiguation_enhanced"] = compute_metrics(results, ad_predictions=ad_preds)

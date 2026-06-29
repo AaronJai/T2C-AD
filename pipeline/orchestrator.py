@@ -10,6 +10,7 @@ from pipeline.disambiguator.disambiguator import disambiguator
 from pipeline.entity_lookup.lookup import entity_lookup
 from pipeline.evaluation.semantic_evaluator import semantic_evaluator
 from pipeline.execution.db_executor import db_executor
+from pipeline.schema_linker.linker import SchemaLinkerError
 from pipeline.types import (BenchmarkItem, Condition, PipelineState, SchemaMapping,
                             ValidationResult)
 from pipeline.validation.cyver_validator import cyver_validator
@@ -27,6 +28,8 @@ class Orchestrator:
             condition: Condition, components: PipelineComponents) -> PipelineState:
         state = PipelineState(question=question, benchmark_item=benchmark_item, condition=condition)
         error_feedback: Optional[str] = None   # carried into QG retries; None on first attempt
+        schema_fail = False                     # bound here too: a SchemaLinker break exits the
+                                                # outer loop before the per-iteration reset below
 
         # ── OUTER: schema retry ────────────────────────────────────────────────
         for schema_attempt in range(state.MAX_SCHEMA_RETRIES + 1):
@@ -47,18 +50,26 @@ class Orchestrator:
             if condition == "baseline":
                 state.schema_mapping = SchemaMapping(question=question, committed={},
                                                      cypher_syntax="", resolution_mode="automated")
-            elif condition == "schema_grounded":
-                state.candidate_mapping = components.schema_linker.link(question, working_schema)
-                state.schema_mapping = state.candidate_mapping.top1_mapping()
-            else:  # disambiguation_enhanced
-                state.candidate_mapping = components.schema_linker.link(question, working_schema)
-                state.entity_lookup = entity_lookup(question, state.candidate_mapping,
-                                                    components.entity_cache)
-                state.ambiguity_result = ambiguity_detector(question, state.candidate_mapping,
-                                                            state.entity_lookup, components.ad_llm)
-                if benchmark_item is not None:          # Detection-F1 support (4.2)
-                    state.ad_predictions.append(
-                        (benchmark_item.question_id, state.ambiguity_result.is_ambiguous))
+            else:  # schema_grounded / disambiguation_enhanced both start with the Schema Linker
+                # A question the SL parses to NO in-schema beam (3.1 raises SchemaLinkerError) is a
+                # per-question failure, not a fatal run abort. The SL is deterministic, so retrying
+                # the outer loop reproduces the same empty beam set — record invalid_query and stop.
+                try:
+                    state.candidate_mapping = components.schema_linker.link(question, working_schema)
+                except SchemaLinkerError:
+                    state.is_failed = True
+                    state.failure_reason = "schema_linker_no_valid_beams"
+                    break
+                if condition == "schema_grounded":
+                    state.schema_mapping = state.candidate_mapping.top1_mapping()
+                else:  # disambiguation_enhanced
+                    state.entity_lookup = entity_lookup(question, state.candidate_mapping,
+                                                        components.entity_cache)
+                    state.ambiguity_result = ambiguity_detector(question, state.candidate_mapping,
+                                                                state.entity_lookup, components.ad_llm)
+                    if benchmark_item is not None:          # Detection-F1 support (4.2)
+                        state.ad_predictions.append(
+                            (benchmark_item.question_id, state.ambiguity_result.is_ambiguous))
 
             schema_fail = False
 

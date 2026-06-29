@@ -180,19 +180,23 @@ def test_main_resolves_and_wires(monkeypatch, tmp_path, wired):
     rev.main(cfg_path)
 
     b = wired["builders"]
-    # C1 gets the base via a build_llm spec.
+    # C1 gets the base via a build_llm spec carrying the registry quant/dtype (5.4 OOM fix).
     assert b["c1"]["base_model_spec"] == {"backend": "huggingface",
-                                          "model_name_or_path": "org/Base-7B"}
+                                          "model_name_or_path": "org/Base-7B",
+                                          "load_in_4bit": True, "torch_dtype": "float16"}
     assert b["c1"]["neo4j_auth"] == ("neo4j", "secret")
-    # C2/C3 get base + the namespaced adapter paths derived from active_model.
+    # C2/C3 get base + the namespaced adapter paths derived from active_model, plus quant/dtype.
     for cond in ("c2", "c3"):
         assert b[cond]["base_model"] == "org/Base-7B"
         assert b[cond]["sl_adapter"] == "checkpoints/mistral7b/sl_adapter"
         assert b[cond]["qg_adapter"] == "checkpoints/mistral7b/qg_adapter"
+        assert b[cond]["load_in_4bit"] is True
+        assert b[cond]["torch_dtype"] == "float16"
     # Locked diversity_penalty flows to C3 only.
     assert b["c3"]["diversity_penalty"] == 0.2
-    # ad null → defaults to active base; dis null → None (share AD).
-    assert b["c3"]["ad_spec"] == {"backend": "huggingface", "model_name_or_path": "org/Base-7B"}
+    # ad null → defaults to active base (with quant/dtype); dis null → None (share AD).
+    assert b["c3"]["ad_spec"] == {"backend": "huggingface", "model_name_or_path": "org/Base-7B",
+                                  "load_in_4bit": True, "torch_dtype": "float16"}
     assert b["c3"]["dis_spec"] is None
     # ad_predictions: None for C1/C2, the real list for C3.
     assert wired["compute"] == [None, None, [("Q-1", True)]]

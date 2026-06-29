@@ -145,6 +145,71 @@ def test_condition3_ad_spec_overrides_backend(patched):
     assert kw["dis_llm"] is kw["ad_llm"]
 
 
+# ── 5.4 OOM fix: registry quant/dtype thread into internally-built HF loads ─────────
+def test_condition2_quant_threads_into_sl_qg_specs(patched):
+    specs = patched
+    c2mod.build_condition2(
+        neo4j_uri="bolt://x", neo4j_auth=("u", "p"), database_name=None,
+        base_model="base", sl_adapter="sl", qg_adapter="qg", schema=_SCHEMA,
+        load_in_4bit=True, torch_dtype="float16",
+    )
+    assert all(s["load_in_4bit"] is True and s["torch_dtype"] == "float16" for s in specs)
+
+
+def test_condition3_quant_threads_into_default_loads_only(patched):
+    specs = patched
+    # Default AD (no ad_spec) is a base HF load → must carry quant; SL/QG too.
+    c3mod.build_condition3(
+        neo4j_uri="bolt://x", neo4j_auth=("u", "p"), database_name=None,
+        base_model="base", sl_adapter="sl", qg_adapter="qg", schema=_SCHEMA,
+        diversity_penalty=0.2, load_in_4bit=True, torch_dtype="float16",
+    )
+    assert all(s["load_in_4bit"] is True and s["torch_dtype"] == "float16" for s in specs)
+
+
+# ── C3 OOM fix (decisions-log 2026-06-26): pin the three loads across both V100s ─────
+def test_condition3_pins_devices_when_two_gpus(patched, monkeypatch):
+    """≥2 GPUs → SL alone on cuda:0, QG+AD on cuda:1 (no three-way device_map='auto' collision)."""
+    import torch
+    specs = patched
+    monkeypatch.setattr(torch.cuda, "device_count", lambda: 2)
+    c3mod.build_condition3(
+        neo4j_uri="bolt://x", neo4j_auth=("u", "p"), database_name=None,
+        base_model="base", sl_adapter="sl", qg_adapter="qg", schema=_SCHEMA,
+        diversity_penalty=0.2,
+    )
+    by_adapter = {s.get("peft_adapter_path"): s for s in specs}
+    assert by_adapter["sl"]["device_map"] == {"": 0}     # SL (beam_k=5 hog) owns cuda:0
+    assert by_adapter["qg"]["device_map"] == {"": 1}
+    assert by_adapter[None]["device_map"] == {"": 1}     # default base AD shares cuda:1
+
+
+def test_condition3_no_pin_on_single_gpu(patched, monkeypatch):
+    """1 GPU (or CPU) → no device_map injected; HuggingFaceLLM's 'auto' default applies."""
+    import torch
+    specs = patched
+    monkeypatch.setattr(torch.cuda, "device_count", lambda: 1)
+    c3mod.build_condition3(
+        neo4j_uri="bolt://x", neo4j_auth=("u", "p"), database_name=None,
+        base_model="base", sl_adapter="sl", qg_adapter="qg", schema=_SCHEMA,
+        diversity_penalty=0.2,
+    )
+    assert all("device_map" not in s for s in specs)
+
+
+def test_condition3_caller_ad_spec_passed_through_without_quant(patched):
+    specs = patched
+    c3mod.build_condition3(
+        neo4j_uri="bolt://x", neo4j_auth=("u", "p"), database_name=None,
+        base_model="base", sl_adapter="sl", qg_adapter="qg", schema=_SCHEMA,
+        diversity_penalty=0.2, load_in_4bit=True, torch_dtype="float16",
+        ad_spec={"backend": "anthropic", "model": "claude"},
+    )
+    api_specs = [s for s in specs if s["backend"] == "anthropic"]
+    assert len(api_specs) == 1
+    assert "load_in_4bit" not in api_specs[0]                # API spec untouched
+
+
 # ── Criterion 4: SL/QG backend is hardcoded HuggingFace (no swap point) ─────────────
 def test_sl_qg_specs_always_huggingface(patched):
     specs = patched

@@ -79,6 +79,53 @@ def test_float_variance_absorbed() -> None:
     assert _result_sets_equal([{"x": 1.0000001}], [{"x": 1.0000002}]) is True
 
 
+def test_node_dict_value_does_not_crash() -> None:
+    """A generated query returning a whole node (RETURN p → dict value) must compare, not raise."""
+    node = {"p": {"name": "A", "id": "PER-007"}}
+    # Identical node dicts compare equal (order-insensitive within the dict)...
+    assert _result_sets_equal([node], [{"p": {"id": "PER-007", "name": "A"}}]) is True
+    # ...and a node-dict vs a scalar ground truth is simply unequal (a wrong_result, not a crash).
+    assert _result_sets_equal([node], [{"p": "A"}]) is False
+
+
+def test_list_value_does_not_crash() -> None:
+    """A list-valued field (e.g. collect()) is hashable-normalised and compares order-sensitively."""
+    assert _result_sets_equal([{"names": ["A", "B"]}], [{"names": ["A", "B"]}]) is True
+    assert _result_sets_equal([{"names": ["A", "B"]}], [{"names": ["B", "A"]}]) is False
+
+
+# ── Column-name insensitivity (decisions-log 2026-06-27): EX must not punish naming ──
+def test_equal_despite_different_variable_name() -> None:
+    """Gold `RETURN p.name` vs generated `RETURN x.name` — same value, different column key."""
+    assert _result_sets_equal([{"p.name": "James Whitfield"}],
+                              [{"x.name": "James Whitfield"}]) is True
+
+
+def test_equal_despite_alias() -> None:
+    """Gold `RETURN p.name` vs generated `RETURN p.name AS name`."""
+    assert _result_sets_equal([{"p.name": "James"}], [{"name": "James"}]) is True
+
+
+def test_equal_whole_node_different_variable() -> None:
+    """Gold `RETURN v` vs generated `RETURN x` — same node dict under a different variable."""
+    assert _result_sets_equal([{"v": {"rego": "1ABC", "make": "Toyota"}}],
+                              [{"x": {"make": "Toyota", "rego": "1ABC"}}]) is True
+
+
+def test_multi_column_name_insensitive_but_position_aligned() -> None:
+    """Multi-column rows match by value in RETURN order, regardless of variable prefix."""
+    gold = [{"l.address": "1 William St", "l.suburb": "Perth"}]
+    gen = [{"x.address": "1 William St", "x.suburb": "Perth"}]
+    assert _result_sets_equal(gold, gen) is True
+
+
+def test_name_insensitivity_does_not_make_wrong_values_equal() -> None:
+    """Different values are still unequal — name-insensitivity must not become value-blind."""
+    assert _result_sets_equal([{"p.name": "James"}], [{"x.name": "Bob"}]) is False
+    # differing column count is still unequal
+    assert _result_sets_equal([{"a": 1}], [{"a": 1, "b": 2}]) is False
+
+
 # ── Criterion 2: ID-field detection + ID fields never pass via fallback ───────────
 def test_is_id_field() -> None:
     assert _is_id_field("PER-007") is True

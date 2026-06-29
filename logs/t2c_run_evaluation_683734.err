@@ -1,0 +1,47 @@
+/uwahpc/rocky9/python/anaconda3/2024.06/lib/python3.12/site-packages/conda/base/context.py:201: FutureWarning: Adding 'defaults' to channel list implicitly is deprecated and will be removed in 25.3. 
+
+To remove this warning, please choose a default channel explicitly with conda's regular configuration system, e.g. by adding 'defaults' to the list of channels:
+
+  conda config --add channels defaults
+
+For more information see https://docs.conda.io/projects/conda/en/stable/user-guide/configuration/use-condarc.html
+
+  deprecated.topic(
+Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards:  33%|███▎      | 1/3 [00:13<00:26, 13.33s/it]Loading checkpoint shards:  67%|██████▋   | 2/3 [00:27<00:13, 13.88s/it]Loading checkpoint shards: 100%|██████████| 3/3 [00:39<00:00, 12.85s/it]Loading checkpoint shards: 100%|██████████| 3/3 [00:39<00:00, 13.07s/it]
+Starting from v4.46, the `logits` model output will have the same type as the model (except at train time, where it will always be FP32)
+From v4.47 onwards, when a model cache is to be returned, `generate` will return a `Cache` instance instead by default (as opposed to the legacy tuple of tuples format). If you want to keep returning the legacy format, please set `return_legacy_cache=True`.
+Received notification from DBMS server: <GqlStatusObject gql_status='01N52', status_description='warn: property key does not exist. The property `location` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=2, column=38, offset=92>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 92, 'line': 2, 'column': 38}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: 'EXPLAIN MATCH (p:Person)-[:SUSPECTED_OF]->(i:Incident)\nWHERE i.name = "Armed Robbery" AND i.location.name = "William Street"\nRETURN p.name'
+Received notification from DBMS server: <GqlStatusObject gql_status='01N52', status_description='warn: property key does not exist. The property `location` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=1, column=45, offset=44>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 44, 'line': 1, 'column': 45}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: 'RETURN exists { MATCH (x:Incident) WHERE (x.location) IS NOT NULL} AS exists'
+Received notification from DBMS server: <GqlStatusObject gql_status='01N52', status_description='warn: property key does not exist. The property `location` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=2, column=38, offset=92>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 92, 'line': 2, 'column': 38}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: 'EXPLAIN MATCH (p:Person)-[:SUSPECTED_OF]->(i:Incident) WHERE i.name = "Armed Robbery" AND i.location.name = "William Street" RETURN p.name'
+Received notification from DBMS server: <GqlStatusObject gql_status='01N52', status_description='warn: property key does not exist. The property `location` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=1, column=45, offset=44>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 44, 'line': 1, 'column': 45}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: 'RETURN exists { MATCH (x:Incident) WHERE (x.location) IS NOT NULL} AS exists'
+Received notification from DBMS server: <GqlStatusObject gql_status='01N52', status_description='warn: property key does not exist. The property `location` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=2, column=38, offset=92>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 92, 'line': 2, 'column': 38}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: 'EXPLAIN MATCH (p:Person)-[:SUSPECTED_OF]->(i:Incident) WHERE i.name = "Armed Robbery" AND i.location.name = "William Street" RETURN p.name'
+Received notification from DBMS server: <GqlStatusObject gql_status='01N52', status_description='warn: property key does not exist. The property `location` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=1, column=45, offset=44>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 44, 'line': 1, 'column': 45}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: 'RETURN exists { MATCH (x:Incident) WHERE (x.location) IS NOT NULL} AS exists'
+Received notification from DBMS server: <GqlStatusObject gql_status='01N52', status_description='warn: property key does not exist. The property `location` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=2, column=38, offset=92>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 92, 'line': 2, 'column': 38}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: 'EXPLAIN MATCH (p:Person)-[:SUSPECTED_OF]->(i:Incident) WHERE i.name = "Armed Robbery" AND i.location.name = "William Street" RETURN p.name'
+Received notification from DBMS server: <GqlStatusObject gql_status='01N52', status_description='warn: property key does not exist. The property `location` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=1, column=45, offset=44>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 44, 'line': 1, 'column': 45}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: 'RETURN exists { MATCH (x:Incident) WHERE (x.location) IS NOT NULL} AS exists'
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/mmfs1/data/group/pmc084/atan/T2C-AD/experiments/run_evaluation.py", line 134, in <module>
+    main(sys.argv[1] if len(sys.argv) > 1 else "config/pipeline.yaml")
+  File "/mmfs1/data/group/pmc084/atan/T2C-AD/experiments/run_evaluation.py", line 107, in main
+    results, _ = run_condition(benchmark, c1, "baseline")
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mmfs1/data/group/pmc084/atan/T2C-AD/experiments/run_evaluation.py", line 33, in run_condition
+    state = orch.run(item.question, item, condition, components)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mmfs1/data/group/pmc084/atan/T2C-AD/pipeline/orchestrator.py", line 125, in run
+    state.evaluation_result = semantic_evaluator(
+                              ^^^^^^^^^^^^^^^^^^^
+  File "/mmfs1/data/group/pmc084/atan/T2C-AD/pipeline/evaluation/semantic_evaluator.py", line 102, in semantic_evaluator
+    is_correct = _result_sets_equal(execution_result.result_set, default_result, embedding_model)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mmfs1/data/group/pmc084/atan/T2C-AD/pipeline/evaluation/semantic_evaluator.py", line 38, in _result_sets_equal
+    if frozenset(norm(r) for r in generated) == frozenset(norm(r) for r in ground_truth):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mmfs1/data/group/pmc084/atan/T2C-AD/pipeline/evaluation/semantic_evaluator.py", line 38, in <genexpr>
+    if frozenset(norm(r) for r in generated) == frozenset(norm(r) for r in ground_truth):
+                 ^^^^^^^
+  File "/mmfs1/data/group/pmc084/atan/T2C-AD/pipeline/evaluation/semantic_evaluator.py", line 36, in norm
+    return frozenset((k, _normalise_value(v)) for k, v in r.items())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: unhashable type: 'dict'

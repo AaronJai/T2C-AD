@@ -262,6 +262,36 @@ def test_c3_exhausted_candidates(monkeypatch):
     assert len(comps.query_generator.calls) == 0         # never reached the QG
 
 
+# ── regression: a SchemaLinkerError is a per-question failure, not a fatal abort ──
+class RaisingLinkerStub:
+    """Stands in for a SchemaLinker that parses no in-schema beam (3.1 raises)."""
+
+    def __init__(self):
+        self.n = 0
+
+    def link(self, question, schema):
+        from pipeline.schema_linker.linker import SchemaLinkerError
+        self.n += 1
+        raise SchemaLinkerError("Only 0 parseable in-schema beam(s) among 1 completions; need >= 1.")
+
+
+@pytest.mark.parametrize("condition", ["schema_grounded", "disambiguation_enhanced"])
+def test_schema_linker_no_valid_beams_is_recorded_failure(monkeypatch, condition):
+    comps = make_components(schema_linker=RaisingLinkerStub())
+    patch_stages(monkeypatch, cyver=Seq([vr_accept()]),
+                 eval_stub=EvalStub([(True, True, None)]), dis=DisStub([make_mapping("A")]),
+                 ad_amb=True)
+
+    state = Orchestrator().run("q", make_item(), condition, comps)
+
+    assert state.is_failed is True
+    assert state.failure_reason == "schema_linker_no_valid_beams"
+    assert state.evaluation_result is None               # never evaluated → 5.4 synthesizes invalid_query
+    assert comps.schema_linker.n == 1                    # deterministic SL: no outer retry
+    assert len(comps.query_generator.calls) == 0         # never reached the QG
+    assert state.ad_predictions == []                    # AD never ran
+
+
 # ── criterion 8: ad_predictions populated once per C3 outer iteration ──────────
 def test_ad_predictions(monkeypatch):
     comps = make_components()
