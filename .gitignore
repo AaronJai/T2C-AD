@@ -29,3 +29,5 @@ transformers_cache/
 *.bin
 *.pt
 *.ckpt
+
+docs/
