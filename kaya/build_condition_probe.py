@@ -102,9 +102,12 @@ def main() -> None:
     # ── Condition 2 — schema-grounded (SL beam_k=1 + QG; bf16, 2 models) ───────────
     print("\n==================== CONDITION 2 (schema_grounded) ====================")
     try:
+        base_spec = {"backend": "huggingface", "model_name_or_path": base,
+                     "load_in_4bit": load_in_4bit, "torch_dtype": dtype}
+        sl_spec = {**base_spec, "peft_adapter_path": sl_adapter}
+        qg_spec = {**base_spec, "peft_adapter_path": qg_adapter}
         with build_condition2(neo4j_uri=uri, neo4j_auth=auth, database_name=None,
-                              base_model=base, sl_adapter=sl_adapter, qg_adapter=qg_adapter,
-                              schema=schema) as c:
+                              sl_spec=sl_spec, qg_spec=qg_spec, schema=schema) as c:
             assert c.schema_linker is not None and c.schema_linker.beam_k == 1
             assert c.ad_llm is None and c.dis_llm is None
             assert c.entity_cache is None
@@ -120,11 +123,16 @@ def main() -> None:
     # ── Condition 3 — disambiguation-enhanced (SL beam_k=5 + QG + AD/Dis; cache) ───
     print("\n==================== CONDITION 3 (disambiguation_enhanced) ====================")
     try:
+        base_spec = {"backend": "huggingface", "model_name_or_path": base,
+                     "load_in_4bit": load_in_4bit, "torch_dtype": dtype}
+        sl_spec = {**base_spec, "peft_adapter_path": sl_adapter}
+        qg_spec = {**base_spec, "peft_adapter_path": qg_adapter}
+        sl_decoding = {"strategy": "beam", "diversity_penalty": diversity_penalty, "k": 5}
         with build_condition3(neo4j_uri=uri, neo4j_auth=auth, database_name=None,
-                              base_model=base, sl_adapter=sl_adapter, qg_adapter=qg_adapter,
-                              schema=schema, diversity_penalty=diversity_penalty) as c:
+                              base_spec=base_spec, sl_spec=sl_spec, qg_spec=qg_spec,
+                              schema=schema, sl_decoding=sl_decoding) as c:
             assert c.schema_linker is not None and c.schema_linker.beam_k == 5
-            assert c.schema_linker.diversity_penalty == diversity_penalty
+            assert c.schema_linker._config.diversity_penalty == diversity_penalty
             assert c.ad_llm is not None and c.dis_llm is not None
             assert c.dis_llm is c.ad_llm                      # shared default backend
             assert c.entity_cache is not None and len(c.entity_cache.nodes) > 0

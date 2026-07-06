@@ -174,32 +174,94 @@ def wired(monkeypatch):
     return calls
 
 
-# ── Criterion 2: main resolves config + wires builders ─────────────────────────────
+# ── Criterion 2: main resolves config + wires builders (LOCAL model) ────────────────
+_HF_BASE = {"backend": "huggingface", "model_name_or_path": "org/Base-7B",
+            "load_in_4bit": True, "torch_dtype": "float16"}
+_HF_SL = {**_HF_BASE, "peft_adapter_path": "checkpoints/mistral7b/sl_adapter"}
+_HF_QG = {**_HF_BASE, "peft_adapter_path": "checkpoints/mistral7b/qg_adapter"}
+
+
 def test_main_resolves_and_wires(monkeypatch, tmp_path, wired):
     cfg_path = _write_configs(tmp_path)
     rev.main(cfg_path)
 
     b = wired["builders"]
     # C1 gets the base via a build_llm spec carrying the registry quant/dtype (5.4 OOM fix).
-    assert b["c1"]["base_model_spec"] == {"backend": "huggingface",
-                                          "model_name_or_path": "org/Base-7B",
-                                          "load_in_4bit": True, "torch_dtype": "float16"}
+    assert b["c1"]["base_model_spec"] == _HF_BASE
     assert b["c1"]["neo4j_auth"] == ("neo4j", "secret")
-    # C2/C3 get base + the namespaced adapter paths derived from active_model, plus quant/dtype.
-    for cond in ("c2", "c3"):
-        assert b[cond]["base_model"] == "org/Base-7B"
-        assert b[cond]["sl_adapter"] == "checkpoints/mistral7b/sl_adapter"
-        assert b[cond]["qg_adapter"] == "checkpoints/mistral7b/qg_adapter"
-        assert b[cond]["load_in_4bit"] is True
-        assert b[cond]["torch_dtype"] == "float16"
-    # Locked diversity_penalty flows to C3 only.
-    assert b["c3"]["diversity_penalty"] == 0.2
+    # C2 gets the SL/QG specs (base + namespaced adapter + quant), built by run_evaluation.
+    assert b["c2"]["sl_spec"] == _HF_SL
+    assert b["c2"]["qg_spec"] == _HF_QG
+    # C3 gets base/SL/QG specs + the locked SL decoding (back-compat flat dp → beam block).
+    assert b["c3"]["base_spec"] == _HF_BASE
+    assert b["c3"]["sl_spec"] == _HF_SL
+    assert b["c3"]["qg_spec"] == _HF_QG
+    assert b["c3"]["sl_decoding"] == {"strategy": "beam", "diversity_penalty": 0.2, "k": 5}
     # ad null → defaults to active base (with quant/dtype); dis null → None (share AD).
-    assert b["c3"]["ad_spec"] == {"backend": "huggingface", "model_name_or_path": "org/Base-7B",
-                                  "load_in_4bit": True, "torch_dtype": "float16"}
+    assert b["c3"]["ad_spec"] == _HF_BASE
     assert b["c3"]["dis_spec"] is None
     # ad_predictions: None for C1/C2, the real list for C3.
     assert wired["compute"] == [None, None, [("Q-1", True)]]
+
+
+# ── API model: one model runs every stage, no adapters, sampling decoding ───────────
+def _write_api_configs(tmp_path):
+    (tmp_path / "models.yaml").write_text(
+        "claude-sonnet:\n  kind: api\n  backend: anthropic\n  model: \"claude-sonnet-4-6\"\n")
+    (tmp_path / "sli.yaml").write_text(
+        "decoding:\n  claude-sonnet:\n    strategy: sample\n    temperature: 0.7\n"
+        "    top_p: 0.95\n    k: 5\n")
+    cfg = (
+        "neo4j:\n  uri: \"bolt://x\"\n  user: \"neo4j\"\n  database: \"neo4j\"\n"
+        f"models_registry: \"{tmp_path/'models.yaml'}\"\n"
+        "active_model: \"claude-sonnet\"\n"
+        "ad: null\ndis: null\n"
+        "benchmark: \"ignored.json\"\n"
+        f"schema_linker_inference: \"{tmp_path/'sli.yaml'}\"\n"
+        "use_embedding_model: false\n"
+        f"results_dir: \"{tmp_path/'results'}\"\n"
+    )
+    path = tmp_path / "pipeline.yaml"
+    path.write_text(cfg)
+    return str(path)
+
+
+def test_main_api_model_wires_one_model_all_stages(monkeypatch, tmp_path, wired):
+    cfg_path = _write_api_configs(tmp_path)
+    rev.main(cfg_path)
+
+    b = wired["builders"]
+    api_spec = {"backend": "anthropic", "model": "claude-sonnet-4-6"}
+    # The same API spec runs every stage; no adapters, no quant keys.
+    assert b["c1"]["base_model_spec"] == api_spec
+    assert b["c2"]["sl_spec"] == api_spec and b["c2"]["qg_spec"] == api_spec
+    assert b["c3"]["base_spec"] == api_spec
+    assert b["c3"]["sl_spec"] == api_spec and b["c3"]["qg_spec"] == api_spec
+    assert "peft_adapter_path" not in b["c3"]["sl_spec"]
+    # Sampling decoding read from the per-model block; ad defaults to the same API model.
+    assert b["c3"]["sl_decoding"] == {"strategy": "sample", "temperature": 0.7,
+                                      "top_p": 0.95, "k": 5}
+    assert b["c3"]["ad_spec"] == api_spec
+    assert b["c3"]["dis_spec"] is None
+
+
+def test_main_api_model_missing_decoding_raises(monkeypatch, tmp_path, wired):
+    """An API model with no locked decoding block fails loud — never a silent default."""
+    (tmp_path / "models.yaml").write_text(
+        "claude-sonnet:\n  kind: api\n  backend: anthropic\n  model: \"claude-sonnet-4-6\"\n")
+    (tmp_path / "sli.yaml").write_text("decoding:\n  othermodel:\n    strategy: sample\n")
+    cfg = (
+        "neo4j:\n  uri: \"bolt://x\"\n  user: \"neo4j\"\n  database: \"neo4j\"\n"
+        f"models_registry: \"{tmp_path/'models.yaml'}\"\n"
+        "active_model: \"claude-sonnet\"\nad: null\ndis: null\n"
+        "benchmark: \"ignored.json\"\n"
+        f"schema_linker_inference: \"{tmp_path/'sli.yaml'}\"\n"
+        "use_embedding_model: false\n"
+        f"results_dir: \"{tmp_path/'results'}\"\n"
+    )
+    (tmp_path / "pipeline.yaml").write_text(cfg)
+    with pytest.raises(KeyError):
+        rev.main(str(tmp_path / "pipeline.yaml"))
 
 
 # ── Criterion 3: fail-loud edge cases ──────────────────────────────────────────────

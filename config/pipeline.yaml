@@ -12,10 +12,13 @@ neo4j:
 
 models_registry: "config/models.yaml"       # the per-base registry from 2.1
 active_model: "mistral7b"                    # which model_key to evaluate (must be in the registry)
-# base + adapter paths are DERIVED from active_model:
+# For a LOCAL model, base + adapter paths are DERIVED from active_model:
 #   base       = registry[active_model].base
 #   sl_adapter = checkpoints/{active_model}/sl_adapter
 #   qg_adapter = checkpoints/{active_model}/qg_adapter
+# For an API model (registry `kind: api`, e.g. active_model: claude-sonnet / gpt-4o) the SAME
+# model runs every stage (SL via temperature sampling — no adapters). Export the backend's API
+# key (ANTHROPIC_API_KEY / OPENAI_API_KEY); no GPU needed, but live Neo4j (NEO4J_PASSWORD) is.
 
 # AD / Dis backends are the config swap points (5.3). Leave null to default to the active
 # model's base (one shared base, no extra model loaded) — the harness fills in

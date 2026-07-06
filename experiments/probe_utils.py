@@ -6,20 +6,27 @@ import math
 import re
 from collections import Counter
 
-from pipeline.llm import GenerationConfig, HuggingFaceLLM
+from pipeline.llm import BaseLLM
+from pipeline.schema_linker.inference import sl_generation_config, sl_sampling_config
 from pipeline.schema_linker.pattern_extraction import extract_schema_pattern
 from pipeline.schema_linker.prompts import build_sl_prompt
 from pipeline.types import BenchmarkItem
 
 
-def generate_beams(llm: HuggingFaceLLM, question: str, schema_block: str,
-                   k: int, diversity_penalty: float) -> list[str]:
-    """k diverse-beam pattern strings for one question (ordered by score desc)."""
-    cfg = GenerationConfig(
-        max_new_tokens=128, do_sample=False,
-        num_beams=k, num_beam_groups=k, diversity_penalty=diversity_penalty,
-        num_return_sequences=k,
-    )
+def generate_beams(llm: BaseLLM, question: str, schema_block: str, decoding: dict) -> list[str]:
+    """k SL completion pattern strings for one question (ordered by score desc).
+
+    Backend-agnostic: `decoding` selects the strategy so the sweep/probe decode EXACTLY as the
+    live SL (3.1) — diverse beam search for a local model (`strategy="beam"`, `diversity_penalty`)
+    or temperature sampling for an API model (`strategy="sample"`, `temperature`/`top_p`). `k` is
+    the number of completions. Reuses the SL inference configs so beam-mode output is byte-identical
+    to the prior local sweeps.
+    """
+    k = decoding.get("k", 5)
+    if decoding.get("strategy") == "sample":
+        cfg = sl_sampling_config(k, decoding.get("temperature", 1.0), decoding.get("top_p", 1.0))
+    else:
+        cfg = sl_generation_config(k, decoding.get("diversity_penalty", 1.0))
     return [c.text.strip() for c in llm.generate(build_sl_prompt(question, schema_block), cfg)]
 
 

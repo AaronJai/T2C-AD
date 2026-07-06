@@ -1,5 +1,5 @@
 # experiments/build_condition2.py
-"""Condition 2 builder: schema-grounded (SFT Schema Linker + Query Generator, no disambiguation)."""
+"""Condition 2 builder: schema-grounded (Schema Linker + Query Generator, no disambiguation)."""
 from __future__ import annotations
 
 from pipeline.components import PipelineComponents
@@ -9,20 +9,18 @@ from pipeline.schema_linker.linker import SchemaLinker
 from pipeline.types import SchemaRepr
 
 
-def build_condition2(*, neo4j_uri, neo4j_auth, database_name, base_model: str,
-                     sl_adapter: str, qg_adapter: str, schema: SchemaRepr,
-                     load_in_4bit: bool = False,                 # registry-driven (5.4); QLoRA fit on 16 GB
-                     torch_dtype: str = "bfloat16") -> PipelineComponents:
-    """SFT Schema Linker (beam_k=1 → top-1, no distribution) + SFT Query Generator. No AD/Dis.
+def build_condition2(*, neo4j_uri, neo4j_auth, database_name,
+                     sl_spec: dict, qg_spec: dict, schema: SchemaRepr) -> PipelineComponents:
+    """Schema Linker (beam_k=1 → top-1, no distribution) + Query Generator. No AD/Dis.
 
-    `load_in_4bit`/`torch_dtype` come from config/models.yaml via run_evaluation (5.4): the two
-    full-precision 7B loads otherwise OOM a 32 GB (2×16 GB V100) node — see decisions-log 2026-06-23.
+    `sl_spec`/`qg_spec` are full `build_llm` specs (run_evaluation, 5.4, builds them from the
+    active model). For a local model they are HuggingFace base+adapter specs carrying the
+    registry's 4-bit/dtype; for an API model they are the same API spec (no adapter). The SL
+    runs at beam_k=1, so a single deterministic completion suffices on any backend — C2
+    isolates the schema-grounding STAGE, not (for an API model) fine-tuning.
     """
-    quant = {"load_in_4bit": load_in_4bit, "torch_dtype": torch_dtype}
-    sl_llm = build_llm({"backend": "huggingface", "model_name_or_path": base_model,
-                        "peft_adapter_path": sl_adapter, **quant})
-    qg_llm = build_llm({"backend": "huggingface", "model_name_or_path": base_model,
-                        "peft_adapter_path": qg_adapter, **quant})
+    sl_llm = build_llm(sl_spec)
+    qg_llm = build_llm(qg_spec)
     return PipelineComponents.build(
         query_generator=QueryGenerator(qg_llm),
         schema_linker=SchemaLinker(sl_llm, beam_k=1),

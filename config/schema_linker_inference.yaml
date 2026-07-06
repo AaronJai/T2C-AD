@@ -1,4 +1,21 @@
 # config/schema_linker_inference.yaml
-# Locked Schema Linker inference parameters. `diversity_penalty` was selected by the
-# 2.2 sweep (max entropy AUC under the Cov@5 guardrail) and feeds 3.1's GenerationConfig.
+# Locked Schema Linker decoding, selected by the 2.2 sweep, keyed per model_key:
+#   - local (HuggingFace): diverse beam search → `diversity_penalty`
+#   - api   (OpenAI/Anthropic): temperature sampling → `temperature` / `top_p`
+# `k` is the number of completions (beams or samples) and the entropy-normalisation divisor.
+# run_evaluation (5.4) reads decoding[active_model]; the entropy probe (2.3) reads it too.
+decoding:
+  mistral7b:
+    strategy: beam
+    diversity_penalty: 0.2        # chosen by the 2.2 fallback (Cov@5=0.000 all penalties)
+    k: 5
+  # Example API entry (written by the generalized 2.2 temperature sweep):
+  # claude-sonnet:
+  #   strategy: sample
+  #   temperature: 0.7
+  #   top_p: 0.95
+  #   k: 5
+
+# Legacy flat mirror (the original 2.2 output shape) — back-compat for readers that predate the
+# per-model `decoding` block; mirrors decoding.mistral7b.diversity_penalty.
 diversity_penalty: 0.2

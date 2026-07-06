@@ -14,12 +14,43 @@ import pytest
 from experiments.diversity_penalty_sweep import COV_GUARDRAIL, select_penalty
 from experiments.probe_utils import (
     covered,
+    generate_beams,
     gold_patterns,
     hallucinated,
     normalised_entropy,
     roc_auc,
 )
+from pipeline.llm import Completion, GenerationConfig
 from pipeline.types import BenchmarkItem
+
+
+# ── generate_beams: backend-agnostic decoding dispatch ─────────────────────────────
+class _FakeLLM:
+    def __init__(self) -> None:
+        self.last_config: GenerationConfig | None = None
+
+    def generate(self, prompt, config):
+        self.last_config = config
+        return [Completion(text=f"  beam{i}  ", score=0.0, rank=i + 1)
+                for i in range(config.num_return_sequences)]
+
+
+def test_generate_beams_beam_strategy():
+    fake = _FakeLLM()
+    beams = generate_beams(fake, "q", "schema",
+                           {"strategy": "beam", "diversity_penalty": 0.5, "k": 3})
+    assert beams == ["beam0", "beam1", "beam2"]              # stripped, k of them
+    assert fake.last_config.do_sample is False
+    assert fake.last_config.num_beam_groups == 3 and fake.last_config.diversity_penalty == 0.5
+
+
+def test_generate_beams_sample_strategy():
+    fake = _FakeLLM()
+    beams = generate_beams(fake, "q", "schema",
+                           {"strategy": "sample", "temperature": 0.7, "top_p": 0.9, "k": 4})
+    assert len(beams) == 4
+    assert fake.last_config.do_sample is True
+    assert fake.last_config.temperature == 0.7 and fake.last_config.num_return_sequences == 4
 
 
 # ── Acceptance 1: normalised_entropy ──────────────────────────────────────────────

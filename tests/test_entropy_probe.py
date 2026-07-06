@@ -21,6 +21,7 @@ from experiments.entropy_probe import (
     h_norm_beams,
     h_norm_candidates,
     read_diversity_penalty,
+    read_sl_decoding,
     top_beam_dominance,
     write_results,
 )
@@ -145,6 +146,32 @@ def test_write_results_round_trips_json(tmp_path):
     payload = json.loads(out.read_text(encoding="utf-8"))
     assert payload["headline_signal"] == HEADLINE_SIGNAL
     assert payload["diversity_penalty"] == 0.5
+    assert payload["decoding"] == {"strategy": "beam", "diversity_penalty": 0.5, "k": 5}
     assert payload["ablations_flat"] is True
     assert payload["headline_improves_over_baseline"] is True
     assert len(payload["auc_table"]) == 3
+
+
+# ── Generalized per-model decoding read (API support) ───────────────────────────────
+def test_read_sl_decoding_prefers_per_model_block(tmp_path):
+    cfg = tmp_path / "sli.yaml"
+    cfg.write_text(
+        "decoding:\n  claude-sonnet:\n    strategy: sample\n    temperature: 0.7\n    k: 5\n",
+        encoding="utf-8")
+    assert read_sl_decoding(cfg, "claude-sonnet", kind="api") == {
+        "strategy": "sample", "temperature": 0.7, "k": 5}
+
+
+def test_read_sl_decoding_local_falls_back_to_flat(tmp_path):
+    cfg = tmp_path / "sli.yaml"
+    cfg.write_text("diversity_penalty: 0.2\n", encoding="utf-8")
+    assert read_sl_decoding(cfg, "mistral7b", kind="local") == {
+        "strategy": "beam", "diversity_penalty": 0.2, "k": 5}
+
+
+def test_read_sl_decoding_missing_for_model_raises(tmp_path):
+    cfg = tmp_path / "sli.yaml"
+    cfg.write_text("decoding:\n  othermodel:\n    strategy: sample\n", encoding="utf-8")
+    with pytest.raises(SystemExit) as exc:
+        read_sl_decoding(cfg, "claude-sonnet", kind="api")
+    assert "2.2" in str(exc.value)

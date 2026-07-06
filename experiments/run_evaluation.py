@@ -62,36 +62,68 @@ def _persist(results_dir: str, model_key: str, bundles: dict[Condition, MetricBu
     (out / f"metrics_{model_key}.json").write_text(json.dumps(payload, indent=2))
 
 
+def _resolve_sl_decoding(sli: dict, key: str, kind: str) -> dict:
+    """The SL decoding block for the active model, locked by the 2.2 sweep.
+
+    Prefers `decoding[<model_key>]` (the generalized, per-model block). For a local model a
+    legacy flat `diversity_penalty` (the original 2.2 output) is still honoured as a beam
+    block. Fails loudly otherwise — never picks a default.
+    """
+    decoding_map = (sli or {}).get("decoding")
+    if isinstance(decoding_map, dict) and key in decoding_map:
+        return dict(decoding_map[key])
+    if kind == "local" and "diversity_penalty" in (sli or {}):
+        return {"strategy": "beam", "diversity_penalty": sli["diversity_penalty"], "k": 5}
+    raise KeyError(
+        f"No SL decoding for model '{key}' in schema_linker_inference. Run the 2.2 sweep to "
+        f"lock it (beam diversity_penalty for a local model, sampling temperature for API)."
+    )
+
+
+def _resolve_model_specs(entry: dict, key: str) -> tuple[dict, dict, dict, str]:
+    """Build (base_spec, sl_spec, qg_spec, kind) from a registry entry.
+
+    local → HuggingFace base + the namespaced SL/QG adapters, carrying the registry's
+    4-bit/dtype so inference loads the base the way training did (QLoRA 4-bit + fp16 on V100;
+    full precision OOMs a 32 GB 2×16 GB V100 node — decisions-log 2026-06-23).
+    api   → the same API spec for all three (no adapters, no fine-tuning).
+    """
+    kind = entry.get("kind", "local")
+    if kind == "api":
+        api_spec = {"backend": entry["backend"], "model": entry["model"]}
+        return dict(api_spec), dict(api_spec), dict(api_spec), kind
+    quant = {"load_in_4bit": entry.get("load_in_4bit", False),
+             "torch_dtype": entry.get("dtype", "bfloat16")}
+    base_spec = {"backend": "huggingface", "model_name_or_path": entry["base"], **quant}
+    sl_spec = {**base_spec, "peft_adapter_path": f"checkpoints/{key}/sl_adapter"}
+    qg_spec = {**base_spec, "peft_adapter_path": f"checkpoints/{key}/qg_adapter"}
+    return base_spec, sl_spec, qg_spec, kind
+
+
 def main(config_path: str = "config/pipeline.yaml") -> None:
     cfg = yaml.safe_load(Path(config_path).read_text())
     neo4j_uri = cfg["neo4j"]["uri"]
     neo4j_auth = (cfg["neo4j"]["user"], os.environ["NEO4J_PASSWORD"])
     database = cfg["neo4j"].get("database")
 
-    # Resolve the active base + adapter paths from the model registry (2.1)
+    # Resolve the active model from the registry (2.1; local base+adapter, or an `kind: api` entry)
     registry = yaml.safe_load(Path(cfg["models_registry"]).read_text())
     key = cfg["active_model"]
     if key not in registry:
         raise SystemExit(f"active_model '{key}' not in registry. Known: {list(registry)}")
-    base = registry[key]["base"]
-    sl_adapter = f"checkpoints/{key}/sl_adapter"
-    qg_adapter = f"checkpoints/{key}/qg_adapter"
-    # Quantisation/dtype come from the registry (config/models.yaml) so inference loads the base
-    # the same way training did (QLoRA 4-bit + fp16 on V100). Loading the SL/QG/AD 7B models in
-    # full precision OOMs a 32 GB (2×16 GB V100) node — see decisions-log 2026-06-23.
-    load_in_4bit = registry[key].get("load_in_4bit", False)
-    torch_dtype = registry[key].get("dtype", "bfloat16")
-    hf_base_spec = {"backend": "huggingface", "model_name_or_path": base,
-                    "load_in_4bit": load_in_4bit, "torch_dtype": torch_dtype}
-    ad_spec = cfg.get("ad") or dict(hf_base_spec)
+    base_spec, sl_spec, qg_spec, kind = _resolve_model_specs(registry[key], key)
+
+    # AD/Dis swap points (config). ad null → the active model (one model the whole way through);
+    # dis null → share the AD backend. A given spec is passed through verbatim.
+    ad_spec = cfg.get("ad") or dict(base_spec)
     dis_spec = cfg.get("dis")
+
+    # Locked SL decoding from 2.2 (fail loudly if missing — don't silently default)
+    sli = yaml.safe_load(Path(cfg["schema_linker_inference"]).read_text())
+    sl_decoding = _resolve_sl_decoding(sli, key, kind)
 
     schema = build_pole_schema_repr()
     benchmark = load_benchmark(cfg["benchmark"])
-
-    # locked diversity_penalty from 2.2 (fail loudly if missing — don't silently default)
-    sli = yaml.safe_load(Path(cfg["schema_linker_inference"]).read_text())
-    diversity_penalty = sli["diversity_penalty"]
 
     embedding_model = None
     if cfg.get("use_embedding_model"):
@@ -101,24 +133,22 @@ def main(config_path: str = "config/pipeline.yaml") -> None:
     bundles: dict[Condition, MetricBundle] = {}
 
     with build_condition1(neo4j_uri=neo4j_uri, neo4j_auth=neo4j_auth, database_name=database,
-                          base_model_spec=dict(hf_base_spec),
+                          base_model_spec=dict(base_spec),
                           schema=schema) as c1:
         c1.embedding_model = embedding_model
         results, _ = run_condition(benchmark, c1, "baseline")
         bundles["baseline"] = compute_metrics(results, ad_predictions=None)
 
     with build_condition2(neo4j_uri=neo4j_uri, neo4j_auth=neo4j_auth, database_name=database,
-                          base_model=base, sl_adapter=sl_adapter, qg_adapter=qg_adapter,
-                          schema=schema, load_in_4bit=load_in_4bit, torch_dtype=torch_dtype) as c2:
+                          sl_spec=dict(sl_spec), qg_spec=dict(qg_spec), schema=schema) as c2:
         c2.embedding_model = embedding_model
         results, _ = run_condition(benchmark, c2, "schema_grounded")
         bundles["schema_grounded"] = compute_metrics(results, ad_predictions=None)
 
     with build_condition3(neo4j_uri=neo4j_uri, neo4j_auth=neo4j_auth, database_name=database,
-                          base_model=base, sl_adapter=sl_adapter, qg_adapter=qg_adapter,
-                          schema=schema, diversity_penalty=diversity_penalty,
+                          base_spec=dict(base_spec), sl_spec=dict(sl_spec), qg_spec=dict(qg_spec),
+                          schema=schema, sl_decoding=sl_decoding,
                           ad_spec=ad_spec, dis_spec=dis_spec,
-                          load_in_4bit=load_in_4bit, torch_dtype=torch_dtype,
                           embedding_model=embedding_model) as c3:
         results, ad_preds = run_condition(benchmark, c3, "disambiguation_enhanced")
         bundles["disambiguation_enhanced"] = compute_metrics(results, ad_predictions=ad_preds)

@@ -33,7 +33,7 @@ from experiments.probe_utils import (
     roc_auc,
 )
 from pipeline.data.benchmark_loader import load_benchmark
-from pipeline.llm import HuggingFaceLLM
+from pipeline.llm import BaseLLM, HuggingFaceLLM, build_llm
 from pipeline.schema import build_pole_schema_repr
 from pipeline.types import BenchmarkItem
 
@@ -137,15 +137,22 @@ def build_finding(rows: list[dict]) -> str:
     return lead + tail
 
 
-def write_results(rows: list[dict], diversity_penalty: float, finding: str, path: Path) -> None:
-    """Write the AUC table, ablation summary, and finding to results/entropy_probe_pole.json."""
+def write_results(rows: list[dict], decoding, finding: str, path: Path) -> None:
+    """Write the AUC table, ablation summary, and finding to the results JSON.
+
+    `decoding` is the locked SL decoding block; a bare `diversity_penalty` float is accepted
+    for back-compat (coerced to a beam block). The flat `diversity_penalty` key is kept in the
+    payload as a mirror (None for an API/sampling run)."""
+    if isinstance(decoding, (int, float)):
+        decoding = {"strategy": "beam", "diversity_penalty": float(decoding), "k": BEAM_K}
     path.parent.mkdir(parents=True, exist_ok=True)
     aucs = [r["pole_sft_auc"] for r in rows]
     spread = max(aucs) - min(aucs)
     headline = next(r for r in rows if r["signal"] == HEADLINE_SIGNAL)
     payload = {
         "beam_k": BEAM_K,
-        "diversity_penalty": diversity_penalty,
+        "decoding": decoding,
+        "diversity_penalty": decoding.get("diversity_penalty"),
         "baseline_auc": BASELINE_AUC,
         "headline_signal": HEADLINE_SIGNAL,
         "auc_table": rows,
@@ -177,12 +184,35 @@ def read_diversity_penalty(path: str | Path) -> float:
     return float(cfg["diversity_penalty"])
 
 
-def generate_all_beams(llm: HuggingFaceLLM, items: list[BenchmarkItem], schema_block: str,
-                       penalty: float) -> list[dict]:
-    """One k=5 diverse-beam generation pass over every item (records ready for caching)."""
+def read_sl_decoding(path: str | Path, model_key: str, kind: str = "local") -> dict:
+    """Read the SL decoding block locked by the 2.2 sweep for `model_key`; fail loudly if absent.
+
+    Prefers `decoding[<model_key>]` (the generalized per-model block); for a local model a legacy
+    flat `diversity_penalty` is honoured as a beam block."""
+    p = Path(path)
+    if not p.exists():
+        raise SystemExit(
+            f"{p} not found. The SL decoding is locked by the 2.2 sweep "
+            f"(experiments/diversity_penalty_sweep.py writes it here). Run 2.2 first."
+        )
+    cfg = yaml.safe_load(p.read_text(encoding="utf-8")) or {}
+    dmap = cfg.get("decoding")
+    if isinstance(dmap, dict) and model_key in dmap:
+        return dict(dmap[model_key])
+    if kind == "local" and "diversity_penalty" in cfg:
+        return {"strategy": "beam", "diversity_penalty": float(cfg["diversity_penalty"]), "k": BEAM_K}
+    raise SystemExit(
+        f"No SL decoding for model '{model_key}' in {p}. It is produced by the 2.2 sweep "
+        f"(write_inference_config). Re-run 2.2 for this model — do not pick a default."
+    )
+
+
+def generate_all_beams(llm: BaseLLM, items: list[BenchmarkItem], schema_block: str,
+                       decoding: dict) -> list[dict]:
+    """One k=5 generation pass over every item (records ready for caching), decoding as the live SL."""
     records = []
     for item in items:
-        beams = generate_beams(llm, item.question, schema_block, BEAM_K, penalty)
+        beams = generate_beams(llm, item.question, schema_block, decoding)
         records.append({
             "question_id": item.question_id,
             "is_ambiguous": item.is_ambiguous,
@@ -216,34 +246,42 @@ def main() -> None:
     ap.add_argument("--models", default="config/models.yaml")
     ap.add_argument("--benchmark", default="data/benchmark-updated.json")
     ap.add_argument("--inference_config", default="config/schema_linker_inference.yaml")
-    ap.add_argument("--results", default="results/entropy_probe_pole.json")
-    ap.add_argument("--beam_cache", default="results/beams_pole.jsonl")
+    ap.add_argument("--results", default=None,
+                    help="default results/entropy_probe_{model_key}.json")
+    ap.add_argument("--beam_cache", default=None,
+                    help="default results/beams_{model_key}.jsonl (model-keyed so caches don't collide)")
     ap.add_argument("--regenerate", action="store_true",
-                    help="Force beam regeneration even if the cache exists (needs GPU + adapter).")
+                    help="Force beam regeneration even if the cache exists (needs GPU/API).")
     args = ap.parse_args()
 
-    items = load_benchmark(args.benchmark)
-    penalty = read_diversity_penalty(args.inference_config)
-    cache_path = Path(args.beam_cache)
+    registry = yaml.safe_load(Path(args.models).read_text(encoding="utf-8"))
+    if args.model_key not in registry:
+        raise SystemExit(f"Unknown model_key '{args.model_key}'. Known: {list(registry)}")
+    entry = registry[args.model_key]
+    kind = entry.get("kind", "local")
 
-    # Reuse cached beams when present (ablation rescore is GPU-free); else generate once.
+    items = load_benchmark(args.benchmark)
+    decoding = read_sl_decoding(args.inference_config, args.model_key, kind)
+    cache_path = Path(args.beam_cache or f"results/beams_{args.model_key}.jsonl")
+    results_path = Path(args.results or f"results/entropy_probe_{args.model_key}.json")
+
+    # Reuse cached beams when present (ablation rescore is GPU/API-free); else generate once.
     if cache_path.exists() and not args.regenerate:
         records = load_cached_beams(cache_path)
         print(f"Loaded {len(records)} cached beam records from {cache_path}.")
     else:
         schema = build_pole_schema_repr()
         schema_block = schema.to_prompt_string(include_properties=True)
-        registry = yaml.safe_load(Path(args.models).read_text(encoding="utf-8"))
-        if args.model_key not in registry:
-            raise SystemExit(f"Unknown model_key '{args.model_key}'. Known: {list(registry)}")
-        m = registry[args.model_key]
-        llm = HuggingFaceLLM(
-            m["base"],
-            peft_adapter_path=f"checkpoints/{args.model_key}/sl_adapter",
-            load_in_4bit=m.get("load_in_4bit", False),
-            torch_dtype=m["dtype"],
-        )
-        records = generate_all_beams(llm, items, schema_block, penalty)
+        if kind == "api":
+            llm: BaseLLM = build_llm({"backend": entry["backend"], "model": entry["model"]})
+        else:
+            llm = HuggingFaceLLM(
+                entry["base"],
+                peft_adapter_path=f"checkpoints/{args.model_key}/sl_adapter",
+                load_in_4bit=entry.get("load_in_4bit", False),
+                torch_dtype=entry["dtype"],
+            )
+        records = generate_all_beams(llm, items, schema_block, decoding)
         cache_beams(records, cache_path)
         print(f"Generated + cached {len(records)} beam records to {cache_path}.")
 
@@ -251,9 +289,9 @@ def main() -> None:
     beams_per_item = [r["beams"] for r in records]
     rows = compute_auc_table(beams_per_item, labels)
     finding = build_finding(rows)
-    write_results(rows, penalty, finding, Path(args.results))
+    write_results(rows, decoding, finding, results_path)
 
-    print(f"\ndiversity_penalty = {penalty}   (k={BEAM_K})")
+    print(f"\ndecoding = {decoding}   (k={BEAM_K})")
     print(f"{'signal':>18} | {'POLE-SFT AUC':>12} | {'prior':>6}")
     for r in rows:
         print(f"{r['signal']:>18} | {r['pole_sft_auc']:>12.3f} | {r['prior_general_auc']:>6.3f}")

@@ -31,3 +31,22 @@ llama31-8b:
 #   target_modules: ["q_proj", "k_proj", "v_proj", "o_proj"]
 #   dtype: "bfloat16"
 #   load_in_4bit: true
+
+# ── API models (kind: api) ──────────────────────────────────────────────────────────
+# One model runs the WHOLE pipeline (SL + QG + AD + Dis), not API-for-one/local-for-the-rest.
+# An API model isn't fine-tuned and has no adapters; the SL gets its candidate distribution by
+# TEMPERATURE SAMPLING instead of diverse beam search (the sampling temperature is locked per
+# model by the 2.2 sweep into config/schema_linker_inference.yaml, the analogue of the local
+# diversity_penalty). C2/C3 are reframed as stage-presence (the schema-grounding/disambiguation
+# STAGES) rather than fine-tuning — see decisions-log and feature-specs/phase5/5.5. Set
+# `active_model` to one of these in config/pipeline.yaml and export the backend's API key
+# (ANTHROPIC_API_KEY / OPENAI_API_KEY). No GPU needed; live Neo4j still is.
+claude-sonnet:
+  kind: api
+  backend: anthropic
+  model: "claude-sonnet-4-6"
+
+gpt-4o:
+  kind: api
+  backend: openai
+  model: "gpt-4o"
