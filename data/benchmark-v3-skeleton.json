@@ -1,0 +1,1464 @@
+[
+  {
+    "question_id": "Q-V3-001",
+    "question": "Who is suspected of the homicide?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "All persons with a SUSPECTED_OF edge to the homicide incident (INC-V3-006).",
+    "planned_interpretations": [],
+    "data_support": "INC-V3-006 is the only homicide; it has 2 suspects (Daniel Kim, Tyler Birch)."
+  },
+  {
+    "question_id": "Q-V3-002",
+    "question": "Which officers are investigating the homicide?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "All persons with an INVESTIGATES edge to INC-V3-006.",
+    "planned_interpretations": [],
+    "data_support": "INC-V3-006 has 3 investigators (Kowalski, Sharma, Elliot)."
+  },
+  {
+    "question_id": "Q-V3-003",
+    "question": "Who is the victim of the homicide?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "The person with a VICTIM_OF edge to INC-V3-006.",
+    "planned_interpretations": [],
+    "data_support": "INC-V3-006 has 1 victim (Hassan Ali)."
+  },
+  {
+    "question_id": "Q-V3-004",
+    "question": "Which incidents are part of Operation Ironside?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Incidents contained in CASE-V3-001.",
+    "planned_interpretations": [],
+    "data_support": "CASE-V3-001 CONTAINS INC-V3-001, INC-V3-003, INC-V3-007."
+  },
+  {
+    "question_id": "Q-V3-005",
+    "question": "Which case contains the Cannington homicide?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "The Case with a CONTAINS edge to INC-V3-006.",
+    "planned_interpretations": [],
+    "data_support": "INC-V3-006 (homicide, Cannington) is contained in CASE-V3-004."
+  },
+  {
+    "question_id": "Q-V3-006",
+    "question": "What phone number does Daniel Kim currently use?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "The phone on Daniel Kim's active USES_PHONE edge.",
+    "planned_interpretations": [],
+    "data_support": "PER-V3-009 currently uses DEV-V3-003 (0401 111 222)."
+  },
+  {
+    "question_id": "Q-V3-007",
+    "question": "Which vehicle does James Whitfield currently own?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "The vehicle on James Whitfield's active OWNS edge.",
+    "planned_interpretations": [],
+    "data_support": "PER-V3-007 currently owns VEH-V3-001 (Holden Commodore)."
+  },
+  {
+    "question_id": "Q-V3-008",
+    "question": "Who currently lives at 55 Beaufort Street?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Persons with an active LIVES_AT edge to LOC-V3-005.",
+    "planned_interpretations": [],
+    "data_support": "LOC-V3-005 (55 Beaufort Street) has 5 current residents."
+  },
+  {
+    "question_id": "Q-V3-009",
+    "question": "Who are the current associates of Anton Maric?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Persons on Anton Maric's active ASSOCIATED_WITH edges.",
+    "planned_interpretations": [],
+    "data_support": "PER-V3-033 is actively ASSOCIATED_WITH PER-V3-007 and PER-V3-013."
+  },
+  {
+    "question_id": "Q-V3-010",
+    "question": "Which phones did phone number 0412 345 678 call?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Phones on the outgoing CALLED edges from DEV-V3-001.",
+    "planned_interpretations": [],
+    "data_support": "DEV-V3-001 CALLED DEV-V3-005, DEV-V3-003, DEV-V3-013."
+  },
+  {
+    "question_id": "Q-V3-011",
+    "question": "List all incidents that occurred in Northbridge.",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Incidents with an OCCURRED_AT edge to a Northbridge location.",
+    "planned_interpretations": [],
+    "data_support": "INC-V3-001, INC-V3-003, INC-V3-007 occurred in Northbridge."
+  },
+  {
+    "question_id": "Q-V3-012",
+    "question": "Who is suspected of the robbery on William Street?",
+    "num_hops": 2,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Suspects of the robbery that OCCURRED_AT 142 William Street (INC-V3-001).",
+    "planned_interpretations": [],
+    "data_support": "INC-V3-001 (William St robbery) has 3 suspects."
+  },
+  {
+    "question_id": "Q-V3-013",
+    "question": "Where did the Fremantle burglary occur?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "The location on the OCCURRED_AT edge of the Fremantle burglary (INC-V3-004).",
+    "planned_interpretations": [],
+    "data_support": "INC-V3-004 OCCURRED_AT LOC-V3-007 (12 South Terrace, Fremantle)."
+  },
+  {
+    "question_id": "Q-V3-014",
+    "question": "Who witnessed the burglary in Fremantle?",
+    "num_hops": 2,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Witnesses of the burglary that OCCURRED_AT a Fremantle location (INC-V3-004).",
+    "planned_interpretations": [],
+    "data_support": "INC-V3-004 has 1 witness (Brian Walsh)."
+  },
+  {
+    "question_id": "Q-V3-015",
+    "question": "Which officers investigated the assault in Scarborough?",
+    "num_hops": 2,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Investigators of the assault that OCCURRED_AT a Scarborough location (INC-V3-009).",
+    "planned_interpretations": [],
+    "data_support": "INC-V3-009 has 1 investigator (Tom Elliot)."
+  },
+  {
+    "question_id": "Q-V3-016",
+    "question": "What is the address of the location where the homicide occurred?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "The location on INC-V3-006's OCCURRED_AT edge.",
+    "planned_interpretations": [],
+    "data_support": "INC-V3-006 OCCURRED_AT LOC-V3-009 (45 Albany Highway, Cannington)."
+  },
+  {
+    "question_id": "Q-V3-017",
+    "question": "Which vehicle did Ricky Santos previously own?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "The vehicle on Ricky Santos's inactive (historical) OWNS edge.",
+    "planned_interpretations": [],
+    "data_support": "PER-V3-013 previously owned VEH-V3-005 (OWNS active:false)."
+  },
+  {
+    "question_id": "Q-V3-018",
+    "question": "Who currently uses phone number 0423 987 654?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "The person on the active USES_PHONE edge to DEV-V3-002.",
+    "planned_interpretations": [],
+    "data_support": "DEV-V3-002 is currently used by Fiona Gallagher (PER-V3-034)."
+  },
+  {
+    "question_id": "Q-V3-019",
+    "question": "Which phones did phone 0478 444 555 call?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Phones on the outgoing CALLED edges from DEV-V3-008.",
+    "planned_interpretations": [],
+    "data_support": "DEV-V3-008 CALLED DEV-V3-009."
+  },
+  {
+    "question_id": "Q-V3-020",
+    "question": "List the current residents of 35 Walcott Street.",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Persons with an active LIVES_AT edge to LOC-V3-016.",
+    "planned_interpretations": [],
+    "data_support": "LOC-V3-016 (35 Walcott Street) has 5 current residents."
+  },
+  {
+    "question_id": "Q-V3-021",
+    "question": "Which people are suspected of incidents in Operation Ironside?",
+    "num_hops": 2,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Suspects of any incident CONTAINS-linked to CASE-V3-001.",
+    "planned_interpretations": [],
+    "data_support": "CASE-V3-001 contains INC-V3-001/003/007; their suspect sets are non-empty."
+  },
+  {
+    "question_id": "Q-V3-022",
+    "question": "Who investigated the incidents in the Midland Taskforce case?",
+    "num_hops": 2,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Investigators of any incident CONTAINS-linked to CASE-V3-004.",
+    "planned_interpretations": [],
+    "data_support": "CASE-V3-004 contains INC-V3-006 and INC-V3-008."
+  },
+  {
+    "question_id": "Q-V3-023",
+    "question": "In which suburbs did the incidents of Operation Trident occur?",
+    "num_hops": 2,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Suburbs of the locations where CASE-V3-002's incidents OCCURRED_AT.",
+    "planned_interpretations": [],
+    "data_support": "CASE-V3-002 contains INC-V3-002 (Midland) and INC-V3-007 (Northbridge)."
+  },
+  {
+    "question_id": "Q-V3-024",
+    "question": "What phone numbers did James Whitfield's phone call?",
+    "num_hops": 2,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Phones called by the phone James Whitfield actively uses.",
+    "planned_interpretations": [],
+    "data_support": "PER-V3-007 uses DEV-V3-001, which CALLED DEV-V3-005/003/013."
+  },
+  {
+    "question_id": "Q-V3-025",
+    "question": "Which of Anton Maric's current associates are suspected of a crime?",
+    "num_hops": 2,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Active associates of PER-V3-033 that have any SUSPECTED_OF edge.",
+    "planned_interpretations": [],
+    "data_support": "Maric's active associates PER-V3-007 and PER-V3-013 are both suspects."
+  },
+  {
+    "question_id": "Q-V3-026",
+    "question": "Where do the suspects of the William Street robbery currently live?",
+    "num_hops": 3,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Current addresses of the suspects of INC-V3-001 (identified via OCCURRED_AT).",
+    "planned_interpretations": [],
+    "data_support": "INC-V3-001's 3 suspects each have an active LIVES_AT edge."
+  },
+  {
+    "question_id": "Q-V3-027",
+    "question": "Which vehicles are currently owned by suspects of the homicide?",
+    "num_hops": 2,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Vehicles on active OWNS edges of INC-V3-006's suspects.",
+    "planned_interpretations": [],
+    "data_support": "Homicide suspect PER-V3-009 actively owns VEH-V3-003."
+  },
+  {
+    "question_id": "Q-V3-028",
+    "question": "What are the current phone numbers of the people who witnessed the William Street robbery?",
+    "num_hops": 3,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Active phones of the witnesses of INC-V3-001 (identified via OCCURRED_AT).",
+    "planned_interpretations": [],
+    "data_support": "INC-V3-001 witness PER-V3-027 actively uses DEV-V3-013."
+  },
+  {
+    "question_id": "Q-V3-029",
+    "question": "Who investigates the fraud at 200 St Georges Terrace?",
+    "num_hops": 2,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Investigators of the fraud that OCCURRED_AT LOC-V3-008 (INC-V3-005).",
+    "planned_interpretations": [],
+    "data_support": "INC-V3-005 has 2 investigators (Sharma, Elliot)."
+  },
+  {
+    "question_id": "Q-V3-030",
+    "question": "Who currently lives on Albany Highway in Cannington?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Persons with an active LIVES_AT edge to LOC-V3-009.",
+    "planned_interpretations": [],
+    "data_support": "LOC-V3-009 (Albany Highway, Cannington) has current residents Daniel Kim and Hassan Ali."
+  },
+  {
+    "question_id": "Q-V3-031",
+    "question": "Which case contains the robbery in Midland?",
+    "num_hops": 2,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "The Case CONTAINS-linked to the Midland robbery (INC-V3-008, via OCCURRED_AT).",
+    "planned_interpretations": [],
+    "data_support": "INC-V3-008 (Midland robbery) is contained in CASE-V3-004."
+  },
+  {
+    "question_id": "Q-V3-032",
+    "question": "Who is the victim of the burglary in Fremantle?",
+    "num_hops": 2,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Victim of the burglary that OCCURRED_AT a Fremantle location (INC-V3-004).",
+    "planned_interpretations": [],
+    "data_support": "INC-V3-004 has 1 victim (Marcus Webb)."
+  },
+  {
+    "question_id": "Q-V3-033",
+    "question": "Which phones called the phone used by Ricky Santos?",
+    "num_hops": 2,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Phones with a CALLED edge into the phone Ricky Santos actively uses.",
+    "planned_interpretations": [],
+    "data_support": "PER-V3-013 uses DEV-V3-008; DEV-V3-009/011/012 called it."
+  },
+  {
+    "question_id": "Q-V3-034",
+    "question": "What is the make and model of the vehicle currently owned by Amir Hassan?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Make/model of the vehicle on PER-V3-011's active OWNS edge.",
+    "planned_interpretations": [],
+    "data_support": "PER-V3-011 actively owns VEH-V3-009 (BMW 3 Series)."
+  },
+  {
+    "question_id": "Q-V3-035",
+    "question": "Who witnessed the drug offence on Lake Street?",
+    "num_hops": 2,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Witnesses of the drug offence that OCCURRED_AT LOC-V3-006 (INC-V3-007).",
+    "planned_interpretations": [],
+    "data_support": "INC-V3-007 has 2 witnesses (Karen Liu, Ben Murray)."
+  },
+  {
+    "question_id": "Q-V3-036",
+    "question": "Which officers investigate incidents in Operation Cerberus?",
+    "num_hops": 2,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Investigators of any incident CONTAINS-linked to CASE-V3-003.",
+    "planned_interpretations": [],
+    "data_support": "CASE-V3-003 contains INC-V3-005 and INC-V3-012."
+  },
+  {
+    "question_id": "Q-V3-037",
+    "question": "Where did the assault in Northbridge occur?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "The location on the OCCURRED_AT edge of the Northbridge assault (INC-V3-003).",
+    "planned_interpretations": [],
+    "data_support": "INC-V3-003 OCCURRED_AT LOC-V3-002 (27 James Street, Northbridge)."
+  },
+  {
+    "question_id": "Q-V3-038",
+    "question": "Who currently owns the black Holden Commodore?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "The person on the active OWNS edge to VEH-V3-001.",
+    "planned_interpretations": [],
+    "data_support": "VEH-V3-001 (black Holden Commodore) is currently owned by James Whitfield."
+  },
+  {
+    "question_id": "Q-V3-039",
+    "question": "Which incidents occurred in the suburb of Perth?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Incidents with an OCCURRED_AT edge to a location whose suburb is 'Perth'.",
+    "planned_interpretations": [],
+    "data_support": "INC-V3-005 and INC-V3-012 occurred at 'Perth' suburb locations."
+  },
+  {
+    "question_id": "Q-V3-040",
+    "question": "Who is suspected of the fraud at 100 Hay Street?",
+    "num_hops": 2,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Suspects of the fraud that OCCURRED_AT LOC-V3-014 (INC-V3-012).",
+    "planned_interpretations": [],
+    "data_support": "INC-V3-012 has 2 suspects (Amir Hassan, Fiona Gallagher)."
+  },
+  {
+    "question_id": "Q-V3-041",
+    "question": "Show people connected to the Northbridge robbery.",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any role edge (suspect, witness, victim, or investigator) from a Person to INC-V3-001.",
+    "planned_interpretations": [
+      "Only suspects",
+      "Only witnesses",
+      "Only investigating officers"
+    ],
+    "data_support": "INC-V3-001 has 3 suspects, 2 witnesses, 1 victim, 2 investigators — pairwise distinct."
+  },
+  {
+    "question_id": "Q-V3-042",
+    "question": "Who is involved in the Cannington homicide?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any role edge (suspect, witness, victim, or investigator) from a Person to INC-V3-006.",
+    "planned_interpretations": [
+      "Only suspects",
+      "Only witnesses",
+      "Only investigating officers"
+    ],
+    "data_support": "INC-V3-006 has 2 suspects, 1 witness, 3 investigators, 1 victim."
+  },
+  {
+    "question_id": "Q-V3-043",
+    "question": "List everyone linked to the fraud on St Georges Terrace.",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any role edge (suspect, witness, victim, or investigator) from a Person to INC-V3-005.",
+    "planned_interpretations": [
+      "Only suspects",
+      "Only witnesses",
+      "Only investigating officers"
+    ],
+    "data_support": "INC-V3-005 has 2 suspects, 1 witness, 2 investigators — pairwise distinct."
+  },
+  {
+    "question_id": "Q-V3-044",
+    "question": "Who took part in the assault in Scarborough?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any role edge (suspect, witness, victim, or investigator) from a Person to INC-V3-009.",
+    "planned_interpretations": [
+      "Only the suspect",
+      "Only the witness",
+      "Only the investigating officer"
+    ],
+    "data_support": "INC-V3-009 has 1 suspect, 1 witness, 1 investigator, 1 victim — all different people."
+  },
+  {
+    "question_id": "Q-V3-045",
+    "question": "Show the people associated with the drug offence on Lake Street.",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any role edge (suspect, witness, victim, or investigator) from a Person to INC-V3-007.",
+    "planned_interpretations": [
+      "Only suspects",
+      "Only witnesses",
+      "Only investigating officers"
+    ],
+    "data_support": "INC-V3-007 has 3 suspects, 2 witnesses, 1 investigator — pairwise distinct."
+  },
+  {
+    "question_id": "Q-V3-046",
+    "question": "Who is connected to the Midland robbery?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any role edge (suspect, witness, victim, or investigator) from a Person to INC-V3-008.",
+    "planned_interpretations": [
+      "Only the suspect",
+      "Only the witness",
+      "Only investigating officers"
+    ],
+    "data_support": "INC-V3-008 has 1 suspect, 1 witness, 2 investigators, 1 victim."
+  },
+  {
+    "question_id": "Q-V3-047",
+    "question": "Which people have a role in the burglary in Fremantle?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any role edge (suspect, witness, victim, or investigator) from a Person to INC-V3-004.",
+    "planned_interpretations": [
+      "Only the suspect",
+      "Only the witness",
+      "Only the investigating officer"
+    ],
+    "data_support": "INC-V3-004 has 1 suspect, 1 witness, 1 investigator, 1 victim — all different."
+  },
+  {
+    "question_id": "Q-V3-048",
+    "question": "Who is named in connection with the homicide?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any role edge (suspect, witness, victim, or investigator) from a Person to INC-V3-006.",
+    "planned_interpretations": [
+      "Only suspects",
+      "Only investigating officers",
+      "Only the victim"
+    ],
+    "data_support": "INC-V3-006's suspect / investigator / victim sets are non-empty and disjoint."
+  },
+  {
+    "question_id": "Q-V3-049",
+    "question": "Show all parties to the fraud at 100 Hay Street.",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any role edge (suspect, witness, victim, or investigator) from a Person to INC-V3-012.",
+    "planned_interpretations": [
+      "Only suspects",
+      "Only the witness",
+      "Only investigating officers"
+    ],
+    "data_support": "INC-V3-012 has 2 suspects, 1 witness, 2 investigators — pairwise distinct."
+  },
+  {
+    "question_id": "Q-V3-050",
+    "question": "Who is involved in the assault in Northbridge?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any role edge (suspect, witness, victim, or investigator) from a Person to INC-V3-003.",
+    "planned_interpretations": [
+      "Only the suspect",
+      "Only witnesses",
+      "Only investigating officers"
+    ],
+    "data_support": "INC-V3-003 has 1 suspect, 2 witnesses, 2 investigators."
+  },
+  {
+    "question_id": "Q-V3-051",
+    "question": "List people tied to the drug offence in Midland.",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any role edge (suspect, witness, victim, or investigator) from a Person to INC-V3-002.",
+    "planned_interpretations": [
+      "Only suspects",
+      "Only the witness",
+      "Only investigating officers"
+    ],
+    "data_support": "INC-V3-002 has 2 suspects, 1 witness, 2 investigators."
+  },
+  {
+    "question_id": "Q-V3-052",
+    "question": "Who is connected to the traffic incident?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any role edge (suspect, witness, victim, or investigator) from a Person to INC-V3-010.",
+    "planned_interpretations": [
+      "Only the suspect",
+      "Only the witness",
+      "Only the investigating officer"
+    ],
+    "data_support": "INC-V3-010 (the only traffic incident) has 1 suspect, 1 witness, 1 investigator, 1 victim."
+  },
+  {
+    "question_id": "Q-V3-053",
+    "question": "Who has a connection to the burglary in Victoria Park?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any role edge (suspect, witness, victim, or investigator) from a Person to INC-V3-011.",
+    "planned_interpretations": [
+      "Only the suspect",
+      "Only the witness",
+      "Only the investigating officer"
+    ],
+    "data_support": "INC-V3-011 has 1 suspect, 1 witness, 1 investigator, 1 victim — all different."
+  },
+  {
+    "question_id": "Q-V3-054",
+    "question": "Which persons are linked to the William Street robbery?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any role edge (suspect, witness, victim, or investigator) from a Person to INC-V3-001.",
+    "planned_interpretations": [
+      "Only suspects",
+      "Only the victim",
+      "Only witnesses"
+    ],
+    "data_support": "INC-V3-001's suspect / victim / witness sets are non-empty and disjoint."
+  },
+  {
+    "question_id": "Q-V3-055",
+    "question": "Who is involved in the St Georges Terrace fraud — the suspects or the officers?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any role edge (suspect, witness, victim, or investigator) from a Person to INC-V3-005.",
+    "planned_interpretations": [
+      "Only suspects",
+      "Only investigating officers"
+    ],
+    "data_support": "INC-V3-005 has 2 suspects and 2 investigators, disjoint sets."
+  },
+  {
+    "question_id": "Q-V3-056",
+    "question": "Show people relevant to the Cannington homicide.",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any role edge (suspect, witness, victim, or investigator) from a Person to INC-V3-006.",
+    "planned_interpretations": [
+      "Only suspects",
+      "Only witnesses",
+      "Only investigating officers"
+    ],
+    "data_support": "INC-V3-006 has 2 suspects, 1 witness, 3 investigators."
+  },
+  {
+    "question_id": "Q-V3-057",
+    "question": "Who is linked to the robbery in Midland?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any role edge (suspect, witness, victim, or investigator) from a Person to INC-V3-008.",
+    "planned_interpretations": [
+      "Only the suspect",
+      "Only the victim",
+      "Only investigating officers"
+    ],
+    "data_support": "INC-V3-008's suspect / victim / investigator sets are non-empty and disjoint."
+  },
+  {
+    "question_id": "Q-V3-058",
+    "question": "Who played a part in the homicide?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any role edge (suspect, witness, victim, or investigator) from a Person to INC-V3-006.",
+    "planned_interpretations": [
+      "Only suspects",
+      "Only witnesses",
+      "Only the victim"
+    ],
+    "data_support": "INC-V3-006's suspect / witness / victim sets are non-empty and disjoint."
+  },
+  {
+    "question_id": "Q-V3-059",
+    "question": "List the people connected to the incidents in the Financial Crimes case.",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any role edge (suspect, witness, victim, or investigator) from a Person to the incidents contained in CASE-V3-003.",
+    "planned_interpretations": [
+      "Only suspects",
+      "Only witnesses",
+      "Only investigating officers"
+    ],
+    "data_support": "CASE-V3-003 contains INC-V3-005/012; their suspect, witness and investigator sets are non-empty."
+  },
+  {
+    "question_id": "Q-V3-060",
+    "question": "Who is involved in the burglary in Fremantle — suspects, witnesses, or the officer?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any role edge (suspect, witness, victim, or investigator) from a Person to INC-V3-004.",
+    "planned_interpretations": [
+      "Only the suspect",
+      "Only the witness",
+      "Only the investigating officer"
+    ],
+    "data_support": "INC-V3-004 has 1 suspect, 1 witness, 1 investigator — pairwise distinct."
+  },
+  {
+    "question_id": "Q-V3-061",
+    "question": "What is Tran's current address?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "The current address of the person surnamed Tran — ambiguous.",
+    "planned_interpretations": [
+      "Megan Tran (PER-V3-002)",
+      "Kevin Tran (PER-V3-031)"
+    ],
+    "data_support": "Two persons surnamed Tran; their active LIVES_AT edges give different addresses (Hay St vs Great Eastern Hwy)."
+  },
+  {
+    "question_id": "Q-V3-062",
+    "question": "Where does Kim currently live?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "The current address of the person surnamed Kim — ambiguous.",
+    "planned_interpretations": [
+      "Rachel Kim (PER-V3-006)",
+      "Daniel Kim (PER-V3-009)"
+    ],
+    "data_support": "Two persons surnamed Kim; distinct active LIVES_AT addresses (Beaufort St vs Albany Hwy)."
+  },
+  {
+    "question_id": "Q-V3-063",
+    "question": "What is Nguyen's phone number?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "The active phone number of the person surnamed Nguyen — ambiguous.",
+    "planned_interpretations": [
+      "Michael Nguyen (PER-V3-015)",
+      "Sarah Nguyen (PER-V3-019)"
+    ],
+    "data_support": "Two persons surnamed Nguyen, each with a distinct active USES_PHONE edge."
+  },
+  {
+    "question_id": "Q-V3-064",
+    "question": "Which incidents is Chen connected to?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "Incidents linked to the person surnamed Chen — ambiguous.",
+    "planned_interpretations": [
+      "David Chen (PER-V3-001, investigating officer)",
+      "Wei Chen (PER-V3-012, suspect)"
+    ],
+    "data_support": "David Chen INVESTIGATES vs Wei Chen SUSPECTED_OF — different incident sets."
+  },
+  {
+    "question_id": "Q-V3-065",
+    "question": "Which incidents is Smith connected to?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "Incidents linked to the person surnamed Smith — ambiguous.",
+    "planned_interpretations": [
+      "James Smith (PER-V3-016, suspect)",
+      "Laura Smith (PER-V3-032, witness)"
+    ],
+    "data_support": "James Smith SUSPECTED_OF INC-V3-011 vs Laura Smith WITNESSED INC-V3-005/012."
+  },
+  {
+    "question_id": "Q-V3-066",
+    "question": "Which incidents involve Bennett?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "Incidents linked to the person surnamed Bennett — ambiguous.",
+    "planned_interpretations": [
+      "Sophie Bennett (PER-V3-024)",
+      "Sarah Bennett (PER-V3-025)"
+    ],
+    "data_support": "Sophie Bennett VICTIM_OF INC-V3-008 vs Sarah Bennett VICTIM_OF INC-V3-009."
+  },
+  {
+    "question_id": "Q-V3-067",
+    "question": "Where does James live?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "The current address of the person named James — ambiguous.",
+    "planned_interpretations": [
+      "James Kowalski (PER-V3-004)",
+      "James Whitfield (PER-V3-007)",
+      "James Smith (PER-V3-016)"
+    ],
+    "data_support": "Three persons named James (and Michael Nguyen uses alias 'James'); their active LIVES_AT addresses differ."
+  },
+  {
+    "question_id": "Q-V3-068",
+    "question": "Where does Sarah live?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "The current address of the person named Sarah — ambiguous.",
+    "planned_interpretations": [
+      "Sarah Nguyen (PER-V3-019)",
+      "Sarah Bennett (PER-V3-025)"
+    ],
+    "data_support": "Two persons named Sarah with distinct active LIVES_AT addresses."
+  },
+  {
+    "question_id": "Q-V3-069",
+    "question": "Which incidents is David connected to?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "Incidents linked to 'David' — a given name and an alias — ambiguous.",
+    "planned_interpretations": [
+      "David Chen (PER-V3-001, given name)",
+      "Wei Chen (PER-V3-012, alias 'David')"
+    ],
+    "data_support": "'David' matches David Chen's given name and Wei Chen's alias; their incident sets differ."
+  },
+  {
+    "question_id": "Q-V3-070",
+    "question": "Which incident occurred on Albany Highway?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "The incident at an Albany Highway location — ambiguous between two suburbs.",
+    "planned_interpretations": [
+      "Albany Highway, Cannington — homicide (INC-V3-006)",
+      "Albany Highway, Victoria Park — burglary (INC-V3-011)"
+    ],
+    "data_support": "Two Albany Highway locations (LOC-V3-009, LOC-V3-013) host different incidents."
+  },
+  {
+    "question_id": "Q-V3-071",
+    "question": "Who lives on Albany Highway?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "Current residents of an Albany Highway location — ambiguous between two suburbs.",
+    "planned_interpretations": [
+      "Residents of Albany Highway, Cannington (LOC-V3-009)",
+      "Residents of Albany Highway, Victoria Park (LOC-V3-013)"
+    ],
+    "data_support": "The two Albany Highway locations have different resident sets."
+  },
+  {
+    "question_id": "Q-V3-072",
+    "question": "What incidents is Tran involved in?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "Incidents linked to the person surnamed Tran — ambiguous.",
+    "planned_interpretations": [
+      "Megan Tran (PER-V3-002, officer)",
+      "Kevin Tran (PER-V3-031, witness)"
+    ],
+    "data_support": "Megan Tran INVESTIGATES several incidents vs Kevin Tran WITNESSED INC-V3-002."
+  },
+  {
+    "question_id": "Q-V3-073",
+    "question": "What is Nguyen's current address?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "The current address of the person surnamed Nguyen — ambiguous.",
+    "planned_interpretations": [
+      "Michael Nguyen (PER-V3-015)",
+      "Sarah Nguyen (PER-V3-019)"
+    ],
+    "data_support": "Two Nguyens with distinct active LIVES_AT addresses (Lake St vs Beaufort St)."
+  },
+  {
+    "question_id": "Q-V3-074",
+    "question": "Which incidents is Kim connected to?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "Incidents linked to the person surnamed Kim — ambiguous.",
+    "planned_interpretations": [
+      "Daniel Kim (PER-V3-009, suspect/witness)",
+      "Rachel Kim (PER-V3-006, officer)"
+    ],
+    "data_support": "Daniel Kim SUSPECTED_OF/WITNESSED vs Rachel Kim INVESTIGATES — different incident sets."
+  },
+  {
+    "question_id": "Q-V3-075",
+    "question": "Which incidents is Sarah connected to?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "Incidents linked to the person named Sarah — ambiguous.",
+    "planned_interpretations": [
+      "Sarah Nguyen (PER-V3-019)",
+      "Sarah Bennett (PER-V3-025)"
+    ],
+    "data_support": "Sarah Nguyen VICTIM_OF/WITNESSED vs Sarah Bennett VICTIM_OF INC-V3-009."
+  },
+  {
+    "question_id": "Q-V3-076",
+    "question": "Show the robbery incident.",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "The robbery incident — ambiguous between two robberies.",
+    "planned_interpretations": [
+      "The William Street robbery (INC-V3-001)",
+      "The Midland robbery (INC-V3-008)"
+    ],
+    "data_support": "Two robberies exist (INC-V3-001, INC-V3-008), at different locations."
+  },
+  {
+    "question_id": "Q-V3-077",
+    "question": "Who is suspected of the robbery?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "Suspects of 'the robbery' — ambiguous between two robberies.",
+    "planned_interpretations": [
+      "Suspects of the William Street robbery (INC-V3-001)",
+      "Suspects of the Midland robbery (INC-V3-008)"
+    ],
+    "data_support": "INC-V3-001 has 3 suspects; INC-V3-008 has 1 — different sets."
+  },
+  {
+    "question_id": "Q-V3-078",
+    "question": "Who witnessed the assault?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "Witnesses of 'the assault' — ambiguous between two assaults.",
+    "planned_interpretations": [
+      "Witnesses of the Northbridge assault (INC-V3-003)",
+      "Witnesses of the Scarborough assault (INC-V3-009)"
+    ],
+    "data_support": "INC-V3-003 has 2 witnesses; INC-V3-009 has 1 — different sets."
+  },
+  {
+    "question_id": "Q-V3-079",
+    "question": "Where did the fraud occur?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "The location of 'the fraud' — ambiguous between two frauds.",
+    "planned_interpretations": [
+      "The St Georges Terrace fraud (INC-V3-005)",
+      "The Hay Street fraud (INC-V3-012)"
+    ],
+    "data_support": "Two frauds (INC-V3-005, INC-V3-012) OCCURRED_AT different locations."
+  },
+  {
+    "question_id": "Q-V3-080",
+    "question": "Who investigated the drug offence?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "Investigators of 'the drug offence' — ambiguous between two drug offences.",
+    "planned_interpretations": [
+      "Investigators of the Midland drug offence (INC-V3-002)",
+      "Investigators of the Lake Street drug offence (INC-V3-007)"
+    ],
+    "data_support": "INC-V3-002 and INC-V3-007 have different investigator sets."
+  },
+  {
+    "question_id": "Q-V3-081",
+    "question": "Tell me about the suspects in the Lake Street drug offence.",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Information about INC-V3-007's suspects.",
+    "planned_interpretations": [
+      "Return the count of suspects",
+      "Return the list of suspects' names"
+    ],
+    "data_support": "INC-V3-007 has 3 suspects — 'tell me about' diverges between a count and an enumeration."
+  },
+  {
+    "question_id": "Q-V3-082",
+    "question": "What about the incidents in Northbridge?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Information about the Northbridge incidents.",
+    "planned_interpretations": [
+      "Return the count of incidents",
+      "Return the list of incident details"
+    ],
+    "data_support": "Northbridge has 3 incidents — count vs list divergence."
+  },
+  {
+    "question_id": "Q-V3-083",
+    "question": "Show the current residents of 55 Beaufort Street.",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Persons living at LOC-V3-005 now.",
+    "planned_interpretations": [
+      "Return just the residents' names",
+      "Return the residents with their move-in dates"
+    ],
+    "data_support": "LIVES_AT carries from_date — return-shape diverges on whether to include it."
+  },
+  {
+    "question_id": "Q-V3-084",
+    "question": "Show incidents in Perth.",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Incidents associated with Perth.",
+    "planned_interpretations": [
+      "Only incidents whose suburb is exactly 'Perth'",
+      "All incidents in the Perth metro area (any suburb)"
+    ],
+    "data_support": "Suburb 'Perth' has 2 incidents; the whole graph is Perth-metro — scope diverges."
+  },
+  {
+    "question_id": "Q-V3-085",
+    "question": "Who is the main suspect in the homicide?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "The suspect(s) of INC-V3-006.",
+    "planned_interpretations": [
+      "Return a single (main) suspect",
+      "Return all suspects"
+    ],
+    "data_support": "INC-V3-006 has 2 suspects — 'the main suspect' assumes one; count diverges."
+  },
+  {
+    "question_id": "Q-V3-086",
+    "question": "How connected is Anton Maric?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "The extent of Anton Maric's current associations.",
+    "planned_interpretations": [
+      "Return the count of current associates",
+      "Return the list of current associates"
+    ],
+    "data_support": "PER-V3-033 has 2 active ASSOCIATED_WITH edges — count vs list."
+  },
+  {
+    "question_id": "Q-V3-087",
+    "question": "List the calls made by James Whitfield's phone.",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Outgoing calls from PER-V3-007's active phone.",
+    "planned_interpretations": [
+      "Return the called phone numbers only",
+      "Return each call with its timestamp"
+    ],
+    "data_support": "CALLED carries a timestamp — return-shape diverges on whether to include it."
+  },
+  {
+    "question_id": "Q-V3-088",
+    "question": "How many people did Ricky Santos's phone contact?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "People in contact with PER-V3-013's active phone.",
+    "planned_interpretations": [
+      "Count only outgoing calls",
+      "Count all calls, incoming and outgoing"
+    ],
+    "data_support": "DEV-V3-008 has 1 outgoing and 3 incoming CALLED edges — direction changes the result."
+  },
+  {
+    "question_id": "Q-V3-089",
+    "question": "Tell me about the vehicles owned by the homicide suspects.",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Vehicles currently owned by INC-V3-006's suspects.",
+    "planned_interpretations": [
+      "Return the count of vehicles",
+      "Return the list of vehicles"
+    ],
+    "data_support": "Homicide suspects currently own 1 vehicle between them (VEH-V3-003) — count vs list."
+  },
+  {
+    "question_id": "Q-V3-090",
+    "question": "What is the biggest case?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "The case with the most incidents.",
+    "planned_interpretations": [
+      "Return the single largest case",
+      "Return all cases ranked by number of incidents"
+    ],
+    "data_support": "CASE-V3-001 has 3 incidents (the most); superlative diverges single vs ranked list."
+  },
+  {
+    "question_id": "Q-V3-091",
+    "question": "How many incidents has Officer Sharma investigated?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Incidents on PER-V3-003's INVESTIGATES edges.",
+    "planned_interpretations": [
+      "Return just the number",
+      "Return the list of incidents"
+    ],
+    "data_support": "PER-V3-003 investigates 5 incidents — count vs list."
+  },
+  {
+    "question_id": "Q-V3-092",
+    "question": "Show recent incidents in Northbridge.",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Northbridge incidents, recency-scoped.",
+    "planned_interpretations": [
+      "Only the most recent Northbridge incident",
+      "All Northbridge incidents, newest first"
+    ],
+    "data_support": "Northbridge's 3 incidents span different dates — 'recent' is an ambiguous scope."
+  },
+  {
+    "question_id": "Q-V3-093",
+    "question": "How many people has Anton Maric's phone been in contact with?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "People contacted by PER-V3-033's active phone.",
+    "planned_interpretations": [
+      "Return the count",
+      "Return the list of contacts"
+    ],
+    "data_support": "DEV-V3-011 CALLED 2 phones — count vs list."
+  },
+  {
+    "question_id": "Q-V3-094",
+    "question": "Who is the primary investigating officer on the Hay Street fraud?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Investigator(s) of INC-V3-012.",
+    "planned_interpretations": [
+      "Return a single (primary) officer",
+      "Return all investigating officers"
+    ],
+    "data_support": "INC-V3-012 has 2 investigators — 'the primary officer' assumes one."
+  },
+  {
+    "question_id": "Q-V3-095",
+    "question": "Give me the witnesses to the homicide.",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Witness(es) of INC-V3-006.",
+    "planned_interpretations": [
+      "Return the number of witnesses",
+      "Return the witnesses' names"
+    ],
+    "data_support": "INC-V3-006 has 1 witness — count vs list still diverge in return shape."
+  },
+  {
+    "question_id": "Q-V3-096",
+    "question": "List the incidents in Operation Ironside.",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Incidents contained in CASE-V3-001.",
+    "planned_interpretations": [
+      "Return the count of incidents",
+      "Return the list of incident details"
+    ],
+    "data_support": "CASE-V3-001 contains 3 incidents — count vs list."
+  },
+  {
+    "question_id": "Q-V3-097",
+    "question": "Show Daniel Kim's current phone.",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "PER-V3-009's active phone.",
+    "planned_interpretations": [
+      "Return the phone number",
+      "Return the full phone record (number and device id)"
+    ],
+    "data_support": "Return-shape diverges over which Phone properties to project."
+  },
+  {
+    "question_id": "Q-V3-098",
+    "question": "Which incidents happened in the city?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Incidents in 'the city'.",
+    "planned_interpretations": [
+      "Only incidents in the 'Perth' suburb (the CBD)",
+      "All incidents in the dataset"
+    ],
+    "data_support": "'The city' is an ambiguous scope between the Perth suburb and the whole metro."
+  },
+  {
+    "question_id": "Q-V3-099",
+    "question": "How busy is Officer Tran?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "The workload of PER-V3-002.",
+    "planned_interpretations": [
+      "Return the count of incidents she investigates",
+      "Return the list of those incidents"
+    ],
+    "data_support": "Megan Tran investigates 4 incidents — count vs list."
+  },
+  {
+    "question_id": "Q-V3-100",
+    "question": "Who is the most-called person?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "The person receiving the most calls.",
+    "planned_interpretations": [
+      "Return the single most-called person",
+      "Return people ranked by calls received"
+    ],
+    "data_support": "PER-V3-013 (Santos) receives 3 calls (the most); superlative diverges single vs ranked."
+  },
+  {
+    "question_id": "Q-V3-101",
+    "question": "Where does James Whitfield live?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "James Whitfield's residence.",
+    "planned_interpretations": [
+      "Current address only (active LIVES_AT)",
+      "All addresses, including historical"
+    ],
+    "data_support": "PER-V3-007 has 1 active and 1 historical LIVES_AT edge."
+  },
+  {
+    "question_id": "Q-V3-102",
+    "question": "Where does Lina Petrova live?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Lina Petrova's residence.",
+    "planned_interpretations": [
+      "Current address only",
+      "Current and previous addresses"
+    ],
+    "data_support": "PER-V3-008 has 1 active and 1 historical LIVES_AT edge."
+  },
+  {
+    "question_id": "Q-V3-103",
+    "question": "What vehicle does Ricky Santos own?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Ricky Santos's vehicle ownership.",
+    "planned_interpretations": [
+      "Currently owned vehicles only (none active)",
+      "Including vehicles previously owned"
+    ],
+    "data_support": "PER-V3-013 has only a historical OWNS edge (VEH-V3-005, active:false)."
+  },
+  {
+    "question_id": "Q-V3-104",
+    "question": "Who owns the Holden Commodore?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Owner of VEH-V3-001.",
+    "planned_interpretations": [
+      "Current owner only",
+      "All owners including the previous owner"
+    ],
+    "data_support": "VEH-V3-001 has a current owner (Whitfield) and a previous owner (Birch)."
+  },
+  {
+    "question_id": "Q-V3-105",
+    "question": "Who owns the Ford Ranger?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Owner of VEH-V3-003.",
+    "planned_interpretations": [
+      "Current owner only",
+      "Include the previous owner"
+    ],
+    "data_support": "VEH-V3-003 has a current owner (Daniel Kim) and a previous owner (Michael Nguyen)."
+  },
+  {
+    "question_id": "Q-V3-106",
+    "question": "What phone does Lina Petrova use?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Lina Petrova's phone usage.",
+    "planned_interpretations": [
+      "Current phone only",
+      "Including her previous phone"
+    ],
+    "data_support": "PER-V3-008 has 1 active and 1 historical USES_PHONE edge."
+  },
+  {
+    "question_id": "Q-V3-107",
+    "question": "Who uses phone number 0412 345 678?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "User of DEV-V3-001.",
+    "planned_interpretations": [
+      "Current user only",
+      "All users including the previous user"
+    ],
+    "data_support": "DEV-V3-001 has a current user (Whitfield) and a previous user (Birch)."
+  },
+  {
+    "question_id": "Q-V3-108",
+    "question": "Who uses the phone 0478 444 555?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "User of DEV-V3-008.",
+    "planned_interpretations": [
+      "Current user only",
+      "Include the previous user"
+    ],
+    "data_support": "DEV-V3-008 has a current user (Santos) and a previous user (Doyle)."
+  },
+  {
+    "question_id": "Q-V3-109",
+    "question": "Who is Tyler Birch associated with?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Tyler Birch's associations.",
+    "planned_interpretations": [
+      "Current associates only",
+      "Including former associates"
+    ],
+    "data_support": "PER-V3-010 has an active association (Daniel Kim) and a dissolved one (Doyle)."
+  },
+  {
+    "question_id": "Q-V3-110",
+    "question": "Who is Amir Hassan associated with?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Amir Hassan's associations.",
+    "planned_interpretations": [
+      "Current associates only",
+      "Including former associates"
+    ],
+    "data_support": "PER-V3-011 has active associations and a dissolved one (Maric)."
+  },
+  {
+    "question_id": "Q-V3-111",
+    "question": "Where did Daniel Kim live?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Daniel Kim's residence over time.",
+    "planned_interpretations": [
+      "His current address",
+      "His previous address",
+      "All addresses on record"
+    ],
+    "data_support": "PER-V3-009 has 1 active and 1 historical LIVES_AT edge."
+  },
+  {
+    "question_id": "Q-V3-112",
+    "question": "Where does Amir Hassan live?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Amir Hassan's residence.",
+    "planned_interpretations": [
+      "Current address only",
+      "Including his previous address"
+    ],
+    "data_support": "PER-V3-011 has 1 active and 1 historical LIVES_AT edge."
+  },
+  {
+    "question_id": "Q-V3-113",
+    "question": "Where does Tyler Birch live?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Tyler Birch's residence.",
+    "planned_interpretations": [
+      "Current address only",
+      "Including his previous address"
+    ],
+    "data_support": "PER-V3-010 has 1 active and 1 historical LIVES_AT edge."
+  },
+  {
+    "question_id": "Q-V3-114",
+    "question": "Where does Connor Doyle live?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Connor Doyle's residence.",
+    "planned_interpretations": [
+      "Current address only",
+      "Including his previous address"
+    ],
+    "data_support": "PER-V3-014 has 1 active and 1 historical LIVES_AT edge."
+  },
+  {
+    "question_id": "Q-V3-115",
+    "question": "Where does Sarah Nguyen live?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Sarah Nguyen's residence.",
+    "planned_interpretations": [
+      "Current address only",
+      "Including her previous address"
+    ],
+    "data_support": "PER-V3-019 has 1 active and 1 historical LIVES_AT edge."
+  },
+  {
+    "question_id": "Q-V3-116",
+    "question": "What vehicle does Nina Orlov own?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Nina Orlov's vehicle ownership.",
+    "planned_interpretations": [
+      "Currently owned vehicles only (none active)",
+      "Including vehicles previously owned"
+    ],
+    "data_support": "PER-V3-018 has only a historical OWNS edge (VEH-V3-006, active:false)."
+  },
+  {
+    "question_id": "Q-V3-117",
+    "question": "Who owns the Nissan Navara?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Owner of VEH-V3-005.",
+    "planned_interpretations": [
+      "Current owner only",
+      "Include the previous owner"
+    ],
+    "data_support": "VEH-V3-005 has a current owner (Doyle) and a previous owner (Santos)."
+  },
+  {
+    "question_id": "Q-V3-118",
+    "question": "Who owns the BMW 3 Series?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Owner of VEH-V3-009.",
+    "planned_interpretations": [
+      "Current owner only",
+      "Include the previous owner"
+    ],
+    "data_support": "VEH-V3-009 has a current owner (Hassan) and a previous owner (Wei Chen)."
+  },
+  {
+    "question_id": "Q-V3-119",
+    "question": "What phone does Michael Nguyen use?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Michael Nguyen's phone usage.",
+    "planned_interpretations": [
+      "Current phone only",
+      "Including his previous phone"
+    ],
+    "data_support": "PER-V3-015 has 1 active and 1 historical USES_PHONE edge."
+  },
+  {
+    "question_id": "Q-V3-120",
+    "question": "Who was Tyler Birch associated with in 2024?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Tyler Birch's associations, time-scoped to 2024.",
+    "planned_interpretations": [
+      "Associates whose edge was active during 2024",
+      "His current associates only",
+      "All associates ever recorded"
+    ],
+    "data_support": "PER-V3-010's dissolved association (Doyle, 2023-2025) was active in 2024; his active one (Daniel Kim) began 2025."
+  }
+]
