@@ -1,0 +1,70 @@
+Job 1010689 on k008 at Mon 06 Jul 2026 15:56:47 AWST
+Wiping v3 volume /group/pmc084/atan/neo4j_data_v3 and reloading data/SyntheticPoliceKG-v3.cypher.
+Directories in use:
+home:         /var/lib/neo4j
+config:       /var/lib/neo4j/conf
+logs:         /var/lib/neo4j/logs
+plugins:      /var/lib/neo4j/plugins
+import:       /var/lib/neo4j/import
+data:         /var/lib/neo4j/data
+certificates: /var/lib/neo4j/certificates
+licenses:     /var/lib/neo4j/licenses
+run:          /var/lib/neo4j/run
+Starting Neo4j.
+2026-07-06 07:56:52.511+0000 INFO  Logging config in use: File '/var/lib/neo4j/conf/user-logs.xml'
+2026-07-06 07:56:52.538+0000 INFO  Starting...
+2026-07-06 07:56:54.068+0000 INFO  This instance is ServerId{6c8189ca} (6c8189ca-028f-4ff5-80f1-f38541c5a7eb)
+2026-07-06 07:56:55.080+0000 INFO  ======== Neo4j 5.26.27 ========
+2026-07-06 07:56:56.664+0000 INFO  Anonymous Usage Data is being sent to Neo4j, see https://neo4j.com/docs/usage-data/
+2026-07-06 07:56:56.687+0000 INFO  Bolt enabled on localhost:7687.
+2026-07-06 07:56:58.212+0000 INFO  HTTP enabled on localhost:7474.
+2026-07-06 07:56:58.213+0000 INFO  Remote interface available at http://localhost:7474/
+2026-07-06 07:56:58.214+0000 INFO  id: 3367E440298D0718F0BBB1267DA67F942F6D03A4127047628326147B09A86D8B
+2026-07-06 07:56:58.214+0000 INFO  name: system
+2026-07-06 07:56:58.214+0000 INFO  creationDate: 2026-07-06T07:56:55.878Z
+2026-07-06 07:56:58.214+0000 INFO  Started.
+2026-07-06 07:57:02.082+0000 WARN  [bolt-1] The client is unauthorized due to authentication failure.
+2026-07-06 07:57:08.090+0000 WARN  [bolt-3] The client is unauthorized due to authentication failure.
+2026-07-06 07:57:13.977+0000 WARN  [bolt-5] The client is unauthorized due to authentication failure.
+2026-07-06 07:57:20.098+0000 WARN  [bolt-7] The client is unauthorized due to authentication failure.
+2026-07-06 07:57:26.100+0000 WARN  [bolt-9] The client is unauthorized due to authentication failure.
+2026-07-06 07:57:32.204+0000 WARN  [bolt-11] The client is unauthorized due to authentication failure.
+2026-07-06 07:57:38.364+0000 WARN  [bolt-13] The client is unauthorized due to authentication failure.
+2026-07-06 07:57:44.547+0000 WARN  [bolt-15] The client is unauthorized due to authentication failure.
+2026-07-06 07:57:50.483+0000 WARN  [bolt-17] The client is unauthorized due to authentication failure.
+2026-07-06 07:57:56.423+0000 WARN  [bolt-19] The client is unauthorized due to authentication failure.
+2026-07-06 07:58:02.400+0000 WARN  [bolt-21] The client is unauthorized due to authentication failure.
+2026-07-06 07:58:08.345+0000 WARN  [bolt-23] The client is unauthorized due to authentication failure.
+2026-07-06 07:58:14.308+0000 WARN  [bolt-25] The client is unauthorized due to authentication failure.
+2026-07-06 07:58:20.356+0000 WARN  [bolt-27] The client is unauthorized due to authentication failure.
+2026-07-06 07:58:26.499+0000 WARN  [bolt-29] The client is unauthorized due to authentication failure.
+2026-07-06 07:58:32.644+0000 WARN  [bolt-31] The client is unauthorized due to authentication failure.
+2026-07-06 07:58:38.725+0000 WARN  [bolt-33] The client is unauthorized due to authentication failure.
+2026-07-06 07:58:44.919+0000 WARN  [bolt-35] The client is unauthorized due to authentication failure.
+2026-07-06 07:58:51.040+0000 WARN  [bolt-37] The client is unauthorized due to authentication failure.
+2026-07-06 07:58:57.142+0000 WARN  [bolt-39] The client is unauthorized due to authentication failure.
+2026-07-06 07:59:03.326+0000 WARN  [bolt-41] The client is unauthorized due to authentication failure.
+2026-07-06 07:59:09.445+0000 WARN  [bolt-43] The client is unauthorized due to authentication failure.
+2026-07-06 07:59:15.609+0000 WARN  [bolt-45] The client is unauthorized due to authentication failure.
+2026-07-06 07:59:21.785+0000 WARN  [bolt-47] The client is unauthorized due to authentication failure.
+2026-07-06 07:59:27.936+0000 WARN  [bolt-49] The client is unauthorized due to authentication failure.
+2026-07-06 07:59:34.070+0000 WARN  [bolt-51] The client is unauthorized due to authentication failure.
+2026-07-06 07:59:40.140+0000 WARN  [bolt-53] The client is unauthorized due to authentication failure.
+2026-07-06 07:59:46.224+0000 WARN  [bolt-55] The client is unauthorized due to authentication failure.
+2026-07-06 07:59:52.367+0000 WARN  [bolt-57] The client is unauthorized due to authentication failure.
+2026-07-06 07:59:58.386+0000 WARN  [bolt-59] The client is unauthorized due to authentication failure.
+2026-07-06 08:00:04.316+0000 WARN  [bolt-61] The client is unauthorized due to authentication failure.
+2026-07-06 08:00:10.277+0000 WARN  [bolt-63] The client is unauthorized due to authentication failure.
+2026-07-06 08:00:16.191+0000 WARN  [bolt-65] The client is unauthorized due to authentication failure.
+2026-07-06 08:00:22.135+0000 WARN  [bolt-67] The client is unauthorized due to authentication failure.
+2026-07-06 08:00:28.089+0000 WARN  [bolt-69] The client is unauthorized due to authentication failure.
+2026-07-06 08:00:34.159+0000 WARN  [bolt-71] The client is unauthorized due to authentication failure.
+2026-07-06 08:00:40.214+0000 WARN  [bolt-73] The client is unauthorized due to authentication failure.
+2026-07-06 08:00:46.175+0000 WARN  [bolt-75] The client is unauthorized due to authentication failure.
+2026-07-06 08:00:52.322+0000 WARN  [bolt-77] The client is unauthorized due to authentication failure.
+2026-07-06 08:00:58.295+0000 WARN  [bolt-79] The client is unauthorized due to authentication failure.
+2026-07-06 08:01:04.477+0000 WARN  [bolt-81] The client is unauthorized due to authentication failure.
+Stopping neo4j (pid 3568300) at Mon 06 Jul 2026 16:01:05 AWST
+2026-07-06 08:01:05.074+0000 INFO  Neo4j Server shutdown initiated by request
+2026-07-06 08:01:05.074+0000 INFO  Stopping...
+2026-07-06 08:01:10.279+0000 INFO  Stopped.

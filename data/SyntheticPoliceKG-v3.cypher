@@ -425,6 +425,10 @@ MATCH (p:Person {person_id:'PER-V3-020'}), (v:Vehicle {vehicle_id:'VEH-V3-007'})
 MATCH (p:Person {person_id:'PER-V3-027'}), (v:Vehicle {vehicle_id:'VEH-V3-004'}) CREATE (p)-[:OWNS {from_date:date('2021-04-01'), to_date:null, active:true}]->(v);
 MATCH (p:Person {person_id:'PER-V3-034'}), (v:Vehicle {vehicle_id:'VEH-V3-010'}) CREATE (p)-[:OWNS {from_date:date('2023-02-01'), to_date:null, active:true}]->(v);
 MATCH (p:Person {person_id:'PER-V3-026'}), (v:Vehicle {vehicle_id:'VEH-V3-008'}) CREATE (p)-[:OWNS {from_date:date('2022-05-01'), to_date:null, active:true}]->(v);
+// Co-current owners (7.2 seed: give PER-013 Santos and PER-018 Orlov an active OWNS so their
+// "current vs all ownership" temporal questions Q-V3-103/116 have a non-empty current reading).
+MATCH (p:Person {person_id:'PER-V3-013'}), (v:Vehicle {vehicle_id:'VEH-V3-007'}) CREATE (p)-[:OWNS {from_date:date('2024-05-01'), to_date:null, active:true}]->(v);
+MATCH (p:Person {person_id:'PER-V3-018'}), (v:Vehicle {vehicle_id:'VEH-V3-008'}) CREATE (p)-[:OWNS {from_date:date('2024-05-01'), to_date:null, active:true}]->(v);
 
 // Historical ownership (active:false) — vehicle changed hands
 MATCH (p:Person {person_id:'PER-V3-010'}), (v:Vehicle {vehicle_id:'VEH-V3-001'}) CREATE (p)-[:OWNS {from_date:date('2020-06-01'), to_date:date('2024-02-28'), active:false}]->(v);
