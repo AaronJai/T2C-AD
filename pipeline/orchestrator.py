@@ -65,8 +65,9 @@ class Orchestrator:
                 else:  # disambiguation_enhanced
                     state.entity_lookup = entity_lookup(question, state.candidate_mapping,
                                                         components.entity_cache)
-                    state.ambiguity_result = ambiguity_detector(question, state.candidate_mapping,
-                                                                state.entity_lookup, components.ad_llm)
+                    state.ambiguity_result = ambiguity_detector(
+                        question, state.candidate_mapping, state.entity_lookup, components.ad_llm,
+                        system_prompt=components.ad_system_prompt)
                     if benchmark_item is not None:          # Detection-F1 support (4.2)
                         state.ad_predictions.append(
                             (benchmark_item.question_id, state.ambiguity_result.is_ambiguous))
@@ -85,7 +86,8 @@ class Orchestrator:
                         new_mapping = disambiguator(
                             question, state.ambiguity_result, state.candidate_mapping,
                             state.entity_lookup, components.dis_llm,
-                            previously_tried=state.previously_tried_mappings)
+                            previously_tried=state.previously_tried_mappings,
+                            system_prompt=components.dis_system_prompt)
                         if new_mapping is None:
                             break                       # candidate set exhausted
                         state.schema_mapping = new_mapping

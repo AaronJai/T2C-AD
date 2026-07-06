@@ -1,5 +1,11 @@
 # pipeline/schema.py
-"""Canonical SchemaRepr for the SyntheticPoliceKG (POLE) graph."""
+"""Canonical SchemaRepr for the SyntheticPoliceKG (POLE) graph.
+
+Two versions coexist (7.3): `build_pole_schema_repr` is the frozen v2 schema (9 labels /
+28 relationship types) and `build_pole_v3_schema_repr` is the concise v3 schema (6 labels /
+11 relationship types — see `data/SyntheticPoliceKG-v3.cypher` and spec 7.1). Both return a
+`SchemaRepr` so every consumer is version-agnostic; `build_schema_repr(version)` selects.
+"""
 from __future__ import annotations
 
 from pipeline.types import SchemaRepr
@@ -71,3 +77,57 @@ def build_pole_schema_repr() -> SchemaRepr:
         },
         format="nodes_and_paths",
     )
+
+
+def build_pole_v3_schema_repr() -> SchemaRepr:
+    """The concise v3 POLE schema: 6 node labels, 11 relationship types (spec 7.1).
+
+    Built once from fixed definitions (not read from Neo4j), mirroring the v2 builder above so
+    that 7.4's SFT prompts, 3.1/3.4/3.6/5.1 prompt-building, and the sweep/probe all render the
+    same block. The only surviving complexity is *designed* ambiguity: the four Person->Incident
+    role edges (schema), and the dated LIVES_AT/OWNS/USES_PHONE/ASSOCIATED_WITH edges (temporal).
+    """
+    return SchemaRepr(
+        node_labels=[
+            "Person", "Incident", "Case", "Location", "Vehicle", "Phone",
+        ],
+        relationship_paths=[
+            {"type": "SUSPECTED_OF",    "source": "Person",   "target": "Incident"},
+            {"type": "WITNESSED",       "source": "Person",   "target": "Incident"},
+            {"type": "VICTIM_OF",       "source": "Person",   "target": "Incident"},
+            {"type": "INVESTIGATES",    "source": "Person",   "target": "Incident"},
+            {"type": "CONTAINS",        "source": "Case",     "target": "Incident"},
+            {"type": "OCCURRED_AT",     "source": "Incident", "target": "Location"},
+            {"type": "LIVES_AT",        "source": "Person",   "target": "Location"},
+            {"type": "OWNS",            "source": "Person",   "target": "Vehicle"},
+            {"type": "USES_PHONE",      "source": "Person",   "target": "Phone"},
+            {"type": "CALLED",          "source": "Phone",    "target": "Phone"},
+            {"type": "ASSOCIATED_WITH", "source": "Person",   "target": "Person"},
+        ],
+        properties={
+            "Person":   ["person_id", "name", "alias", "date_of_birth", "gender"],
+            "Incident": ["incident_id", "crime_type", "date", "status"],
+            "Case":     ["case_id", "case_name", "status", "opened_date"],
+            "Location": ["location_id", "address", "suburb", "postcode"],
+            "Vehicle":  ["vehicle_id", "plate", "make", "model", "colour"],
+            "Phone":    ["device_id", "phone_number"],
+            # Temporal / labelled edge properties
+            "LIVES_AT":        ["from_date", "to_date", "active"],
+            "OWNS":            ["from_date", "to_date", "active"],
+            "USES_PHONE":      ["from_date", "to_date", "active"],
+            "ASSOCIATED_WITH": ["from_date", "to_date", "active"],
+            "CALLED":          ["timestamp"],
+        },
+        format="nodes_and_paths",
+    )
+
+
+def build_schema_repr(version: str = "v2") -> SchemaRepr:
+    """Select the schema repr by dataset version. 'v2' (default) → frozen 9/28 POLE schema;
+    'v3' → concise 6/11 schema. Consumers keep receiving a `SchemaRepr` — no consumer change.
+    """
+    if version == "v3":
+        return build_pole_v3_schema_repr()
+    if version == "v2":
+        return build_pole_schema_repr()
+    raise ValueError(f"Unknown dataset_version '{version}'. Known: 'v2', 'v3'.")

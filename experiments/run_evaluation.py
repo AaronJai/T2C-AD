@@ -12,11 +12,14 @@ import yaml
 from experiments.build_condition1 import build_condition1
 from experiments.build_condition2 import build_condition2
 from experiments.build_condition3 import build_condition3
+from pipeline.ambiguity.prompts import AD_SYSTEM_PROMPT, AD_SYSTEM_PROMPT_V3
 from pipeline.data.benchmark_loader import load_benchmark
+from pipeline.disambiguator.prompts import DIS_SYSTEM_PROMPT, DIS_SYSTEM_PROMPT_V3
+from pipeline.entity_lookup.registry import registry_for_version
 from pipeline.evaluation.metrics import (MetricBundle, QuestionRecord, compute_metrics,
                                          format_metric_tables)
 from pipeline.orchestrator import Orchestrator
-from pipeline.schema import build_pole_schema_repr
+from pipeline.schema import build_pole_schema_repr, build_pole_v3_schema_repr
 from pipeline.types import BenchmarkItem, Condition, EvaluationResult
 
 
@@ -51,15 +54,49 @@ def run_condition(benchmark: list[BenchmarkItem], components, condition: Conditi
 
 
 def _persist(results_dir: str, model_key: str, bundles: dict[Condition, MetricBundle],
-             tables: str) -> None:
+             tables: str, results_tag: str = "") -> None:
     """Write the rendered tables and the raw metric bundles to results_dir for the write-up.
-    Filenames carry the model_key so a base-model comparison (one run per base) never overwrites.
+    Filenames carry the model_key so a base-model comparison (one run per base) never overwrites,
+    plus the dataset `results_tag` (7.3) so v2/v3 artefacts never collide. An empty tag reproduces
+    today's names (`tables_{model_key}.md`), so v2 artefacts are byte-identical.
     """
     out = Path(results_dir)
     out.mkdir(parents=True, exist_ok=True)
-    (out / f"tables_{model_key}.md").write_text(tables)
+    suffix = f"_{results_tag}" if results_tag else ""
+    (out / f"tables_{model_key}{suffix}.md").write_text(tables)
     payload = {cond: asdict(bundle) for cond, bundle in bundles.items()}
-    (out / f"metrics_{model_key}.json").write_text(json.dumps(payload, indent=2))
+    (out / f"metrics_{model_key}{suffix}.json").write_text(json.dumps(payload, indent=2))
+
+
+def resolve_dataset(cfg: dict) -> dict:
+    """Resolve the version-specific run objects from config, without loading any model (7.3).
+
+    Returns the schema repr, entity registry, AD/Dis system prompts, results_tag and benchmark
+    path for `dataset_version` (default 'v2' when the key is absent → the frozen baseline). v2 is
+    byte-identical to pre-7.3 behaviour; 'v3' selects the concise schema/registry/prompts.
+    """
+    version = cfg.get("dataset_version", "v2")
+    if version == "v3":
+        return {
+            "dataset_version": "v3",
+            "schema": build_pole_v3_schema_repr(),
+            "entity_registry": registry_for_version("v3"),
+            "ad_system_prompt": AD_SYSTEM_PROMPT_V3,
+            "dis_system_prompt": DIS_SYSTEM_PROMPT_V3,
+            "results_tag": cfg.get("results_tag", ""),
+            "benchmark": cfg["benchmark"],
+        }
+    if version == "v2":
+        return {
+            "dataset_version": "v2",
+            "schema": build_pole_schema_repr(),
+            "entity_registry": registry_for_version("v2"),
+            "ad_system_prompt": AD_SYSTEM_PROMPT,
+            "dis_system_prompt": DIS_SYSTEM_PROMPT,
+            "results_tag": cfg.get("results_tag", ""),
+            "benchmark": cfg["benchmark"],
+        }
+    raise SystemExit(f"Unknown dataset_version '{version}' in config. Known: 'v2', 'v3'.")
 
 
 def _resolve_sl_decoding(sli: dict, key: str, kind: str) -> dict:
@@ -122,8 +159,10 @@ def main(config_path: str = "config/pipeline.yaml") -> None:
     sli = yaml.safe_load(Path(cfg["schema_linker_inference"]).read_text())
     sl_decoding = _resolve_sl_decoding(sli, key, kind)
 
-    schema = build_pole_schema_repr()
-    benchmark = load_benchmark(cfg["benchmark"])
+    # Version-specific objects (schema repr, entity registry, AD/Dis prompts, results_tag) — 7.3.
+    ds = resolve_dataset(cfg)
+    schema = ds["schema"]
+    benchmark = load_benchmark(ds["benchmark"])
 
     embedding_model = None
     if cfg.get("use_embedding_model"):
@@ -149,13 +188,16 @@ def main(config_path: str = "config/pipeline.yaml") -> None:
                           base_spec=dict(base_spec), sl_spec=dict(sl_spec), qg_spec=dict(qg_spec),
                           schema=schema, sl_decoding=sl_decoding,
                           ad_spec=ad_spec, dis_spec=dis_spec,
-                          embedding_model=embedding_model) as c3:
+                          embedding_model=embedding_model,
+                          entity_registry=ds["entity_registry"],
+                          ad_system_prompt=ds["ad_system_prompt"],
+                          dis_system_prompt=ds["dis_system_prompt"]) as c3:
         results, ad_preds = run_condition(benchmark, c3, "disambiguation_enhanced")
         bundles["disambiguation_enhanced"] = compute_metrics(results, ad_predictions=ad_preds)
 
     tables = format_metric_tables(bundles)
     print(tables)
-    _persist(cfg["results_dir"], key, bundles, tables)
+    _persist(cfg["results_dir"], key, bundles, tables, ds["results_tag"])
 
 
 if __name__ == "__main__":

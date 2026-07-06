@@ -7,6 +7,8 @@ from typing import TYPE_CHECKING, Optional
 import neo4j
 from CyVer import PropertiesValidator, SchemaValidator, SyntaxValidator
 
+from pipeline.ambiguity.prompts import AD_SYSTEM_PROMPT
+from pipeline.disambiguator.prompts import DIS_SYSTEM_PROMPT
 from pipeline.entity_lookup.cache import EntityCache
 from pipeline.llm import BaseLLM
 from pipeline.query_generator.generator import QueryGenerator
@@ -26,6 +28,12 @@ class PipelineComponents:
     schema_linker: Optional[SchemaLinker] = None      # None for baseline (no SL)
     ad_llm:  Optional[BaseLLM] = None                  # None unless disambiguation_enhanced
     dis_llm: Optional[BaseLLM] = None                  # None unless disambiguation_enhanced
+
+    # Version-specific teaching prompts for the AD/Dis stages (7.3). Default to the frozen v2
+    # constants so existing callers/tests are byte-identical; the condition builders pass the
+    # v3 variants for a v3 run. Threaded to the stages by the orchestrator (it holds no config).
+    ad_system_prompt: str = AD_SYSTEM_PROMPT
+    dis_system_prompt: str = DIS_SYSTEM_PROMPT
 
     # Shared graph resources
     neo4j_driver: neo4j.Driver
@@ -59,19 +67,28 @@ class PipelineComponents:
         embedding_model: Optional["SentenceTransformer"] = None,
         use_prefilter: bool = False,
         load_entity_cache: bool = True,
+        entity_registry: Optional[list[dict]] = None,
+        ad_system_prompt: str = AD_SYSTEM_PROMPT,
+        dis_system_prompt: str = DIS_SYSTEM_PROMPT,
     ) -> "PipelineComponents":
         """Open the driver, build the three CyVer validators, optionally load the entity cache.
 
         Call once per condition. The driver is closed by close() / __exit__. load_entity_cache
         defaults True (the POLE graph is tiny); set False for baseline/schema_grounded if desired.
+        `entity_registry` selects the entity-searchable labels/props (None → frozen v2; 7.3
+        passes the v3 registry); `ad_system_prompt`/`dis_system_prompt` carry the version-specific
+        teaching prompts (defaults preserve v2 behaviour).
         """
         driver = neo4j.GraphDatabase.driver(neo4j_uri, auth=neo4j_auth)
-        cache = EntityCache.load(driver, database_name) if load_entity_cache else None
+        cache = (EntityCache.load(driver, database_name, registry=entity_registry)
+                 if load_entity_cache else None)
         return cls(
             query_generator=query_generator,
             schema_linker=schema_linker,
             ad_llm=ad_llm,
             dis_llm=dis_llm,
+            ad_system_prompt=ad_system_prompt,
+            dis_system_prompt=dis_system_prompt,
             neo4j_driver=driver,
             database_name=database_name,
             syntax_validator=SyntaxValidator(driver),

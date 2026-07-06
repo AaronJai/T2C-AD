@@ -10,7 +10,9 @@ import re
 # benchmark questions is poor, this is the place to improve (record in decisions-log.md).
 
 # Perth suburbs that may appear in SyntheticPoliceKG Location values. Used case-insensitively
-# as a safety net for the (otherwise capitalisation-dependent) proper-noun rules.
+# as a safety net for the (otherwise capitalisation-dependent) proper-noun rules. This is a
+# superset across v2 and v3 (a recall aid — the entity_lookup threshold bounds over-extraction);
+# the v3 suburbs (7.3) 'West Perth', 'Perth', 'Mt Lawley' are added below.
 _KNOWN_SUBURBS: set[str] = {
     "Northbridge", "Fremantle", "Subiaco", "Joondalup", "Armadale", "Midland",
     "Cannington", "Mirrabooka", "Cottesloe", "Scarborough", "Rockingham", "Mandurah",
@@ -18,6 +20,8 @@ _KNOWN_SUBURBS: set[str] = {
     "Bayswater", "Morley", "Balga", "Gosnells", "Kalamunda", "Wanneroo", "Belmont",
     "Cockburn", "Kwinana", "Melville", "Stirling", "Vincent", "Wembley", "Maylands",
     "Osborne Park", "Balcatta", "Innaloo", "Karawara", "Como", "Applecross",
+    # v3 (SyntheticPoliceKG-v3.cypher) Location suburbs not already covered above
+    "West Perth", "Perth", "Mt Lawley",
 }
 
 # (1) "Operation X" / "Operation X Y" patterns

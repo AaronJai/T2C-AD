@@ -24,6 +24,8 @@ def disambiguator(
     dis_llm: BaseLLM,
     previously_tried: list[SchemaMapping],
     mode: ResolutionMode = "automated",
+    *,
+    system_prompt: str = DIS_SYSTEM_PROMPT,
 ) -> Optional[SchemaMapping]:
     """Commit one interpretation. Returns None if all candidates have been tried.
 
@@ -31,6 +33,8 @@ def disambiguator(
     interactive: raise NotImplementedError — the interactive contract (pose a clarification
       question, await a reply) is implemented by the Gradio demo (6.2); the evaluation harness
       uses automated only.
+    `system_prompt` selects the teaching prompt (defaults to the v2 `DIS_SYSTEM_PROMPT`; 7.3
+    passes `DIS_SYSTEM_PROMPT_V3` for v3 runs — chosen in the condition builders, not here).
     """
     if mode == "interactive":
         raise NotImplementedError(
@@ -41,7 +45,7 @@ def disambiguator(
         question, ambiguity_result, candidate_mapping, entity_lookup, previously_tried,
     )
     completions = dis_llm.generate_chat(
-        [{"role": "system", "content": DIS_SYSTEM_PROMPT},
+        [{"role": "system", "content": system_prompt},
          {"role": "user", "content": prompt}],
         GenerationConfig(max_new_tokens=256, do_sample=False),
     )

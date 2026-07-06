@@ -98,7 +98,7 @@ class DisStub:
         self.returns = list(returns)
         self.tried_lens: list = []     # len(previously_tried) seen per call
 
-    def __call__(self, question, ar, cm, el, dis_llm, previously_tried):
+    def __call__(self, question, ar, cm, el, dis_llm, previously_tried, system_prompt=None):
         self.tried_lens.append(len(previously_tried))
         return self.returns.pop(0) if len(self.returns) > 1 else self.returns[0]
 
@@ -125,6 +125,7 @@ class EvalStub:
 def make_components(**over):
     base = dict(query_generator=QGStub(), schema_linker=LinkerStub(make_cm()),
                 ad_llm=object(), dis_llm=object(), entity_cache=object(),
+                ad_system_prompt="SYS_AD", dis_system_prompt="SYS_DIS",
                 neo4j_driver=object(), database_name=None, schema=None,
                 embedding_model=None, use_prefilter=False)
     base.update(over)
@@ -136,7 +137,8 @@ def patch_stages(monkeypatch, *, cyver, eval_stub, dis=None, ad_amb=False):
     monkeypatch.setattr(orch, "db_executor",
                         lambda c, d, db: ExecutionResult(True, [{"n": 1}], None, 1.0))
     monkeypatch.setattr(orch, "semantic_evaluator", eval_stub)
-    monkeypatch.setattr(orch, "ambiguity_detector", lambda q, cm, el, llm: make_ar(ad_amb))
+    monkeypatch.setattr(orch, "ambiguity_detector",
+                        lambda q, cm, el, llm, system_prompt=None: make_ar(ad_amb))
     monkeypatch.setattr(orch, "entity_lookup", lambda q, cm, cache: EntityLookupResult(q, {}))
     if dis is not None:
         monkeypatch.setattr(orch, "disambiguator", dis)

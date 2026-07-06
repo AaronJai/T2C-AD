@@ -24,11 +24,15 @@ def ambiguity_detector(
     ad_llm: BaseLLM,
     threshold_schema: float = 0.6,
     threshold_entity: float = 0.8,
+    *,
+    system_prompt: str = AD_SYSTEM_PROMPT,
 ) -> AmbiguityResult:
     """Classify a question as ambiguous (schema/entity/intent/temporal) via a few-shot LLM.
 
     The entropy scores (3.3) are injected into the prompt as evidence; the LLM makes the call.
     The thresholds only gate the deterministic fallback when the LLM output can't be parsed.
+    `system_prompt` selects the teaching prompt (defaults to the v2 `AD_SYSTEM_PROMPT`; 7.3
+    passes `AD_SYSTEM_PROMPT_V3` for v3 runs — chosen in the condition builders, not here).
     Never raises — always returns an AmbiguityResult.
     """
     schema_entropy, entity_entropy = compute_ambiguity_scores(candidate_mapping, entity_lookup)
@@ -37,7 +41,7 @@ def ambiguity_detector(
         _format_entity_block(entity_lookup), schema_entropy, entity_entropy,
     )
     completions = ad_llm.generate_chat(
-        [{"role": "system", "content": AD_SYSTEM_PROMPT},
+        [{"role": "system", "content": system_prompt},
          {"role": "user", "content": user}],
         GenerationConfig(max_new_tokens=256, do_sample=False),
     )

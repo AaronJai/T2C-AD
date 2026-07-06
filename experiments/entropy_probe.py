@@ -34,7 +34,7 @@ from experiments.probe_utils import (
 )
 from pipeline.data.benchmark_loader import load_benchmark
 from pipeline.llm import BaseLLM, HuggingFaceLLM, build_llm
-from pipeline.schema import build_pole_schema_repr
+from pipeline.schema import build_schema_repr
 from pipeline.types import BenchmarkItem
 
 BEAM_K = 5
@@ -245,11 +245,15 @@ def main() -> None:
     ap.add_argument("--model_key", default="mistral7b")
     ap.add_argument("--models", default="config/models.yaml")
     ap.add_argument("--benchmark", default="data/benchmark-updated.json")
+    ap.add_argument("--dataset_version", default="v2", choices=["v2", "v3"],
+                    help="Which schema repr to render for the SL prompt (v3 → concise schema).")
+    ap.add_argument("--results_tag", default="",
+                    help="Dataset tag suffixed into artefact names (e.g. v3); empty → today's names.")
     ap.add_argument("--inference_config", default="config/schema_linker_inference.yaml")
     ap.add_argument("--results", default=None,
-                    help="default results/entropy_probe_{model_key}.json")
+                    help="default results/entropy_probe_{model_key}{_tag}.json")
     ap.add_argument("--beam_cache", default=None,
-                    help="default results/beams_{model_key}.jsonl (model-keyed so caches don't collide)")
+                    help="default results/beams_{model_key}{_tag}.jsonl (model+version-keyed so caches don't collide)")
     ap.add_argument("--regenerate", action="store_true",
                     help="Force beam regeneration even if the cache exists (needs GPU/API).")
     args = ap.parse_args()
@@ -262,15 +266,16 @@ def main() -> None:
 
     items = load_benchmark(args.benchmark)
     decoding = read_sl_decoding(args.inference_config, args.model_key, kind)
-    cache_path = Path(args.beam_cache or f"results/beams_{args.model_key}.jsonl")
-    results_path = Path(args.results or f"results/entropy_probe_{args.model_key}.json")
+    tag = f"_{args.results_tag}" if args.results_tag else ""
+    cache_path = Path(args.beam_cache or f"results/beams_{args.model_key}{tag}.jsonl")
+    results_path = Path(args.results or f"results/entropy_probe_{args.model_key}{tag}.json")
 
     # Reuse cached beams when present (ablation rescore is GPU/API-free); else generate once.
     if cache_path.exists() and not args.regenerate:
         records = load_cached_beams(cache_path)
         print(f"Loaded {len(records)} cached beam records from {cache_path}.")
     else:
-        schema = build_pole_schema_repr()
+        schema = build_schema_repr(args.dataset_version)
         schema_block = schema.to_prompt_string(include_properties=True)
         if kind == "api":
             llm: BaseLLM = build_llm({"backend": entry["backend"], "model": entry["model"]})

@@ -10,6 +10,14 @@ neo4j:
   # password via env var NEO4J_PASSWORD (do not commit real credentials)
   database: "neo4j"
 
+# Dataset version (7.3). v3 (default) selects the concise 6-label/11-relationship schema repr,
+# the v3 entity registry (no Organisation), and the v3 AD/Dis prompts; v2 reproduces the frozen
+# Phase 0–6 baseline byte-identically. `benchmark` + `results_tag` MUST match the version chosen.
+# v3 runs require the SEPARATE v3 Neo4j graph — start it with `sbatch kaya/70_neo4j_v3.slurm`
+# (own data dir), NOT the v2 `kaya/55_neo4j.slurm` graph.
+dataset_version: v3                           # v2 | v3 (absent → v2, back-compat)
+results_tag: v3                               # suffixed into results artefact names ("" → today's v2 names)
+
 models_registry: "config/models.yaml"       # the per-base registry from 2.1
 active_model: "mistral7b"                    # which model_key to evaluate (must be in the registry)
 # For a LOCAL model, base + adapter paths are DERIVED from active_model:
@@ -28,7 +36,7 @@ active_model: "mistral7b"                    # which model_key to evaluate (must
 ad: null                                     # null → default to the active model's base
 dis: null                                    # null → share the AD backend
 
-benchmark: "data/benchmark-updated.json"
+benchmark: "data/benchmark-v3.json"          # v3 canonical (7.2); use data/benchmark-updated.json for a v2 run
 schema_linker_inference: "config/schema_linker_inference.yaml"   # holds locked diversity_penalty (2.2)
 use_embedding_model: true                    # load sentence-transformers for the evaluator fallback
 results_dir: "results/"

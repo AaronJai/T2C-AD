@@ -32,7 +32,7 @@ from experiments.probe_utils import (
 )
 from pipeline.data.benchmark_loader import load_benchmark
 from pipeline.llm import BaseLLM, HuggingFaceLLM, build_llm
-from pipeline.schema import build_pole_schema_repr
+from pipeline.schema import build_schema_repr
 from pipeline.types import BenchmarkItem
 
 PENALTIES = [0.2, 0.5, 1.0]        # local: diverse-beam diversity_penalty
@@ -170,14 +170,18 @@ def main() -> None:
     ap.add_argument("--model_key", default="mistral7b")
     ap.add_argument("--models", default="config/models.yaml")
     ap.add_argument("--benchmark", default="data/benchmark-updated.json")
+    ap.add_argument("--dataset_version", default="v2", choices=["v2", "v3"],
+                    help="Which schema repr to render for the SL prompt (v3 → concise schema).")
+    ap.add_argument("--results_tag", default="",
+                    help="Dataset tag suffixed into the sweep results name (e.g. v3); empty → today's name.")
     ap.add_argument("--results", default=None,
-                    help="default results/diversity_penalty_sweep_{model_key}.json")
+                    help="default results/diversity_penalty_sweep_{model_key}{_tag}.json")
     ap.add_argument("--inference_config", default="config/schema_linker_inference.yaml")
     args = ap.parse_args()
 
     # 1. Benchmark + the POLE schema block, rendered once.
     items = load_benchmark(args.benchmark)
-    schema = build_pole_schema_repr()
+    schema = build_schema_repr(args.dataset_version)
     schema_block = schema.to_prompt_string(include_properties=True)
     valid_labels = set(schema.node_labels)
     valid_rels = {p["type"] for p in schema.relationship_paths}
@@ -195,7 +199,8 @@ def main() -> None:
 
     # 4. Select + 5. write outputs.
     chosen, reason = select_decoding(rows, kind)
-    results = args.results or f"results/diversity_penalty_sweep_{args.model_key}.json"
+    tag = f"_{args.results_tag}" if args.results_tag else ""
+    results = args.results or f"results/diversity_penalty_sweep_{args.model_key}{tag}.json"
     write_results(rows, chosen, reason, Path(results))
     write_inference_config(args.model_key, chosen, Path(args.inference_config))
 

@@ -40,7 +40,11 @@ def build_condition3(*, neo4j_uri, neo4j_auth, database_name,
                      sl_decoding: dict,                         # locked SL decoding block (2.2)
                      ad_spec: Optional[dict] = None,            # build_llm spec; None → base_spec
                      dis_spec: Optional[dict] = None,           # None → share the AD backend
-                     embedding_model=None) -> PipelineComponents:
+                     embedding_model=None,
+                     entity_registry: Optional[list] = None,    # None → frozen v2; 7.3 passes v3
+                     ad_system_prompt: Optional[str] = None,    # None → v2 default (PipelineComponents)
+                     dis_system_prompt: Optional[str] = None,   # None → v2 default (PipelineComponents)
+                     ) -> PipelineComponents:
     """Full pipeline. SL candidate distribution per `sl_decoding` (beam search for a local
     model, temperature sampling for an API model); QG; few-shot AD + Disambiguator.
 
@@ -50,6 +54,10 @@ def build_condition3(*, neo4j_uri, neo4j_auth, database_name,
     applied only to HuggingFace specs. A caller-supplied `ad_spec`/`dis_spec` is passed
     through verbatim; when `ad_spec` is None the Ambiguity Detector defaults to `base_spec`
     (the same model — one model the whole way through).
+
+    `entity_registry`/`ad_system_prompt`/`dis_system_prompt` carry the dataset-version selection
+    (7.3): run_evaluation passes the v3 registry + v3 prompts for a v3 run; None keeps the frozen
+    v2 defaults baked into PipelineComponents (so an unversioned caller is byte-identical).
 
     `sl_decoding` keys: `strategy` ("beam"|"sample"), `k` (number of completions; default 5),
     `diversity_penalty` (beam), `temperature`/`top_p` (sample).
@@ -64,6 +72,13 @@ def build_condition3(*, neo4j_uri, neo4j_auth, database_name,
     beam_k = sl_decoding.get("k", 5)
     diversity_penalty = sl_decoding.get("diversity_penalty", 1.0)
 
+    # Only pass the prompt kwargs when set, so None falls back to PipelineComponents' v2 defaults.
+    prompt_kwargs = {}
+    if ad_system_prompt is not None:
+        prompt_kwargs["ad_system_prompt"] = ad_system_prompt
+    if dis_system_prompt is not None:
+        prompt_kwargs["dis_system_prompt"] = dis_system_prompt
+
     return PipelineComponents.build(
         query_generator=QueryGenerator(qg_llm),
         schema_linker=SchemaLinker(sl_llm, beam_k=beam_k, diversity_penalty=diversity_penalty,
@@ -72,4 +87,5 @@ def build_condition3(*, neo4j_uri, neo4j_auth, database_name,
         neo4j_uri=neo4j_uri, neo4j_auth=neo4j_auth, database_name=database_name,
         schema=schema, embedding_model=embedding_model,
         use_prefilter=False, load_entity_cache=True,
+        entity_registry=entity_registry, **prompt_kwargs,
     )

@@ -45,7 +45,8 @@ def patched(monkeypatch):
     monkeypatch.setattr(components_mod, "SchemaValidator", _FakeValidator)
     monkeypatch.setattr(components_mod, "PropertiesValidator", _FakeValidator)
     monkeypatch.setattr(
-        components_mod.EntityCache, "load", classmethod(lambda cls, drv, db: cache)
+        components_mod.EntityCache, "load",
+        classmethod(lambda cls, drv, db, registry=None: cache)
     )
     return driver, cache
 

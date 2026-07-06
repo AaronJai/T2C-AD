@@ -40,17 +40,21 @@ class EntityCache:
         return out
 
     @classmethod
-    def load(cls, driver: neo4j.Driver, database_name: Optional[str] = None) -> "EntityCache":
+    def load(cls, driver: neo4j.Driver, database_name: Optional[str] = None,
+             *, registry: Optional[list[dict]] = None) -> "EntityCache":
         """One Cypher query per registered label; build CachedNodes.
 
         Reads real property *values* from the running database (not the schema file).
         Skips nodes with no non-null name value. Loaded once per PipelineComponents (5.1),
-        immutable thereafter.
+        immutable thereafter. `registry` selects the entity-searchable labels/props; None keeps
+        the frozen v2 `ENTITY_REGISTRY` (7.3 passes `registry_for_version('v3')` for v3 runs).
         """
+        if registry is None:
+            registry = ENTITY_REGISTRY
         session_kwargs = {"database": database_name} if database_name else {}
         nodes: list[CachedNode] = []
         with driver.session(**session_kwargs) as session:
-            for entry in ENTITY_REGISTRY:
+            for entry in registry:
                 label = entry["label"]
                 id_prop = entry["id_prop"]
                 name_props = entry["name_props"]
