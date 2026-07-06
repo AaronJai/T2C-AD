@@ -72,6 +72,22 @@
 | 6.1 | `6.1-prefilter.md` | 0.1 | not started | |
 | 6.2 | `6.2-gradio-demo.md` | 0.3, 3.4, 3.5, 5.1, 5.2, 5.3 | not started | |
 
+## Phase 7 — Dataset v3 *(concise schema + rebuilt benchmark + in-domain SFT)*
+
+> Created 2026-07-06 after the first full E2E run (job 957276) localised the root cause
+> to SL intrinsic coverage (Cov@5 0.208 vs ≥0.85). v2 artefacts (`benchmark-updated.json`,
+> `SyntheticPoliceKG.cypher`, `results/*_mistral7b.*`) are **frozen as the recorded
+> baseline** — Phase 7 never edits them. See `ai-workflow-rules.md` §6 and
+> `project-overview.md` §5/§6 for the v2/v3 canonicality rule.
+
+| Step | Spec file | Depends on | Status | Outputs / Handoff note |
+|------|-----------|------------|--------|------------------------|
+| 7.1 | `7.1-kg-v3-design.md` | — | not started | |
+| 7.2 | `7.2-benchmark-v3.md` | 7.1 *(live Neo4j)* | not started | |
+| 7.3 | `7.3-v3-integration.md` | 7.1, 7.2 | not started | |
+| 7.4 | `7.4-pole-sft-data.md` | 7.1, 7.2, 7.3 *(GPU + API key)* | not started | |
+| 7.5 | `7.5-v3-revalidation.md` | 7.1, 7.2, 7.3, 7.4 *(GPU + live Neo4j)* | not started | |
+
 ---
 
 ## Target module layout (build map)
@@ -121,6 +137,7 @@ pipeline/
 ├── components.py                    [5.1]
 ├── orchestrator.py                  [5.2]
 ├── sft.py                           [2.1]  build_model_inputs, run_sft (shared SL+QG harness)
+├── pole_sft_data.py                 [7.4]  enumerate_v3_patterns + POLE SL/QG jsonl builders
 └── prefilter.py                     [6.1]
 
 experiments/
@@ -132,7 +149,9 @@ experiments/
 ├── build_condition1.py             [5.3]
 ├── build_condition2.py             [5.3]
 ├── build_condition3.py             [5.3]
-└── run_evaluation.py               [5.4]
+├── run_evaluation.py               [5.4]
+├── validate_benchmark.py           [7.2]  executable benchmark gates (live Neo4j)
+└── build_pole_sft_data.py          [7.4]  CLI for the POLE jsonl generation
 
 app/
 └── gradio_demo.py                  [6.2]
@@ -142,13 +161,24 @@ config/
 ├── schema_linker_train.yaml        [2.1]  shared SL hyperparameters (no per-model fields)
 ├── schema_linker_inference.yaml    [2.2]  locked diversity_penalty for 3.1
 ├── query_generator_train.yaml      [2.4]  shared QG hyperparameters (no per-model fields)
-└── pipeline.yaml                   [5.4]  neo4j + active_model + AD/Dis backend config
+├── pipeline.yaml                   [5.4]  neo4j + active_model + AD/Dis backend config (+ dataset_version/results_tag [7.3])
+├── pole_sft_data.yaml              [7.4]  paraphrase-LLM spec + generation knobs
+├── schema_linker_train_v3.yaml     [7.4]  continue-SFT (POLE + Ozsoy replay mix)
+└── query_generator_train_v3.yaml   [7.4]  continue-SFT (POLE + Ozsoy replay mix)
 
 data/
-└── benchmark-updated.json          [canonical, provided]
+├── benchmark-updated.json          [v2 — canonical for Phases 0–6; frozen baseline]
+├── SyntheticPoliceKG.cypher        [v2 KG — frozen baseline]
+├── SyntheticPoliceKG-v3.cypher     [7.1]
+├── benchmark-v3-skeleton.json      [7.1]  questions + planned interpretations (no cypher)
+├── benchmark-v3.json               [7.2]  v3 canonical once its validation harness passes
+├── pole_sl_{train,eval}.jsonl      [7.4]
+└── pole_qg_{train,eval}.jsonl      [7.4]
 
 checkpoints/                        # namespaced by model_key (supports N bases)
 └── {model_key}/                    # e.g. mistral7b/, llama31-8b/
     ├── sl_adapter/                 [2.1 output]
-    └── qg_adapter/                 [2.4 output]
+    ├── qg_adapter/                 [2.4 output]
+    ├── sl_adapter_v3/              [7.4 output — continue-SFT on POLE v3 mix]
+    └── qg_adapter_v3/              [7.4 output — continue-SFT on POLE v3 mix]
 ```

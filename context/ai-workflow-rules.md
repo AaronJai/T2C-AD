@@ -77,9 +77,15 @@ When the step is done:
 
 - Spec files are named `<ID>-<slug>.md` (e.g. `0.1-types.md`, `3.4-ambiguity-detector.md`)
   and live in `/context/feature-specs/`. There is no `spec-` prefix.
-- The benchmark (`benchmark-updated.json`) is already canonical: `ambiguity_type ∈
-  {schema, entity, intent, temporal, null}`. There is no migration/remapping step — do
-  not write one.
+- **Dataset versions (amended 2026-07-06).** `data/benchmark-updated.json` +
+  `data/SyntheticPoliceKG.cypher` are the **v2** artefacts — canonical for Phases 0–6
+  and **frozen** as the recorded baseline (job 957276 results). Never edit them.
+  Phase 7 builds the **v3** dataset (`data/SyntheticPoliceKG-v3.cypher`,
+  `data/benchmark-v3.json`); v3 becomes canonical for all new runs once the 7.2
+  validation harness passes green on live Neo4j. Both versions share the same item
+  contract: `ambiguity_type ∈ {schema, entity, intent, temporal, null}`. There is no
+  migration/remapping step for either — v3 is authored to the contract, not migrated;
+  do not write one.
 - Model backends are swappable by config. Default base model is Mistral 7B, but it is an
   example default only; nothing may assume it.
 - Entity Lookup and any validation/execution/evaluation step need a **live Neo4j** with

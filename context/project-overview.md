@@ -112,16 +112,38 @@ Event), implemented in Neo4j (local Docker). Definition: `SyntheticPoliceKG.cyph
   identifiers) live in the loaded database — Entity Lookup must query the live DB, not
   the file.
 
+**v3 (Phase 7, decided 2026-07-06).** The first full E2E run (job 957276) localised the
+accuracy floor to SL intrinsic coverage (Cov@5 0.208 vs the ≥0.85 criterion), and the
+diagnosis attributed part of that to the v2 schema itself: many of the 28 relationship
+types are accidental near-synonyms (`RELATES_TO`/`RELATED_TO`/`LINKED_TO`; seven `*_AT`
+location edges) — lexical noise that deflates schema linking without testing
+disambiguation. **v3** (`SyntheticPoliceKG-v3.cypher`, specs `feature-specs/phase7/`)
+shrinks to **6 node labels / 11 relationship types**, keeping only *designed* ambiguity:
+the four Person→Incident role edges (schema), duplicate names/aliases in the data
+(entity), and dated `LIVES_AT`/`OWNS`/`USES_PHONE`/`ASSOCIATED_WITH` edges (temporal).
+v2 stays frozen as the recorded baseline; the v2→v3 before/after on identical pipeline
+code is part of the thesis argument.
+
 ---
 
 ## 6. Evaluation
 
-**Benchmark:** `benchmark-updated.json` — 125 annotated questions, **50 ambiguous /
-75 unambiguous**. Canonical and already migrated: `ambiguity_type ∈ {schema, entity,
-intent, temporal, null}`, no empty strings, no compound labels. **No migration or
-remapping step exists.**
+**Benchmark (v2):** `benchmark-updated.json` — 125 annotated questions, **50 ambiguous /
+75 unambiguous**. Canonical for Phases 0–6 and frozen as the baseline: `ambiguity_type ∈
+{schema, entity, intent, temporal, null}`, no empty strings, no compound labels. **No
+migration or remapping step exists.**
 
-Ambiguity type distribution: schema 13, entity 11, intent 11, temporal 15, null 75.
+Ambiguity type distribution (v2): schema 13, entity 11, intent 11, temporal 15, null 75.
+
+**Benchmark (v3, Phase 7):** `benchmark-v3.json` — 120 questions, **80 ambiguous /
+40 unambiguous** (20 per ambiguity type, so per-type cells are statistically
+reportable), same item contract as v2. Gold queries are capped at **3 hops**;
+`num_hops` is recorded metadata only (the dissertation reports single- vs multi-hop —
+v2's uniform 1–5-hop stratification is dropped as orthogonal to the research question).
+v3 ships with an executable validation harness (7.2): every gold query must run
+non-empty on the live KG and every ambiguous item's interpretations must return
+**pairwise-distinct** result sets — the precondition that makes DSR/EA measurable.
+v3 is canonical for all new runs once that harness passes.
 
 **Three experimental conditions:**
 
@@ -157,7 +179,11 @@ POLE-specific fine-tuned Schema Linker (step 2.3) to confirm the signal improves
 ## 8. Scope
 
 **In scope**
-- POLE synthetic KG; the 125-question benchmark (50 ambiguous).
+- POLE synthetic KG; the 125-question v2 benchmark (frozen baseline) and the
+  120-question v3 benchmark (80 ambiguous) with its concise 6-label/11-relationship
+  schema (Phase 7).
+- In-domain POLE SFT data for the Schema Linker + Query Generator (Phase 7.4),
+  template-generated over the v3 schema and text-disjoint from the benchmark.
 - Four ambiguity types: schema, entity, intent, temporal.
 - Automated disambiguation as the evaluated modality.
 - Three-condition evaluation with the metrics in §6.
@@ -185,7 +211,9 @@ POLE-specific fine-tuned Schema Linker (step 2.3) to confirm the signal improves
 ## 9. Success Criteria *(draft — confirm/adjust)*
 
 The thesis succeeds if the architecture is *demonstrated to work as claimed*, not if it
-beats SOTA. Concretely:
+beats SOTA. The criteria below were first scored on v2 (all ❌ — see
+`docs/results-walkthrough.md`, root cause SL Cov@5 0.208) and are re-scored on the v3
+dataset at Phase 7.5; targets are unchanged across versions. Concretely:
 
 1. **Architectural claim.** On the 50-question ambiguous subset, Condition 3 achieves
    higher AREA (and EX) than Condition 2 — i.e. explicit disambiguation adds measurable
@@ -226,6 +254,13 @@ beats SOTA. Concretely:
 - Entity ambiguity requires a **live Neo4j connection** — it matches against real node
   property values, not the schema file.
 - Custom Python pipeline — **no LangGraph**.
+- **v2 artefacts are frozen** (added 2026-07-06): `benchmark-updated.json`,
+  `SyntheticPoliceKG.cypher`, and the job-957276 results are the recorded baseline and
+  are never edited; Phase 7's v3 dataset is selected purely by config
+  (`dataset_version`/`results_tag`), and all v3 artefacts are version-tagged so the two
+  never collide.
+- **In-domain SFT data must be question-text-disjoint from the benchmark** (7.4's hard
+  gate) — the benchmark measures generalisation within the schema, not memorisation.
 
 ---
 
