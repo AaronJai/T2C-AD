@@ -193,10 +193,10 @@ detected_types is a subset of {"schema","entity","intent","temporal"}; empty if 
 """
 
 # Four few-shot examples (one per type), re-grounded in v3 seed data: the Northbridge robbery
-# (INC-V3-001, 3 suspects / 2 witnesses / 2 investigators), two Persons named James
-# (James Whitfield PER-V3-007, James Kowalski PER-V3-004), David Chen (PER-V3-001, an
-# investigator on INC-V3-001), and James Whitfield's OWNS edge to a Holden Commodore
-# (VEH-V3-001). Rendered in the same layout as build_ad_user_turn + the block serialisers.
+# (INC-001, 3 suspects / 2 witnesses / 2 investigators), two Persons named James
+# (James Whitfield PER-007, James Kowalski PER-004), David Chen (PER-001, an
+# investigator on INC-001), and James Whitfield's OWNS edge to a Holden Commodore
+# (VEH-001). Rendered in the same layout as build_ad_user_turn + the block serialisers.
 _AD_FEW_SHOT_V3 = """\
 ### Example 1
 Question: Who is connected to the Northbridge robbery?
@@ -227,14 +227,14 @@ rel_1 candidates:
 
 Entity lookup results:
 "James" matches:
-  1. Person: James Whitfield (PER-V3-007) [match: 0.95]
-  2. Person: James Kowalski (PER-V3-004) [match: 0.93]
+  1. Person: James Whitfield (PER-007) [match: 0.95]
+  2. Person: James Kowalski (PER-004) [match: 0.93]
 
 Schema ambiguity score: 0.31 (higher = more spread across candidates)
 Entity ambiguity score: 0.99 (higher = more matching instances)
 
 Classify this question.
-{"is_ambiguous": true, "detected_types": ["entity"], "rationale": "Two distinct Person nodes (PER-V3-007, PER-V3-004) match 'James' and the question gives nothing to disambiguate them (high entity score 0.99), so the result depends on which James is meant."}
+{"is_ambiguous": true, "detected_types": ["entity"], "rationale": "Two distinct Person nodes (PER-007, PER-004) match 'James' and the question gives nothing to disambiguate them (high entity score 0.99), so the result depends on which James is meant."}
 
 ### Example 3
 Question: What is the relationship between David Chen and the Northbridge robbery?
@@ -246,7 +246,7 @@ rel_1 candidates:
 
 Entity lookup results:
 "David Chen" matches:
-  1. Person: David Chen (PER-V3-001) [match: 0.97]
+  1. Person: David Chen (PER-001) [match: 0.97]
 
 Schema ambiguity score: 0.40 (higher = more spread across candidates)
 Entity ambiguity score: 0.00 (higher = more matching instances)

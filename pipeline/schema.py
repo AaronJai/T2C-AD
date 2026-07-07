@@ -107,7 +107,7 @@ def build_pole_v3_schema_repr() -> SchemaRepr:
         properties={
             "Person":   ["person_id", "name", "alias", "date_of_birth", "gender"],
             "Incident": ["incident_id", "crime_type", "date", "status"],
-            "Case":     ["case_id", "case_name", "status", "opened_date"],
+            "Case":     ["case_id", "case_name", "descriptor", "status", "opened_date"],
             "Location": ["location_id", "address", "suburb", "postcode"],
             "Vehicle":  ["vehicle_id", "plate", "make", "model", "colour"],
             "Phone":    ["device_id", "phone_number"],

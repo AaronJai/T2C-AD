@@ -137,8 +137,8 @@ If every candidate has already been tried:
 ## Examples
 """
 
-# Three few-shot examples, re-grounded in v3 seed data (the Northbridge robbery, INC-V3-001;
-# a Holden Commodore, VEH-V3-001). Example 2 demonstrates honouring the "previously tried" block.
+# Three few-shot examples, re-grounded in v3 seed data (the Northbridge robbery, INC-001;
+# a Holden Commodore, VEH-001). Example 2 demonstrates honouring the "previously tried" block.
 _DIS_FEW_SHOT_V3 = """\
 ### Example 1
 Question: Who is connected to the Northbridge robbery?

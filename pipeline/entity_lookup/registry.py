@@ -17,7 +17,7 @@ ENTITY_REGISTRY: list[dict] = [
 # property and Location no `district`, so the extra_props are trimmed to what v3 actually stores.
 ENTITY_REGISTRY_V3: list[dict] = [
     {"label": "Person",   "id_prop": "person_id",   "name_props": ["name", "alias"],     "extra_props": ["gender"]},
-    {"label": "Case",     "id_prop": "case_id",     "name_props": ["case_name"],         "extra_props": ["status"]},
+    {"label": "Case",     "id_prop": "case_id",     "name_props": ["case_name", "descriptor"], "extra_props": ["status"]},
     {"label": "Location", "id_prop": "location_id", "name_props": ["suburb", "address"], "extra_props": ["postcode"]},
 ]
 

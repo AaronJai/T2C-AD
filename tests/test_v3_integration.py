@@ -90,7 +90,7 @@ def test_v3_prompts_are_distinct_and_v3_grounded() -> None:
     for dropped in ("Organisation", "Evidence", "WORKS_FOR", "Communication"):
         assert dropped not in AD_SYSTEM_PROMPT_V3
     assert "Node labels: Person, Incident, Case, Location, Vehicle, Phone" in AD_SYSTEM_PROMPT_V3
-    assert "PER-V3-007" in AD_SYSTEM_PROMPT_V3                  # re-grounded few-shot entity
+    assert "PER-007" in AD_SYSTEM_PROMPT_V3                  # re-grounded few-shot entity
 
 
 def test_detector_uses_injected_system_prompt() -> None:
