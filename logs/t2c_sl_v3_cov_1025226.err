@@ -1,0 +1,13 @@
+/uwahpc/rocky9/python/anaconda3/2024.06/lib/python3.12/site-packages/conda/base/context.py:201: FutureWarning: Adding 'defaults' to channel list implicitly is deprecated and will be removed in 25.3. 
+
+To remove this warning, please choose a default channel explicitly with conda's regular configuration system, e.g. by adding 'defaults' to the list of channels:
+
+  conda config --add channels defaults
+
+For more information see https://docs.conda.io/projects/conda/en/stable/user-guide/configuration/use-condarc.html
+
+  deprecated.topic(
+Traceback (most recent call last):
+  File "/mmfs1/data/group/pmc084/atan/T2C-AD/kaya/sl_v3_cov_check.py", line 17, in <module>
+    from experiments.probe_utils import covered, generate_beams, gold_patterns
+ModuleNotFoundError: No module named 'experiments'

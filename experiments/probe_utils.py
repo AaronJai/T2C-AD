@@ -9,6 +9,7 @@ from collections import Counter
 from pipeline.llm import BaseLLM
 from pipeline.schema_linker.inference import sl_generation_config, sl_sampling_config
 from pipeline.schema_linker.pattern_extraction import extract_schema_pattern
+from pipeline.schema_linker.postprocessing import _has_active, _rel_element, parse_schema_pattern
 from pipeline.schema_linker.prompts import build_sl_prompt
 from pipeline.types import BenchmarkItem
 
@@ -72,10 +73,42 @@ def roc_auc(scores: list[float], labels: list[bool]) -> float:
     return (sum_ranks_pos - n_pos * (n_pos + 1) / 2.0) / (n_pos * n_neg)
 
 
+class _AnySchema:
+    """Accept-all stand-in for `parse_schema_pattern`'s schema arg: `covered()` only needs the
+    structural (nodes/relationships) parse, not the label/rel-type validity check, so which real
+    schema would be passed is irrelevant here."""
+    node_labels: tuple = ()
+    relationship_paths: tuple = ()
+
+
+def _canonical_pattern(pattern: str) -> tuple:
+    """Structural signature of a pattern: relationship (type, source_label, target_label,
+    active) tuples in hop order, direction-canonicalised via the same `_rel_element` logic the
+    live SL postprocessing (`pipeline/schema_linker/postprocessing.py`) uses to build a
+    CandidateMapping. A dangling trailing `--` (see decisions-log 2026-06-15) is dropped the
+    same way there too. Two Cypher strings describing the same schema pattern from opposite
+    anchors, or differing only by a dangling connector, produce the same signature."""
+    parsed = parse_schema_pattern(pattern, _AnySchema(), 0.0)
+    alias_to_label = {alias: label for alias, label in parsed.nodes}
+    rels = tuple(
+        (elem.name, elem.source_label, elem.target_label, elem.parent)
+        for elem in (
+            _rel_element(src, rtype, tgt, direction, alias_to_label, active=_has_active(props))
+            for src, rtype, tgt, direction, props in parsed.relationships
+        )
+    )
+    touched = {alias for src, _rtype, tgt, _dir, _props in parsed.relationships for alias in (src, tgt)}
+    bare_labels = tuple(sorted(
+        label for alias, label in parsed.nodes if label and alias not in touched
+    ))
+    return (rels, bare_labels)
+
+
 def covered(beams: list[str], gold_patterns: list[str]) -> bool:
-    """Cov@k guardrail: does any beam match any gold pattern (normalised comparison)?"""
-    golds = {_normalise_pattern(g) for g in gold_patterns if g}
-    return any(_normalise_pattern(b) in golds for b in beams if b)
+    """Cov@k guardrail: does any beam match any gold pattern (structural comparison — direction-
+    and dangling-connector-invariant, matching what the live SL postprocessing would accept)?"""
+    golds = {_canonical_pattern(g) for g in gold_patterns if g}
+    return any(_canonical_pattern(b) in golds for b in beams if b)
 
 
 def hallucinated(beams: list[str], valid_labels: set[str], valid_rels: set[str]) -> float:

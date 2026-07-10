@@ -1,0 +1,49 @@
+# config/schema_linker_train_v3.yaml — continue-SFT: POLE v3 in-domain data + Ozsoy replay,
+# initialised from the existing v2 sl_adapter (7.4). Same shape as schema_linker_train.yaml;
+# differs in: `model.init_adapter_path_name` (continue from the frozen v2 adapter instead of a
+# fresh LoRA init), `training.output_name` (-> sl_adapter_v3, so v2's sl_adapter is untouched),
+# data paths (the 7.4-generated POLE+Ozsoy-replay mix), a shorter 2-epoch schedule, and a lower
+# learning rate (continuing an already-converged adapter, not training from scratch).
+#
+# experiments/train_schema_linker.py needs no code change to consume this file — pass it via
+# --train: `python -m experiments.train_schema_linker --model_key mistral7b --train
+# config/schema_linker_train_v3.yaml`.
+
+model:
+  init_adapter_path_name: "sl_adapter"   # checkpoints/{model_key}/sl_adapter — continue-SFT base
+
+peft:
+  method: "lora"
+  r: 16
+  lora_alpha: 32
+  lora_dropout: 0.05
+  bias: "none"
+  task_type: "CAUSAL_LM"
+  # target_modules: comes from config/models.yaml (per architecture); unused when
+  # init_adapter_path_name is set (the saved adapter's own LoRA config applies) — kept for
+  # config-shape parity with schema_linker_train.yaml.
+
+training:
+  output_name: "sl_adapter_v3"           # -> checkpoints/{model_key}/sl_adapter_v3
+  num_train_epochs: 2
+  per_device_train_batch_size: 2
+  per_device_eval_batch_size: 1
+  gradient_accumulation_steps: 16         # effective batch = 32, matching schema_linker_train.yaml
+  learning_rate: 1.0e-4                   # lower than the from-scratch 2e-4 — continue-SFT
+  lr_scheduler_type: "cosine"
+  warmup_ratio: 0.03
+  max_seq_length: 3584                    # unchanged cap (measured 2.1 p99); POLE prompts are shorter
+  weight_decay: 0.001
+  bf16: false                             # Kaya V100 (Volta) has no bf16 — fp16, same as 2.1
+  fp16: true
+  logging_steps: 20
+  save_strategy: "epoch"
+  evaluation_strategy: "epoch"
+
+data:
+  # Mixed = every POLE SL row + an Ozsoy replay sample (seed=13), built by
+  # experiments/build_pole_sft_data.py (config/pole_sft_data.yaml `ozsoy_replay.replay_size`
+  # is the mix-ratio knob) from data/pole_sl_train.jsonl + data/ozsoy_schema_linker_train.jsonl.
+  train_path: "data/pole_sl_train_mixed.jsonl"
+  eval_path:  "data/pole_sl_eval.jsonl"        # pure POLE eval — measures in-domain generalisation
+  format: "prompt_completion"

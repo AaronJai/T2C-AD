@@ -76,7 +76,8 @@ def run_sft(config: dict) -> str:
 
     Config-key contract (a flat, already-assembled dict — the entry point merges the
     per-model registry fields in):
-      config["model"]    : {"base": str, "dtype": str, "load_in_4bit": bool}
+      config["model"]    : {"base": str, "dtype": str, "load_in_4bit": bool,
+                            "init_adapter_path": Optional[str]}  # see continue-SFT note below
       config["peft"]     : {"r", "lora_alpha", "lora_dropout", "bias", "task_type",
                             "target_modules"}  # target_modules comes from config/models.yaml
       config["training"] : {"output_dir", "num_train_epochs", "per_device_train_batch_size",
@@ -88,7 +89,9 @@ def run_sft(config: dict) -> str:
 
     Steps:
       1. Load base + tokenizer; apply dtype and, if load_in_4bit, a 4-bit QLoRA config.
-      2. Wrap with PEFT LoraConfig (target_modules from the registry).
+      2. Wrap with PEFT: a fresh LoraConfig (target_modules from the registry), UNLESS
+         config["model"]["init_adapter_path"] is set (continue-SFT, 7.4), in which case the
+         existing adapter at that path is loaded (with its own saved LoRA config) instead.
       3. Build train/eval datasets via build_model_inputs (completion-only loss).
       4. transformers.Trainer with TrainingArguments from config["training"]; train,
          resuming from the last checkpoint in output_dir if one exists.
@@ -99,6 +102,12 @@ def run_sft(config: dict) -> str:
     this lets a chained sequence of wall-clock-limited jobs re-invoke run_sft as a no-op
     once an earlier link in the chain has already finished. See the 2026-06-08 decisions-log
     entry on chaining 2.1/2.4 runs across the cluster's per-job time cap.
+
+    Continue-SFT (7.4): ``config["model"]["init_adapter_path"]`` names an existing saved
+    adapter (e.g. ``checkpoints/{model_key}/sl_adapter``) to resume LoRA weights from, instead
+    of initialising a fresh adapter — refreshing the SL/QG adapters on in-domain data without
+    discarding the Ozsoy-trained weights. ``output_dir`` must be a different, separately
+    namespaced directory (e.g. ``sl_adapter_v3``) so the source adapter is never overwritten.
     """
     from transformers import (
         AutoModelForCausalLM,
@@ -141,20 +150,25 @@ def run_sft(config: dict) -> str:
         quantization_config=quant,
     )
 
-    # 2. PEFT LoRA wrap (target_modules supplied by the registry).
-    from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
+    # 2. PEFT LoRA wrap (target_modules supplied by the registry), or continue-SFT from an
+    # existing adapter (7.4) when config["model"]["init_adapter_path"] is set.
+    from peft import LoraConfig, PeftModel, get_peft_model, prepare_model_for_kbit_training
 
     if quant is not None:
         model = prepare_model_for_kbit_training(model)
-    lora = LoraConfig(
-        r=peft_cfg["r"],
-        lora_alpha=peft_cfg["lora_alpha"],
-        lora_dropout=peft_cfg["lora_dropout"],
-        bias=peft_cfg["bias"],
-        task_type=peft_cfg["task_type"],
-        target_modules=peft_cfg["target_modules"],
-    )
-    model = get_peft_model(model, lora)
+    init_adapter_path = model_cfg.get("init_adapter_path")
+    if init_adapter_path:
+        model = PeftModel.from_pretrained(model, init_adapter_path, is_trainable=True)
+    else:
+        lora = LoraConfig(
+            r=peft_cfg["r"],
+            lora_alpha=peft_cfg["lora_alpha"],
+            lora_dropout=peft_cfg["lora_dropout"],
+            bias=peft_cfg["bias"],
+            task_type=peft_cfg["task_type"],
+            target_modules=peft_cfg["target_modules"],
+        )
+        model = get_peft_model(model, lora)
 
     # 3. Datasets (pre-padded, masked labels -> default collator).
     max_seq_length = train_cfg["max_seq_length"]

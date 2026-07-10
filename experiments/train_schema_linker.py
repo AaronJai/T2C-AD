@@ -19,17 +19,30 @@ from pipeline.sft import run_sft
 def build_run_config(model_key: str, registry: dict, hp: dict) -> dict:
     """Merge the per-model registry entry with the shared hyperparameters into a run_sft config.
 
-    Sets the namespaced output dir checkpoints/{model_key}/sl_adapter. Raises SystemExit with
-    the list of known keys if model_key is not in the registry.
+    Sets the namespaced output dir checkpoints/{model_key}/{output_name} (output_name defaults
+    to "sl_adapter"; the 7.4 continue-SFT YAML overrides it to "sl_adapter_v3" via
+    hp["training"]["output_name"]). If hp["model"]["init_adapter_path_name"] is set (7.4), the
+    run continues from checkpoints/{model_key}/{that name} instead of a fresh LoRA init — see
+    pipeline.sft.run_sft's init_adapter_path hook. Both are additive/optional: an hp dict
+    without them (2.1's config/schema_linker_train.yaml) produces byte-identical output to
+    before. Raises SystemExit with the list of known keys if model_key is not in the registry.
     """
     if model_key not in registry:
         raise SystemExit(f"Unknown model_key '{model_key}'. Known: {list(registry)}")
     m = registry[model_key]
+    output_name = hp["training"].get("output_name", "sl_adapter")
+    training_cfg = {k: v for k, v in hp["training"].items() if k != "output_name"}
+    training_cfg["output_dir"] = f"checkpoints/{model_key}/{output_name}"
+
+    model_cfg = {"base": m["base"], "dtype": m["dtype"], "load_in_4bit": m.get("load_in_4bit", False)}
+    init_adapter_name = hp.get("model", {}).get("init_adapter_path_name")
+    if init_adapter_name:
+        model_cfg["init_adapter_path"] = f"checkpoints/{model_key}/{init_adapter_name}"
+
     return {
-        "model": {"base": m["base"], "dtype": m["dtype"],
-                  "load_in_4bit": m.get("load_in_4bit", False)},
+        "model": model_cfg,
         "peft":  {**hp["peft"], "target_modules": m["target_modules"]},
-        "training": {**hp["training"], "output_dir": f"checkpoints/{model_key}/sl_adapter"},
+        "training": training_cfg,
         "data":  hp["data"],
     }
 

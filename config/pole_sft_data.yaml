@@ -1,0 +1,39 @@
+# config/pole_sft_data.yaml — POLE v3 in-domain SFT data generation knobs (7.4).
+#
+# The paraphrase LLM is swappable by config (0.2 factory) — never hardcode a model name
+# outside this file. Set `paraphrase_llm: null` (or drop the key) to skip paraphrasing
+# entirely (e.g. a quick offline dry run with no API key) — templates alone still write
+# well-formed jsonl.
+
+paraphrase_llm:
+  backend: anthropic
+  model: "claude-sonnet-4-6"
+
+seed: 13
+entities_per_pattern: 1        # leaf-entity samples drawn per enumerated schema pattern
+paraphrases_per_template: 3    # LLM paraphrases requested per templated question
+eval_fraction: 0.10
+disjointness_threshold: 0.90   # rapidfuzz token_set_ratio (0-1); exact normalised match also drops
+max_rows: 2000                 # deterministic shuffle+slice cap after the disjointness gate —
+                                # the exhaustive 1-3 hop pattern walk × templates × paraphrases
+                                # comfortably overshoots the ~1,500-2,500 target row count
+
+benchmark_path: "data/benchmark-v3.json"
+skeleton_path: "data/benchmark-v3-skeleton.json"
+report_path: "results/pole_sft_generation_report.json"
+
+output:
+  sl_train: "data/pole_sl_train.jsonl"
+  sl_eval:  "data/pole_sl_eval.jsonl"
+  qg_train: "data/pole_qg_train.jsonl"
+  qg_eval:  "data/pole_qg_eval.jsonl"
+
+# Ozsoy-replay mix for the v3 continue-SFT train YAMLs (config/{schema_linker,query_generator}
+# _train_v3.yaml `data.train_path`) — built by the same CLI run, right after the four files
+# above. replay_size is the mix-ratio knob referenced from both v3 train YAMLs.
+ozsoy_replay:
+  sl_source: "data/ozsoy_schema_linker_train.jsonl"
+  sl_out: "data/pole_sl_train_mixed.jsonl"
+  qg_source: "data/ozsoy_qg_train.jsonl"
+  qg_out: "data/pole_qg_train_mixed.jsonl"
+  replay_size: 4000

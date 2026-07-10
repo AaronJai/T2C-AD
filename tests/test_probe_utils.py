@@ -123,6 +123,27 @@ def test_covered_false_on_empty_gold():
     assert covered(["(p:Person)-[:OWNS]->(v:Vehicle)"], []) is False
 
 
+def test_covered_matches_reversed_edge_direction():
+    # Same relationship, anchored from the opposite node — schema-identical Cypher.
+    gold = ["(p:Person)-[:SUSPECTED_OF]->(i:Incident)"]
+    beams = ["(i:Incident)<-[:SUSPECTED_OF]-(p:Person)"]
+    assert covered(beams, gold) is True
+
+
+def test_covered_ignores_dangling_trailing_connector():
+    # A trailing bare "--" with nothing after it (2026-06-15 decisions-log artefact).
+    gold = ["(p:Person)-[:SUSPECTED_OF]->(i:Incident)"]
+    beams = ["(i:Incident)<-[:SUSPECTED_OF]-(p:Person)--, --, --"]
+    assert covered(beams, gold) is True
+
+
+def test_covered_still_distinguishes_active_filter():
+    # Direction fix must not paper over a genuine missing {active:true} temporal qualifier.
+    gold = ["(p:Person)-[:OWNS {active:true}]->(v:Vehicle)"]
+    beams = ["(v:Vehicle)<-[:OWNS]-(p:Person)"]
+    assert covered(beams, gold) is False
+
+
 # ── Acceptance 2: hallucinated ────────────────────────────────────────────────────
 _LABELS = {"Person", "Incident", "Vehicle"}
 _RELS = {"SUSPECTED_OF", "OWNS"}
