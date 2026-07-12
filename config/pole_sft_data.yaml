@@ -12,6 +12,11 @@ paraphrase_llm:
 seed: 13
 entities_per_pattern: 1        # leaf-entity samples drawn per enumerated schema pattern
 paraphrases_per_template: 3    # LLM paraphrases requested per templated question
+schema_connector_samples_per_form: 30  # grounded samples per vague-connector surface form —
+                                # single-hop rows for the schema-type ambiguity register
+                                # (Person→Incident role edges), so the SL learns to propose
+                                # each role relation as a separate single-hop beam instead of
+                                # chaining them (fixes schema Cov@5 0/5); see pole_sft_data.py
 eval_fraction: 0.10
 disjointness_threshold: 0.90   # rapidfuzz token_set_ratio (0-1); exact normalised match also drops
 max_rows: 2000                 # deterministic shuffle+slice cap after the disjointness gate —

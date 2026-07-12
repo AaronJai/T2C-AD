@@ -3,7 +3,12 @@ from __future__ import annotations
 
 import json
 
+import random
+
 from pipeline.pole_sft_data import (
+    _build_edges,
+    _schema_ambiguous_pairs,
+    _schema_ambiguous_rows,
     apply_disjointness_gate,
     build_pole_sft_dataset,
     enumerate_v3_patterns,
@@ -86,6 +91,38 @@ def test_build_pole_sft_dataset_two_key_contract(tmp_path):
     assert len(sl_rows) == len(qg_rows)
     for sl_row, qg_row in zip(sl_rows, qg_rows):
         assert extract_schema_pattern(qg_row["completion"]) == sl_row["completion"]
+
+
+# ── Schema-type ambiguity register (single-hop vague-connector rows) ─────────────
+def test_schema_ambiguous_pairs_is_person_incident_only():
+    edges = _build_edges(build_pole_v3_schema_repr())
+    pairs = _schema_ambiguous_pairs(edges)
+    assert set(pairs) == {("Person", "Incident")}
+    assert {e.rel_type for e in pairs[("Person", "Incident")]} == {
+        "SUSPECTED_OF", "WITNESSED", "VICTIM_OF", "INVESTIGATES",
+    }
+
+
+def test_schema_ambiguous_rows_are_single_hop_and_cover_every_role_type():
+    edges = _build_edges(build_pole_v3_schema_repr())
+    rows = _schema_ambiguous_rows(edges, random.Random(13), samples_per_form=8)
+    assert rows
+    for row in rows:
+        # single-hop only — exactly one relationship, never a `_chain_np` multi-hop chain
+        assert row["pattern"].count("[") == 1
+        assert extract_schema_pattern(row["cypher"]) == row["pattern"]
+    # the vague register is paired with every Person→Incident role type across the corpus
+    covered = {rt for row in rows for rt in row["rel_types"]}
+    assert covered == {"SUSPECTED_OF", "WITNESSED", "VICTIM_OF", "INVESTIGATES"}
+
+
+def test_schema_connector_rows_reach_the_dataset(tmp_path):
+    out = {k: str(tmp_path / f"{k}.jsonl") for k in ("sl_train", "sl_eval", "qg_train", "qg_eval")}
+    report = build_pole_sft_dataset({
+        "seed": 13, "entities_per_pattern": 1, "paraphrases_per_template": 0,
+        "schema_connector_samples_per_form": 30, "output": out,
+    })
+    assert report["schema_connector_rows"] > 0
 
 
 # ── Disjointness gate ─────────────────────────────────────────────────────────────

@@ -14,6 +14,7 @@ from __future__ import annotations
 import json
 import random
 import re
+from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
@@ -326,6 +327,85 @@ def _template_rows(
     return rows
 
 
+# ── Schema-ambiguity register (the single-hop "generic connector" question forms) ──
+# All 20 `schema`-type benchmark items are deliberately-vague "who is connected to this
+# crime" questions over the ONE node pair the v3 schema connects with more than one
+# relationship type — Person→Incident ({SUSPECTED_OF, WITNESSED, VICTIM_OF, INVESTIGATES}).
+# The per-relationship-type `_REL_CLAUSE` templates are all relation-SPECIFIC ("the witness
+# of X"), so the adapter never saw this vague register and, at inference, either chains all
+# four role types into one compound multi-hop beam or reuses a wrong relation (the Q-045
+# "associated with" collision) — leaving every schema item's Cov@5 gold set (a single-hop
+# `(Person)-[:role]->(Incident)`) uncovered.
+#
+# These rows teach the vague register directly, as SINGLE-HOP rows generated OUTSIDE the
+# recursive `_chain_np` walk (so the register can never leak onto deep chains — the failure
+# mode of the earlier `_REL_CLAUSE` fix). Each vague surface form is emitted against a
+# grounded terminal with the role relation cycled round-robin, so across the corpus the
+# register is paired with every role type: the SL's relationship-slot mass spreads across
+# them, so diverse beam search surfaces single-hop role edges as separate candidates
+# (covering the gold set — and giving 7.5's AD/disambiguator the candidate diversity they
+# need). "associated with {incident}" is included on purpose: it competes with the
+# Person→Person ASSOCIATED_WITH template (different terminal ENTITY type), directly
+# targeting the Q-045 collision.
+_SCHEMA_CONNECTOR_FORMS: list[str] = [
+    "people connected to {np}",
+    "who is involved in {np}",
+    "everyone linked to {np}",
+    "who took part in {np}",
+    "people associated with {np}",
+    "the people with a connection to {np}",
+    "who is named in relation to {np}",
+    "people with a role in {np}",
+]
+
+
+def _schema_ambiguous_pairs(edges: list[_Edge]) -> dict[tuple[str, str], list[_Edge]]:
+    """Directed (source, target) node pairs carrying >1 relationship type — the schema-type
+    ambiguity clusters. In the v3 schema this is exactly Person→Incident (data-driven, not
+    hardcoded: any future multi-relation pair is picked up automatically)."""
+    groups: dict[tuple[str, str], list[_Edge]] = defaultdict(list)
+    for e in edges:
+        if e.directed:
+            groups[(e.source, e.target)].append(e)
+    return {pair: group for pair, group in groups.items() if len(group) >= 2}
+
+
+def _schema_connector_np(label: str, rng: random.Random) -> tuple[str, dict[str, str]]:
+    """(NL referring phrase, property filter) for a grounded terminal in the vague register.
+    Incidents are grounded by crime type + suburb (`the robbery in Midland`) to read like the
+    benchmark's schema questions while staying lexically varied enough to clear the
+    disjointness gate; other labels fall back to the shared `_leaf_entity` pool."""
+    if label == "Incident":
+        crime = rng.choice(_INCIDENT_TYPES)
+        suburb = rng.choice(_SUBURBS)
+        return f"the {crime.replace('_', ' ')} in {suburb}", {"crime_type": crime}
+    return _leaf_entity(label, rng)
+
+
+def _schema_ambiguous_rows(
+    edges: list[_Edge], rng: random.Random, samples_per_form: int,
+) -> list[dict]:
+    """Single-hop vague-connector rows for every multi-relation node pair (see
+    `_SCHEMA_CONNECTOR_FORMS`). Returns raw candidate dicts in the same shape the main
+    synthesis loop appends (`question`/`pattern`/`cypher`/`rel_types`)."""
+    rows: list[dict] = []
+    for (source, target), group in _schema_ambiguous_pairs(edges).items():
+        for form in _SCHEMA_CONNECTOR_FORMS:
+            for k in range(samples_per_form):
+                edge = group[k % len(group)]  # round-robin → balanced role-type coverage
+                np, leaf_filter = _schema_connector_np(target, rng)
+                path = _PatternPath(target, ((edge, "<-", source),))
+                match_clause, terminal_var = _render_pattern(path, leaf_filter=leaf_filter)
+                pattern = _render_pattern(path)[0]
+                rows.append({
+                    "question": form.format(np=np),
+                    "pattern": pattern,
+                    "cypher": f"MATCH {match_clause} RETURN DISTINCT {terminal_var}.name",
+                    "rel_types": {edge.rel_type},
+                })
+    return rows
+
+
 # ── LLM paraphrase ────────────────────────────────────────────────────────────────
 _PARAPHRASE_SYSTEM = (
     "You paraphrase natural-language questions about a policing database. Preserve the "
@@ -402,7 +482,9 @@ def build_pole_sft_dataset(config: dict) -> dict:
     """Generate the POLE v3 SL/QG SFT rows and write the four jsonl files; return a report.
 
     Config keys (all but `output` optional): `seed` (default 13), `entities_per_pattern`
-    (default 1), `paraphrases_per_template` (default 3), `eval_fraction` (default 0.10),
+    (default 1), `paraphrases_per_template` (default 3), `schema_connector_samples_per_form`
+    (default 30; grounded samples per vague-connector surface form for the schema-type
+    ambiguity register — see `_schema_ambiguous_rows`), `eval_fraction` (default 0.10),
     `disjointness_threshold` (default 0.90), `benchmark_path`/`skeleton_path` (the disjointness
     blocklist), `paraphrase_llm` (a `pipeline.llm.build_llm` spec dict; omit/None to skip
     paraphrasing — e.g. an offline run with no API key), `max_rows` (optional cap: the
@@ -449,6 +531,12 @@ def build_pole_sft_dataset(config: dict) -> dict:
                     variants += _paraphrase(question, llm, paraphrases_per_template)
                 for q in variants:
                     raw.append({"question": q, "pattern": pattern, "cypher": cypher, "rel_types": rel_types})
+
+    # Single-hop vague-connector rows for the schema-type ambiguity register (never routed
+    # through the recursive `_chain_np` walk, so they can't leak onto deep chains).
+    schema_samples = config.get("schema_connector_samples_per_form", 30)
+    schema_rows = _schema_ambiguous_rows(_build_edges(schema), rng, schema_samples)
+    raw.extend(schema_rows)
 
     kept, n_dropped = apply_disjointness_gate(raw, blocklist, threshold)
 
@@ -500,6 +588,7 @@ def build_pole_sft_dataset(config: dict) -> dict:
     report = {
         "patterns_enumerated": len(paths),
         "raw_candidates": len(raw),
+        "schema_connector_rows": len(schema_rows),
         "disjointness_dropped": n_dropped,
         "duplicate_dropped": n_duplicate,
         "max_rows_trimmed": n_before_cap - len(deduped),
