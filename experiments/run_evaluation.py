@@ -19,7 +19,7 @@ from pipeline.entity_lookup.registry import registry_for_version
 from pipeline.evaluation.metrics import (MetricBundle, QuestionRecord, compute_metrics,
                                          format_metric_tables)
 from pipeline.orchestrator import Orchestrator
-from pipeline.schema import build_pole_schema_repr, build_pole_v3_schema_repr
+from pipeline.schema import adapter_suffix_for_version, build_pole_schema_repr, build_pole_v3_schema_repr
 from pipeline.types import BenchmarkItem, Condition, EvaluationResult
 
 
@@ -83,6 +83,7 @@ def resolve_dataset(cfg: dict) -> dict:
             "entity_registry": registry_for_version("v3"),
             "ad_system_prompt": AD_SYSTEM_PROMPT_V3,
             "dis_system_prompt": DIS_SYSTEM_PROMPT_V3,
+            "adapter_suffix": adapter_suffix_for_version("v3"),
             "results_tag": cfg.get("results_tag", ""),
             "benchmark": cfg["benchmark"],
         }
@@ -93,6 +94,7 @@ def resolve_dataset(cfg: dict) -> dict:
             "entity_registry": registry_for_version("v2"),
             "ad_system_prompt": AD_SYSTEM_PROMPT,
             "dis_system_prompt": DIS_SYSTEM_PROMPT,
+            "adapter_suffix": adapter_suffix_for_version("v2"),
             "results_tag": cfg.get("results_tag", ""),
             "benchmark": cfg["benchmark"],
         }
@@ -117,12 +119,14 @@ def _resolve_sl_decoding(sli: dict, key: str, kind: str) -> dict:
     )
 
 
-def _resolve_model_specs(entry: dict, key: str) -> tuple[dict, dict, dict, str]:
+def _resolve_model_specs(entry: dict, key: str, adapter_suffix: str = "") -> tuple[dict, dict, dict, str]:
     """Build (base_spec, sl_spec, qg_spec, kind) from a registry entry.
 
     local → HuggingFace base + the namespaced SL/QG adapters, carrying the registry's
     4-bit/dtype so inference loads the base the way training did (QLoRA 4-bit + fp16 on V100;
-    full precision OOMs a 32 GB 2×16 GB V100 node — decisions-log 2026-06-23).
+    full precision OOMs a 32 GB 2×16 GB V100 node — decisions-log 2026-06-23). `adapter_suffix`
+    (from the dataset version — '' for v2, '_v3' for v3) selects the substrate-matched adapters
+    so a v3 run loads `{sl,qg}_adapter_v3`, not the frozen v2 pair (7.5 G4).
     api   → the same API spec for all three (no adapters, no fine-tuning).
     """
     kind = entry.get("kind", "local")
@@ -132,8 +136,8 @@ def _resolve_model_specs(entry: dict, key: str) -> tuple[dict, dict, dict, str]:
     quant = {"load_in_4bit": entry.get("load_in_4bit", False),
              "torch_dtype": entry.get("dtype", "bfloat16")}
     base_spec = {"backend": "huggingface", "model_name_or_path": entry["base"], **quant}
-    sl_spec = {**base_spec, "peft_adapter_path": f"checkpoints/{key}/sl_adapter"}
-    qg_spec = {**base_spec, "peft_adapter_path": f"checkpoints/{key}/qg_adapter"}
+    sl_spec = {**base_spec, "peft_adapter_path": f"checkpoints/{key}/sl_adapter{adapter_suffix}"}
+    qg_spec = {**base_spec, "peft_adapter_path": f"checkpoints/{key}/qg_adapter{adapter_suffix}"}
     return base_spec, sl_spec, qg_spec, kind
 
 
@@ -143,12 +147,17 @@ def main(config_path: str = "config/pipeline.yaml") -> None:
     neo4j_auth = (cfg["neo4j"]["user"], os.environ["NEO4J_PASSWORD"])
     database = cfg["neo4j"].get("database")
 
-    # Resolve the active model from the registry (2.1; local base+adapter, or an `kind: api` entry)
+    # Version-specific objects (schema repr, entity registry, AD/Dis prompts, adapter suffix,
+    # results_tag) — 7.3/7.5. Resolved first so the adapter suffix reaches the model specs below.
+    ds = resolve_dataset(cfg)
+
+    # Resolve the active model from the registry (2.1; local base+adapter, or an `kind: api` entry).
+    # A local model loads the substrate-matched adapters (v3 → `{sl,qg}_adapter_v3`) via ds["adapter_suffix"].
     registry = yaml.safe_load(Path(cfg["models_registry"]).read_text())
     key = cfg["active_model"]
     if key not in registry:
         raise SystemExit(f"active_model '{key}' not in registry. Known: {list(registry)}")
-    base_spec, sl_spec, qg_spec, kind = _resolve_model_specs(registry[key], key)
+    base_spec, sl_spec, qg_spec, kind = _resolve_model_specs(registry[key], key, ds["adapter_suffix"])
 
     # AD/Dis swap points (config). ad null → the active model (one model the whole way through);
     # dis null → share the AD backend. A given spec is passed through verbatim.
@@ -159,8 +168,7 @@ def main(config_path: str = "config/pipeline.yaml") -> None:
     sli = yaml.safe_load(Path(cfg["schema_linker_inference"]).read_text())
     sl_decoding = _resolve_sl_decoding(sli, key, kind)
 
-    # Version-specific objects (schema repr, entity registry, AD/Dis prompts, results_tag) — 7.3.
-    ds = resolve_dataset(cfg)
+    # `ds` (schema repr, entity registry, AD/Dis prompts, adapter suffix, results_tag) resolved above.
     schema = ds["schema"]
     benchmark = load_benchmark(ds["benchmark"])
 

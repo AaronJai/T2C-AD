@@ -34,7 +34,7 @@ from experiments.probe_utils import (
 )
 from pipeline.data.benchmark_loader import load_benchmark
 from pipeline.llm import BaseLLM, HuggingFaceLLM, build_llm
-from pipeline.schema import build_schema_repr
+from pipeline.schema import adapter_suffix_for_version, build_schema_repr
 from pipeline.types import BenchmarkItem
 
 BEAM_K = 5
@@ -282,7 +282,8 @@ def main() -> None:
         else:
             llm = HuggingFaceLLM(
                 entry["base"],
-                peft_adapter_path=f"checkpoints/{args.model_key}/sl_adapter",
+                peft_adapter_path=f"checkpoints/{args.model_key}/sl_adapter"
+                                  f"{adapter_suffix_for_version(args.dataset_version)}",
                 load_in_4bit=entry.get("load_in_4bit", False),
                 torch_dtype=entry["dtype"],
             )

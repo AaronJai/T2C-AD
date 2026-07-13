@@ -6,8 +6,11 @@ loading any model). Criterion 1's v2 regression guard is the byte-identity asser
 """
 from __future__ import annotations
 
+import pytest
+
 import experiments.run_evaluation as rev
 from pipeline.ambiguity.detector import ambiguity_detector
+from pipeline.schema import adapter_suffix_for_version
 from pipeline.ambiguity.prompts import AD_SYSTEM_PROMPT, AD_SYSTEM_PROMPT_V3
 from pipeline.disambiguator.disambiguator import disambiguator
 from pipeline.disambiguator.prompts import DIS_SYSTEM_PROMPT, DIS_SYSTEM_PROMPT_V3
@@ -127,6 +130,7 @@ def test_resolve_dataset_v3() -> None:
     assert {e["label"] for e in ds["entity_registry"]} == {"Person", "Case", "Location"}
     assert ds["ad_system_prompt"] is AD_SYSTEM_PROMPT_V3
     assert ds["dis_system_prompt"] is DIS_SYSTEM_PROMPT_V3
+    assert ds["adapter_suffix"] == "_v3"
     assert ds["results_tag"] == "v3"
     assert ds["benchmark"] == "data/benchmark-v3.json"
 
@@ -140,7 +144,35 @@ def test_resolve_dataset_v2_default_is_byte_identical() -> None:
     assert ds["entity_registry"] is ENTITY_REGISTRY
     assert ds["ad_system_prompt"] is AD_SYSTEM_PROMPT
     assert ds["dis_system_prompt"] is DIS_SYSTEM_PROMPT
+    assert ds["adapter_suffix"] == ""
     assert ds["results_tag"] == ""
+
+
+def test_adapter_suffix_for_version() -> None:
+    assert adapter_suffix_for_version("v2") == ""
+    assert adapter_suffix_for_version() == ""          # default = v2
+    assert adapter_suffix_for_version("v3") == "_v3"
+    with pytest.raises(ValueError):
+        adapter_suffix_for_version("v4")
+
+
+def test_resolve_model_specs_selects_substrate_matched_adapters() -> None:
+    """A v3 run loads `{sl,qg}_adapter_v3`; v2 (empty suffix) stays on the frozen pair; API
+    entries carry no adapter at all (7.5 G4 adapter-versioning guard)."""
+    entry = {"base": "mistralai/Mistral-7B-v0.3", "dtype": "float16", "load_in_4bit": True}
+    _, sl_v3, qg_v3, kind = rev._resolve_model_specs(entry, "mistral7b", "_v3")
+    assert kind == "local"
+    assert sl_v3["peft_adapter_path"] == "checkpoints/mistral7b/sl_adapter_v3"
+    assert qg_v3["peft_adapter_path"] == "checkpoints/mistral7b/qg_adapter_v3"
+
+    _, sl_v2, qg_v2, _ = rev._resolve_model_specs(entry, "mistral7b", "")
+    assert sl_v2["peft_adapter_path"] == "checkpoints/mistral7b/sl_adapter"
+    assert qg_v2["peft_adapter_path"] == "checkpoints/mistral7b/qg_adapter"
+
+    base_api, sl_api, qg_api, kind_api = rev._resolve_model_specs(
+        {"kind": "api", "backend": "anthropic", "model": "claude-x"}, "api_model", "_v3")
+    assert kind_api == "api"
+    assert "peft_adapter_path" not in sl_api and "peft_adapter_path" not in qg_api
 
 
 def test_persist_tag_paths(tmp_path) -> None:

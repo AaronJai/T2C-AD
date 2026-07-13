@@ -1,0 +1,119 @@
+Job 1032391 on k039 at Sun 12 Jul 2026 15:14:36 AWST
+Sun Jul 12 15:14:36 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.57.08              Driver Version: 575.57.08      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla V100-PCIE-16GB           Off |   00000000:18:00.0 Off |                    0 |
+| N/A   30C    P0             25W /  250W |       0MiB /  16384MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Reusing existing v3 volume at /group/pmc084/atan/neo4j_data_v3.
+Directories in use:
+home:         /var/lib/neo4j
+config:       /var/lib/neo4j/conf
+logs:         /var/lib/neo4j/logs
+plugins:      /var/lib/neo4j/plugins
+import:       /var/lib/neo4j/import
+data:         /var/lib/neo4j/data
+certificates: /var/lib/neo4j/certificates
+licenses:     /var/lib/neo4j/licenses
+run:          /var/lib/neo4j/run
+Starting Neo4j.
+2026-07-12 07:14:42.707+0000 INFO  Logging config in use: File '/var/lib/neo4j/conf/user-logs.xml'
+2026-07-12 07:14:42.739+0000 INFO  Starting...
+2026-07-12 07:14:44.044+0000 INFO  This instance is ServerId{74e76dbc} (74e76dbc-c054-4c98-850f-003c23a5994a)
+2026-07-12 07:14:45.595+0000 INFO  ======== Neo4j 5.26.27 ========
+2026-07-12 07:14:49.320+0000 INFO  Anonymous Usage Data is being sent to Neo4j, see https://neo4j.com/docs/usage-data/
+2026-07-12 07:14:49.369+0000 INFO  Bolt enabled on localhost:7687.
+2026-07-12 07:14:50.994+0000 INFO  HTTP enabled on localhost:7474.
+2026-07-12 07:14:50.995+0000 INFO  Remote interface available at http://localhost:7474/
+2026-07-12 07:14:51.000+0000 INFO  id: 08C4A75F7B5631FD7487DE486C433EE8C21C491624AC6BAE32E456327890C872
+2026-07-12 07:14:51.000+0000 INFO  name: system
+2026-07-12 07:14:51.002+0000 INFO  creationDate: 2026-07-12T06:09:57.659Z
+2026-07-12 07:14:51.003+0000 INFO  Started.
+Neo4j ready after 3 checks.
+Sampled 10 v3 questions; base=mistralai/Mistral-7B-v0.3 dp=1.0 ad_backend=base
+
+============ AD CLASSIFICATIONS (v3, ad=base:mistralai/Mistral-7B-v0.3) ============
+
+[Q-041] Show people connected to the Northbridge robbery.
+  gold: is_ambiguous=True type=schema
+  AD  : is_ambiguous=False detected=[]
+  entropy: schema=0.00 entity=0.00
+  rationale: The question is not ambiguous: the schema candidate distribution is a single candidate with score 1.00, so all reasonable interpretations lead to the same query result.
+
+[Q-042] Who is involved in the Cannington homicide?
+  gold: is_ambiguous=True type=schema
+  AD  : is_ambiguous=False detected=[]
+  entropy: schema=0.00 entity=0.00
+  rationale: The question is not ambiguous: the schema candidate distribution is a single candidate with score 1.00, so all reasonable interpretations lead to the same query result.
+
+[Q-061] What is Tran's current address?
+  gold: is_ambiguous=True type=entity
+  AD  : is_ambiguous=True detected=['entity']
+  entropy: schema=0.00 entity=1.00
+  rationale: Two distinct Person nodes (PER-002, PER-031) match 'Tran' and the question gives nothing to disambiguate them (high entity score 1.00), so the result depends on which Tran is meant.
+
+[Q-062] Where does Kim currently live?
+  gold: is_ambiguous=True type=entity
+  AD  : is_ambiguous=True detected=['entity']
+  entropy: schema=0.00 entity=1.00
+  rationale: Two distinct Person nodes (PER-006, PER-009) match 'Kim' and the question gives nothing to disambiguate them (high entity score 1.00), so the result depends on which Kim is meant.
+
+[Q-101] Where does James Whitfield live?
+  gold: is_ambiguous=True type=temporal
+  AD  : is_ambiguous=False detected=[]
+  entropy: schema=0.00 entity=1.00
+  rationale: The question is unambiguous: 'where' is a single node label, and 'James Whitfield' matches only one Person node (PER-007).
+
+[Q-102] Where does Lina Petrova live?
+  gold: is_ambiguous=True type=temporal
+  AD  : is_ambiguous=False detected=[]
+  entropy: schema=0.00 entity=0.00
+  rationale: The question is unambiguous: the schema candidate distribution is a single candidate, and the entity lookup returns a single matching instance.
+
+[Q-081] Tell me about the suspects in the Lake Street drug offence.
+  gold: is_ambiguous=True type=intent
+  AD  : is_ambiguous=False detected=[]
+  entropy: schema=0.00 entity=0.00
+  rationale: The question is not ambiguous: the schema candidates are all the same, and the entity candidates are all the same.
+
+[Q-082] What about the incidents in Northbridge?
+  gold: is_ambiguous=True type=intent
+  AD  : is_ambiguous=False detected=[]
+  entropy: schema=0.00 entity=0.00
+  rationale: The question is not ambiguous: the schema candidates are not ambiguous (rel_2 candidates: (Person)-[:SUSPECTED_OF]->(Incident) [score: 1.00], (Person)-[:INVESTIGATES]->(Incident) [score: 0.00]) and th
+
+[Q-001] Who is suspected of the homicide?
+  gold: is_ambiguous=False type=null
+  AD  : is_ambiguous=False detected=[]
+  entropy: schema=0.00 entity=0.00
+  rationale: The question is unambiguous: the schema candidate distribution is a single candidate, and the entity lookup results match a single instance.
+
+[Q-002] Which officers are investigating the homicide?
+  gold: is_ambiguous=False type=null
+  AD  : is_ambiguous=False detected=[]
+  entropy: schema=0.00 entity=0.00
+  rationale: The question is not ambiguous: the schema is unambiguous, and the entity lookup returns a single Person node.
+
+============ SUMMARY (v3, ad=base:mistralai/Mistral-7B-v0.3) ============
+  binary detection: correct 4/10
+  TP=2 FP=0 FN=6 TN=2
+  non-zero schema_entropy on ambiguous items is the 7.4/7.3 signal G3 checks for.
+Finished at Sun 12 Jul 2026 15:20:28 AWST
+Stopping neo4j (pid 1897542) at Sun 12 Jul 2026 15:20:28 AWST
+2026-07-12 07:20:28.868+0000 INFO  Neo4j Server shutdown initiated by request
+2026-07-12 07:20:28.872+0000 INFO  Stopping...
+2026-07-12 07:20:39.550+0000 INFO  Stopped.

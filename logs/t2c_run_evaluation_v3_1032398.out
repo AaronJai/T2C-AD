@@ -1,0 +1,94 @@
+Job 1032398 on k035 at Sun 12 Jul 2026 21:12:43 AWST
+Sun Jul 12 21:12:43 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.57.08              Driver Version: 575.57.08      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla V100-PCIE-16GB           Off |   00000000:18:00.0 Off |                    0 |
+| N/A   32C    P0             24W /  250W |       0MiB /  16384MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   1  Tesla V100-PCIE-16GB           Off |   00000000:AF:00.0 Off |                    0 |
+| N/A   29C    P0             24W /  250W |       0MiB /  16384MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Wiping v3 volume /group/pmc084/atan/neo4j_data_v3 and reloading data/SyntheticPoliceKG-v3.cypher.
+Fresh volume — setting initial password via neo4j-admin
+Changed password for user 'neo4j'. IMPORTANT: this change will only take effect if performed before the database is started for the first time.
+Directories in use:
+home:         /var/lib/neo4j
+config:       /var/lib/neo4j/conf
+logs:         /var/lib/neo4j/logs
+plugins:      /var/lib/neo4j/plugins
+import:       /var/lib/neo4j/import
+data:         /var/lib/neo4j/data
+certificates: /var/lib/neo4j/certificates
+licenses:     /var/lib/neo4j/licenses
+run:          /var/lib/neo4j/run
+Starting Neo4j.
+2026-07-12 13:12:54.262+0000 INFO  Logging config in use: File '/var/lib/neo4j/conf/user-logs.xml'
+2026-07-12 13:12:54.300+0000 INFO  Starting...
+2026-07-12 13:12:55.507+0000 INFO  This instance is ServerId{50ff2681} (50ff2681-001d-492c-b578-62a4e1af7874)
+2026-07-12 13:12:56.968+0000 INFO  ======== Neo4j 5.26.27 ========
+2026-07-12 13:13:00.022+0000 INFO  Anonymous Usage Data is being sent to Neo4j, see https://neo4j.com/docs/usage-data/
+2026-07-12 13:13:00.081+0000 INFO  Bolt enabled on localhost:7687.
+2026-07-12 13:13:01.572+0000 INFO  HTTP enabled on localhost:7474.
+2026-07-12 13:13:01.573+0000 INFO  Remote interface available at http://localhost:7474/
+2026-07-12 13:13:01.576+0000 INFO  id: 20690C16087FB59E0100B06CFB986B44D135D6DD9D9E07E5FCF0D115981BB0FE
+2026-07-12 13:13:01.576+0000 INFO  name: system
+2026-07-12 13:13:01.576+0000 INFO  creationDate: 2026-07-12T13:12:58.356Z
+2026-07-12 13:13:01.576+0000 INFO  Started.
+Neo4j ready after 3 checks.
+Loading data/SyntheticPoliceKG-v3.cypher
+v3 graph loaded.
+### Table 1 — Overall (125)
+
+| Metric | C1 | C2 | C3 |
+| --- | --- | --- | --- |
+| EX | 3.3 | 10.8 | 9.2 |
+| EA / AREA | 4.2 | 23.3 | 23.3 |
+| KG-Valid % | 42.5 | 65.8 | 65.0 |
+| Syntax % | 95.0 | 82.5 | 86.7 |
+| Schema % | 92.1 | 100.0 | 99.0 |
+| Pass@1 | 3.3 | 10.8 | 9.2 |
+
+### Table 2 — Ambiguity-specific (50)
+
+| Metric | C1 | C2 | C3 |
+| --- | --- | --- | --- |
+| Ambiguous EA | 2.5 | 25.0 | 27.5 |
+| DSR | — | — | 5.0 |
+| Detection F1 | — | — | 30.6 |
+| Detection Prec | — | — | 75.0 |
+| Detection Rec | — | — | 19.2 |
+| EA — schema (n=13) | 0.0 | 20.0 | 30.0 |
+| EA — entity (n=11) | 0.0 | 20.0 | 20.0 |
+| EA — intent (n=11) | 5.0 | 5.0 | 5.0 |
+| EA — temporal (n=15) | 5.0 | 55.0 | 55.0 |
+
+### Table 3 — Repair/routing (C2, C3)
+
+| Metric | C2 | C3 |
+| --- | --- | --- |
+| Initial Valid % | 65.0 | 63.3 |
+| Post-CyVer Valid % | 65.8 | 65.0 |
+| Structural Repair % | 2.4 | 4.5 |
+| Semantic Repair % | 0.0 | 0.0 |
+| Avg Iterations | 0.51 | 0.45 |
+Wrote results/tables_mistral7b_v3.md + results/metrics_mistral7b_v3.json
+Finished at Mon 13 Jul 2026 00:36:44 AWST
+Stopping neo4j (pid 578476) at Mon 13 Jul 2026 00:36:44 AWST
+2026-07-12 16:36:44.861+0000 INFO  Neo4j Server shutdown initiated by request
+2026-07-12 16:36:44.864+0000 INFO  Stopping...
+2026-07-12 16:36:55.308+0000 INFO  Stopped.

@@ -131,3 +131,19 @@ def build_schema_repr(version: str = "v2") -> SchemaRepr:
     if version == "v2":
         return build_pole_schema_repr()
     raise ValueError(f"Unknown dataset_version '{version}'. Known: 'v2', 'v3'.")
+
+
+def adapter_suffix_for_version(version: str = "v2") -> str:
+    """The trained-adapter checkpoint suffix for a dataset version — the single source of truth
+    that pairs a run's substrate with the adapters trained for it (7.4/7.5).
+
+    'v2' (default) → '' → the frozen `checkpoints/{key}/{sl,qg}_adapter`; 'v3' → '_v3' → the
+    POLE-refreshed `checkpoints/{key}/{sl,qg}_adapter_v3`. Keeps v2 byte-identical while
+    `dataset_version: v3` auto-selects the v3 adapters everywhere (run_evaluation G4, the 2.2
+    sweep + 2.3 probe G2). API models carry no adapter, so this is unused for `kind: api`.
+    """
+    if version == "v3":
+        return "_v3"
+    if version == "v2":
+        return ""
+    raise ValueError(f"Unknown dataset_version '{version}'. Known: 'v2', 'v3'.")

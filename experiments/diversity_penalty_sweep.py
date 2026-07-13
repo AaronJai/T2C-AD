@@ -32,7 +32,7 @@ from experiments.probe_utils import (
 )
 from pipeline.data.benchmark_loader import load_benchmark
 from pipeline.llm import BaseLLM, HuggingFaceLLM, build_llm
-from pipeline.schema import build_schema_repr
+from pipeline.schema import adapter_suffix_for_version, build_schema_repr
 from pipeline.types import BenchmarkItem
 
 PENALTIES = [0.2, 0.5, 1.0]        # local: diverse-beam diversity_penalty
@@ -151,14 +151,15 @@ def write_inference_config(model_key: str, decoding: dict, path: Path) -> None:
     path.write_text(header + yaml.safe_dump(out, sort_keys=False), encoding="utf-8")
 
 
-def _build_llm(entry: dict, model_key: str) -> tuple[BaseLLM, str]:
-    """Construct the SL backend to sweep from a registry entry; return (llm, kind)."""
+def _build_llm(entry: dict, model_key: str, adapter_suffix: str = "") -> tuple[BaseLLM, str]:
+    """Construct the SL backend to sweep from a registry entry; return (llm, kind). `adapter_suffix`
+    (from --dataset_version: '' for v2, '_v3' for v3) selects the substrate-matched SL adapter."""
     kind = entry.get("kind", "local")
     if kind == "api":
         return build_llm({"backend": entry["backend"], "model": entry["model"]}), kind
     llm = HuggingFaceLLM(
         entry["base"],
-        peft_adapter_path=f"checkpoints/{model_key}/sl_adapter",
+        peft_adapter_path=f"checkpoints/{model_key}/sl_adapter{adapter_suffix}",
         load_in_4bit=entry.get("load_in_4bit", False),
         torch_dtype=entry["dtype"],
     )
@@ -190,7 +191,8 @@ def main() -> None:
     registry = yaml.safe_load(Path(args.models).read_text(encoding="utf-8"))
     if args.model_key not in registry:
         raise SystemExit(f"Unknown model_key '{args.model_key}'. Known: {list(registry)}")
-    llm, kind = _build_llm(registry[args.model_key], args.model_key)
+    llm, kind = _build_llm(registry[args.model_key], args.model_key,
+                           adapter_suffix_for_version(args.dataset_version))
 
     # 3. Score each candidate decoding for this backend kind.
     decodings = candidate_decodings(kind)
