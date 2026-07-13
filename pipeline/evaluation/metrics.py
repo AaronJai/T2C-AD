@@ -29,20 +29,24 @@ class QuestionRecord:
 
 @dataclass
 class MetricBundle:
-    # Table 1 — overall (all 125)
+    # Table 1 — overall (all n_total questions)
     ex: float                 # primary: Execution Accuracy vs default interpretation
     ea: float                 # secondary: relaxed AREA (matches any interpretation)
     kg_valid_pct: float       # % CyVer-accept (final state)
     syntax_pct: float
     schema_pct: float         # schema-pass GIVEN syntax-pass
     pass_at_1: float          # EX on the first attempt, before any retry loop
-    # Table 2 — ambiguity-specific (50 ambiguous)
+    # Table 2 — ambiguity-specific (n_ambiguous ambiguous)
     ambiguous_ea: float
     dsr: float                # Condition 3 only; NaN otherwise
     detection_f1: float       # Condition 3 only; NaN otherwise
     detection_prec: float
     detection_rec: float
     per_type_ea: dict         # {"schema":…, "entity":…, "intent":…, "temporal":…}
+    # denominators (so tables label themselves from the data, never a hardcoded count)
+    n_total: int              # all questions in this condition
+    n_ambiguous: int          # ambiguous subset
+    per_type_n: dict          # {"schema":…, "entity":…, "intent":…, "temporal":…}
     # Table 3 — repair/routing (C2, C3)
     initial_valid_pct: float
     post_cyver_valid_pct: float
@@ -55,7 +59,7 @@ def compute_metrics(
     records: list[QuestionRecord],
     ad_predictions: Optional[list[tuple[str, bool]]] = None,   # [(question_id, AD_pred)] — C3 only
 ) -> MetricBundle:
-    """All metrics from one condition's QuestionRecords (one per question, all 125 present).
+    """All metrics from one condition's QuestionRecords (one per question, all n present).
 
     ad_predictions is required for dsr / detection_*; pass None for C1 and C2 (those become NaN).
     Final-state metrics read rec.final; first-attempt metrics read rec.first_evaluated() /
@@ -79,9 +83,10 @@ def compute_metrics(
     pass_at_1 = sum(1 for fr in firsts if fr is not None and fr.is_correct) / n
 
     ambiguous_ea = (sum(r.matches_any_interpretation for r in ambiguous) / len(ambiguous)) if ambiguous else 0.0
-    per_type_ea = {}
+    per_type_ea, per_type_n = {}, {}
     for t in ("schema", "entity", "intent", "temporal"):
         sub = [r for r in ambiguous if r.ambiguity_type == t]
+        per_type_n[t] = len(sub)
         per_type_ea[t] = (sum(r.matches_any_interpretation for r in sub) / len(sub)) if sub else 0.0
 
     if ad_predictions is not None:
@@ -120,6 +125,7 @@ def compute_metrics(
         ex=ex, ea=ea, kg_valid_pct=kg_valid, syntax_pct=syntax_pct, schema_pct=schema_pct,
         pass_at_1=pass_at_1, ambiguous_ea=ambiguous_ea, dsr=dsr,
         detection_f1=f1, detection_prec=prec, detection_rec=rec_, per_type_ea=per_type_ea,
+        n_total=n, n_ambiguous=len(ambiguous), per_type_n=per_type_n,
         initial_valid_pct=initial_valid_pct, post_cyver_valid_pct=kg_valid,
         structural_repair_pct=structural_repair_pct, semantic_repair_pct=semantic_repair_pct,
         avg_iterations=avg_iterations,
@@ -177,9 +183,10 @@ def format_metric_tables(bundles: dict[Condition, MetricBundle]) -> str:
     """
     present = [c for c in _CONDITION_ORDER if c in bundles]
     repair = [c for c in _REPAIR_CONDITIONS if c in bundles]
+    ref = bundles[present[0]]   # denominators identical across conditions (same question set)
 
     table1 = _render_table(
-        "Table 1 — Overall (125)", present,
+        f"Table 1 — Overall ({ref.n_total})", present,
         [
             ("EX", lambda b: _fmt_pct(b.ex)),
             ("EA / AREA", lambda b: _fmt_pct(b.ea)),
@@ -192,17 +199,18 @@ def format_metric_tables(bundles: dict[Condition, MetricBundle]) -> str:
     )
 
     table2 = _render_table(
-        "Table 2 — Ambiguity-specific (50)", present,
+        f"Table 2 — Ambiguity-specific ({ref.n_ambiguous})", present,
         [
             ("Ambiguous EA", lambda b: _fmt_pct(b.ambiguous_ea)),
             ("DSR", lambda b: _fmt_pct(b.dsr)),
             ("Detection F1", lambda b: _fmt_pct(b.detection_f1)),
             ("Detection Prec", lambda b: _fmt_pct(b.detection_prec)),
             ("Detection Rec", lambda b: _fmt_pct(b.detection_rec)),
-            ("EA — schema (n=13)", lambda b: _fmt_pct(b.per_type_ea["schema"])),
-            ("EA — entity (n=11)", lambda b: _fmt_pct(b.per_type_ea["entity"])),
-            ("EA — intent (n=11)", lambda b: _fmt_pct(b.per_type_ea["intent"])),
-            ("EA — temporal (n=15)", lambda b: _fmt_pct(b.per_type_ea["temporal"])),
+            *[
+                (f"EA — {t} (n={ref.per_type_n[t]})",
+                 lambda b, t=t: _fmt_pct(b.per_type_ea[t]))
+                for t in ("schema", "entity", "intent", "temporal")
+            ],
         ],
         bundles,
     )

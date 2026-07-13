@@ -210,8 +210,11 @@ def test_format_metric_tables_three_tables_with_em_dash():
     out = format_metric_tables(bundles)
     # Three markdown tables present.
     assert out.count("### Table") == 3
-    assert "Table 1 — Overall (125)" in out
-    assert "Table 2 — Ambiguity-specific (50)" in out
+    # Denominators are derived from the data, not hardcoded: 2 questions, 1 ambiguous (schema).
+    assert "Table 1 — Overall (2)" in out
+    assert "Table 2 — Ambiguity-specific (1)" in out
+    assert "EA — schema (n=1)" in out
+    assert "EA — entity (n=0)" in out
     assert "Table 3 — Repair/routing (C2, C3)" in out
     # DSR / Detection render as em dash for C1/C2 (NaN), numeric for C3.
     lines = out.splitlines()
