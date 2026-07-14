@@ -28,9 +28,11 @@ from pipeline.types import BenchmarkItem
 class _FakeLLM:
     def __init__(self) -> None:
         self.last_config: GenerationConfig | None = None
+        self.last_prompt: str | None = None
 
     def generate(self, prompt, config):
         self.last_config = config
+        self.last_prompt = prompt
         return [Completion(text=f"  beam{i}  ", score=0.0, rank=i + 1)
                 for i in range(config.num_return_sequences)]
 
@@ -68,6 +70,51 @@ def test_normalised_entropy_split_is_strictly_between():
     # Sanity-check the closed form: H(3/5, 2/5) / log(5).
     expected = -(0.6 * math.log(0.6) + 0.4 * math.log(0.4)) / math.log(5)
     assert h == pytest.approx(expected)
+
+
+# ── 8.1: canonical-signature entropy — collapse format variants, keep junk distinct ──
+def test_normalised_entropy_collapses_format_variant_duplicates():
+    # Same schema pattern written three ways: reversed direction, dangling `--` suffix, and
+    # a differing variable name. All one canonical structure → zero entropy (pre-8.1: >0).
+    beams = [
+        "(p:Person)-[:SUSPECTED_OF]->(i:Incident)",
+        "(i:Incident)<-[:SUSPECTED_OF]-(p:Person)--",
+        "(x:Person)-[:SUSPECTED_OF]->(y:Incident)",
+    ]
+    assert normalised_entropy(beams) == pytest.approx(0.0)
+
+
+def test_normalised_entropy_keeps_active_filter_distinct():
+    # The temporal {active:true} variant IS a distinct structure — not collapsed.
+    beams = [
+        "(p:Person)-[:LIVES_AT {active: true}]->(l:Location)",
+        "(p:Person)-[:LIVES_AT]->(l:Location)",
+    ]
+    assert normalised_entropy(beams) == pytest.approx(1.0)
+
+
+def test_normalised_entropy_junk_guard_keeps_garbage_distinct():
+    # Unparseable garbage (empty signature) falls back to the raw string, so distinct junk
+    # completions still count as distinct outcomes (matching pre-8.1 behaviour for junk).
+    assert normalised_entropy(["!!garbage one", "@@garbage two"]) == pytest.approx(1.0)
+    assert normalised_entropy(["!!same junk", "!!same junk"]) == pytest.approx(0.0)
+
+
+# ── 8.1: generate_beams prompt_style selection ──────────────────────────────────────
+def test_generate_beams_default_uses_completion_prompt():
+    fake = _FakeLLM()
+    generate_beams(fake, "Who is suspected?", "Nodes: Person, Incident",
+                   {"strategy": "beam", "k": 2})
+    assert "Examples:" not in fake.last_prompt        # shared completion prompt, no few-shots
+    assert fake.last_prompt.rstrip().endswith("Schema pattern:")
+
+
+def test_generate_beams_instruct_uses_api_prompt():
+    fake = _FakeLLM()
+    generate_beams(fake, "Who is suspected?", "Nodes: Person, Incident",
+                   {"strategy": "sample", "temperature": 0.0, "k": 2}, prompt_style="instruct")
+    assert "Examples:" in fake.last_prompt            # build_sl_prompt_api (few-shots + contract)
+    assert "(:Person)-[:SUSPECTED_OF]->(:Incident)" in fake.last_prompt
 
 
 # ── Acceptance 2: roc_auc ─────────────────────────────────────────────────────────

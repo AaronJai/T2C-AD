@@ -14,14 +14,16 @@ from pipeline.types import CandidateMapping
 
 
 class _FakeLLM:
-    """Returns `text` repeated num_return_sequences times; records the config seen."""
+    """Returns `text` repeated num_return_sequences times; records the config + prompt seen."""
 
     def __init__(self, text: str) -> None:
         self.text = text
         self.last_config: GenerationConfig | None = None
+        self.last_prompt: str | None = None
 
     def generate(self, prompt: str, config: GenerationConfig) -> list[Completion]:
         self.last_config = config
+        self.last_prompt = prompt
         n = config.num_return_sequences
         return [Completion(text=self.text, score=-1.0, rank=i + 1) for i in range(n)]
 
@@ -66,3 +68,19 @@ def test_link_under_sampling_returns_candidate_mapping():
     assert isinstance(mapping, CandidateMapping)
     assert mapping.beam_k == 3
     assert fake.last_config.do_sample is True                 # link used the sampling config
+
+
+# ── 8.1: prompt_style selection (completion default vs instruct) ────────────────────
+def test_default_prompt_style_is_completion():
+    schema = build_pole_schema_repr()
+    fake = _FakeLLM("(p:Person)-[:SUSPECTED_OF]->(i:Incident)")
+    SchemaLinker(fake, beam_k=2).link("who is suspected?", schema)
+    assert "Examples:" not in fake.last_prompt                # shared build_sl_prompt, no few-shots
+
+
+def test_instruct_prompt_style_uses_api_prompt():
+    schema = build_pole_schema_repr()
+    fake = _FakeLLM("(:Person)-[:SUSPECTED_OF]->(:Incident)")
+    SchemaLinker(fake, beam_k=2, prompt_style="instruct").link("who is suspected?", schema)
+    assert "Examples:" in fake.last_prompt                    # build_sl_prompt_api few-shots
+    assert "(:Person)-[:SUSPECTED_OF]->(:Incident)" in fake.last_prompt

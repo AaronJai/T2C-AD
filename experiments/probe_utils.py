@@ -10,11 +10,12 @@ from pipeline.llm import BaseLLM
 from pipeline.schema_linker.inference import sl_generation_config, sl_sampling_config
 from pipeline.schema_linker.pattern_extraction import extract_schema_pattern
 from pipeline.schema_linker.postprocessing import _has_active, _rel_element, parse_schema_pattern
-from pipeline.schema_linker.prompts import build_sl_prompt
+from pipeline.schema_linker.prompts import build_sl_prompt, build_sl_prompt_api
 from pipeline.types import BenchmarkItem
 
 
-def generate_beams(llm: BaseLLM, question: str, schema_block: str, decoding: dict) -> list[str]:
+def generate_beams(llm: BaseLLM, question: str, schema_block: str, decoding: dict,
+                   *, prompt_style: str = "completion") -> list[str]:
     """k SL completion pattern strings for one question (ordered by score desc).
 
     Backend-agnostic: `decoding` selects the strategy so the sweep/probe decode EXACTLY as the
@@ -22,22 +23,46 @@ def generate_beams(llm: BaseLLM, question: str, schema_block: str, decoding: dic
     or temperature sampling for an API model (`strategy="sample"`, `temperature`/`top_p`). `k` is
     the number of completions. Reuses the SL inference configs so beam-mode output is byte-identical
     to the prior local sweeps.
+
+    `prompt_style` mirrors `SchemaLinker` (8.1): "completion" (default) uses the shared
+    `build_sl_prompt`; "instruct" uses `build_sl_prompt_api`, so the sweep/probe/G1 decode with
+    the same prompt the live SL uses for the same backend.
     """
     k = decoding.get("k", 5)
     if decoding.get("strategy") == "sample":
         cfg = sl_sampling_config(k, decoding.get("temperature", 1.0), decoding.get("top_p", 1.0))
     else:
         cfg = sl_generation_config(k, decoding.get("diversity_penalty", 1.0))
-    return [c.text.strip() for c in llm.generate(build_sl_prompt(question, schema_block), cfg)]
+    build_prompt = build_sl_prompt_api if prompt_style == "instruct" else build_sl_prompt
+    return [c.text.strip() for c in llm.generate(build_prompt(question, schema_block), cfg)]
+
+
+def _entropy_signature(beam: str):
+    """Canonical signature used to count distinct beam outcomes for entropy.
+
+    The direction-/dangling-connector-invariant `_canonical_pattern` structure — the same
+    comparison `covered()` uses. Junk guard: when the signature is empty (no relationships AND
+    no bare labels — i.e. unparseable/garbage), fall back to the raw string so distinct garbage
+    completions keep counting as distinct outcomes (matching the pre-8.1 raw-string behaviour).
+    """
+    try:
+        sig = _canonical_pattern(beam)
+    except (ValueError, IndexError):
+        sig = ((), ())
+    return sig if sig != ((), ()) else beam
 
 
 def normalised_entropy(beams: list[str]) -> float:
-    """Shannon entropy over the distribution of DISTINCT beam patterns, normalised to [0,1].
+    """Shannon entropy over the distribution of DISTINCT beam pattern SIGNATURES, normalised
+    to [0,1].
 
-    Counts identical pattern strings as the same outcome; H_norm = H / log(k). Low when beams
-    collapse to one pattern (confident/unambiguous), high when spread (ambiguous).
+    Counts canonical `_canonical_pattern` signatures (8.1) rather than raw strings, so
+    superficial phrasing variation across sampled completions no longer inflates entropy (which
+    would corrupt the 8.3 temperature sweep and entropy-probe AUC); unparseable garbage falls
+    back to its raw string. H_norm = H / log(k). Low when beams collapse to one structure
+    (confident/unambiguous), high when spread (ambiguous).
     """
-    counts = Counter(beams)
+    counts = Counter(_entropy_signature(b) for b in beams)
     total = sum(counts.values())
     probs = [c / total for c in counts.values()]
     h = -sum(p * math.log(p) for p in probs if p > 0)

@@ -45,6 +45,14 @@ def parse_schema_pattern(pattern_text: str, schema: SchemaRepr, score: float) ->
             for kind, text in tokens:
                 if kind == "node":
                     alias, label, props = _parse_node(text)
+                    if label is None and alias and alias in valid_labels:
+                        # Colon-less label repair (8.1): an instruct model writes `(Person)`
+                        # (no label colon), which parses as a variable name → the label is
+                        # lost. When the bare alias is an EXACT case-sensitive match for a
+                        # schema label, treat it as the label and leave the node anonymous.
+                        # Real aliases ((p), (x)) don't match a schema label, so are untouched.
+                        label = alias
+                        alias = ""
                     if not alias:
                         alias = f"_n{anon}"
                         anon += 1

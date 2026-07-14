@@ -59,9 +59,13 @@ def test_h_norm_candidates_normalises_away_variable_names():
     assert h_norm_candidates(_RENAMED) == pytest.approx(0.0)
 
 
-def test_h_norm_beams_treats_raw_surface_strings():
-    # Raw beams differ in variable names, so the un-normalised scorer sees three distinct slots.
-    assert h_norm_beams(_RENAMED) == pytest.approx(1.0)
+def test_h_norm_beams_collapses_format_variants_after_8_1():
+    # 8.1: normalised_entropy now counts canonical _canonical_pattern signatures, so the three
+    # variable-renamed-but-structurally-identical beams collapse to one outcome -> zero entropy
+    # (pre-8.1 this scorer saw three distinct raw strings -> 1.0). h_norm_beams and
+    # h_norm_candidates therefore now agree on structural duplicates.
+    assert h_norm_beams(_RENAMED) == pytest.approx(0.0)
+    assert h_norm_beams(_RENAMED) == pytest.approx(h_norm_candidates(_RENAMED))
 
 
 def test_top_beam_dominance_collapsed_is_zero_spread_is_high():

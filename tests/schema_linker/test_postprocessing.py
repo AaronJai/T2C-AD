@@ -147,3 +147,62 @@ def test_extract_pattern_from_completion_takes_first_nonempty_line():
     assert extract_pattern_from_completion(
         "\n  (p:Person)-[:SUSPECTED_OF]->(i:Incident)  \nextra"
     ) == "(p:Person)-[:SUSPECTED_OF]->(i:Incident)"
+
+
+# ── 8.1: tolerant extraction (fenced + prose-wrapped) — bare pattern stays identical ──
+def test_extract_strips_markdown_fence():
+    text = "```cypher\n(:Person)-[:SUSPECTED_OF]->(:Incident)\n```"
+    assert extract_pattern_from_completion(text) == "(:Person)-[:SUSPECTED_OF]->(:Incident)"
+
+
+def test_extract_skips_prose_line_and_returns_pattern():
+    text = "Here is the schema pattern for your question:\n(:Person)-[:VICTIM_OF]->(:Incident)"
+    assert extract_pattern_from_completion(text) == "(:Person)-[:VICTIM_OF]->(:Incident)"
+
+
+def test_extract_bare_pattern_is_byte_identical():
+    # The local fine-tuned path (a tidy one-line pattern, no fence/prose) is unchanged.
+    assert extract_pattern_from_completion(
+        "(p:Person)-[:SUSPECTED_OF]->(i:Incident)"
+    ) == "(p:Person)-[:SUSPECTED_OF]->(i:Incident)"
+
+
+# ── 8.1: colon-less label repair (instruct-model `(Person)` house style) ──────────────
+def test_colonless_labels_repaired_both_endpoints():
+    p = _parse("(Person)-[:SUSPECTED_OF]->(Incident)", -1.2)
+    assert p.is_valid is True
+    assert len(p.relationships) == 1
+    src, rtype, tgt, direction, _props = p.relationships[0]
+    alias_to_label = dict(p.nodes)
+    assert alias_to_label[src] == "Person"      # bare (Person) treated as the label
+    assert alias_to_label[tgt] == "Incident"
+    # The repaired nodes are anonymous (no real alias survives).
+    assert all(alias.startswith("_n") for alias, _label in p.nodes)
+
+
+def test_real_aliases_are_not_treated_as_labels():
+    # (p) and (x) are NOT schema labels, so they stay label-less real aliases (unchanged).
+    p = _parse("(p:Person)-[:SUSPECTED_OF]->(x)", -1.2)
+    assert dict(p.nodes)["p"] == "Person"
+    assert ("x", None) in p.nodes                # (x) → alias 'x', no label; not repaired
+
+
+def test_colonless_repair_leaves_labelled_nodes_identical():
+    # (p:Person) behaves exactly as before the repair path existed.
+    p = _parse("(p:Person)-[:SUSPECTED_OF]->(i:Incident)", -1.2)
+    assert p.is_valid is True
+    assert dict(p.nodes) == {"p": "Person", "i": "Incident"}
+
+
+# ── 8.1: extra property maps must not invalidate a beam (only `active` is load-bearing) ─
+def test_extra_rel_property_map_does_not_invalidate():
+    p = _parse("(p:Person)-[:SUSPECTED_OF {crime_type: 'homicide'}]->(i:Incident)", -1.2)
+    assert p.is_valid is True                    # schema-correct rel + label; extra prop ignored
+    _src, rtype, _tgt, _dir, props = p.relationships[0]
+    assert rtype == "SUSPECTED_OF"
+    assert "crime_type" in props                 # captured, but non-invalidating
+
+
+def test_extra_node_property_map_does_not_invalidate():
+    p = _parse("(p:Person {name: 'Alice'})-[:VICTIM_OF]->(i:Incident)", -1.2)
+    assert p.is_valid is True
