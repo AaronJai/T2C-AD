@@ -10,7 +10,8 @@ from pipeline.types import SchemaRepr
 
 
 def build_condition2(*, neo4j_uri, neo4j_auth, database_name,
-                     sl_spec: dict, qg_spec: dict, schema: SchemaRepr) -> PipelineComponents:
+                     sl_spec: dict, qg_spec: dict, schema: SchemaRepr,
+                     prompt_style: str = "completion") -> PipelineComponents:
     """Schema Linker (beam_k=1 → top-1, no distribution) + Query Generator. No AD/Dis.
 
     `sl_spec`/`qg_spec` are full `build_llm` specs (run_evaluation, 5.4, builds them from the
@@ -18,12 +19,16 @@ def build_condition2(*, neo4j_uri, neo4j_auth, database_name,
     registry's 4-bit/dtype; for an API model they are the same API spec (no adapter). The SL
     runs at beam_k=1, so a single deterministic completion suffices on any backend — C2
     isolates the schema-grounding STAGE, not (for an API model) fine-tuning.
+
+    `prompt_style` (8.2) selects the SL prompt: "completion" (default) for the local fine-tuned
+    model — byte-identical to the pre-8.1 path — or "instruct" for an API model, threaded in by
+    run_evaluation from the registry `kind`.
     """
     sl_llm = build_llm(sl_spec)
     qg_llm = build_llm(qg_spec)
     return PipelineComponents.build(
         query_generator=QueryGenerator(qg_llm),
-        schema_linker=SchemaLinker(sl_llm, beam_k=1),
+        schema_linker=SchemaLinker(sl_llm, beam_k=1, prompt_style=prompt_style),
         ad_llm=None, dis_llm=None,
         neo4j_uri=neo4j_uri, neo4j_auth=neo4j_auth, database_name=database_name,
         schema=schema, use_prefilter=False, load_entity_cache=False,

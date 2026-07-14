@@ -30,11 +30,12 @@ class _BuiltLLM:
 
 class _FakeSchemaLinker:
     def __init__(self, llm, beam_k=5, diversity_penalty=1.0, min_valid_beams=1,
-                 *, decoding=None) -> None:
+                 *, decoding=None, prompt_style="completion") -> None:
         self.llm = llm
         self.beam_k = beam_k
         self.diversity_penalty = diversity_penalty
         self.decoding = decoding
+        self.prompt_style = prompt_style
 
 
 class _FakeQueryGenerator:
@@ -116,8 +117,17 @@ def test_condition2_builds_sl_qg_specs_beam1_no_disambig(patched):
     kw = out.kwargs
     sl = kw["schema_linker"]
     assert isinstance(sl, _FakeSchemaLinker) and sl.beam_k == 1   # top-1, no distribution
+    assert sl.prompt_style == "completion"                        # default (local path)
     assert kw["ad_llm"] is None and kw["dis_llm"] is None
     assert kw["load_entity_cache"] is False
+
+
+def test_condition2_threads_instruct_prompt_style(patched):
+    out = c2mod.build_condition2(
+        neo4j_uri="bolt://x", neo4j_auth=("u", "p"), database_name=None,
+        sl_spec=dict(_API), qg_spec=dict(_API), schema=_SCHEMA, prompt_style="instruct",
+    )
+    assert out.kwargs["schema_linker"].prompt_style == "instruct"   # 8.2: API SL prompt
 
 
 def test_condition2_accepts_api_specs(patched):
@@ -143,6 +153,7 @@ def test_condition3_beam_decoding_shared_addis_cache(patched):
     assert isinstance(sl, _FakeSchemaLinker)
     assert sl.beam_k == 5 and sl.diversity_penalty == 0.2     # read from sl_decoding
     assert sl.decoding == _BEAM
+    assert sl.prompt_style == "completion"                    # default (local path, byte-identical)
     assert kw["load_entity_cache"] is True
     # ad_spec=None, dis_spec=None → dis_llm shares the single AD instance.
     assert kw["dis_llm"] is kw["ad_llm"]
@@ -153,10 +164,11 @@ def test_condition3_sampling_decoding_for_api(patched):
     out = c3mod.build_condition3(
         neo4j_uri="bolt://x", neo4j_auth=("u", "p"), database_name=None,
         base_spec=dict(_API), sl_spec=dict(_API), qg_spec=dict(_API), schema=_SCHEMA,
-        sl_decoding=dict(_SAMPLE),
+        sl_decoding=dict(_SAMPLE), prompt_style="instruct",
     )
     sl = out.kwargs["schema_linker"]
     assert sl.decoding["strategy"] == "sample" and sl.beam_k == 5
+    assert sl.prompt_style == "instruct"                          # 8.2: API SL prompt
     # API specs carry no device_map even if GPUs are present (no local load).
     assert all("device_map" not in s for s in specs)
     # Default AD (ad_spec None) is the same API model as the base.

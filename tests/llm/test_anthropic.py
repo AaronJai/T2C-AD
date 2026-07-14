@@ -73,3 +73,47 @@ def test_generate_chat_splits_system_and_passes_messages():
     call = llm.client.messages.calls[0]
     assert call["system"] == "SYS"
     assert call["messages"] == [{"role": "user", "content": "U"}]
+
+
+# ── 8.2 decoding correctness ─────────────────────────────────────────────────────────
+def test_greedy_config_sends_temperature_zero():
+    """do_sample=False (QG/AD/Dis) decodes deterministically → temperature 0.0, not config's 1.0."""
+    llm = _llm()
+    llm.generate("greedy", GenerationConfig(do_sample=False, temperature=1.0))
+    assert llm.client.messages.calls[0]["temperature"] == 0.0
+
+
+def test_sampling_config_sends_configured_temperature():
+    """do_sample=True (the SL sampling path) sends the configured temperature."""
+    llm = _llm()
+    llm.generate("sample", GenerationConfig(do_sample=True, temperature=0.3,
+                                            num_return_sequences=3))
+    calls = llm.client.messages.calls
+    assert len(calls) == 3 and all(c["temperature"] == 0.3 for c in calls)
+
+
+def test_never_sends_top_p():
+    """Claude 4.x rejects temperature+top_p together — top_p is never forwarded, even when set."""
+    llm = _llm()
+    cfg = GenerationConfig(do_sample=True, temperature=0.7, top_p=0.95,
+                           num_return_sequences=4)
+    llm.generate("no top_p", cfg)
+    calls = llm.client.messages.calls
+    assert len(calls) == 4
+    assert all("top_p" not in c for c in calls)
+
+
+def test_client_constructed_with_max_retries_5(monkeypatch):
+    """The Anthropic client is built with max_retries=5 (SDK-native backoff for a long run)."""
+    import pipeline.llm.anthropic as amod
+
+    captured: dict = {}
+
+    class _FakeAnthropic:
+        def __init__(self, **kwargs):
+            captured.update(kwargs)
+
+    monkeypatch.setattr(amod, "Anthropic", _FakeAnthropic)
+    amod.AnthropicLLM(model="claude-sonnet-4-6", api_key="k")
+    assert captured["max_retries"] == 5
+    assert captured["api_key"] == "k"

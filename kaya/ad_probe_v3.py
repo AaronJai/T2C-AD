@@ -62,31 +62,45 @@ def main() -> None:
     with open(args.models_config) as fh:
         all_registry = yaml.safe_load(fh)
     registry = all_registry[args.model_key]
+    sl_kind = registry.get("kind", "local")
     with open(args.sl_inference_config) as fh:
         sli = yaml.safe_load(fh)
-    decoding = sli.get("decoding", {}).get(
-        args.model_key,
-        {"strategy": "beam", "diversity_penalty": sli["diversity_penalty"], "k": 5},
-    )
+    # Decoding for the SL leg, kind-aware: a local model reads the locked beam block (flat-dp
+    # fallback); an `kind: api` model reads its sampling block, defaulting to pre-sweep temp 0.7.
+    if sl_kind == "api":
+        decoding = sli.get("decoding", {}).get(
+            args.model_key, {"strategy": "sample", "temperature": 0.7, "k": 5})
+    else:
+        decoding = sli.get("decoding", {}).get(
+            args.model_key,
+            {"strategy": "beam", "diversity_penalty": sli["diversity_penalty"], "k": 5},
+        )
     diversity_penalty = decoding.get("diversity_penalty", 0.2)
 
-    base = registry["base"]
+    base = registry.get("base")
     dtype = registry.get("dtype", "float16")
     load_in_4bit = registry.get("load_in_4bit", True)
 
     schema = build_pole_v3_schema_repr()
     v3_registry = registry_for_version("v3")
     items = _sample(args.benchmark)
-    print(f"Sampled {len(items)} v3 questions; base={base} dp={diversity_penalty} "
-          f"ad_backend={args.ad_backend}")
+    print(f"Sampled {len(items)} v3 questions; sl_kind={sl_kind} base={base} "
+          f"decoding={decoding} ad_backend={args.ad_backend}")
 
-    # ── 1. Real CandidateMapping per question (SchemaLinker + sl_adapter_v3) ──────────
-    sl_llm = HuggingFaceLLM(
-        model_name_or_path=base,
-        peft_adapter_path=f"checkpoints/{args.model_key}/sl_adapter_v3",
-        load_in_4bit=load_in_4bit, torch_dtype=dtype,
-    )
-    linker = SchemaLinker(sl_llm, beam_k=5, diversity_penalty=diversity_penalty)
+    # ── 1. Real CandidateMapping per question (SchemaLinker) ──────────────────────────
+    # SL leg resolves from the registry (8.2): local → the HF sl_adapter_v3 with beam decoding;
+    # `kind: api` → build_llm on the API spec with temperature-sampling decoding + instruct prompt.
+    if sl_kind == "api":
+        sl_llm = build_llm({"backend": registry["backend"], "model": registry["model"]})
+        linker = SchemaLinker(sl_llm, beam_k=decoding.get("k", 5), decoding=decoding,
+                              prompt_style="instruct")
+    else:
+        sl_llm = HuggingFaceLLM(
+            model_name_or_path=base,
+            peft_adapter_path=f"checkpoints/{args.model_key}/sl_adapter_v3",
+            load_in_4bit=load_in_4bit, torch_dtype=dtype,
+        )
+        linker = SchemaLinker(sl_llm, beam_k=5, diversity_penalty=diversity_penalty)
     mappings: dict[str, CandidateMapping] = {}
     for it in items:
         try:
@@ -95,7 +109,8 @@ def main() -> None:
             print(f"  [{it.question_id}] SL produced no valid beams ({exc}); empty mapping")
             mappings[it.question_id] = CandidateMapping(question=it.question, mentions={})
     del sl_llm, linker
-    torch.cuda.empty_cache()
+    if sl_kind != "api":
+        torch.cuda.empty_cache()
 
     # ── 2. Real EntityLookupResult per question (live v3 Neo4j + v3 registry) ─────────
     import neo4j
@@ -116,6 +131,10 @@ def main() -> None:
         ad_llm = build_llm({"backend": entry["backend"], "model": entry["model"]})
         ad_desc = f"api:{args.ad_model}"
     else:
+        if base is None:
+            raise SystemExit(
+                f"--ad_backend base needs a local base, but model_key '{args.model_key}' is "
+                f"`kind: api` (no `base`). Use --ad_backend api --ad_model <key> for an API AD.")
         ad_llm = HuggingFaceLLM(model_name_or_path=base, load_in_4bit=load_in_4bit, torch_dtype=dtype)
         ad_desc = f"base:{base}"
 

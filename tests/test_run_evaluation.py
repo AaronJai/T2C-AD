@@ -200,6 +200,9 @@ def test_main_resolves_and_wires(monkeypatch, tmp_path, wired):
     # ad null → defaults to active base (with quant/dtype); dis null → None (share AD).
     assert b["c3"]["ad_spec"] == _HF_BASE
     assert b["c3"]["dis_spec"] is None
+    # Local model → completion SL prompt threaded to both SL-bearing builders (8.2).
+    assert b["c2"]["prompt_style"] == "completion"
+    assert b["c3"]["prompt_style"] == "completion"
     # ad_predictions: None for C1/C2, the real list for C3.
     assert wired["compute"] == [None, None, [("Q-1", True)]]
 
@@ -243,6 +246,15 @@ def test_main_api_model_wires_one_model_all_stages(monkeypatch, tmp_path, wired)
                                       "top_p": 0.95, "k": 5}
     assert b["c3"]["ad_spec"] == api_spec
     assert b["c3"]["dis_spec"] is None
+    # API model → instruct SL prompt threaded to both SL-bearing builders (8.2).
+    assert b["c2"]["prompt_style"] == "instruct"
+    assert b["c3"]["prompt_style"] == "instruct"
+
+
+def test_resolve_prompt_style_by_kind():
+    """SL prompt style derives from the registry kind: instruct for API, completion for local."""
+    assert rev._resolve_prompt_style("api") == "instruct"
+    assert rev._resolve_prompt_style("local") == "completion"
 
 
 def test_main_api_model_missing_decoding_raises(monkeypatch, tmp_path, wired):

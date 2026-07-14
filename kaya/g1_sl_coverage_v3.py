@@ -1,19 +1,22 @@
 """7.5 Gate G1 — SL intrinsic coverage over ALL 120 v3 questions (the linchpin gate).
 
-NOT a pipeline module: a Kaya verification harness. Loads the v3 Schema Linker adapter
-(checkpoints/{model_key}/sl_adapter_v3) on its base, regenerates k=5 diverse-beam completions
-for every one of the 120 v3 benchmark items, and reports Cov@5 (gold pattern present in the
-top-5 beams) and EM@1 (top-1 beam matches a gold pattern) — exactly the intrinsic measure 3.1
-reported, computed with the same structural `covered()`/`_canonical_pattern` the live SL
-postprocessing accepts (direction- and dangling-`--`-invariant; decisions-log 2026-07-10).
+NOT a pipeline module: a Kaya verification harness. Resolves its Schema Linker from the
+config/models.yaml entry for --model_key (8.2): a LOCAL model loads the v3 SL adapter
+(checkpoints/{model_key}/sl_adapter_v3) on its base and decodes k=5 diverse beams; an
+`kind: api` model uses `build_llm` on the API spec (no adapter, no GPU, no Neo4j) and decodes
+k=5 temperature samples with the instruct SL prompt. For every one of the 120 v3 benchmark
+items it reports Cov@5 (gold pattern present in the top-5 completions) and EM@1 (top-1
+completion matches a gold pattern) — exactly the intrinsic measure 3.1 reported, computed with
+the same structural `covered()`/`_canonical_pattern` the live SL postprocessing accepts
+(direction- and dangling-`--`-invariant; decisions-log 2026-07-10).
 
 Gate rule (7.5): PROCEED if Cov@5 >= 0.60; below 0.60 STOP and iterate 7.4. Target >= 0.85.
 
 Side effect: caches the beams to results/beams_{model_key}_v3.jsonl in the SAME record shape
 the 2.3 entropy probe uses, so G2's probe reuses them GPU-free (the spec's named artefact).
 
-GPU only, no Neo4j (schema linking alone). Reuses experiments/probe_utils.py verbatim so the
-measure is byte-identical to the one G2's sweep gates on.
+No Neo4j (schema linking alone). GPU only for the local path; the API path is GPU-free. Reuses
+experiments/probe_utils.py verbatim so the measure is byte-identical to the one G2's sweep gates on.
 """
 from __future__ import annotations
 
@@ -57,31 +60,55 @@ def main() -> None:
                     help="default results/beams_{model_key}_v3.jsonl (the spec's G1 artefact)")
     ap.add_argument("--results", default=None,
                     help="default results/g1_sl_coverage_{model_key}_v3.json")
+    ap.add_argument("--decoding", default=None,
+                    help="JSON decoding override, e.g. "
+                         "'{\"strategy\":\"sample\",\"temperature\":0.7,\"k\":5}'. "
+                         "API models default to sampling temperature 0.7 (pre-sweep, mirrors "
+                         "7.5's pre-sweep dp=0.2); local models read the currently-locked block.")
     args = ap.parse_args()
 
-    from pipeline.llm import HuggingFaceLLM
+    from pipeline.llm import build_llm
 
     with open(args.models_config) as fh:
         registry = yaml.safe_load(fh)[args.model_key]
     with open(args.sl_inference_config) as fh:
         decoding_cfg = yaml.safe_load(fh)
-    # Pre-sweep decoding: use the currently-locked block (G1 runs BEFORE G2 re-locks the penalty).
-    decoding = decoding_cfg.get("decoding", {}).get(
-        args.model_key,
-        {"strategy": "beam", "diversity_penalty": decoding_cfg["diversity_penalty"], "k": 5},
-    )
+    kind = registry.get("kind", "local")
+
+    # Decoding: an explicit --decoding override wins. Else an API model defaults to pre-sweep
+    # temperature sampling (0.7, k=5); a local model uses the currently-locked block (G1 runs
+    # BEFORE G2 re-locks the penalty).
+    if args.decoding:
+        decoding = json.loads(args.decoding)
+    elif kind == "api":
+        decoding = {"strategy": "sample", "temperature": 0.7, "k": 5}
+    else:
+        decoding = decoding_cfg.get("decoding", {}).get(
+            args.model_key,
+            {"strategy": "beam", "diversity_penalty": decoding_cfg["diversity_penalty"], "k": 5},
+        )
+    # Instruct SL prompt for an API model (8.1/8.2); completion prompt for the local fine-tuned SL.
+    prompt_style = "instruct" if kind == "api" else "completion"
 
     schema = build_pole_v3_schema_repr()
     schema_block = schema.to_prompt_string(include_properties=True)
     items = load_benchmark(args.benchmark)
-    print(f"Loaded {len(items)} v3 items; decoding={decoding}")
+    print(f"Loaded {len(items)} v3 items; kind={kind} decoding={decoding} "
+          f"prompt_style={prompt_style}")
 
-    llm = HuggingFaceLLM(
-        model_name_or_path=registry["base"],
-        peft_adapter_path=f"checkpoints/{args.model_key}/sl_adapter_v3",
-        load_in_4bit=registry.get("load_in_4bit", True),
-        torch_dtype=registry.get("dtype", "float16"),
-    )
+    if kind == "api":
+        # API path: build_llm on the API spec (no adapter, no GPU, no Neo4j).
+        llm = build_llm({"backend": registry["backend"], "model": registry["model"]})
+        adapter = None
+    else:
+        from pipeline.llm import HuggingFaceLLM
+        adapter = f"checkpoints/{args.model_key}/sl_adapter_v3"
+        llm = HuggingFaceLLM(
+            model_name_or_path=registry["base"],
+            peft_adapter_path=adapter,
+            load_in_4bit=registry.get("load_in_4bit", True),
+            torch_dtype=registry.get("dtype", "float16"),
+        )
 
     records: list[dict] = []
     cov_hits = 0
@@ -91,7 +118,8 @@ def main() -> None:
     per_type_em: dict = defaultdict(int)
 
     for item in items:
-        beams = generate_beams(llm, item.question, schema_block, decoding)
+        beams = generate_beams(llm, item.question, schema_block, decoding,
+                               prompt_style=prompt_style)
         golds = gold_patterns(item)
         cov = covered(beams, golds)
         em = _em_at_1(beams, golds)
@@ -126,8 +154,10 @@ def main() -> None:
     payload = {
         "model_key": args.model_key,
         "dataset_version": "v3",
-        "adapter": f"checkpoints/{args.model_key}/sl_adapter_v3",
+        "kind": kind,
+        "adapter": adapter,
         "decoding": decoding,
+        "prompt_style": prompt_style,
         "n_items": n,
         "cov_at_5": cov_at_5,
         "em_at_1": em_at_1,

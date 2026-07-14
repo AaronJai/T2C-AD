@@ -119,6 +119,13 @@ def _resolve_sl_decoding(sli: dict, key: str, kind: str) -> dict:
     )
 
 
+def _resolve_prompt_style(kind: str) -> str:
+    """The SL prompt style for the active backend (8.1/8.2). An `kind: api` model uses the
+    additive instruct prompt (explicit output contract + few-shots); a local fine-tuned model
+    uses the shared train/inference completion prompt (byte-identical to the pre-8.1 path)."""
+    return "instruct" if kind == "api" else "completion"
+
+
 def _resolve_model_specs(entry: dict, key: str, adapter_suffix: str = "") -> tuple[dict, dict, dict, str]:
     """Build (base_spec, sl_spec, qg_spec, kind) from a registry entry.
 
@@ -168,6 +175,10 @@ def main(config_path: str = "config/pipeline.yaml") -> None:
     sli = yaml.safe_load(Path(cfg["schema_linker_inference"]).read_text())
     sl_decoding = _resolve_sl_decoding(sli, key, kind)
 
+    # SL prompt style, derived from the same registry `kind` (8.1/8.2): instruct for an API
+    # model, completion for the local fine-tuned model. C1 has no Schema Linker.
+    prompt_style = _resolve_prompt_style(kind)
+
     # `ds` (schema repr, entity registry, AD/Dis prompts, adapter suffix, results_tag) resolved above.
     schema = ds["schema"]
     benchmark = load_benchmark(ds["benchmark"])
@@ -187,7 +198,8 @@ def main(config_path: str = "config/pipeline.yaml") -> None:
         bundles["baseline"] = compute_metrics(results, ad_predictions=None)
 
     with build_condition2(neo4j_uri=neo4j_uri, neo4j_auth=neo4j_auth, database_name=database,
-                          sl_spec=dict(sl_spec), qg_spec=dict(qg_spec), schema=schema) as c2:
+                          sl_spec=dict(sl_spec), qg_spec=dict(qg_spec), schema=schema,
+                          prompt_style=prompt_style) as c2:
         c2.embedding_model = embedding_model
         results, _ = run_condition(benchmark, c2, "schema_grounded")
         bundles["schema_grounded"] = compute_metrics(results, ad_predictions=None)
@@ -199,7 +211,8 @@ def main(config_path: str = "config/pipeline.yaml") -> None:
                           embedding_model=embedding_model,
                           entity_registry=ds["entity_registry"],
                           ad_system_prompt=ds["ad_system_prompt"],
-                          dis_system_prompt=ds["dis_system_prompt"]) as c3:
+                          dis_system_prompt=ds["dis_system_prompt"],
+                          prompt_style=prompt_style) as c3:
         results, ad_preds = run_condition(benchmark, c3, "disambiguation_enhanced")
         bundles["disambiguation_enhanced"] = compute_metrics(results, ad_predictions=ad_preds)
 

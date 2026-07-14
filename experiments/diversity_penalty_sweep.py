@@ -37,31 +37,43 @@ from pipeline.types import BenchmarkItem
 
 PENALTIES = [0.2, 0.5, 1.0]        # local: diverse-beam diversity_penalty
 TEMPERATURES = [0.3, 0.7, 1.0]     # api: sampling temperature
-TOP_P = 0.95                        # api: nucleus cutoff held fixed while temperature is swept
+TOP_P = 0.95                        # openai: nucleus cutoff held fixed while temperature is swept
 BEAM_K = 5
 COV_GUARDRAIL = 0.85       # success-criterion #5: gold pattern present in top-5 beams/samples
 
 
-def candidate_decodings(kind: str) -> list[dict]:
-    """The decoding blocks to sweep for a backend kind (the swept knob differs by backend)."""
+def candidate_decodings(kind: str, backend: str = None) -> list[dict]:
+    """The decoding blocks to sweep for a backend kind (the swept knob differs by backend).
+
+    API sampling blocks are backend-specific (8.2): Claude 4.x rejects `temperature` + `top_p`
+    together with a 400, so an `anthropic` backend sweeps temperature-only blocks with NO `top_p`
+    key; `openai` keeps `top_p: 0.95` alongside the swept temperature. Local (beam) blocks are
+    backend-agnostic.
+    """
     if kind == "api":
-        return [{"strategy": "sample", "temperature": t, "top_p": TOP_P, "k": BEAM_K}
-                for t in TEMPERATURES]
+        if backend == "openai":
+            return [{"strategy": "sample", "temperature": t, "top_p": TOP_P, "k": BEAM_K}
+                    for t in TEMPERATURES]
+        return [{"strategy": "sample", "temperature": t, "k": BEAM_K} for t in TEMPERATURES]
     return [{"strategy": "beam", "diversity_penalty": p, "k": BEAM_K} for p in PENALTIES]
 
 
 def score_decoding(llm: BaseLLM, items: list[BenchmarkItem], schema_block: str,
-                   valid_labels: set[str], valid_rels: set[str], decoding: dict) -> dict:
+                   valid_labels: set[str], valid_rels: set[str], decoding: dict,
+                   *, prompt_style: str = "completion") -> dict:
     """Run k=5 generation over all items at one decoding and aggregate the metrics.
 
     The row carries the full `decoding` block plus a flat `diversity_penalty` mirror (for the
-    back-compat `select_penalty` on a local sweep)."""
+    back-compat `select_penalty` on a local sweep). `prompt_style` decodes with the same prompt
+    the live SL uses for this backend (8.1/8.2): "instruct" for an API model, "completion"
+    (default) for the local fine-tuned model."""
     entropies: list[float] = []
     labels: list[bool] = []
     cov_flags: list[bool] = []
     hall_rates: list[float] = []
     for item in items:
-        beams = generate_beams(llm, item.question, schema_block, decoding)
+        beams = generate_beams(llm, item.question, schema_block, decoding,
+                               prompt_style=prompt_style)
         entropies.append(normalised_entropy(beams))
         labels.append(item.is_ambiguous)
         cov_flags.append(covered(beams, gold_patterns(item)))
@@ -191,12 +203,16 @@ def main() -> None:
     registry = yaml.safe_load(Path(args.models).read_text(encoding="utf-8"))
     if args.model_key not in registry:
         raise SystemExit(f"Unknown model_key '{args.model_key}'. Known: {list(registry)}")
-    llm, kind = _build_llm(registry[args.model_key], args.model_key,
+    entry = registry[args.model_key]
+    llm, kind = _build_llm(entry, args.model_key,
                            adapter_suffix_for_version(args.dataset_version))
 
-    # 3. Score each candidate decoding for this backend kind.
-    decodings = candidate_decodings(kind)
-    rows = [score_decoding(llm, items, schema_block, valid_labels, valid_rels, d)
+    # 3. Score each candidate decoding for this backend kind. An API model decodes with the
+    # instruct SL prompt (8.1/8.2); the local fine-tuned model uses the completion prompt.
+    prompt_style = "instruct" if kind == "api" else "completion"
+    decodings = candidate_decodings(kind, entry.get("backend"))
+    rows = [score_decoding(llm, items, schema_block, valid_labels, valid_rels, d,
+                           prompt_style=prompt_style)
             for d in decodings]
 
     # 4. Select + 5. write outputs.
