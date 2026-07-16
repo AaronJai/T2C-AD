@@ -212,8 +212,14 @@ POLE-specific fine-tuned Schema Linker (step 2.3) to confirm the signal improves
 
 The thesis succeeds if the architecture is *demonstrated to work as claimed*, not if it
 beats SOTA. The criteria below were first scored on v2 (all ❌ — see
-`docs/results-walkthrough.md`, root cause SL Cov@5 0.208) and are re-scored on the v3
-dataset at Phase 7.5; targets are unchanged across versions. Concretely:
+`docs/results-walkthrough.md`, root cause SL Cov@5 0.208), re-scored on the v3 dataset at
+Phase 7.5 (`docs/results-walkthrough-v3.md`, fine-tuned Mistral-7B: meets #1 and #6
+outright, materially improves the rest), and re-scored again at Phase 8 with an API
+instruct model (Claude Sonnet 4.6) running the whole pipeline in place of the fine-tuned
+7B (`docs/results-walkthrough-v3-claude-sonnet.md`: meets #1–#4 outright, more criteria
+than either Mistral column — misses #5/#6 only as by-design consequences of
+stage-presence having no SFT to push past, not defects). Targets are unchanged across
+versions. Concretely:
 
 1. **Architectural claim.** On the 50-question ambiguous subset, Condition 3 achieves
    higher AREA (and EX) than Condition 2 — i.e. explicit disambiguation adds measurable
