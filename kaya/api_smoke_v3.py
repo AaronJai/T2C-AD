@@ -43,7 +43,7 @@ from pipeline.disambiguator.disambiguator import _extract_json_object as _dis_ex
 from pipeline.disambiguator.prompts import DIS_SYSTEM_PROMPT_V3, build_disambiguator_prompt
 from pipeline.llm import GenerationConfig, build_llm
 from pipeline.query_generator.generator import QueryGenerator, _clean_cypher
-from pipeline.query_generator.prompts import build_qg_prompt
+from pipeline.query_generator.prompts import build_qg_prompt_api
 from pipeline.schema import build_pole_v3_schema_repr
 from pipeline.schema_linker.inference import (extract_pattern_from_completion,
                                               sl_sampling_config)
@@ -226,14 +226,17 @@ def main() -> None:
     emit()
 
     # ── QG round-trips: committed-pattern (C2/C3) and zero-shot (C1) ──────────────────
-    qg = QueryGenerator(llm)
+    # prompt_style="instruct": this script is API-only, so QG always gets the 8.3-follow-up
+    # fix (include_properties=True + build_qg_prompt_api few-shots), matching how
+    # build_condition2/3 construct it for a `kind: api` registry entry.
+    qg = QueryGenerator(llm, prompt_style="instruct")
     committed_syntax = committed_pattern if isinstance(committed_pattern, str) else ""
     for label, syntax in (("committed-pattern", committed_syntax), ("zero-shot", "")):
         emit(f"========== QG call ({label}) on [{focus.question_id}] ==========")
         sm = SchemaMapping(question=focus.question, committed={},
                            cypher_syntax=syntax, resolution_mode="automated")
-        qg_prompt = build_qg_prompt(
-            focus.question, schema.to_prompt_string(include_properties=False),
+        qg_prompt = build_qg_prompt_api(
+            focus.question, schema.to_prompt_string(include_properties=True),
             committed_pattern=(syntax or None))
         qg_raw = llm.generate(qg_prompt, qg._config)[0].text
         emit(f"  committed_pattern in: {syntax!r}")

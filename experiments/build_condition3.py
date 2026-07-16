@@ -44,7 +44,7 @@ def build_condition3(*, neo4j_uri, neo4j_auth, database_name,
                      entity_registry: Optional[list] = None,    # None → frozen v2; 7.3 passes v3
                      ad_system_prompt: Optional[str] = None,    # None → v2 default (PipelineComponents)
                      dis_system_prompt: Optional[str] = None,   # None → v2 default (PipelineComponents)
-                     prompt_style: str = "completion",          # 8.2: "instruct" for an API SL
+                     prompt_style: str = "completion",          # 8.2/Phase-8-follow-up: "instruct" for an API SL+QG
                      ) -> PipelineComponents:
     """Full pipeline. SL candidate distribution per `sl_decoding` (beam search for a local
     model, temperature sampling for an API model); QG; few-shot AD + Disambiguator.
@@ -81,7 +81,7 @@ def build_condition3(*, neo4j_uri, neo4j_auth, database_name,
         prompt_kwargs["dis_system_prompt"] = dis_system_prompt
 
     return PipelineComponents.build(
-        query_generator=QueryGenerator(qg_llm),
+        query_generator=QueryGenerator(qg_llm, prompt_style=prompt_style),
         schema_linker=SchemaLinker(sl_llm, beam_k=beam_k, diversity_penalty=diversity_penalty,
                                    decoding=sl_decoding, prompt_style=prompt_style),
         ad_llm=ad_llm, dis_llm=dis_llm,

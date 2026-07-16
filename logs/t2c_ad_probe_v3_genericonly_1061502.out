@@ -1,0 +1,62 @@
+Job 1061502 on k031 at Thu 16 Jul 2026 12:07:10 AWST
+Thu Jul 16 12:07:10 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.57.08              Driver Version: 575.57.08      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla V100-PCIE-16GB           Off |   00000000:AF:00.0 Off |                    0 |
+| N/A   31C    P0             24W /  250W |       0MiB /  16384MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Reusing existing v3 volume at /group/pmc084/atan/neo4j_data_v3.
+Directories in use:
+home:         /var/lib/neo4j
+config:       /var/lib/neo4j/conf
+logs:         /var/lib/neo4j/logs
+plugins:      /var/lib/neo4j/plugins
+import:       /var/lib/neo4j/import
+data:         /var/lib/neo4j/data
+certificates: /var/lib/neo4j/certificates
+licenses:     /var/lib/neo4j/licenses
+run:          /var/lib/neo4j/run
+Starting Neo4j.
+2026-07-16 04:07:15.164+0000 INFO  Logging config in use: File '/var/lib/neo4j/conf/user-logs.xml'
+2026-07-16 04:07:15.198+0000 INFO  Starting...
+2026-07-16 04:07:16.422+0000 INFO  This instance is ServerId{a4618545} (a4618545-fb75-4592-92e6-28e5269d4f05)
+2026-07-16 04:07:17.883+0000 INFO  ======== Neo4j 5.26.27 ========
+2026-07-16 04:07:28.468+0000 ERROR Failed to start Neo4j on localhost:7474.
+java.lang.RuntimeException: Error starting Neo4j database server at /data/databases
+	at org.neo4j.graphdb.facade.DatabaseManagementServiceFactory.startDatabaseServer(DatabaseManagementServiceFactory.java:288)
+	at org.neo4j.graphdb.facade.DatabaseManagementServiceFactory.build(DatabaseManagementServiceFactory.java:223)
+	at org.neo4j.server.CommunityBootstrapper.createNeo(CommunityBootstrapper.java:38)
+	at org.neo4j.server.NeoBootstrapper.start(NeoBootstrapper.java:185)
+	at org.neo4j.server.NeoBootstrapper.start(NeoBootstrapper.java:100)
+	at org.neo4j.server.CommunityEntryPoint.main(CommunityEntryPoint.java:30)
+Caused by: org.neo4j.kernel.lifecycle.LifecycleException: Component 'org.neo4j.kernel.internal.locker.LockerLifecycleAdapter@1e5f4170' was successfully initialized, but failed to start. Please see the attached cause exception "Lock file has been locked by another process: /data/databases/store_lock. Please ensure no other process is using this database, and that the directory is writable (required even for read-only access)".
+	at org.neo4j.kernel.lifecycle.LifeSupport$LifecycleInstance.start(LifeSupport.java:364)
+	at org.neo4j.kernel.lifecycle.LifeSupport.start(LifeSupport.java:91)
+	at org.neo4j.graphdb.facade.DatabaseManagementServiceFactory.startDatabaseServer(DatabaseManagementServiceFactory.java:279)
+	... 5 more
+Caused by: org.neo4j.io.locker.FileLockException: Lock file has been locked by another process: /data/databases/store_lock. Please ensure no other process is using this database, and that the directory is writable (required even for read-only access)
+	at org.neo4j.io.locker.Locker.storeLockException(Locker.java:151)
+	at org.neo4j.io.locker.Locker.checkLock(Locker.java:82)
+	at org.neo4j.kernel.internal.locker.GlobalFileLocker.checkLock(GlobalFileLocker.java:55)
+	at org.neo4j.kernel.internal.locker.GlobalLocker.checkLock(GlobalLocker.java:28)
+	at org.neo4j.kernel.internal.locker.LockerLifecycleAdapter.start(LockerLifecycleAdapter.java:34)
+	at org.neo4j.kernel.lifecycle.LifeSupport$LifecycleInstance.start(LifeSupport.java:347)
+	... 7 more
+2026-07-16 04:07:28.478+0000 INFO  Neo4j Server shutdown initiated by request
+2026-07-16 04:07:28.479+0000 INFO  Stopped.
+Sampled 10 v3 questions; sl_kind=local base=mistralai/Mistral-7B-v0.3 sl_adapter=sl_adapter_v3 decoding={'strategy': 'beam', 'diversity_penalty': 1.0, 'k': 5} ad_backend=base
+Stopping neo4j (pid 1560282) at Thu 16 Jul 2026 12:18:38 AWST

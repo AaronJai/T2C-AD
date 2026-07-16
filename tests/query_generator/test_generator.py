@@ -102,3 +102,23 @@ def test_generate_returns_cleaned_completion() -> None:
     qg = QueryGenerator(CannedLLM("```\nMATCH (p:Person) RETURN p\n```"))
     out = qg.generate("list people", _mapping(""), _schema())
     assert out == "MATCH (p:Person) RETURN p"
+
+
+# ── Phase-8-follow-up: prompt_style selection (completion default vs instruct) ──────
+def test_default_prompt_style_is_completion_no_properties_no_few_shots() -> None:
+    """Default ("completion") stays byte-identical to pre-fix: no properties, no few-shots."""
+    qg = QueryGenerator(EchoLLM())
+    pattern = "(p:Person)-[:SUSPECTED_OF]->(i:Incident)"
+    prompt = qg.generate("who is suspected?", _mapping(pattern), _schema())
+    assert "Examples:" not in prompt
+    assert "Properties:" not in prompt
+
+
+def test_instruct_prompt_style_includes_properties_and_few_shots() -> None:
+    """"instruct" (API backend) gets include_properties=True and the API few-shot prompt."""
+    qg = QueryGenerator(EchoLLM(), prompt_style="instruct")
+    pattern = "(p:Person)-[:SUSPECTED_OF]->(i:Incident)"
+    prompt = qg.generate("who is suspected?", _mapping(pattern), _schema())
+    assert "Examples:" in prompt
+    assert "Properties:" in prompt
+    assert "incident_id" in prompt              # from _schema()'s Incident property list

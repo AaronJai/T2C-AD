@@ -51,6 +51,15 @@ def main() -> None:
                     help="AD LLM: the local base (default) or an `kind: api` registry entry.")
     ap.add_argument("--ad_model", default=None,
                     help="registry key for --ad_backend api (e.g. claude-sonnet).")
+    ap.add_argument("--adapter_suffix", default="_v3",
+                    help="Which SL adapter to load for a local SL: default '_v3' (the 7.4 "
+                         "in-domain-SFT adapter this gate normally measures). Pass '' for the "
+                         "pre-7.4 generic-Ozsoy-only sl_adapter, or a path ending in "
+                         "'_v3_noadapter'-style sentinel handled below, for the schema-vs-SFT "
+                         "detection ablation (decisions-log). No effect on an API SL.")
+    ap.add_argument("--no_sl_adapter", action="store_true",
+                    help="Load the raw base model as the SL with NO PEFT adapter at all. "
+                         "Overrides --adapter_suffix. No effect on an API SL.")
     args = ap.parse_args()
 
     import torch
@@ -84,8 +93,9 @@ def main() -> None:
     schema = build_pole_v3_schema_repr()
     v3_registry = registry_for_version("v3")
     items = _sample(args.benchmark)
-    print(f"Sampled {len(items)} v3 questions; sl_kind={sl_kind} base={base} "
-          f"decoding={decoding} ad_backend={args.ad_backend}")
+    sl_adapter_desc = "none" if args.no_sl_adapter else f"sl_adapter{args.adapter_suffix}"
+    print(f"Sampled {len(items)} v3 questions; sl_kind={sl_kind} base={base} sl_adapter="
+          f"{sl_adapter_desc} decoding={decoding} ad_backend={args.ad_backend}")
 
     # ── 1. Real CandidateMapping per question (SchemaLinker) ──────────────────────────
     # SL leg resolves from the registry (8.2): local → the HF sl_adapter_v3 with beam decoding;
@@ -95,9 +105,10 @@ def main() -> None:
         linker = SchemaLinker(sl_llm, beam_k=decoding.get("k", 5), decoding=decoding,
                               prompt_style="instruct")
     else:
+        sl_adapter = None if args.no_sl_adapter else f"checkpoints/{args.model_key}/sl_adapter{args.adapter_suffix}"
         sl_llm = HuggingFaceLLM(
             model_name_or_path=base,
-            peft_adapter_path=f"checkpoints/{args.model_key}/sl_adapter_v3",
+            peft_adapter_path=sl_adapter,
             load_in_4bit=load_in_4bit, torch_dtype=dtype,
         )
         linker = SchemaLinker(sl_llm, beam_k=5, diversity_penalty=diversity_penalty)

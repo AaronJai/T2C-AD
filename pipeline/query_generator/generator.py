@@ -6,13 +6,25 @@ import re
 from typing import Optional
 
 from pipeline.llm import BaseLLM, GenerationConfig
-from pipeline.query_generator.prompts import build_qg_prompt
+from pipeline.query_generator.prompts import build_qg_prompt, build_qg_prompt_api
 from pipeline.types import SchemaMapping, SchemaRepr
 
 
 class QueryGenerator:
-    def __init__(self, llm: BaseLLM):
+    """`prompt_style` (Phase 8 follow-up, mirrors SchemaLinker's 8.1 pattern): "completion"
+    (default) is the shared train/inference prompt, `include_properties=False` — unchanged,
+    byte-identical to pre-fix behaviour, required for the local fine-tuned QG's train/inference
+    match. "instruct" is for an API model with no fine-tuning to protect: it gets
+    `include_properties=True` (the properties block the SL already receives) and the additive
+    few-shot prompt (`build_qg_prompt_api`), reusing Phase 7.4's training examples. Never used
+    for C1 (build_condition1 never passes this kwarg) — the zero-shot baseline stays the
+    Ozsoy-comparable format on every backend.
+    """
+
+    def __init__(self, llm: BaseLLM, *, prompt_style: str = "completion"):
         self.llm = llm
+        self.prompt_style = prompt_style
+        self._build_prompt = build_qg_prompt_api if prompt_style == "instruct" else build_qg_prompt
         self._config = GenerationConfig(
             max_new_tokens=256,   # a full Cypher query is longer than a schema pattern
             num_beams=1,          # greedy
@@ -22,9 +34,10 @@ class QueryGenerator:
     def generate(self, question: str, schema_mapping: SchemaMapping, schema: SchemaRepr,
                  error_feedback: Optional[str] = None) -> str:
         committed = schema_mapping.cypher_syntax or None    # "" → zero-shot (C1)
-        prompt = build_qg_prompt(
+        include_properties = self.prompt_style == "instruct"
+        prompt = self._build_prompt(
             question,
-            schema.to_prompt_string(include_properties=False),
+            schema.to_prompt_string(include_properties=include_properties),
             committed_pattern=committed,
             error_feedback=error_feedback,    # retry path only (5.2); None on first attempt
         )

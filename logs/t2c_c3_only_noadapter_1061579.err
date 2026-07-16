@@ -1,0 +1,18 @@
+/uwahpc/rocky9/python/anaconda3/2024.06/lib/python3.12/site-packages/conda/base/context.py:201: FutureWarning: Adding 'defaults' to channel list implicitly is deprecated and will be removed in 25.3. 
+
+To remove this warning, please choose a default channel explicitly with conda's regular configuration system, e.g. by adding 'defaults' to the list of channels:
+
+  conda config --add channels defaults
+
+For more information see https://docs.conda.io/projects/conda/en/stable/user-guide/configuration/use-condarc.html
+
+  deprecated.topic(
+INFO:    Cleanup error: while stopping driver for /var/lib/apptainer/mnt/session/final: fuse-overlayfs exited: fuse: reading device: Software caused connection abort
+Traceback (most recent call last):
+  File "/mmfs1/data/group/pmc084/atan/T2C-AD/kaya/c3_only_ablation_v3.py", line 119, in <module>
+    main()
+  File "/mmfs1/data/group/pmc084/atan/T2C-AD/kaya/c3_only_ablation_v3.py", line 70, in main
+    sl_adapter = None if args.no_sl_adapter else f"checkpoints/{args.model_key}/sl_adapter{args.adapter_suffix}"
+                         ^^^^^^^^^^^^^^^^^^
+AttributeError: 'Namespace' object has no attribute 'no_sl_adapter'. Did you mean: 'no_adapters'?
+INFO:    Cleanup error: while stopping driver for /var/lib/apptainer/mnt/session/final: fuse-overlayfs exited: fuse: reading device: Software caused connection abort

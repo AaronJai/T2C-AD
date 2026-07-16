@@ -20,14 +20,15 @@ def build_condition2(*, neo4j_uri, neo4j_auth, database_name,
     runs at beam_k=1, so a single deterministic completion suffices on any backend — C2
     isolates the schema-grounding STAGE, not (for an API model) fine-tuning.
 
-    `prompt_style` (8.2) selects the SL prompt: "completion" (default) for the local fine-tuned
-    model — byte-identical to the pre-8.1 path — or "instruct" for an API model, threaded in by
-    run_evaluation from the registry `kind`.
+    `prompt_style` (8.2, extended to the QG as a Phase-8 follow-up) selects the SL *and* QG
+    prompt: "completion" (default) for the local fine-tuned model — byte-identical to the
+    pre-8.1/pre-follow-up path — or "instruct" for an API model, threaded in by run_evaluation
+    from the registry `kind`.
     """
     sl_llm = build_llm(sl_spec)
     qg_llm = build_llm(qg_spec)
     return PipelineComponents.build(
-        query_generator=QueryGenerator(qg_llm),
+        query_generator=QueryGenerator(qg_llm, prompt_style=prompt_style),
         schema_linker=SchemaLinker(sl_llm, beam_k=1, prompt_style=prompt_style),
         ad_llm=None, dis_llm=None,
         neo4j_uri=neo4j_uri, neo4j_auth=neo4j_auth, database_name=database_name,

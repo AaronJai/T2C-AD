@@ -1,0 +1,60 @@
+Job 1061589 on k035 at Thu 16 Jul 2026 13:29:51 AWST
+Thu Jul 16 13:29:51 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.57.08              Driver Version: 575.57.08      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla V100-PCIE-16GB           Off |   00000000:18:00.0 Off |                    0 |
+| N/A   30C    P0             23W /  250W |       0MiB /  16384MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Wiping v3 volume /group/pmc084/atan/neo4j_data_v3_c3genericonly and reloading data/SyntheticPoliceKG-v3.cypher.
+Changed password for user 'neo4j'. IMPORTANT: this change will only take effect if performed before the database is started for the first time.
+Directories in use:
+home:         /var/lib/neo4j
+config:       /var/lib/neo4j/conf
+logs:         /var/lib/neo4j/logs
+plugins:      /var/lib/neo4j/plugins
+import:       /var/lib/neo4j/import
+data:         /var/lib/neo4j/data
+certificates: /var/lib/neo4j/certificates
+licenses:     /var/lib/neo4j/licenses
+run:          /var/lib/neo4j/run
+Starting Neo4j.
+2026-07-16 05:30:01.541+0000 INFO  Logging config in use: File '/var/lib/neo4j/conf/user-logs.xml'
+2026-07-16 05:30:01.571+0000 INFO  Starting...
+2026-07-16 05:30:02.775+0000 INFO  This instance is ServerId{3cdf97a0} (3cdf97a0-cb0f-490c-be93-c9f89186919d)
+2026-07-16 05:30:04.328+0000 INFO  ======== Neo4j 5.26.27 ========
+2026-07-16 05:30:07.110+0000 INFO  Anonymous Usage Data is being sent to Neo4j, see https://neo4j.com/docs/usage-data/
+2026-07-16 05:30:07.164+0000 INFO  Bolt enabled on localhost:7687.
+2026-07-16 05:30:08.666+0000 INFO  HTTP enabled on localhost:7474.
+2026-07-16 05:30:08.666+0000 INFO  Remote interface available at http://localhost:7474/
+2026-07-16 05:30:08.669+0000 INFO  id: 880736A8FB5194C8A489BFB47496DAD7481BD73483C0A34EEE398A7640357095
+2026-07-16 05:30:08.669+0000 INFO  name: system
+2026-07-16 05:30:08.669+0000 INFO  creationDate: 2026-07-16T05:30:05.671Z
+2026-07-16 05:30:08.669+0000 INFO  Started.
+Neo4j ready after 3 checks.
+Loading data/SyntheticPoliceKG-v3.cypher
+v3 graph loaded.
+C3-only ablation: model_key=mistral7b sl_adapter=sl_adapter_v3 qg_adapter=qg_adapter_v3 ad=base (fixed, never fine-tuned) tag=full7p4
+
+==================== C3-ONLY ABLATION (full7p4) ====================
+  EX=0.092 EA=0.233 ambiguous_EA=0.275
+  DSR=0.05 Detection F1=0.3061224489795919 Prec=0.75 Rec=0.19230769230769232
+  Wrote -> results/c3_only_mistral7b_v3_full7p4.json
+Finished at Thu 16 Jul 2026 15:03:56 AWST
+Stopping neo4j (pid 2376485) at Thu 16 Jul 2026 15:03:56 AWST
+2026-07-16 07:03:56.351+0000 INFO  Neo4j Server shutdown initiated by request
+2026-07-16 07:03:56.355+0000 INFO  Stopping...
+2026-07-16 07:04:06.750+0000 INFO  Stopped.

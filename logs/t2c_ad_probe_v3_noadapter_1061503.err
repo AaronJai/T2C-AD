@@ -1,0 +1,68 @@
+/uwahpc/rocky9/python/anaconda3/2024.06/lib/python3.12/site-packages/conda/base/context.py:201: FutureWarning: Adding 'defaults' to channel list implicitly is deprecated and will be removed in 25.3. 
+
+To remove this warning, please choose a default channel explicitly with conda's regular configuration system, e.g. by adding 'defaults' to the list of channels:
+
+  conda config --add channels defaults
+
+For more information see https://docs.conda.io/projects/conda/en/stable/user-guide/configuration/use-condarc.html
+
+  deprecated.topic(
+Neo4j web server failed to start. See log for more info.
+Run with '--verbose' for a more detailed error message.
+INFO:    Cleanup error: while stopping driver for /var/lib/apptainer/mnt/session/final: fuse-overlayfs exited: fuse: reading device: Software caused connection abort
+Loading checkpoint shards:   0%|          | 0/3 [00:00<?, ?it/s]Loading checkpoint shards:  33%|███▎      | 1/3 [00:14<00:29, 14.88s/it]Loading checkpoint shards:  67%|██████▋   | 2/3 [00:30<00:15, 15.48s/it]Loading checkpoint shards: 100%|██████████| 3/3 [00:44<00:00, 14.71s/it]Loading checkpoint shards: 100%|██████████| 3/3 [00:44<00:00, 14.86s/it]
+Starting from v4.46, the `logits` model output will have the same type as the model (except at train time, where it will always be FP32)
+From v4.47 onwards, when a model cache is to be returned, `generate` will return a `Cache` instance instead by default (as opposed to the legacy tuple of tuples format). If you want to keep returning the legacy format, please set `return_legacy_cache=True`.
+Traceback (most recent call last):
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/neo4j/_async_compat/network/_bolt_socket.py", line 553, in _connect_secure
+    s.connect(resolved_address)
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/neo4j/_sync/io/_bolt_socket.py", line 329, in connect
+    s = cls._connect_secure(
+        ^^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/neo4j/_async_compat/network/_bolt_socket.py", line 563, in _connect_secure
+    raise ServiceUnavailable(
+neo4j.exceptions.ServiceUnavailable: Failed to establish connection to ResolvedIPv6Address(('::1', 7687, 0, 0)) (reason [Errno 111] Connection refused)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/mmfs1/data/group/pmc084/atan/T2C-AD/kaya/ad_probe_v3.py", line 184, in <module>
+    main()
+  File "/mmfs1/data/group/pmc084/atan/T2C-AD/kaya/ad_probe_v3.py", line 131, in main
+    cache = EntityCache.load(driver, registry=v3_registry)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mmfs1/data/group/pmc084/atan/T2C-AD/pipeline/entity_lookup/cache.py", line 68, in load
+    for record in session.run(query):
+                  ^^^^^^^^^^^^^^^^^^
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/neo4j/_sync/work/session.py", line 318, in run
+    self._connect(self._config.default_access_mode)
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/neo4j/_sync/work/session.py", line 128, in _connect
+    super()._connect(
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/neo4j/_sync/work/workspace.py", line 181, in _connect
+    self._connection = self._pool.acquire(**acquire_kwargs_)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/neo4j/_sync/io/_pool.py", line 678, in acquire
+    return self._acquire(
+           ^^^^^^^^^^^^^^
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/neo4j/_sync/io/_pool.py", line 418, in _acquire
+    return connection_creator()
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/neo4j/_sync/io/_pool.py", line 231, in connection_creator
+    connection = self.opener(
+                 ^^^^^^^^^^^^
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/neo4j/_sync/io/_pool.py", line 638, in opener
+    return Bolt.open(
+           ^^^^^^^^^^
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/neo4j/_sync/io/_bolt.py", line 366, in open
+    s, protocol_version = BoltSocket.connect(
+                          ^^^^^^^^^^^^^^^^^^^
+  File "/group/pmc084/atan/envs/t2c/lib/python3.11/site-packages/neo4j/_sync/io/_bolt_socket.py", line 380, in connect
+    raise ServiceUnavailable(
+neo4j.exceptions.ServiceUnavailable: Couldn't connect to localhost:7687 (resolved to ('[::1]:7687', '127.0.0.1:7687')):
+Failed to establish connection to ResolvedIPv6Address(('::1', 7687, 0, 0)) (reason [Errno 111] Connection refused)
+Failed to establish connection to ResolvedIPv4Address(('127.0.0.1', 7687)) (reason [Errno 111] Connection refused)

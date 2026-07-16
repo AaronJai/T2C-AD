@@ -65,6 +65,17 @@ def main() -> None:
                          "'{\"strategy\":\"sample\",\"temperature\":0.7,\"k\":5}'. "
                          "API models default to sampling temperature 0.7 (pre-sweep, mirrors "
                          "7.5's pre-sweep dp=0.2); local models read the currently-locked block.")
+    ap.add_argument("--adapter_suffix", default="_v3",
+                    help="Which SL adapter to load for a local model: default '_v3' "
+                         "(sl_adapter_v3, the 7.4 in-domain-SFT adapter this gate normally "
+                         "measures). Pass '' to load the pre-7.4 generic-Ozsoy-only sl_adapter "
+                         "instead, for the schema-redesign-vs-in-domain-SFT ablation (see "
+                         "decisions-log). No effect on an API model (no adapter).")
+    ap.add_argument("--no_adapter", action="store_true",
+                    help="Load the raw base model with NO PEFT adapter at all (not even the "
+                         "generic-Ozsoy one) — the third point of the no-FT / generic-FT / "
+                         "in-domain-FT ablation. Overrides --adapter_suffix. No effect on an "
+                         "API model (already adapter-free).")
     args = ap.parse_args()
 
     from pipeline.llm import build_llm
@@ -102,7 +113,7 @@ def main() -> None:
         adapter = None
     else:
         from pipeline.llm import HuggingFaceLLM
-        adapter = f"checkpoints/{args.model_key}/sl_adapter_v3"
+        adapter = None if args.no_adapter else f"checkpoints/{args.model_key}/sl_adapter{args.adapter_suffix}"
         llm = HuggingFaceLLM(
             model_name_or_path=registry["base"],
             peft_adapter_path=adapter,
