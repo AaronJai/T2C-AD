@@ -1,0 +1,70 @@
+Job 1055879 on k009 at Tue 14 Jul 2026 13:49:29 AWST
+Wiping v3 volume /group/pmc084/atan/neo4j_data_v3 and reloading data/SyntheticPoliceKG-v3.cypher.
+Fresh volume — setting initial password via neo4j-admin
+Changed password for user 'neo4j'. IMPORTANT: this change will only take effect if performed before the database is started for the first time.
+Directories in use:
+home:         /var/lib/neo4j
+config:       /var/lib/neo4j/conf
+logs:         /var/lib/neo4j/logs
+plugins:      /var/lib/neo4j/plugins
+import:       /var/lib/neo4j/import
+data:         /var/lib/neo4j/data
+certificates: /var/lib/neo4j/certificates
+licenses:     /var/lib/neo4j/licenses
+run:          /var/lib/neo4j/run
+Starting Neo4j.
+2026-07-14 05:49:35.947+0000 INFO  Logging config in use: File '/var/lib/neo4j/conf/user-logs.xml'
+2026-07-14 05:49:35.965+0000 INFO  Starting...
+2026-07-14 05:49:36.584+0000 INFO  This instance is ServerId{f0095d63} (f0095d63-1a68-41d0-bc7b-a8a98a850ea8)
+2026-07-14 05:49:37.354+0000 INFO  ======== Neo4j 5.26.27 ========
+2026-07-14 05:49:39.770+0000 INFO  Anonymous Usage Data is being sent to Neo4j, see https://neo4j.com/docs/usage-data/
+2026-07-14 05:49:39.794+0000 INFO  Bolt enabled on localhost:7687.
+2026-07-14 05:49:40.733+0000 INFO  HTTP enabled on localhost:7474.
+2026-07-14 05:49:40.734+0000 INFO  Remote interface available at http://localhost:7474/
+2026-07-14 05:49:40.735+0000 INFO  id: B08D2B5FD07E9DD13DAE145100757FBC5CFC95B2B19D4405E2E2EB331C0F86AA
+2026-07-14 05:49:40.736+0000 INFO  name: system
+2026-07-14 05:49:40.736+0000 INFO  creationDate: 2026-07-14T05:49:38.154Z
+2026-07-14 05:49:40.736+0000 INFO  Started.
+Neo4j ready after 3 checks.
+Loading data/SyntheticPoliceKG-v3.cypher
+v3 graph loaded.
+### Table 1 — Overall (120)
+
+| Metric | C1 | C2 | C3 |
+| --- | --- | --- | --- |
+| EX | 5.8 | 5.0 | 4.2 |
+| EA / AREA | 5.8 | 5.0 | 5.0 |
+| KG-Valid % | 83.3 | 69.2 | 63.3 |
+| Syntax % | 100.0 | 96.7 | 97.5 |
+| Schema % | 100.0 | 100.0 | 100.0 |
+| Pass@1 | 2.5 | 2.5 | 2.5 |
+
+### Table 2 — Ambiguity-specific (80)
+
+| Metric | C1 | C2 | C3 |
+| --- | --- | --- | --- |
+| Ambiguous EA | 2.5 | 1.2 | 2.5 |
+| DSR | — | — | 0.0 |
+| Detection F1 | — | — | 73.9 |
+| Detection Prec | — | — | 83.6 |
+| Detection Rec | — | — | 66.2 |
+| EA — schema (n=20) | 0.0 | 0.0 | 0.0 |
+| EA — entity (n=20) | 0.0 | 0.0 | 0.0 |
+| EA — intent (n=20) | 5.0 | 5.0 | 5.0 |
+| EA — temporal (n=20) | 5.0 | 0.0 | 5.0 |
+
+### Table 3 — Repair/routing (C2, C3)
+
+| Metric | C2 | C3 |
+| --- | --- | --- |
+| Initial Valid % | 40.8 | 24.2 |
+| Post-CyVer Valid % | 69.2 | 63.3 |
+| Structural Repair % | 47.9 | 51.6 |
+| Semantic Repair % | 0.0 | 0.0 |
+| Avg Iterations | 1.28 | 1.58 |
+Wrote results/tables_<active_model>_v3.md + results/metrics_<active_model>_v3.json
+Finished at Tue 14 Jul 2026 16:39:36 AWST
+Stopping neo4j (pid 688151) at Tue 14 Jul 2026 16:39:36 AWST
+2026-07-14 08:39:36.747+0000 INFO  Neo4j Server shutdown initiated by request
+2026-07-14 08:39:36.748+0000 INFO  Stopping...
+2026-07-14 08:39:46.966+0000 INFO  Stopped.

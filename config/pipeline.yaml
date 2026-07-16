@@ -19,7 +19,7 @@ dataset_version: v3                           # v2 | v3 (absent → v2, back-com
 results_tag: v3                               # suffixed into results artefact names ("" → today's v2 names)
 
 models_registry: "config/models.yaml"       # the per-base registry from 2.1
-active_model: "mistral7b"                    # which model_key to evaluate (must be in the registry)
+active_model: "claude-sonnet"                # which model_key to evaluate (must be in the registry)
 # For a LOCAL model, base + adapter paths are DERIVED from active_model:
 #   base       = registry[active_model].base
 #   sl_adapter = checkpoints/{active_model}/sl_adapter

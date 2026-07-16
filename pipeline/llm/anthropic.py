@@ -50,13 +50,18 @@ class AnthropicLLM(BaseLLM):
         # Greedy stages (do_sample=False) decode deterministically → temperature 0.0; the SL
         # sampling path (do_sample=True) uses the configured temperature. `top_p` is never sent.
         temperature = config.temperature if config.do_sample else 0.0
+        # `system` is OMITTED (not sent as null) when there is no system content: the SL and
+        # zero-shot-QG paths send a user-only prompt, and the live API rejects `"system": null`
+        # with a 400 ("system: Input should be a valid array") — caught at 8.3 G0.5.
+        kwargs = dict(
+            model=self.model, max_tokens=config.max_new_tokens, temperature=temperature,
+            messages=convo or [{"role": "user", "content": ""}],
+        )
+        if system:
+            kwargs["system"] = system
         completions: list[Completion] = []
         for i in range(n):
-            resp = self.client.messages.create(
-                model=self.model, max_tokens=config.max_new_tokens,
-                temperature=temperature,
-                system=system or None, messages=convo or [{"role": "user", "content": ""}],
-            )
+            resp = self.client.messages.create(**kwargs)
             text = "".join(b.text for b in resp.content if b.type == "text")
             completions.append(Completion(text=text, score=-1.0, rank=i + 1))
         return completions

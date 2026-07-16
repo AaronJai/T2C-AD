@@ -1,0 +1,47 @@
+Job 1055742 on k003 at Tue 14 Jul 2026 12:16:11 AWST
+Wiping v3 volume /group/pmc084/atan/neo4j_data_v3 and reloading data/SyntheticPoliceKG-v3.cypher.
+Fresh volume — setting initial password via neo4j-admin
+Changed password for user 'neo4j'. IMPORTANT: this change will only take effect if performed before the database is started for the first time.
+Directories in use:
+home:         /var/lib/neo4j
+config:       /var/lib/neo4j/conf
+logs:         /var/lib/neo4j/logs
+plugins:      /var/lib/neo4j/plugins
+import:       /var/lib/neo4j/import
+data:         /var/lib/neo4j/data
+certificates: /var/lib/neo4j/certificates
+licenses:     /var/lib/neo4j/licenses
+run:          /var/lib/neo4j/run
+Starting Neo4j.
+2026-07-14 04:16:19.688+0000 INFO  Logging config in use: File '/var/lib/neo4j/conf/user-logs.xml'
+2026-07-14 04:16:19.705+0000 INFO  Starting...
+2026-07-14 04:16:20.458+0000 INFO  This instance is ServerId{d079738b} (d079738b-4ff1-4f7b-acde-13d4a5691ad3)
+2026-07-14 04:16:21.356+0000 INFO  ======== Neo4j 5.26.27 ========
+2026-07-14 04:16:24.494+0000 INFO  Anonymous Usage Data is being sent to Neo4j, see https://neo4j.com/docs/usage-data/
+2026-07-14 04:16:24.515+0000 INFO  Bolt enabled on localhost:7687.
+2026-07-14 04:16:25.722+0000 INFO  HTTP enabled on localhost:7474.
+2026-07-14 04:16:25.722+0000 INFO  Remote interface available at http://localhost:7474/
+2026-07-14 04:16:25.724+0000 INFO  id: 315205A5895E0C0E680DC5B622A66ECC64F76A076EE4993B207D67AB3492E7B0
+2026-07-14 04:16:25.724+0000 INFO  name: system
+2026-07-14 04:16:25.724+0000 INFO  creationDate: 2026-07-14T04:16:22.643Z
+2026-07-14 04:16:25.725+0000 INFO  Started.
+Neo4j ready after 3 checks.
+Loading data/SyntheticPoliceKG-v3.cypher
+v3 graph loaded.
+── Running validation harness ──
+Benchmark: data/benchmark-v3.json
+  [PASS] 1_loads
+  [PASS] 2_distribution
+  [PASS] 3_syntax
+  [PASS] 4_schema_closure
+  [PASS] 5_nonempty_execution
+  [PASS] 6_interpretation_divergence
+  [PASS] 7_hop_honesty
+  [PASS] 8_coverage
+OVERALL: PASS
+Harness exit code: 0 (0 = all 8 gates green)
+Finished at Tue 14 Jul 2026 12:17:05 AWST
+Stopping neo4j (pid 3675294) at Tue 14 Jul 2026 12:17:05 AWST
+2026-07-14 04:17:05.212+0000 INFO  Neo4j Server shutdown initiated by request
+2026-07-14 04:17:05.213+0000 INFO  Stopping...
+2026-07-14 04:17:15.797+0000 INFO  Stopped.

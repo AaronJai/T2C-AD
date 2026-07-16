@@ -1,0 +1,99 @@
+Job 1055843 on k009 at Tue 14 Jul 2026 13:44:29 AWST
+Reusing existing v3 volume at /group/pmc084/atan/neo4j_data_v3.
+Directories in use:
+home:         /var/lib/neo4j
+config:       /var/lib/neo4j/conf
+logs:         /var/lib/neo4j/logs
+plugins:      /var/lib/neo4j/plugins
+import:       /var/lib/neo4j/import
+data:         /var/lib/neo4j/data
+certificates: /var/lib/neo4j/certificates
+licenses:     /var/lib/neo4j/licenses
+run:          /var/lib/neo4j/run
+Starting Neo4j.
+2026-07-14 05:44:34.374+0000 INFO  Logging config in use: File '/var/lib/neo4j/conf/user-logs.xml'
+2026-07-14 05:44:34.390+0000 INFO  Starting...
+2026-07-14 05:44:35.142+0000 INFO  This instance is ServerId{d079738b} (d079738b-4ff1-4f7b-acde-13d4a5691ad3)
+2026-07-14 05:44:35.909+0000 INFO  ======== Neo4j 5.26.27 ========
+2026-07-14 05:44:38.841+0000 INFO  Anonymous Usage Data is being sent to Neo4j, see https://neo4j.com/docs/usage-data/
+2026-07-14 05:44:38.868+0000 INFO  Bolt enabled on localhost:7687.
+2026-07-14 05:44:39.913+0000 INFO  HTTP enabled on localhost:7474.
+2026-07-14 05:44:39.914+0000 INFO  Remote interface available at http://localhost:7474/
+2026-07-14 05:44:39.915+0000 INFO  id: 315205A5895E0C0E680DC5B622A66ECC64F76A076EE4993B207D67AB3492E7B0
+2026-07-14 05:44:39.916+0000 INFO  name: system
+2026-07-14 05:44:39.916+0000 INFO  creationDate: 2026-07-14T04:16:22.643Z
+2026-07-14 05:44:39.916+0000 INFO  Started.
+Neo4j ready after 3 checks.
+Sampled 10 v3 questions; sl_kind=api base=None decoding={'strategy': 'sample', 'temperature': 0.3, 'k': 5} ad_backend=api
+
+============ AD CLASSIFICATIONS (v3, ad=api:claude-sonnet) ============
+
+[Q-041] Show people connected to the Northbridge robbery.
+  gold: is_ambiguous=True type=schema
+  AD  : is_ambiguous=True detected=['schema']
+  entropy: schema=0.00 entity=0.00
+  rationale: Despite the low schema ambiguity score, 'connected to' is a vague term that could map to any of the four Person->Incident relationship types (SUSPECTED_OF, WITNESSED, VICTIM_OF, INVESTIGATES), not jus
+
+[Q-042] Who is involved in the Cannington homicide?
+  gold: is_ambiguous=True type=schema
+  AD  : is_ambiguous=True detected=['schema']
+  entropy: schema=0.00 entity=0.00
+  rationale: The word 'involved' is schema-ambiguous: it could map to any or all four Person->Incident relationship types (SUSPECTED_OF, WITNESSED, VICTIM_OF, INVESTIGATES). The candidate distribution shows all fo
+
+[Q-061] What is Tran's current address?
+  gold: is_ambiguous=True type=entity
+  AD  : is_ambiguous=True detected=['entity', 'temporal']
+  entropy: schema=0.00 entity=1.00
+  rationale: Two distinct Person nodes match 'Tran' with equal confidence (Megan Tran PER-002 and Kevin Tran PER-031), so the question is entity-ambiguous. Additionally, 'current address' implies filtering by acti
+
+[Q-062] Where does Kim currently live?
+  gold: is_ambiguous=True type=entity
+  AD  : is_ambiguous=True detected=['entity']
+  entropy: schema=0.00 entity=1.00
+  rationale: Two distinct Person nodes match 'Kim' with equal confidence (Rachel Kim PER-006 and Daniel Kim PER-009, both at 1.00), and the question provides no further context to disambiguate between them. The sc
+
+[Q-101] Where does James Whitfield live?
+  gold: is_ambiguous=True type=temporal
+  AD  : is_ambiguous=True detected=['entity', 'temporal']
+  entropy: schema=0.00 entity=1.00
+  rationale: Two issues arise: (1) Entity ambiguity - 'James Whitfield' matches two distinct Person nodes (PER-007 and PER-015) with equal confidence scores of 1.00, so the query would return different locations d
+
+[Q-102] Where does Lina Petrova live?
+  gold: is_ambiguous=True type=temporal
+  AD  : is_ambiguous=True detected=['temporal']
+  entropy: schema=0.00 entity=0.00
+  rationale: The LIVES_AT relationship carries active/from_date/to_date properties, so 'where does Lina Petrova live' could mean her current address (active:true) or all addresses she has ever lived at. These two 
+
+[Q-081] Tell me about the suspects in the Lake Street drug offence.
+  gold: is_ambiguous=True type=intent
+  AD  : is_ambiguous=True detected=['intent']
+  entropy: schema=0.00 entity=0.00
+  rationale: 'Tell me about' is underspecified in terms of what to return: valid readings could include returning just the suspects' names, all their properties, their associated incidents, their addresses, their 
+
+[Q-082] What about the incidents in Northbridge?
+  gold: is_ambiguous=True type=intent
+  AD  : is_ambiguous=True detected=['entity']
+  entropy: schema=0.00 entity=1.00
+  rationale: The schema mapping is unambiguous (all candidates point to (Incident)-[:OCCURRED_AT]->(Location) with score 1.00), but 'Northbridge' matches three distinct Location nodes (LOC-001, LOC-002, LOC-006) w
+
+[Q-001] Who is suspected of the homicide?
+  gold: is_ambiguous=False type=null
+  AD  : is_ambiguous=False detected=[]
+  entropy: schema=0.00 entity=0.00
+  rationale: The question maps unambiguously to a single Cypher pattern: (Person)-[:SUSPECTED_OF]->(Incident) where the incident involves a homicide. The schema candidate distribution is fully concentrated on SUSP
+
+[Q-002] Which officers are investigating the homicide?
+  gold: is_ambiguous=False type=null
+  AD  : is_ambiguous=False detected=[]
+  entropy: schema=0.00 entity=0.00
+  rationale: The question maps cleanly to a single Cypher pattern: (Person)-[:INVESTIGATES]->(Incident) where the incident is a homicide. All schema candidates score 1.00 with no spread, there is no entity ambigui
+
+============ SUMMARY (v3, ad=api:claude-sonnet) ============
+  binary detection: correct 10/10
+  TP=8 FP=0 FN=0 TN=2
+  non-zero schema_entropy on ambiguous items is the 7.4/7.3 signal G3 checks for.
+Finished at Tue 14 Jul 2026 13:47:45 AWST
+Stopping neo4j (pid 665095) at Tue 14 Jul 2026 13:47:45 AWST
+2026-07-14 05:47:45.224+0000 INFO  Neo4j Server shutdown initiated by request
+2026-07-14 05:47:45.225+0000 INFO  Stopping...
+2026-07-14 05:47:55.642+0000 INFO  Stopped.

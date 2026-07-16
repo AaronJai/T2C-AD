@@ -75,6 +75,18 @@ def test_generate_chat_splits_system_and_passes_messages():
     assert call["messages"] == [{"role": "user", "content": "U"}]
 
 
+def test_user_only_prompt_omits_system_not_null():
+    """No system turn (SL / zero-shot-QG paths) → `system` is OMITTED, never sent as null.
+
+    The live API rejects `"system": null` with a 400 ("system: Input should be a valid
+    array") — caught at 8.3 G0.5. Regression guard for that fix.
+    """
+    llm = _llm()
+    llm.generate("user-only", GenerationConfig(num_return_sequences=1))
+    call = llm.client.messages.calls[0]
+    assert "system" not in call
+
+
 # ── 8.2 decoding correctness ─────────────────────────────────────────────────────────
 def test_greedy_config_sends_temperature_zero():
     """do_sample=False (QG/AD/Dis) decodes deterministically → temperature 0.0, not config's 1.0."""
