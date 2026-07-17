@@ -1,0 +1,15 @@
+/uwahpc/rocky9/python/anaconda3/2024.06/lib/python3.12/site-packages/conda/base/context.py:201: FutureWarning: Adding 'defaults' to channel list implicitly is deprecated and will be removed in 25.3. 
+
+To remove this warning, please choose a default channel explicitly with conda's regular configuration system, e.g. by adding 'defaults' to the list of channels:
+
+  conda config --add channels defaults
+
+For more information see https://docs.conda.io/projects/conda/en/stable/user-guide/configuration/use-condarc.html
+
+  deprecated.topic(
+INFO:    Cleanup error: while stopping driver for /var/lib/apptainer/mnt/session/final: fuse-overlayfs exited: fuse: reading device: Software caused connection abort
+ForsetiClient[transactionId=14, clientId=1] can't acquire UpdateLock{owners=ForsetiClient[transactionId=14, clientId=1], ForsetiClient[transactionId=13, clientId=2], refCount=2} on LABEL(0) because holders of that lock are waiting for ForsetiClient[transactionId=14, clientId=1].
+ Wait list:SharedLock[
+Client[14] waits for [ForsetiClient[transactionId=13, clientId=2]], 
+Client[13] waits for [ForsetiClient[transactionId=14, clientId=1]]]
+INFO:    Cleanup error: while stopping driver for /var/lib/apptainer/mnt/session/final: fuse-overlayfs exited: fuse: reading device: Software caused connection abort

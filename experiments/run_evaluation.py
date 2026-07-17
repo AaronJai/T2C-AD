@@ -179,6 +179,13 @@ def main(config_path: str = "config/pipeline.yaml") -> None:
     # model, completion for the local fine-tuned model. C1 has no Schema Linker.
     prompt_style = _resolve_prompt_style(kind)
 
+    # QG properties block (decisions-log 2026-07-17). The QG is the only stage whose prompt ever
+    # omitted the schema's Properties list — the SL passes include_properties=True on every
+    # backend. Absent from config → None → the prompt_style default, byte-identical to the
+    # pre-2026-07-17 path. Applies to C1/C2/C3 alike: C1 is NOT invariant here (unlike the
+    # adapter ablation), since it still renders a schema block.
+    qg_include_properties = cfg.get("qg_include_properties")
+
     # `ds` (schema repr, entity registry, AD/Dis prompts, adapter suffix, results_tag) resolved above.
     schema = ds["schema"]
     benchmark = load_benchmark(ds["benchmark"])
@@ -192,14 +199,16 @@ def main(config_path: str = "config/pipeline.yaml") -> None:
 
     with build_condition1(neo4j_uri=neo4j_uri, neo4j_auth=neo4j_auth, database_name=database,
                           base_model_spec=dict(base_spec),
-                          schema=schema) as c1:
+                          schema=schema,
+                          qg_include_properties=qg_include_properties) as c1:
         c1.embedding_model = embedding_model
         results, _ = run_condition(benchmark, c1, "baseline")
         bundles["baseline"] = compute_metrics(results, ad_predictions=None)
 
     with build_condition2(neo4j_uri=neo4j_uri, neo4j_auth=neo4j_auth, database_name=database,
                           sl_spec=dict(sl_spec), qg_spec=dict(qg_spec), schema=schema,
-                          prompt_style=prompt_style) as c2:
+                          prompt_style=prompt_style,
+                          qg_include_properties=qg_include_properties) as c2:
         c2.embedding_model = embedding_model
         results, _ = run_condition(benchmark, c2, "schema_grounded")
         bundles["schema_grounded"] = compute_metrics(results, ad_predictions=None)
@@ -212,7 +221,8 @@ def main(config_path: str = "config/pipeline.yaml") -> None:
                           entity_registry=ds["entity_registry"],
                           ad_system_prompt=ds["ad_system_prompt"],
                           dis_system_prompt=ds["dis_system_prompt"],
-                          prompt_style=prompt_style) as c3:
+                          prompt_style=prompt_style,
+                          qg_include_properties=qg_include_properties) as c3:
         results, ad_preds = run_condition(benchmark, c3, "disambiguation_enhanced")
         bundles["disambiguation_enhanced"] = compute_metrics(results, ad_predictions=ad_preds)
 

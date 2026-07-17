@@ -19,11 +19,24 @@ class QueryGenerator:
     few-shot prompt (`build_qg_prompt_api`), reusing Phase 7.4's training examples. Never used
     for C1 (build_condition1 never passes this kwarg) — the zero-shot baseline stays the
     Ozsoy-comparable format on every backend.
+
+    `include_properties` overrides the value `prompt_style` would derive, for the QG prompt
+    only (the SL already passes True on every backend — linker.py). Default None keeps the
+    derived value, so every existing call site stays byte-identical. Set True on the
+    "completion" path for the properties ablation (decisions-log 2026-07-17): the local QG is
+    the one stage never shown the schema's property list, and 14 of the v3 schema's 24
+    properties appear zero times in its SFT completions (data/pole_qg_train.jsonl), leaving it
+    no source for those names at all. This makes POLE-content-with-properties a prompt the
+    fine-tuned QG never saw in training (its Ozsoy replay rows are property-rich, so the
+    format is in-distribution, but never with POLE content) — that shift is what the ablation
+    measures, not a defect.
     """
 
-    def __init__(self, llm: BaseLLM, *, prompt_style: str = "completion"):
+    def __init__(self, llm: BaseLLM, *, prompt_style: str = "completion",
+                 include_properties: Optional[bool] = None):
         self.llm = llm
         self.prompt_style = prompt_style
+        self.include_properties = include_properties
         self._build_prompt = build_qg_prompt_api if prompt_style == "instruct" else build_qg_prompt
         self._config = GenerationConfig(
             max_new_tokens=256,   # a full Cypher query is longer than a schema pattern
@@ -34,7 +47,8 @@ class QueryGenerator:
     def generate(self, question: str, schema_mapping: SchemaMapping, schema: SchemaRepr,
                  error_feedback: Optional[str] = None) -> str:
         committed = schema_mapping.cypher_syntax or None    # "" → zero-shot (C1)
-        include_properties = self.prompt_style == "instruct"
+        include_properties = (self.include_properties if self.include_properties is not None
+                              else self.prompt_style == "instruct")
         prompt = self._build_prompt(
             question,
             schema.to_prompt_string(include_properties=include_properties),

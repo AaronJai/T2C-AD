@@ -1,0 +1,60 @@
+Job 1063902 on k031 at Fri 17 Jul 2026 09:00:28 AWST
+Fri Jul 17 09:00:28 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.57.08              Driver Version: 575.57.08      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla V100-PCIE-16GB           Off |   00000000:AF:00.0 Off |                    0 |
+| N/A   29C    P0             24W /  250W |       0MiB /  16384MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Wiping v3 volume /group/pmc084/atan/neo4j_data_v3_c3props_full and reloading data/SyntheticPoliceKG-v3.cypher.
+Changed password for user 'neo4j'. IMPORTANT: this change will only take effect if performed before the database is started for the first time.
+Directories in use:
+home:         /var/lib/neo4j
+config:       /var/lib/neo4j/conf
+logs:         /var/lib/neo4j/logs
+plugins:      /var/lib/neo4j/plugins
+import:       /var/lib/neo4j/import
+data:         /var/lib/neo4j/data
+certificates: /var/lib/neo4j/certificates
+licenses:     /var/lib/neo4j/licenses
+run:          /var/lib/neo4j/run
+Starting Neo4j.
+2026-07-17 01:00:36.752+0000 INFO  Logging config in use: File '/var/lib/neo4j/conf/user-logs.xml'
+2026-07-17 01:00:36.786+0000 INFO  Starting...
+2026-07-17 01:00:38.033+0000 INFO  This instance is ServerId{340e9f52} (340e9f52-8aee-4674-8c72-b41d3ea4594f)
+2026-07-17 01:00:39.608+0000 INFO  ======== Neo4j 5.26.27 ========
+2026-07-17 01:00:42.371+0000 INFO  Anonymous Usage Data is being sent to Neo4j, see https://neo4j.com/docs/usage-data/
+2026-07-17 01:00:42.425+0000 INFO  Bolt enabled on localhost:7687.
+2026-07-17 01:00:43.868+0000 INFO  HTTP enabled on localhost:7474.
+2026-07-17 01:00:43.869+0000 INFO  Remote interface available at http://localhost:7474/
+2026-07-17 01:00:43.871+0000 INFO  id: C702B914D219B5E12D3D163308976A59CBEF15AEB92C45153148D86AA97A5569
+2026-07-17 01:00:43.871+0000 INFO  name: system
+2026-07-17 01:00:43.871+0000 INFO  creationDate: 2026-07-17T01:00:41.04Z
+2026-07-17 01:00:43.871+0000 INFO  Started.
+Neo4j ready after 3 checks.
+Loading data/SyntheticPoliceKG-v3.cypher
+v3 graph loaded.
+C3-only ablation: model_key=mistral7b sl_adapter=sl_adapter_v3 qg_adapter=qg_adapter_v3 qg_include_properties=True ad=base (fixed, never fine-tuned) tag=full7p4_qgprops
+
+==================== C3-ONLY ABLATION (full7p4_qgprops) ====================
+  EX=0.125 EA=0.275 ambiguous_EA=0.312
+  DSR=0.0 Detection F1=0.3061224489795919 Prec=0.75 Rec=0.19230769230769232
+  Wrote -> results/c3_only_mistral7b_v3_full7p4_qgprops.json
+Finished at Fri 17 Jul 2026 10:24:37 AWST
+Stopping neo4j (pid 1654425) at Fri 17 Jul 2026 10:24:37 AWST
+2026-07-17 02:24:37.462+0000 INFO  Neo4j Server shutdown initiated by request
+2026-07-17 02:24:37.465+0000 INFO  Stopping...
+2026-07-17 02:24:47.854+0000 INFO  Stopped.

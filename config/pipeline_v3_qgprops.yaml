@@ -1,0 +1,39 @@
+# config/pipeline_v3_qgprops.yaml — the local mistral7b v3 run with the QG properties fix
+# (decisions-log 2026-07-17). Identical to config/pipeline.yaml's v3 block except:
+#   active_model: mistral7b            (pipeline.yaml currently points at claude-sonnet)
+#   qg_include_properties: true        (the fix)
+#   results_tag: v3_qgprops            (so it never overwrites the recorded properties-off v3)
+#
+# WHY this exists as a separate config rather than an edit to pipeline.yaml: the recorded
+# properties-off v3 artefacts (results/metrics_mistral7b_v3.json) stay reproducible from
+# pipeline.yaml, so the pair is a clean single-factor comparison.
+#
+# Run: sbatch kaya/93_run_evaluation_v3_qgprops.slurm   (GPU + its own background v3 Neo4j)
+
+neo4j:
+  uri: "bolt://localhost:7687"          # overridden per-job by the runner's unique Bolt port
+  user: "neo4j"
+  # password via env var NEO4J_PASSWORD (do not commit real credentials)
+  database: "neo4j"
+
+dataset_version: v3
+results_tag: v3_qgprops                 # -> results/{tables,metrics}_mistral7b_v3_qgprops.{md,json}
+
+models_registry: "config/models.yaml"
+active_model: "mistral7b"               # the local column (base + {sl,qg}_adapter_v3)
+
+ad: null                                # null -> default to the active model's base
+dis: null                               # null -> share the AD backend
+
+benchmark: "data/benchmark-v3.json"
+schema_linker_inference: "config/schema_linker_inference.yaml"
+use_embedding_model: true
+
+# The QG is the ONLY stage whose prompt ever omitted the schema's Properties list (the Schema
+# Linker passes include_properties=True on every backend, at training and inference). The
+# 6-cell C2/C3 ablation measured the cost: EA improved in 6/6 cells (+4.2..+7.5pp) and KG-Valid
+# in 6/6 (+6.7..+31.7pp). Applies to C1 too — C1 renders a schema block, so unlike the adapter
+# ablation it is NOT invariant to this.
+qg_include_properties: true
+
+results_dir: "results/"

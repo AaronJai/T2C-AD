@@ -1,0 +1,65 @@
+Job 1063901 on k029 at Fri 17 Jul 2026 09:00:27 AWST
+Fri Jul 17 09:00:27 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.57.08              Driver Version: 575.57.08      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla V100-PCIE-16GB           Off |   00000000:AF:00.0 Off |                    0 |
+| N/A   30C    P0             25W /  250W |       0MiB /  16384MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Wiping v3 volume /group/pmc084/atan/neo4j_data_v3_c2props_noadapter and reloading data/SyntheticPoliceKG-v3.cypher.
+Changed password for user 'neo4j'. IMPORTANT: this change will only take effect if performed before the database is started for the first time.
+Directories in use:
+home:         /var/lib/neo4j
+config:       /var/lib/neo4j/conf
+logs:         /var/lib/neo4j/logs
+plugins:      /var/lib/neo4j/plugins
+import:       /var/lib/neo4j/import
+data:         /var/lib/neo4j/data
+certificates: /var/lib/neo4j/certificates
+licenses:     /var/lib/neo4j/licenses
+run:          /var/lib/neo4j/run
+Starting Neo4j.
+2026-07-17 01:00:36.800+0000 INFO  Logging config in use: File '/var/lib/neo4j/conf/user-logs.xml'
+2026-07-17 01:00:36.830+0000 INFO  Starting...
+2026-07-17 01:00:38.118+0000 INFO  This instance is ServerId{571ffb87} (571ffb87-64b6-4548-a00e-bc0a146cd7e0)
+2026-07-17 01:00:39.811+0000 INFO  ======== Neo4j 5.26.27 ========
+2026-07-17 01:00:42.727+0000 INFO  Anonymous Usage Data is being sent to Neo4j, see https://neo4j.com/docs/usage-data/
+Neo4j ready after 3 checks.
+Loading data/SyntheticPoliceKG-v3.cypher
+2026-07-17 01:00:53.057+0000 ERROR Failed to start Neo4j on localhost:7474.
+java.lang.RuntimeException: Error starting Neo4j database server at /data/databases
+	at org.neo4j.graphdb.facade.DatabaseManagementServiceFactory.startDatabaseServer(DatabaseManagementServiceFactory.java:288)
+	at org.neo4j.graphdb.facade.DatabaseManagementServiceFactory.build(DatabaseManagementServiceFactory.java:223)
+	at org.neo4j.server.CommunityBootstrapper.createNeo(CommunityBootstrapper.java:38)
+	at org.neo4j.server.NeoBootstrapper.start(NeoBootstrapper.java:185)
+	at org.neo4j.server.NeoBootstrapper.start(NeoBootstrapper.java:100)
+	at org.neo4j.server.CommunityEntryPoint.main(CommunityEntryPoint.java:30)
+Caused by: org.neo4j.kernel.lifecycle.LifecycleException: Component 'org.neo4j.bolt.protocol.common.connector.netty.SocketNettyConnector@7505dcab' was successfully initialized, but failed to start. Please see the attached cause exception "bind(..) failed with error(-98): Address already in use".
+	at org.neo4j.kernel.lifecycle.LifeSupport$LifecycleInstance.start(LifeSupport.java:364)
+	at org.neo4j.kernel.lifecycle.LifeSupport.start(LifeSupport.java:91)
+	at org.neo4j.bolt.BoltServer.start(BoltServer.java:391)
+	at org.neo4j.kernel.lifecycle.LifeSupport$LifecycleInstance.start(LifeSupport.java:347)
+	at org.neo4j.kernel.lifecycle.LifeSupport.start(LifeSupport.java:91)
+	at org.neo4j.graphdb.facade.DatabaseManagementServiceFactory.startDatabaseServer(DatabaseManagementServiceFactory.java:279)
+	... 5 more
+Caused by: org.neo4j.configuration.helpers.PortBindException: An error occurred while trying to bind to the socket localhost/127.0.0.1:7687
+	at org.neo4j.bolt.protocol.common.connector.netty.AbstractNettyConnector.start(AbstractNettyConnector.java:225)
+	at org.neo4j.kernel.lifecycle.LifeSupport$LifecycleInstance.start(LifeSupport.java:347)
+	... 10 more
+Caused by: io.netty.channel.unix.Errors$NativeIoException: bind(..) failed with error(-98): Address already in use
+2026-07-17 01:00:53.061+0000 INFO  Neo4j Server shutdown initiated by request
+2026-07-17 01:00:53.062+0000 INFO  Stopped.
+Stopping neo4j (pid 557189) at Fri 17 Jul 2026 09:00:54 AWST

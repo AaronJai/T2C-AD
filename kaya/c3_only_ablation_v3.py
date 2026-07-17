@@ -48,6 +48,11 @@ def main() -> None:
                          "both. No effect if --no_adapters is set.")
     ap.add_argument("--no_adapters", action="store_true",
                     help="Load the raw base model for BOTH SL and QG, no PEFT adapter at all.")
+    ap.add_argument("--qg_include_properties", action="store_true",
+                    help="Show the QG the schema's property list (decisions-log 2026-07-17). "
+                         "The local QG is the ONLY stage never shown it, and 14/24 v3 properties "
+                         "appear zero times in its SFT completions, so it cannot name them at "
+                         "all. Appends '_qgprops' to the results tag.")
     ap.add_argument("--results", default=None,
                     help="default results/c3_only_{model_key}_v3_{tag}.json")
     ap.add_argument("--neo4j_uri", default="bolt://localhost:7687")
@@ -80,10 +85,13 @@ def main() -> None:
     neo4j_password = os.environ.get("NEO4J_PASSWORD", "pole-dev-password")
 
     tag = "noadapter" if args.no_adapters else ("genericonly" if args.adapter_suffix == "" else "full7p4")
+    if args.qg_include_properties:
+        tag += "_qgprops"
     sl_adapter_desc = "none" if args.no_adapters else f"sl_adapter{args.adapter_suffix}"
     qg_adapter_desc = "none" if args.no_adapters else f"qg_adapter{args.adapter_suffix}"
     print(f"C3-only ablation: model_key={args.model_key} sl_adapter={sl_adapter_desc} "
-          f"qg_adapter={qg_adapter_desc} ad=base (fixed, never fine-tuned) tag={tag}")
+          f"qg_adapter={qg_adapter_desc} qg_include_properties={args.qg_include_properties} "
+          f"ad=base (fixed, never fine-tuned) tag={tag}")
 
     with build_condition3(
         neo4j_uri=args.neo4j_uri, neo4j_auth=("neo4j", neo4j_password), database_name="neo4j",
@@ -93,13 +101,15 @@ def main() -> None:
         entity_registry=registry_for_version("v3"),
         ad_system_prompt=AD_SYSTEM_PROMPT_V3, dis_system_prompt=DIS_SYSTEM_PROMPT_V3,
         prompt_style="completion",            # local fine-tuned path throughout
+        qg_include_properties=True if args.qg_include_properties else None,
     ) as c3:
         results, ad_preds = run_condition(benchmark, c3, "disambiguation_enhanced")
         bundle = compute_metrics(results, ad_predictions=ad_preds)
 
     payload = {
         "model_key": args.model_key, "sl_adapter": sl_adapter_desc, "qg_adapter": qg_adapter_desc,
-        "ad_backend": "base", "tag": tag, "metrics": {
+        "ad_backend": "base", "qg_include_properties": bool(args.qg_include_properties),
+        "tag": tag, "metrics": {
             k: (None if isinstance(v, float) and v != v else v)   # NaN -> null for valid JSON
             for k, v in vars(bundle).items()
         },

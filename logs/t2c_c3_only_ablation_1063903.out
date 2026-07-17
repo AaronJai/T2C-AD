@@ -1,0 +1,52 @@
+Job 1063903 on k032 at Fri 17 Jul 2026 09:00:26 AWST
+Fri Jul 17 09:00:26 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.57.08              Driver Version: 575.57.08      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla V100-PCIE-16GB           Off |   00000000:18:00.0 Off |                    0 |
+| N/A   29C    P0             26W /  250W |       0MiB /  16384MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Wiping v3 volume /group/pmc084/atan/neo4j_data_v3_c3props_generic and reloading data/SyntheticPoliceKG-v3.cypher.
+Changed password for user 'neo4j'. IMPORTANT: this change will only take effect if performed before the database is started for the first time.
+Directories in use:
+home:         /var/lib/neo4j
+config:       /var/lib/neo4j/conf
+logs:         /var/lib/neo4j/logs
+plugins:      /var/lib/neo4j/plugins
+import:       /var/lib/neo4j/import
+data:         /var/lib/neo4j/data
+certificates: /var/lib/neo4j/certificates
+licenses:     /var/lib/neo4j/licenses
+run:          /var/lib/neo4j/run
+Starting Neo4j.
+2026-07-17 01:00:35.676+0000 INFO  Logging config in use: File '/var/lib/neo4j/conf/user-logs.xml'
+2026-07-17 01:00:35.709+0000 INFO  Starting...
+2026-07-17 01:00:36.946+0000 INFO  This instance is ServerId{e6dfc962} (e6dfc962-3e9b-4839-963b-9a4d2b7bfd56)
+2026-07-17 01:00:38.548+0000 INFO  ======== Neo4j 5.26.27 ========
+2026-07-17 01:00:41.224+0000 INFO  Anonymous Usage Data is being sent to Neo4j, see https://neo4j.com/docs/usage-data/
+2026-07-17 01:00:41.276+0000 INFO  Bolt enabled on localhost:7687.
+2026-07-17 01:00:42.819+0000 INFO  HTTP enabled on localhost:7474.
+2026-07-17 01:00:42.820+0000 INFO  Remote interface available at http://localhost:7474/
+2026-07-17 01:00:42.822+0000 INFO  id: EAC7D2B2B719F102360D1DA997B39C8FC0A676AEF115A8736F0D7BC9AE35774A
+2026-07-17 01:00:42.822+0000 INFO  name: system
+2026-07-17 01:00:42.823+0000 INFO  creationDate: 2026-07-17T01:00:39.895Z
+2026-07-17 01:00:42.823+0000 INFO  Started.
+Neo4j ready after 3 checks.
+Loading data/SyntheticPoliceKG-v3.cypher
+Stopping neo4j (pid 3561356) at Fri 17 Jul 2026 09:00:52 AWST
+2026-07-17 01:00:52.625+0000 INFO  Neo4j Server shutdown initiated by request
+2026-07-17 01:00:52.626+0000 INFO  Stopping...
+2026-07-17 01:01:03.077+0000 INFO  Stopped.
