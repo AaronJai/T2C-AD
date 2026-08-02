@@ -25,13 +25,20 @@ from pipeline.types import BenchmarkItem, Condition, EvaluationResult
 
 def run_condition(benchmark: list[BenchmarkItem], components, condition: Condition):
     """Orchestrate every item for one condition.
-    Returns (records, ad_predictions) — one QuestionRecord per item (AMENDED 2026-06-10:
-    per-attempt data for 4.2). is_failed / no-evaluation states map to a synthesized
-    invalid_query final result so all 125 questions appear in records.
+    Returns (records, ad_predictions, details) — one QuestionRecord per item (AMENDED
+    2026-06-10: per-attempt data for 4.2). is_failed / no-evaluation states map to a
+    synthesized invalid_query final result so all 125 questions appear in records.
+
+    `details` (added 2026-07-27, decisions-log) is one plain-dict per item carrying the
+    benchmark question/gold interpretations alongside the final generated Cypher and,
+    for C3, the Ambiguity Detector's call and the Disambiguator's committed mapping —
+    everything a per-question C2-vs-C3 qualitative comparison needs, that the aggregated
+    MetricBundle otherwise discards. Additive only; does not change records/ad_predictions.
     """
     orch = Orchestrator()
     records: list[QuestionRecord] = []
     ad_predictions: list[tuple[str, bool]] = []
+    details: list[dict] = []
     for item in benchmark:
         state = orch.run(item.question, item, condition, components)
         ad_predictions.extend(state.ad_predictions)        # empty for C1/C2
@@ -48,9 +55,50 @@ def run_condition(benchmark: list[BenchmarkItem], components, condition: Conditi
                 cyver_result=state.validation_result, retry_count=state.retry_count,
                 is_first_attempt=False)                    # first attempt never executed
             history = [final]
-        records.append(QuestionRecord(final=final, history=history,
-                                      first_validation=state.first_validation_result))
-    return records, ad_predictions
+        record = QuestionRecord(final=final, history=history,
+                                 first_validation=state.first_validation_result)
+        records.append(record)
+
+        first_eval = record.first_evaluated()
+        detail: dict = {
+            "question_id": item.question_id,
+            "question": item.question,
+            "num_hops": item.num_hops,
+            "is_ambiguous_gold": item.is_ambiguous,
+            "ambiguity_type": item.ambiguity_type,
+            "default_interp": item.default_interp,
+            "cypher_default": item.cypher_default,
+            "interpretations": item.interpretations,
+            "generated_cypher_final": final.generated_cypher,
+            "n_attempts": len(history),
+            "retry_count": final.retry_count,
+            "is_correct": final.is_correct,
+            "matches_any_interpretation": final.matches_any_interpretation,
+            "failure_mode": final.failure_mode,
+            "first_attempt_is_correct": (first_eval.is_correct if first_eval else None),
+            # C3-only fields; None for C1/C2 (no AD/Disambiguator ran)
+            "ad_predicted_ambiguous": None,
+            "ad_detected_types": None,
+            "ad_llm_rationale": None,
+            "final_committed_mapping": None,
+            "final_cypher_syntax_hint": None,
+            "resolution_mode": None,
+            "n_mappings_tried": len(state.previously_tried_mappings) or None,
+        }
+        if state.ambiguity_result is not None:
+            ar = state.ambiguity_result
+            detail["ad_predicted_ambiguous"] = ar.is_ambiguous
+            detail["ad_detected_types"] = list(ar.detected_types)
+            detail["ad_llm_rationale"] = ar.llm_rationale
+        if state.schema_mapping is not None:
+            sm = state.schema_mapping
+            detail["final_committed_mapping"] = {
+                mention: element.name for mention, element in sm.committed.items()
+            }
+            detail["final_cypher_syntax_hint"] = sm.cypher_syntax
+            detail["resolution_mode"] = sm.resolution_mode
+        details.append(detail)
+    return records, ad_predictions, details
 
 
 def _persist(results_dir: str, model_key: str, bundles: dict[Condition, MetricBundle],
@@ -66,6 +114,20 @@ def _persist(results_dir: str, model_key: str, bundles: dict[Condition, MetricBu
     (out / f"tables_{model_key}{suffix}.md").write_text(tables)
     payload = {cond: asdict(bundle) for cond, bundle in bundles.items()}
     (out / f"metrics_{model_key}{suffix}.json").write_text(json.dumps(payload, indent=2))
+
+
+def _persist_details(results_dir: str, model_key: str, details_by_condition: dict[Condition, list[dict]],
+                      results_tag: str = "") -> None:
+    """Write per-question detail records (2026-07-27 addition — see decisions-log) alongside
+    the aggregated metrics, so a C2-vs-C3 qualitative pass has something to join on
+    question_id without a second live-DB rerun. One file per run: `qual_records_{model_key}{suffix}.json`,
+    `{condition: [detail, ...]}`.
+    """
+    out = Path(results_dir)
+    out.mkdir(parents=True, exist_ok=True)
+    suffix = f"_{results_tag}" if results_tag else ""
+    (out / f"qual_records_{model_key}{suffix}.json").write_text(
+        json.dumps(details_by_condition, indent=2))
 
 
 def resolve_dataset(cfg: dict) -> dict:
@@ -196,22 +258,25 @@ def main(config_path: str = "config/pipeline.yaml") -> None:
         embedding_model = SentenceTransformer("all-MiniLM-L6-v2")
 
     bundles: dict[Condition, MetricBundle] = {}
+    details_by_condition: dict[Condition, list[dict]] = {}
 
     with build_condition1(neo4j_uri=neo4j_uri, neo4j_auth=neo4j_auth, database_name=database,
                           base_model_spec=dict(base_spec),
                           schema=schema,
                           qg_include_properties=qg_include_properties) as c1:
         c1.embedding_model = embedding_model
-        results, _ = run_condition(benchmark, c1, "baseline")
+        results, _, details = run_condition(benchmark, c1, "baseline")
         bundles["baseline"] = compute_metrics(results, ad_predictions=None)
+        details_by_condition["baseline"] = details
 
     with build_condition2(neo4j_uri=neo4j_uri, neo4j_auth=neo4j_auth, database_name=database,
                           sl_spec=dict(sl_spec), qg_spec=dict(qg_spec), schema=schema,
                           prompt_style=prompt_style,
                           qg_include_properties=qg_include_properties) as c2:
         c2.embedding_model = embedding_model
-        results, _ = run_condition(benchmark, c2, "schema_grounded")
+        results, _, details = run_condition(benchmark, c2, "schema_grounded")
         bundles["schema_grounded"] = compute_metrics(results, ad_predictions=None)
+        details_by_condition["schema_grounded"] = details
 
     with build_condition3(neo4j_uri=neo4j_uri, neo4j_auth=neo4j_auth, database_name=database,
                           base_spec=dict(base_spec), sl_spec=dict(sl_spec), qg_spec=dict(qg_spec),
@@ -223,12 +288,14 @@ def main(config_path: str = "config/pipeline.yaml") -> None:
                           dis_system_prompt=ds["dis_system_prompt"],
                           prompt_style=prompt_style,
                           qg_include_properties=qg_include_properties) as c3:
-        results, ad_preds = run_condition(benchmark, c3, "disambiguation_enhanced")
+        results, ad_preds, details = run_condition(benchmark, c3, "disambiguation_enhanced")
         bundles["disambiguation_enhanced"] = compute_metrics(results, ad_predictions=ad_preds)
+        details_by_condition["disambiguation_enhanced"] = details
 
     tables = format_metric_tables(bundles)
     print(tables)
     _persist(cfg["results_dir"], key, bundles, tables, ds["results_tag"])
+    _persist_details(cfg["results_dir"], key, details_by_condition, ds["results_tag"])
 
 
 if __name__ == "__main__":

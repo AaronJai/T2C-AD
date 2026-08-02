@@ -5,10 +5,13 @@
 # backends. Running a different base is a one-line change (set `active_model` to another key).
 
 neo4j:
-  uri: "bolt://localhost:7687"
+  uri: "neo4j://127.0.0.1:7687"
   user: "neo4j"
   # password via env var NEO4J_PASSWORD (do not commit real credentials)
-  database: "neo4j"
+  # Local Neo4j Desktop (Kaya in maintenance, 2026-07-27) — v3 graph lives in the
+  # 'policev3' database, not the default 'neo4j' one. Switch back to bolt://localhost:7687 /
+  # database "neo4j" when running on Kaya again (kaya/70_neo4j_v3.slurm convention).
+  database: "policev3"
 
 # Dataset version (7.3). v3 (default) selects the concise 6-label/11-relationship schema repr,
 # the v3 entity registry (no Organisation), and the v3 AD/Dis prompts; v2 reproduces the frozen
@@ -16,7 +19,12 @@ neo4j:
 # v3 runs require the SEPARATE v3 Neo4j graph — start it with `sbatch kaya/70_neo4j_v3.slurm`
 # (own data dir), NOT the v2 `kaya/55_neo4j.slurm` graph.
 dataset_version: v3                           # v2 | v3 (absent → v2, back-compat)
-results_tag: v3                               # suffixed into results artefact names ("" → today's v2 names)
+results_tag: v3_localdb                       # suffixed into results artefact names ("" → today's v2 names)
+# NOTE 2026-07-27: bumped from "v3" so a local-laptop rerun (policev3, Kaya down) writes
+# tables_/metrics_/qual_records_claude-sonnet_v3_localdb.* instead of overwriting the
+# canonical Kaya-run v3 artefacts. Also: API SL uses temperature sampling (comment below),
+# so this rerun is not guaranteed byte-identical to the canonical numbers — treat it as a
+# qualitative companion run, not a replacement, unless you deliberately re-canonicalize.
 
 models_registry: "config/models.yaml"       # the per-base registry from 2.1
 active_model: "claude-sonnet"                # which model_key to evaluate (must be in the registry)

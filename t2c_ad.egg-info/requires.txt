@@ -1,5 +1,5 @@
 torch
-transformers
+transformers<4.46,>=4.40
 openai
 anthropic
 peft
@@ -9,3 +9,5 @@ CyVer
 pyyaml
 accelerate
 bitsandbytes
+rapidfuzz
+sentence-transformers
