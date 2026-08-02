@@ -1,0 +1,1002 @@
+[
+  {
+    "question_id": "Q-POLE-E01",
+    "question": "What is Andrea George's address?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default — two distinct Persons share the identical full name",
+    "planned_interpretations": ["nhs_no 800-46-2184, 182 Stanley Road", "nhs_no 391-46-9135, 182 Chain Road"],
+    "data_support": "CONFIRMED — two Person nodes name=Andrea surname=George, distinct non-null CURRENT_ADDRESS"
+  },
+  {
+    "question_id": "Q-POLE-E02",
+    "question": "What is Anne Rice's address?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default — two distinct Persons share the identical full name",
+    "planned_interpretations": ["nhs_no 632-68-0917, 182 Uttley Street", "nhs_no 612-83-6356, 5 David Lewis Close"],
+    "data_support": "CONFIRMED — two Person nodes name=Anne surname=Rice, distinct non-null CURRENT_ADDRESS"
+  },
+  {
+    "question_id": "Q-POLE-E03",
+    "question": "What is the home address of a person named Ford?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default — 4 distinct Ford persons",
+    "planned_interpretations": ["Deborah (838-45-9343), 42 Haddon Street", "Dennis (692-38-3827), 66 Falcon Street", "Jimmy (483-40-6408), 195 Whitchurch Road", "Philip (600-92-0796), 12 Banner Street"],
+    "data_support": "CONFIRMED — surname=Ford, n=4, all distinct non-null addresses"
+  },
+  {
+    "question_id": "Q-POLE-E04",
+    "question": "Where does Fuller live?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default — 5 distinct Fuller persons",
+    "planned_interpretations": ["Carl, 160 Winterford Road", "Jeffrey, 1 Dovecote Lane", "Juan, 119 Stone Hill Road", "Nancy, 90 Pagan Street", "Rachel, 48 Heywood Gardens"],
+    "data_support": "CONFIRMED — surname=Fuller, n=5, all distinct non-null addresses"
+  },
+  {
+    "question_id": "Q-POLE-E05",
+    "question": "What address is registered for Murray?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default — 5 distinct Murray persons",
+    "planned_interpretations": ["Diana, 189 Jopson Street", "Jennifer, 197 Gorse Hall Close", "Mary, 24 Domestic Approach", "Phyllis, 109 Melverley Street", "William, 24 Knowsley Street"],
+    "data_support": "CONFIRMED — surname=Murray, n=5, all distinct non-null addresses"
+  },
+  {
+    "question_id": "Q-POLE-E06",
+    "question": "Find the address for Nguyen.",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default — 5 distinct Nguyen persons",
+    "planned_interpretations": ["Anne, 146 Gloucester Street", "Jeffrey, 2 Nursery Lane", "Paul, 17 Henley Drive", "Wayne, 28 North Street", "William, 104 Merebank Close"],
+    "data_support": "CONFIRMED — surname=Nguyen, n=5, all distinct non-null addresses"
+  },
+  {
+    "question_id": "Q-POLE-E07",
+    "question": "What is Austin's current address?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default — 5 distinct Austin persons",
+    "planned_interpretations": ["Brian, 106 Rook Street", "Dennis, 21 Heywood Street", "Heather, 198 Wellfield Road", "Irene, 119 Lowndes Street", "Scott, 5 David Lewis Close"],
+    "data_support": "CONFIRMED — surname=Austin, n=5, all distinct non-null addresses"
+  },
+  {
+    "question_id": "Q-POLE-E08",
+    "question": "Where is Bradley currently living?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default — 4 distinct Bradley persons",
+    "planned_interpretations": ["Adam, 28 North Street", "Dennis, 133 Lorne Grove", "Diane, 21 Heywood Street", "Rachel, 101 Byron Avenue"],
+    "data_support": "CONFIRMED — surname=Bradley, n=4, all distinct non-null addresses"
+  },
+  {
+    "question_id": "Q-POLE-E09",
+    "question": "What address does Butler live at?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default — 4 distinct Butler persons",
+    "planned_interpretations": ["Denise, 155 Holden Road", "Jennifer, 102 Beltone Close", "Maria, 58 Crane Street", "Patricia, 103 St Paul'S Street"],
+    "data_support": "CONFIRMED — surname=Butler, n=4, all distinct non-null addresses"
+  },
+  {
+    "question_id": "Q-POLE-E10",
+    "question": "What is the address of a person named Foster?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default — 4 distinct Foster persons",
+    "planned_interpretations": ["Andrew, 170 Caythorpe Street", "Cynthia, 154 Bread Street", "Jessica, 190 Arnside Road", "Tammy, 142 Holly Street"],
+    "data_support": "CONFIRMED — surname=Foster, n=4, all distinct non-null addresses"
+  },
+  {
+    "question_id": "Q-POLE-E11",
+    "question": "Where does Hanson currently live?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default — 4 distinct Hanson persons",
+    "planned_interpretations": ["Andrea, 53 Kinross Avenue", "Irene, 99 Waverley Street", "Patricia, 179 Westbrook Court", "Richard, 24 Hill Street"],
+    "data_support": "CONFIRMED — surname=Hanson, n=4, all distinct non-null addresses"
+  },
+  {
+    "question_id": "Q-POLE-E12",
+    "question": "What address is on file for Hughes?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default — 4 distinct Hughes persons",
+    "planned_interpretations": ["Louis, 116 Back Mayor Street North", "Maria, 42 Gawsworth Close", "Nancy, 155 Cheetham Hill Road", "Stephanie, 54 Barton Street"],
+    "data_support": "CONFIRMED — surname=Hughes, n=4, all distinct non-null addresses"
+  },
+  {
+    "question_id": "Q-POLE-E13",
+    "question": "Find the home address of Jackson.",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default — 4 distinct Jackson persons",
+    "planned_interpretations": ["Diana, 170 Caythorpe Street", "Mark, 135 Back Melville Street", "Norma, 152 Partridge Rise", "Steven, 10 Larkfield Avenue"],
+    "data_support": "CONFIRMED — surname=Jackson, n=4, all distinct non-null addresses"
+  },
+  {
+    "question_id": "Q-POLE-E14",
+    "question": "What is Knight's registered address?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default — 4 distinct Knight persons",
+    "planned_interpretations": ["Christopher, 161 Eldon Road", "Cynthia, 162 Lowther Road", "James, 5 Fortran Close", "Peter, 110 Furness Quay"],
+    "data_support": "CONFIRMED — surname=Knight, n=4, all distinct non-null addresses"
+  },
+  {
+    "question_id": "Q-POLE-E15",
+    "question": "Where can Martin be found living?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default — 4 distinct Martin persons",
+    "planned_interpretations": ["Brandon, 11 Tiber Avenue", "Cheryl, 177 The Hall Coppice", "Douglas, 112 Gidlow Avenue", "Michael, 11 Shandon Avenue"],
+    "data_support": "CONFIRMED — surname=Martin, n=4, all distinct non-null addresses"
+  },
+  {
+    "question_id": "Q-POLE-E16",
+    "question": "What address does Mason live at?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default — 4 distinct Mason persons",
+    "planned_interpretations": ["Michael, 157 Pansy Road", "Nicholas, 106 Mabel Street", "Philip, 118 Queensway", "Wayne, 118 Townsley Grove"],
+    "data_support": "CONFIRMED — surname=Mason, n=4, all distinct non-null addresses"
+  },
+  {
+    "question_id": "Q-POLE-E17",
+    "question": "Find Moreno's address.",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default — 4 distinct Moreno persons",
+    "planned_interpretations": ["Andrea, 199 Broxton Avenue", "Barbara, 136 Rowley Street", "Daniel, 195 Back Melbourne Street", "Julie, 84 Kenwood Avenue"],
+    "data_support": "CONFIRMED — surname=Moreno, n=4, all distinct non-null addresses"
+  },
+  {
+    "question_id": "Q-POLE-E18",
+    "question": "What is Robertson's home address?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default — 4 distinct Robertson persons",
+    "planned_interpretations": ["Amanda, 199 Sandringham Drive", "Ashley, 157 Pilling Street", "Harold, 3 Lee Lane", "Kelly, 137 Beechwood Avenue"],
+    "data_support": "CONFIRMED — surname=Robertson, n=4, all distinct non-null addresses"
+  },
+  {
+    "question_id": "Q-POLE-E19",
+    "question": "Where does Rogers currently reside?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default — 4 distinct Rogers persons",
+    "planned_interpretations": ["Donna, 19 Claremont Street", "Jennifer, 120 Mere Drive", "Joseph, 189 Lowton Road", "Kathleen, 88 Broadley Avenue"],
+    "data_support": "CONFIRMED — surname=Rogers, n=4, all distinct non-null addresses"
+  },
+  {
+    "question_id": "Q-POLE-E20",
+    "question": "What address is Williamson registered at?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default — 4 distinct Williamson persons",
+    "planned_interpretations": ["Emily, 101 Park Road", "Fred, 50 Bredbury Road", "Phillip, 111 Silverdale Road", "Raymond, 69 Lorraine Close"],
+    "data_support": "CONFIRMED — surname=Williamson, n=4, all distinct non-null addresses"
+  },
+  {
+    "question_id": "Q-POLE-I01",
+    "question": "Which Inspector has investigated the most crimes, aside from Nettles Worthy?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Single top of the remainder (arbitrary tiebreak)",
+    "planned_interpretations": ["Skynner Winonah (n=44)", "Miskimmon Ricca (n=44)"],
+    "data_support": "CONFIRMED — tied at n=44 within rank=Inspector, immediately behind Nettles Worthy's unique n=45"
+  },
+  {
+    "question_id": "Q-POLE-I02",
+    "question": "Which Police Constable has investigated the most crimes, aside from Ings Cloe?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Single top of the remainder (arbitrary tiebreak)",
+    "planned_interpretations": ["Vinson Hedy (n=43)", "Greensall Simmonds (n=43)"],
+    "data_support": "CONFIRMED — tied at n=43 within rank=Police Constable, immediately behind Ings Cloe's unique n=47"
+  },
+  {
+    "question_id": "Q-POLE-I03",
+    "question": "Which area recorded the most crime, after BL9?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Single top of the remainder (arbitrary tiebreak)",
+    "planned_interpretations": ["M14 (n=562)", "BL4 (n=562)", "BL2 (n=562)"],
+    "data_support": "CONFIRMED — M14, BL4, BL2 exactly tied at 562 total crimes, ranked 7th-9th overall"
+  },
+  {
+    "question_id": "Q-POLE-I04",
+    "question": "Which area is more dangerous, BL3 or M40?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Total crime count (broadest reading of 'dangerous')",
+    "planned_interpretations": ["By total crime count: BL3 (814 > 766)", "By violent/sexual-offence count specifically: M40 (234 > 223)"],
+    "data_support": "CONFIRMED — BL3 leads total crimes, M40 leads violent-crime count specifically; genuine definitional divergence, no tie needed"
+  },
+  {
+    "question_id": "Q-POLE-I05",
+    "question": "How many crimes happened in area M1?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Return the count (single number)",
+    "planned_interpretations": ["Count only (975)", "List every individual crime in M1"],
+    "data_support": "CONFIRMED — M1 total_crimes=975, non-empty either way (return shape differs: 1 row vs 975 rows)"
+  },
+  {
+    "question_id": "Q-POLE-I06",
+    "question": "What crimes happened in area BL1?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "List every individual crime",
+    "planned_interpretations": ["List all crimes (860 rows)", "Count only (860)"],
+    "data_support": "CONFIRMED — BL1 total_crimes=860, non-empty either reading"
+  },
+  {
+    "question_id": "Q-POLE-I07",
+    "question": "How many Violence and sexual offences crimes occurred in BL3?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Return the count (single number)",
+    "planned_interpretations": ["Count only (223)", "List every individual crime"],
+    "data_support": "CONFIRMED — BL3 violent_crimes=223, non-empty either reading"
+  },
+  {
+    "question_id": "Q-POLE-I08",
+    "question": "List crimes of type Public order in area M9.",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "List every individual crime",
+    "planned_interpretations": ["List all matching crimes", "Count only"],
+    "data_support": "CONFIRMED — M9 total_crimes=699 across all types incl. Public order (Public order overall n=4839, so M9 subset near-certainly non-empty); verify exact M9/Public order count before final Cypher"
+  },
+  {
+    "question_id": "Q-POLE-I09",
+    "question": "How many crimes has Sergeant DeSousa Madelon investigated?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Return the count (single number)",
+    "planned_interpretations": ["Count only (50)", "List every individual crime investigated"],
+    "data_support": "CONFIRMED — DeSousa Madelon n=50 (top Sergeant), non-empty either reading"
+  },
+  {
+    "question_id": "Q-POLE-I10",
+    "question": "Which Chief Inspector has investigated the most crimes, aside from the top three (Monelli Kort, Stave Urban, Febry Roberto)?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Single top of the remainder (arbitrary tiebreak)",
+    "planned_interpretations": ["Jeandot Whitney (n=37)", "Gorrie Esma (n=37)", "Rahlof Evey (n=37)", "Syddie Dottie (n=37)"],
+    "data_support": "CONFIRMED — full Chief Inspector distribution (tie-grouped by count) shows ranks 1-3 (40/39/38) are each unique (Monelli Kort/Stave Urban/Febry Roberto), so the original single-exclusion phrasing had no tie; rank 4 (n=37) is a genuine 4-way tie. Rephrased to exclude the top three by name so the remainder lands on the real tie."
+  },
+  {
+    "question_id": "Q-POLE-I11",
+    "question": "Which Sergeant has investigated the most crimes, aside from the top three (DeSousa Madelon, Notti Kania, Klehyn Olenolin)?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Single top of the remainder (arbitrary tiebreak)",
+    "planned_interpretations": ["Macias Hernando (n=42)", "Shurmore Rea (n=42)"],
+    "data_support": "CONFIRMED — full Sergeant distribution (tie-grouped by count) shows ranks 1-3 (50/46/44) are each unique (DeSousa Madelon/Notti Kania/Klehyn Olenolin); rank 4 (n=42) is a genuine 2-way tie. Rephrased to exclude the top three by name so the remainder lands on the real tie — mirrors I01/I02/I10's officer-rank axis (Inspector/Police Constable/Chief Inspector/Sergeant each now have one confirmed 'aside from top N' item). Originally an area-based item (\"aside from M1\"); dropped that framing because the area axis has no independent tie left (the only one, 562/BL2-BL4-M14, is already used by I03) — swapped to Sergeant per explicit decision 2026-08-02."
+  },
+  {
+    "question_id": "Q-POLE-I12",
+    "question": "How many crimes happened in area BL9?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Return the count (single number)",
+    "planned_interpretations": ["Count only (623)", "List every individual crime"],
+    "data_support": "CONFIRMED — BL9 total_crimes=623, non-empty either reading"
+  },
+  {
+    "question_id": "Q-POLE-I13",
+    "question": "How many crimes happened in area M14?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Return the count (single number)",
+    "planned_interpretations": ["Count only (562)", "List every individual crime"],
+    "data_support": "CONFIRMED — M14 total_crimes=562, non-empty either reading"
+  },
+  {
+    "question_id": "Q-POLE-I14",
+    "question": "Which area is more dangerous, M9 or BL9?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Total crime count",
+    "planned_interpretations": ["By total crime count: M9 (699 > 623)", "By violent-crime count: M9 (187) vs BL9 (204) — BL9 leads"],
+    "data_support": "CONFIRMED — total and violent rankings diverge between M9 and BL9 (M9 higher total, BL9 higher violent)"
+  },
+  {
+    "question_id": "Q-POLE-I15",
+    "question": "Which area is more dangerous, M14 or M6?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Total crime count",
+    "planned_interpretations": ["By total crime count: M14 (562 > 540)", "By violent-crime count: M14 (144) vs M6 (176) — M6 leads"],
+    "data_support": "CONFIRMED — pairwise total-vs-violent divergence query confirms M14 leads total crime (562>540) while M6 leads violent-crime count (176>144); a genuine divergence, distinct from the I04 (BL3/M40) and I14 (M9/BL9) pairs already used elsewhere."
+  },
+  {
+    "question_id": "Q-POLE-I16",
+    "question": "List all crimes investigated by Inspector Skynner Winonah.",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "List every individual crime",
+    "planned_interpretations": ["List all 44 crimes", "Count only (44)"],
+    "data_support": "CONFIRMED — Skynner Winonah n=44, non-empty either reading"
+  },
+  {
+    "question_id": "Q-POLE-I17",
+    "question": "How many crimes has Police Constable Vinson Hedy investigated?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Return the count (single number)",
+    "planned_interpretations": ["Count only (43)", "List every individual crime"],
+    "data_support": "CONFIRMED — Vinson Hedy n=43, non-empty either reading"
+  },
+  {
+    "question_id": "Q-POLE-I18",
+    "question": "What crime types occurred in area BL4?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "List distinct crime types",
+    "planned_interpretations": ["List distinct crime types present", "List every individual crime record"],
+    "data_support": "CONFIRMED — BL4 total_crimes=562, non-empty; distinct-type list vs full-record list are different result shapes"
+  },
+  {
+    "question_id": "Q-POLE-I19",
+    "question": "Which is the most common crime type across all areas?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Single top type (Violence and sexual offences, n=8765)",
+    "planned_interpretations": ["Single top type only", "List all types above a threshold, e.g. >2000 occurrences (Violence and sexual offences, Public order, Criminal damage and arson, Burglary, Vehicle crime, Other theft)"],
+    "data_support": "CONFIRMED — full crime_type distribution known (8765/4839/3587/2807/2598/2140/1427/651/541/423), no exact tie but threshold-list reading is well supported and non-empty"
+  },
+  {
+    "question_id": "Q-POLE-I20",
+    "question": "How many Vehicle crime incidents were recorded?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Return the count (single number)",
+    "planned_interpretations": ["Count only (2598)", "List every individual crime"],
+    "data_support": "CONFIRMED — Vehicle crime n=2598, non-empty either reading"
+  },
+  {
+    "question_id": "Q-POLE-S01",
+    "question": "Who is Benjamin Hamilton connected to?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any KNOWS-family relationship type (10 people: Todd Hamilton, Frances Sullivan, + 8 KNOWS_SN contacts)",
+    "planned_interpretations": ["Only through his social network (KNOWS_SN): Amanda Alexander, Brandon Martin, Joshua Fields, Frank Taylor, Diane Cox, Matthew Howell, Kathryn Allen, Phyllis Murray"],
+    "data_support": "CONFIRMED — Benjamin Hamilton has FAMILY_REL to Todd Hamilton, KNOWS_PHONE to Frances Sullivan, KNOWS_SN to 8 named persons, all also carrying a parallel generic KNOWS edge"
+  },
+  {
+    "question_id": "Q-POLE-S02",
+    "question": "Who is Benjamin Hamilton related to by family?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any KNOWS-family relationship type (10 people)",
+    "planned_interpretations": ["Only FAMILY_REL: Todd Hamilton"],
+    "data_support": "CONFIRMED — same source pair as S01, FAMILY_REL subset is a single person, non-empty and distinct from the 10-person default set"
+  },
+  {
+    "question_id": "Q-POLE-S03",
+    "question": "Who has Benjamin Hamilton had phone contact with?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any KNOWS-family relationship type (10 people)",
+    "planned_interpretations": ["Only KNOWS_PHONE: Frances Sullivan"],
+    "data_support": "CONFIRMED — same source pair, KNOWS_PHONE subset is a single person, non-empty and distinct from default"
+  },
+  {
+    "question_id": "Q-POLE-S04",
+    "question": "Who does Rachel Turner live with?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any KNOWS-family relationship type (2 people: Todd Garcia, Eric Gutierrez)",
+    "planned_interpretations": ["Only KNOWS_LW: Todd Garcia"],
+    "data_support": "CONFIRMED — Rachel Turner has KNOWS_LW to Todd Garcia and KNOWS_PHONE to Eric Gutierrez"
+  },
+  {
+    "question_id": "Q-POLE-S05",
+    "question": "Who has Rachel Turner been in phone contact with?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any KNOWS-family relationship type (2 people)",
+    "planned_interpretations": ["Only KNOWS_PHONE: Eric Gutierrez"],
+    "data_support": "CONFIRMED — same source pair as S04"
+  },
+  {
+    "question_id": "Q-POLE-S06",
+    "question": "Who does Mildred Kelly live with?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any KNOWS-family relationship type (2 people: Stephen Perez, Jeffrey Campbell)",
+    "planned_interpretations": ["Only KNOWS_LW: Stephen Perez"],
+    "data_support": "CONFIRMED — Mildred Kelly has KNOWS_LW to Stephen Perez and KNOWS_PHONE to Jeffrey Campbell"
+  },
+  {
+    "question_id": "Q-POLE-S07",
+    "question": "Who has Mildred Kelly had phone contact with?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any KNOWS-family relationship type (2 people)",
+    "planned_interpretations": ["Only KNOWS_PHONE: Jeffrey Campbell"],
+    "data_support": "CONFIRMED — same source pair as S06"
+  },
+  {
+    "question_id": "Q-POLE-S08",
+    "question": "Who has Nancy Campbell been in phone contact with?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any KNOWS-family relationship type (2 people: Carl Hayes, Angela Mccoy)",
+    "planned_interpretations": ["Only KNOWS_PHONE: Carl Hayes"],
+    "data_support": "CONFIRMED — Nancy Campbell has KNOWS_PHONE to Carl Hayes and KNOWS_SN to Angela Mccoy"
+  },
+  {
+    "question_id": "Q-POLE-S09",
+    "question": "Who is Nancy Campbell connected to through her social network?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any KNOWS-family relationship type (2 people)",
+    "planned_interpretations": ["Only KNOWS_SN: Angela Mccoy"],
+    "data_support": "CONFIRMED — same source pair as S08"
+  },
+  {
+    "question_id": "Q-POLE-S10",
+    "question": "Who does Todd Garcia live with?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any KNOWS-family relationship type (3 people: Rachel Turner, Phillip Perry, Angela Mccoy)",
+    "planned_interpretations": ["Only KNOWS_LW: Rachel Turner"],
+    "data_support": "CONFIRMED — Todd Garcia has KNOWS_LW to Rachel Turner, KNOWS_PHONE to Phillip Perry, KNOWS_SN to Angela Mccoy"
+  },
+  {
+    "question_id": "Q-POLE-S11",
+    "question": "Who or what was involved in crime ab71bb05a5b0620dfec3779eead19d2c121cb73ee58e51cc7306d0dc5ff471c0?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any participant (person via PARTY_TO or vehicle via INVOLVED_IN)",
+    "planned_interpretations": ["Only the person (PARTY_TO)", "Only the vehicle (INVOLVED_IN)"],
+    "data_support": "CONFIRMED — Vehicle crime with 1 PARTY_TO person + 1 INVOLVED_IN vehicle"
+  },
+  {
+    "question_id": "Q-POLE-S12",
+    "question": "What was connected to crime e35c34d58fa35f2110b059882a34703d132552a4ad408eac3f82f15aeb165f0f?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any participant (person or vehicle)",
+    "planned_interpretations": ["Only the person (PARTY_TO)", "Only the vehicle (INVOLVED_IN)"],
+    "data_support": "CONFIRMED — Vehicle crime with 1 PARTY_TO person + 1 INVOLVED_IN vehicle"
+  },
+  {
+    "question_id": "Q-POLE-S13",
+    "question": "Who/what does crime 576f4e50b1cbeb488c89bd28bd1697a1ad48fa0a5f4df857a844657e61f4487a involve?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any participant (person or vehicle)",
+    "planned_interpretations": ["Only the person (PARTY_TO)", "Only the vehicle (INVOLVED_IN)"],
+    "data_support": "CONFIRMED — Vehicle crime with 1 PARTY_TO person + 1 INVOLVED_IN vehicle"
+  },
+  {
+    "question_id": "Q-POLE-S14",
+    "question": "What's linked to incident 9cdadc1c345c17336210079096c372a7faaae0268e4725edbb031e4a19a4bc45?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any participant (person or vehicle)",
+    "planned_interpretations": ["Only the person (PARTY_TO)", "Only the vehicle (INVOLVED_IN)"],
+    "data_support": "CONFIRMED — Vehicle crime with 1 PARTY_TO person + 1 INVOLVED_IN vehicle"
+  },
+  {
+    "question_id": "Q-POLE-S15",
+    "question": "Who or what was tied to crime 87b7f4fb4e9168b8c46dc5195ae75b68b2c2aeae6d7c36a6d2738280a2940f04?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any participant (person or vehicle)",
+    "planned_interpretations": ["Only the person (PARTY_TO)", "Only the vehicle (INVOLVED_IN)"],
+    "data_support": "CONFIRMED — Vehicle crime with 1 PARTY_TO person + 1 INVOLVED_IN vehicle"
+  },
+  {
+    "question_id": "Q-POLE-S16",
+    "question": "Who/what is connected to crime cb58245b5903b1c02536c9f487c099015c1cc29405bce7107a6b99c1ccb81f0c?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any participant (person or vehicle)",
+    "planned_interpretations": ["Only the person (PARTY_TO)", "Only the vehicle (INVOLVED_IN)"],
+    "data_support": "CONFIRMED — Vehicle crime with 1 PARTY_TO person + 1 INVOLVED_IN vehicle"
+  },
+  {
+    "question_id": "Q-POLE-S17",
+    "question": "What was involved in crime 0e2192e79961a6572131429c9adbbae2a25b051a490e170913fb36bdb762f862?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any participant (person or vehicle)",
+    "planned_interpretations": ["Only the person (PARTY_TO)", "Only the vehicle (INVOLVED_IN)"],
+    "data_support": "CONFIRMED — Vehicle crime with 1 PARTY_TO person + 1 INVOLVED_IN vehicle"
+  },
+  {
+    "question_id": "Q-POLE-S18",
+    "question": "Who or what featured in crime 70160845dc32f6cf61d614fa8a296d0e95a981d48325a57bcc73c9996bac7109?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any participant (person or vehicle)",
+    "planned_interpretations": ["Only the person (PARTY_TO)", "Only the vehicle (INVOLVED_IN)"],
+    "data_support": "CONFIRMED — Vehicle crime with 1 PARTY_TO person + 1 INVOLVED_IN vehicle"
+  },
+  {
+    "question_id": "Q-POLE-S19",
+    "question": "What's associated with crime 8aab5d71757708aeac451ffedfdecbcfffb8cdbdf5a07bdce397ed2ba7d6d8e3?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any participant (person or vehicle)",
+    "planned_interpretations": ["Only the person (PARTY_TO)", "Only the vehicle (INVOLVED_IN)"],
+    "data_support": "CONFIRMED — Vehicle crime with 1 PARTY_TO person + 1 INVOLVED_IN vehicle"
+  },
+  {
+    "question_id": "Q-POLE-S20",
+    "question": "Who or what was part of crime 2dec74f10fd12d8dcb28cb05ff058b4e4134ecb58d0e515c888f0611ca794339?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any participant (person via PARTY_TO or object via INVOLVED_IN)",
+    "planned_interpretations": ["Only the person (PARTY_TO)", "Only the objects/evidence (INVOLVED_IN) — 2 Object nodes"],
+    "data_support": "CONFIRMED — Drugs crime with 1 PARTY_TO person + 2 INVOLVED_IN objects (different shape from S11-S19's vehicle crimes, good variety)"
+  },
+  {
+    "question_id": "Q-POLE-U01",
+    "question": "What rank does the officer with badge number 80-1015383 hold?",
+    "num_hops": 0,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct property lookup keyed on badge_no",
+    "planned_interpretations": [],
+    "data_support": "CONFIRMED — Officer badge_no=80-1015383, surname=Lineen, rank=Sergeant"
+  },
+  {
+    "question_id": "Q-POLE-U02",
+    "question": "What is the surname of the officer with badge number 70-0643982?",
+    "num_hops": 0,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct property lookup keyed on badge_no",
+    "planned_interpretations": [],
+    "data_support": "CONFIRMED — Officer badge_no=70-0643982, surname=Glossup, rank=Inspector"
+  },
+  {
+    "question_id": "Q-POLE-U03",
+    "question": "What rank is the officer with badge number 57-6110377?",
+    "num_hops": 0,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct property lookup keyed on badge_no",
+    "planned_interpretations": [],
+    "data_support": "CONFIRMED — Officer badge_no=57-6110377, surname=Hannam, rank=Police Constable"
+  },
+  {
+    "question_id": "Q-POLE-U04",
+    "question": "What rank is the officer with badge number 18-0221971?",
+    "num_hops": 0,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct property lookup keyed on badge_no",
+    "planned_interpretations": [],
+    "data_support": "CONFIRMED — Officer badge_no=18-0221971, surname=Lampet, rank=Chief Inspector"
+  },
+  {
+    "question_id": "Q-POLE-U05",
+    "question": "What rank is the officer with badge number 38-1719233?",
+    "num_hops": 0,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct property lookup keyed on badge_no",
+    "planned_interpretations": [],
+    "data_support": "CONFIRMED — Officer badge_no=38-1719233, surname=Makinson, rank=Chief Inspector"
+  },
+  {
+    "question_id": "Q-POLE-U06",
+    "question": "What make is the vehicle with registration RY52 APF?",
+    "num_hops": 0,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct property lookup keyed on reg",
+    "planned_interpretations": [],
+    "data_support": "CONFIRMED — Vehicle reg=RY52 APF, make=Toyota, model=4Runner, year=2005"
+  },
+  {
+    "question_id": "Q-POLE-U07",
+    "question": "What model is the vehicle with registration RH42 TAB?",
+    "num_hops": 0,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct property lookup keyed on reg",
+    "planned_interpretations": [],
+    "data_support": "CONFIRMED — Vehicle reg=RH42 TAB, make=Jaguar, model=XJ Series, year=1992"
+  },
+  {
+    "question_id": "Q-POLE-U08",
+    "question": "What year was the vehicle with registration LW72 POF made?",
+    "num_hops": 0,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct property lookup keyed on reg",
+    "planned_interpretations": [],
+    "data_support": "CONFIRMED — Vehicle reg=LW72 POF, make=Audi, model=Coupe GT, year=1985"
+  },
+  {
+    "question_id": "Q-POLE-U09",
+    "question": "What make is the vehicle with registration TZ72 UGE?",
+    "num_hops": 0,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct property lookup keyed on reg",
+    "planned_interpretations": [],
+    "data_support": "CONFIRMED — Vehicle reg=TZ72 UGE, make=Scion, model=xB, year=2011"
+  },
+  {
+    "question_id": "Q-POLE-U10",
+    "question": "What model is the vehicle with registration BN52 ACF?",
+    "num_hops": 0,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct property lookup keyed on reg",
+    "planned_interpretations": [],
+    "data_support": "CONFIRMED — Vehicle reg=BN52 ACF, make=GMC, model=Sierra 2500, year=2012"
+  },
+  {
+    "question_id": "Q-POLE-U11",
+    "question": "What postcode covers 178 Polding Street?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct property lookup keyed on address",
+    "planned_interpretations": [],
+    "data_support": "CONFIRMED — Location address=178 Polding Street, postcode=WN3 4NL"
+  },
+  {
+    "question_id": "Q-POLE-U12",
+    "question": "What postcode covers 6 Gypsy Lane?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct property lookup keyed on address",
+    "planned_interpretations": [],
+    "data_support": "CONFIRMED — Location address=6 Gypsy Lane, postcode=OL11 3HA"
+  },
+  {
+    "question_id": "Q-POLE-U13",
+    "question": "What postcode covers 116 Myrtle Street?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct property lookup keyed on address",
+    "planned_interpretations": [],
+    "data_support": "CONFIRMED — Location address=116 Myrtle Street, postcode=BL1 3AH"
+  },
+  {
+    "question_id": "Q-POLE-U14",
+    "question": "What postcode covers 53 Birch Lane?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct property lookup keyed on address",
+    "planned_interpretations": [],
+    "data_support": "CONFIRMED — Location address=53 Birch Lane, postcode=SK16 5AP"
+  },
+  {
+    "question_id": "Q-POLE-U15",
+    "question": "What postcode covers 27 Maiden Close?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct property lookup keyed on address",
+    "planned_interpretations": [],
+    "data_support": "CONFIRMED — Location address=27 Maiden Close, postcode=OL7 9PL"
+  },
+  {
+    "question_id": "Q-POLE-U16",
+    "question": "What type of crime was recorded under ID 10305fdb9613b698a9fe8a26468564ebe15ba01eb870994739180ffc51440c31?",
+    "num_hops": 0,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct property lookup keyed on crime id",
+    "planned_interpretations": [],
+    "data_support": "CONFIRMED — Crime id matches, type=Public order, date=24/08/2017"
+  },
+  {
+    "question_id": "Q-POLE-U17",
+    "question": "On what date did crime 8dae6537bfb64a92cc91539ce9e76abf729f60592a9c503300905130afaacef4 occur?",
+    "num_hops": 0,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct property lookup keyed on crime id",
+    "planned_interpretations": [],
+    "data_support": "CONFIRMED — Crime id matches, date=15/08/2017, type=Public order"
+  },
+  {
+    "question_id": "Q-POLE-U18",
+    "question": "What is the last recorded outcome for crime 9bc0db533b9248a8b3a7ac151f273fe01f25ad72b394dd5cc6ef9bd6558eb707?",
+    "num_hops": 0,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct property lookup keyed on crime id",
+    "planned_interpretations": [],
+    "data_support": "CONFIRMED — Crime id matches, last_outcome='Investigation complete; no suspect identified'"
+  },
+  {
+    "question_id": "Q-POLE-U19",
+    "question": "What is the surname of the person with NHS number 117-66-8129?",
+    "num_hops": 0,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct property lookup keyed on nhs_no (the dataset's documented unique Person identifier)",
+    "planned_interpretations": [],
+    "data_support": "CONFIRMED — Person nhs_no=117-66-8129, name=Todd, surname=Hamilton"
+  },
+  {
+    "question_id": "Q-POLE-U20",
+    "question": "What is the surname of the person with NHS number 620-83-1546?",
+    "num_hops": 0,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct property lookup keyed on nhs_no",
+    "planned_interpretations": [],
+    "data_support": "CONFIRMED — Person nhs_no=620-83-1546, name=Nancy, surname=Campbell"
+  },
+  {
+    "question_id": "Q-POLE-T01",
+    "question": "How many crimes happened in area M1 around 11 August 2017?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Same calendar day",
+    "planned_interpretations": ["Same day only (47)", "Trailing 7-day window, 5-11 Aug (217)"],
+    "data_support": "CONFIRMED from M1 per-day counts: 5=31,6=30,7=21,8=22,9=26,10=40,11=47"
+  },
+  {
+    "question_id": "Q-POLE-T02",
+    "question": "How many crimes happened in area M1 around 26 August 2017?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Same calendar day",
+    "planned_interpretations": ["Same day only (46)", "Trailing 7-day window, 20-26 Aug (247)"],
+    "data_support": "CONFIRMED from M1 per-day counts: 20=39,21=33,22=30,23=34,24=37,25=28,26=46"
+  },
+  {
+    "question_id": "Q-POLE-T03",
+    "question": "How many crimes happened in area M1 around 4 August 2017?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Same calendar day",
+    "planned_interpretations": ["Same day only (41)", "Trailing window, 1-4 Aug clipped at month start (132)"],
+    "data_support": "CONFIRMED from M1 per-day counts: 1=35,2=28,3=28,4=41"
+  },
+  {
+    "question_id": "Q-POLE-T04",
+    "question": "How many crimes happened in area M1 around 31 August 2017?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Same calendar day",
+    "planned_interpretations": ["Same day only (42)", "Trailing 7-day window, 25-31 Aug (231)"],
+    "data_support": "CONFIRMED from M1 per-day counts: 25=28,26=46,27=30,28=36,29=20,30=29,31=42"
+  },
+  {
+    "question_id": "Q-POLE-T05",
+    "question": "How many crimes happened in area M1 around 18 August 2017?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Same calendar day",
+    "planned_interpretations": ["Same day only (36)", "Trailing 7-day window, 12-18 Aug (191)"],
+    "data_support": "CONFIRMED from M1 per-day counts: 12=29,13=24,14=24,15=27,16=30,17=21,18=36"
+  },
+  {
+    "question_id": "Q-POLE-T06",
+    "question": "How many crimes happened in area M1 around 24 August 2017?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Same calendar day",
+    "planned_interpretations": ["Same day only (37)", "Trailing 7-day window, 18-24 Aug (240)"],
+    "data_support": "CONFIRMED from M1 per-day counts: 18=36,19=31,20=39,21=33,22=30,23=34,24=37"
+  },
+  {
+    "question_id": "Q-POLE-T07",
+    "question": "How many crimes happened in area M1 around 20 August 2017?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Same calendar day",
+    "planned_interpretations": ["Same day only (39)", "Trailing 7-day window, 14-20 Aug (208)"],
+    "data_support": "CONFIRMED from M1 per-day counts: 14=24,15=27,16=30,17=21,18=36,19=31,20=39"
+  },
+  {
+    "question_id": "Q-POLE-T08",
+    "question": "How many crimes happened in area M1 around 9 August 2017?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Same calendar day",
+    "planned_interpretations": ["Same day only (26)", "Trailing 7-day window, 3-9 Aug (199)"],
+    "data_support": "CONFIRMED from M1 per-day counts: 3=28,4=41,5=31,6=30,7=21,8=22,9=26"
+  },
+  {
+    "question_id": "Q-POLE-T09",
+    "question": "How many crimes happened in area M1 around 2 August 2017?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Same calendar day",
+    "planned_interpretations": ["Same day only (28)", "Trailing window, 1-2 Aug clipped at month start (63)"],
+    "data_support": "CONFIRMED from M1 per-day counts: 1=35,2=28"
+  },
+  {
+    "question_id": "Q-POLE-T10",
+    "question": "How many crimes happened in area M1 around 13 August 2017?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Same calendar day",
+    "planned_interpretations": ["Same day only (24)", "Trailing 7-day window, 7-13 Aug (209)"],
+    "data_support": "CONFIRMED from M1 per-day counts: 7=21,8=22,9=26,10=40,11=47,12=29,13=24"
+  },
+  {
+    "question_id": "Q-POLE-T11",
+    "question": "How many crimes happened in area M1 around 16 August 2017?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Same calendar day",
+    "planned_interpretations": ["Same day only (30)", "Trailing 7-day window, 10-16 Aug (221)"],
+    "data_support": "CONFIRMED from M1 per-day counts: 10=40,11=47,12=29,13=24,14=24,15=27,16=30"
+  },
+  {
+    "question_id": "Q-POLE-T12",
+    "question": "How many crimes happened in area M1 around 21 August 2017?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Same calendar day",
+    "planned_interpretations": ["Same day only (33)", "Trailing 7-day window, 15-21 Aug (217)"],
+    "data_support": "CONFIRMED from M1 per-day counts: 15=27,16=30,17=21,18=36,19=31,20=39,21=33"
+  },
+  {
+    "question_id": "Q-POLE-T13",
+    "question": "How many crimes happened in area M1 around 27 August 2017?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Same calendar day",
+    "planned_interpretations": ["Same day only (30)", "Trailing 7-day window, 21-27 Aug (238)"],
+    "data_support": "CONFIRMED from M1 per-day counts: 21=33,22=30,23=34,24=37,25=28,26=46,27=30"
+  },
+  {
+    "question_id": "Q-POLE-T14",
+    "question": "How many crimes happened in area M1 around 5 August 2017?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Same calendar day",
+    "planned_interpretations": ["Same day only (31)", "Trailing window, 1-5 Aug clipped at month start (163)"],
+    "data_support": "CONFIRMED from M1 per-day counts: 1=35,2=28,3=28,4=41,5=31"
+  },
+  {
+    "question_id": "Q-POLE-T15",
+    "question": "How many crimes happened in area M1 around 29 August 2017?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Same calendar day",
+    "planned_interpretations": ["Same day only (20)", "Trailing 7-day window, 23-29 Aug (231)"],
+    "data_support": "CONFIRMED from M1 per-day counts: 23=34,24=37,25=28,26=46,27=30,28=36,29=20"
+  },
+  {
+    "question_id": "Q-POLE-T16",
+    "question": "How many crimes were recorded (citywide) around 28 August 2017?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Same calendar day",
+    "planned_interpretations": ["Same day only (1014)", "Trailing 7-day window, 22-28 Aug (6556)"],
+    "data_support": "CONFIRMED from citywide per-day counts: 22=934,23=894,24=957,25=927,26=903,27=927,28=1014"
+  },
+  {
+    "question_id": "Q-POLE-T17",
+    "question": "How many crimes were recorded (citywide) around 30 August 2017?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Same calendar day",
+    "planned_interpretations": ["Same day only (871)", "Trailing 7-day window, 24-30 Aug (6557)"],
+    "data_support": "CONFIRMED from citywide per-day counts: 24=957,25=927,26=903,27=927,28=1014,29=958,30=871"
+  },
+  {
+    "question_id": "Q-POLE-T18",
+    "question": "How many crimes were recorded (citywide) around 11 August 2017?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Same calendar day",
+    "planned_interpretations": ["Same day only (930)", "Trailing 7-day window, 5-11 Aug (6423)"],
+    "data_support": "CONFIRMED from citywide per-day counts: 5=913,6=897,7=897,8=886,9=928,10=972,11=930"
+  },
+  {
+    "question_id": "Q-POLE-T19",
+    "question": "When did phone 0-(008)297-1581 last contact 9-(984)524-5395?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Most recent single contact",
+    "planned_interpretations": ["Most recent only: 20/08/2017 00:05", "Full contact history: 04/08/2017 00:32 and 20/08/2017 00:05"],
+    "data_support": "CONFIRMED — only pair found with 2 calls, dates 04/08/2017 and 20/08/2017, both non-empty and distinct as single-vs-list readings"
+  },
+  {
+    "question_id": "Q-POLE-T20",
+    "question": "How many crimes happened in area BL1 around 15 August 2017, same-day vs trailing-week?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Same calendar day",
+    "planned_interpretations": ["Same day only: 26 (15/08/2017)", "Trailing 7-day window: 182 (09/08–15/08/2017: 22+25+29+24+33+23+26)"],
+    "data_support": "CONFIRMED — BL1 per-day crime counts pulled for all of August 2017; 15/08 same-day = 26, trailing 7-day window (09/08-15/08) sums to 182. Both non-empty, both real, genuinely different orders of magnitude."
+  }
+]
