@@ -10,9 +10,9 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from experiments.validate_benchmark import (EXPECTED_DISTRIBUTION, gate_coverage,
-                                            gate_distribution, gate_hops,
-                                            relationship_count, rel_types_in,
+from experiments.validate_benchmark import (EXPECTED_DISTRIBUTION, POLE_EXTERNAL_PROFILE,
+                                            V3_PROFILE, gate_coverage, gate_distribution,
+                                            gate_hops, relationship_count, rel_types_in,
                                             run_offline_gates)
 from pipeline.data.benchmark_loader import load_benchmark
 from pipeline.types import BenchmarkItem
@@ -126,3 +126,57 @@ def test_real_benchmark_offline_gates_pass():
     assert len(items) == 120
     for g in run_offline_gates(items):
         assert g.passed, (g.name, g.failures[:5])
+
+
+# ── BenchmarkProfile (9.2) ──────────────────────────────────────────────────────────
+def _balanced_pole_external(n_total: int = 100) -> list[BenchmarkItem]:
+    """A minimally-valid pole_external-shaped set: 20 each of None/schema/entity/intent/temporal."""
+    items: list[BenchmarkItem] = []
+    n = 0
+    cy = "MATCH (p:Person)-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+    for atype, count in POLE_EXTERNAL_PROFILE.expected_distribution.items():
+        for _ in range(count):
+            n += 1
+            interps = ["MATCH (p:Person)-[:KNOWS]->(p2:Person) RETURN p2.name",
+                       "MATCH (p:Person)-[:FAMILY_REL]->(p2:Person) RETURN p2.name"] if atype else None
+            items.append(_item(f"Q-POLE-{n:03d}", f"pole question {n}", 1, atype, cy, interps))
+    return items[:n_total]
+
+
+def test_gate2_pole_external_profile_passes_on_balanced_set():
+    assert gate_distribution(_balanced_pole_external(), POLE_EXTERNAL_PROFILE).passed
+
+
+def test_gate2_pole_external_profile_catches_wrong_distribution():
+    items = _balanced_pole_external()
+    # Flip one 'schema' item to 'null' → 21 null / 19 schema, still 100 total.
+    idx = next(i for i, it in enumerate(items) if it.ambiguity_type == "schema")
+    items[idx] = _item(items[idx].question_id, items[idx].question, 1, None, items[idx].cypher_default)
+    res = gate_distribution(items, POLE_EXTERNAL_PROFILE)
+    assert not res.passed
+    assert any(f["issue"] == "distribution" for f in res.failures)
+
+
+def test_gate2_v3_profile_is_default_and_unaffected_by_pole_external():
+    # Same fixture, default (v3) profile — count 100 != v3's expected_total 120.
+    res = gate_distribution(_balanced_pole_external())
+    assert not res.passed
+    assert any(f["issue"] == "count" for f in res.failures)
+
+
+def test_gate8_pole_external_profile_catches_zero_coverage_relationship_type():
+    # Only CURRENT_ADDRESS is exercised; the other 16 pole_external types are missing.
+    items = [_item(f"Q-POLE-{n}", f"pole q{n}", 1, None,
+                   "MATCH (p:Person)-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address")
+             for n in range(3)]
+    res = gate_coverage(items, POLE_EXTERNAL_PROFILE)
+    assert not res.passed
+    missing = {f["relationship_type"] for f in res.failures}
+    assert "PARTY_TO" in missing and "FAMILY_REL" in missing
+    # min_coverage=1 (relaxed from v3's 3): a type appearing in exactly 1 item clears the gate.
+    assert "CURRENT_ADDRESS" not in missing
+
+
+def test_gate8_pole_external_profile_min_coverage_is_one():
+    assert POLE_EXTERNAL_PROFILE.min_coverage == 1
+    assert V3_PROFILE.min_coverage == 3

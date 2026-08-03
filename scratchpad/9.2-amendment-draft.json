@@ -1,0 +1,217 @@
+{
+  "_notes": "Draft replacements for the 9.2 due-diligence findings, all verified live against bolt://localhost:7687. Not yet applied to data/benchmark-pole-external.json. See chat for the S01/S09 discussion and the temporal keep/drop list.",
+
+  "s01_finding": {
+    "empirically_confirmed": "The 'exclude FAMILY_REL' idea for S01 does NOT create a genuine second interpretation. Tested live on two fresh subjects (Amanda Alexander: 13/13 identical; Arthur Willis: 10/10 identical) — because every specific KNOWS-family edge (incl. FAMILY_REL) has a parallel generic :KNOWS edge (re-confirmed: specific_without_generic=0, same fact 9.1 already found), the broad union and the union-minus-FAMILY_REL always return the same person set. This is structural, not fixable by rewording — it's the same root bug as S02/S04/S05/S06/S10, just one level removed. Recommendation: retype S01's [r] to the explicit union (matches its current default_interp text) and accept it becomes single-interpretation like the old S02 was — OR swap S01 for a 7th fresh replacement on the digital-comm axis, same shape as the 6 below. Your call — flagging the empirical result, not deciding for you."
+  },
+
+  "schema_replacements": {
+    "_context": "6 items for S02/S04/S05/S06/S09/S10. Root cause confirmed: the ONLY two relationship-type axes in this graph that produce genuinely different result sets are (a) digital-comm KNOWS_SN vs KNOWS_PHONE (KNOWS-family broad-vs-narrow does NOT work, see s01_finding) and (b) crime-participant PARTY_TO vs INVOLVED_IN (already used 10x in S11-S20). So all 6 replacements use axis (a) — 3 fresh 1-hop subjects (same template as S03/S07/S08, new people) + 3 new 2-hop items layering a fixed KNOWS_LW hop first (the 'additional hop' idea), which also gives the schema block its first multi-hop items. All subjects/pairs are fresh — cross-checked against every name already used elsewhere in the 100-item file.",
+
+    "Q-POLE-S02": {
+      "question": "Who has Ann Fox been in digital contact with?",
+      "num_hops": 1,
+      "is_ambiguous": true,
+      "ambiguity_type": "schema",
+      "default_interp": "Any digital communication relationship type (KNOWS_SN or KNOWS_PHONE) — 10 people",
+      "cypher_default": "MATCH (p1:Person {surname:'Fox', name:'Ann'})-[:KNOWS_SN|KNOWS_PHONE]-(p2:Person) RETURN DISTINCT p2.name, p2.surname",
+      "interpretations": [
+        {"interp": "Only KNOWS_PHONE (1 person: Jessica Kelly)", "cypher": "MATCH (p1:Person {surname:'Fox', name:'Ann'})-[:KNOWS_PHONE]-(p2:Person) RETURN DISTINCT p2.name, p2.surname"},
+        {"interp": "Only KNOWS_SN (9 people)", "cypher": "MATCH (p1:Person {surname:'Fox', name:'Ann'})-[:KNOWS_SN]-(p2:Person) RETURN DISTINCT p2.name, p2.surname"}
+      ]
+    },
+
+    "Q-POLE-S04": {
+      "question": "Who has Bonnie Gilbert had electronic communication with?",
+      "num_hops": 1,
+      "is_ambiguous": true,
+      "ambiguity_type": "schema",
+      "default_interp": "Any digital communication relationship type (KNOWS_SN or KNOWS_PHONE) — 8 people",
+      "cypher_default": "MATCH (p1:Person {surname:'Gilbert', name:'Bonnie'})-[:KNOWS_SN|KNOWS_PHONE]-(p2:Person) RETURN DISTINCT p2.name, p2.surname",
+      "interpretations": [
+        {"interp": "Only KNOWS_PHONE (1 person: Fred Williamson)", "cypher": "MATCH (p1:Person {surname:'Gilbert', name:'Bonnie'})-[:KNOWS_PHONE]-(p2:Person) RETURN DISTINCT p2.name, p2.surname"},
+        {"interp": "Only KNOWS_SN (8 people)", "cypher": "MATCH (p1:Person {surname:'Gilbert', name:'Bonnie'})-[:KNOWS_SN]-(p2:Person) RETURN DISTINCT p2.name, p2.surname"}
+      ]
+    },
+
+    "Q-POLE-S05": {
+      "question": "Who has Brenda Edwards been digitally connected to?",
+      "num_hops": 1,
+      "is_ambiguous": true,
+      "ambiguity_type": "schema",
+      "default_interp": "Any digital communication relationship type (KNOWS_SN or KNOWS_PHONE) — 8 people",
+      "cypher_default": "MATCH (p1:Person {surname:'Edwards', name:'Brenda'})-[:KNOWS_SN|KNOWS_PHONE]-(p2:Person) RETURN DISTINCT p2.name, p2.surname",
+      "interpretations": [
+        {"interp": "Only KNOWS_PHONE (1 person: Steven Jackson)", "cypher": "MATCH (p1:Person {surname:'Edwards', name:'Brenda'})-[:KNOWS_PHONE]-(p2:Person) RETURN DISTINCT p2.name, p2.surname"},
+        {"interp": "Only KNOWS_SN (8 people)", "cypher": "MATCH (p1:Person {surname:'Edwards', name:'Brenda'})-[:KNOWS_SN]-(p2:Person) RETURN DISTINCT p2.name, p2.surname"}
+      ]
+    },
+
+    "Q-POLE-S06": {
+      "question": "Who has the person that Theresa Powell lives with had digital contact with?",
+      "num_hops": 2,
+      "is_ambiguous": true,
+      "ambiguity_type": "schema",
+      "default_interp": "Any digital communication relationship type, one hop past Theresa Powell's sole KNOWS_LW housemate (Amanda Alexander) — 10 people",
+      "cypher_default": "MATCH (a:Person {surname:'Powell', name:'Theresa'})-[:KNOWS_LW]-(b:Person)-[:KNOWS_SN|KNOWS_PHONE]-(p2:Person) RETURN DISTINCT p2.name, p2.surname",
+      "interpretations": [
+        {"interp": "Only KNOWS_PHONE (1 person: Dennis Mcdonald)", "cypher": "MATCH (a:Person {surname:'Powell', name:'Theresa'})-[:KNOWS_LW]-(b:Person)-[:KNOWS_PHONE]-(p2:Person) RETURN DISTINCT p2.name, p2.surname"},
+        {"interp": "Only KNOWS_SN (9 people)", "cypher": "MATCH (a:Person {surname:'Powell', name:'Theresa'})-[:KNOWS_LW]-(b:Person)-[:KNOWS_SN]-(p2:Person) RETURN DISTINCT p2.name, p2.surname"}
+      ]
+    },
+
+    "Q-POLE-S09": {
+      "question": "Who has the person that Kathy Wheeler lives with been in digital contact with?",
+      "num_hops": 2,
+      "is_ambiguous": true,
+      "ambiguity_type": "schema",
+      "default_interp": "Any digital communication relationship type, one hop past Kathy Wheeler's sole KNOWS_LW housemate (Alan Ward) — 5 people",
+      "cypher_default": "MATCH (a:Person {surname:'Wheeler', name:'Kathy'})-[:KNOWS_LW]-(b:Person)-[:KNOWS_SN|KNOWS_PHONE]-(p2:Person) RETURN DISTINCT p2.name, p2.surname",
+      "interpretations": [
+        {"interp": "Only KNOWS_PHONE (1 person: Philip Gardner)", "cypher": "MATCH (a:Person {surname:'Wheeler', name:'Kathy'})-[:KNOWS_LW]-(b:Person)-[:KNOWS_PHONE]-(p2:Person) RETURN DISTINCT p2.name, p2.surname"},
+        {"interp": "Only KNOWS_SN (4 people)", "cypher": "MATCH (a:Person {surname:'Wheeler', name:'Kathy'})-[:KNOWS_LW]-(b:Person)-[:KNOWS_SN]-(p2:Person) RETURN DISTINCT p2.name, p2.surname"}
+      ],
+      "_note_for_user": "This replaces the old S09 (redundant with S08, both about Nancy Campbell). You said you'd decide on S09 yourself — swap this out freely if you'd rather do something else with the slot; it just needs to land somewhere in the schema bucket to keep the 20-count."
+    },
+
+    "Q-POLE-S10": {
+      "question": "Who has the person that Eugene Ferguson lives with had electronic communication with?",
+      "num_hops": 2,
+      "is_ambiguous": true,
+      "ambiguity_type": "schema",
+      "default_interp": "Any digital communication relationship type, one hop past Eugene Ferguson's sole KNOWS_LW housemate (Harry Garrett) — 2 people",
+      "cypher_default": "MATCH (a:Person {surname:'Ferguson', name:'Eugene'})-[:KNOWS_LW]-(b:Person)-[:KNOWS_SN|KNOWS_PHONE]-(p2:Person) RETURN DISTINCT p2.name, p2.surname",
+      "interpretations": [
+        {"interp": "Only KNOWS_PHONE (1 person: Irene Austin)", "cypher": "MATCH (a:Person {surname:'Ferguson', name:'Eugene'})-[:KNOWS_LW]-(b:Person)-[:KNOWS_PHONE]-(p2:Person) RETURN DISTINCT p2.name, p2.surname"},
+        {"interp": "Only KNOWS_SN (1 person: Anne Rice)", "cypher": "MATCH (a:Person {surname:'Ferguson', name:'Eugene'})-[:KNOWS_LW]-(b:Person)-[:KNOWS_SN]-(p2:Person) RETURN DISTINCT p2.name, p2.surname"}
+      ]
+    }
+  },
+
+  "temporal_rebalance": {
+    "_context": "Target 10 crime-date items / 10 phone-call items (was 19/1). KEEP unchanged: T01(day11), T02(day26), T03(day4), T04(day31), T07(day20), T08(day9), T16(BL1), T17/T18/T19(citywide), T20(existing phone item) = 11 items. DROP the other 9 M1 items (days 18,24,2,13,16,21,27,5,29 — T05,T06,T09–T15's old content) and REPLACE those 9 slots with new phone-call items below, giving 10+10=20. Kept M1 dates were chosen for spread across the month (4/9/11/20/26/31) and strong same-day-vs-trailing-week divergence (~3–8x), reusing already-verified real Cypher — no new authoring needed for the keeps.",
+
+    "Q-POLE-T05": {
+      "question": "When did phone 9-(776)276-2772 last contact phone 0-(377)507-0388?",
+      "num_hops": 2,
+      "is_ambiguous": true,
+      "ambiguity_type": "temporal",
+      "default_interp": "Most recent single contact",
+      "cypher_default": "MATCH (p1:Phone {phoneNo:'9-(776)276-2772'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'0-(377)507-0388'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date DESC, pc.call_time DESC LIMIT 1",
+      "interpretations": [
+        {"interp": "Most recent only: 16/08/2017 14:14", "cypher": "MATCH (p1:Phone {phoneNo:'9-(776)276-2772'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'0-(377)507-0388'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date DESC, pc.call_time DESC LIMIT 1"},
+        {"interp": "Full contact history: 01/08 23:30, 02/08 22:02, 03/08 21:00, 11/08 16:27, 13/08 04:37, 16/08 14:14", "cypher": "MATCH (p1:Phone {phoneNo:'9-(776)276-2772'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'0-(377)507-0388'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date, pc.call_time"}
+      ]
+    },
+
+    "Q-POLE-T06": {
+      "question": "When did phone 9-(488)105-0765 last contact phone 0-(711)302-8090?",
+      "num_hops": 2,
+      "is_ambiguous": true,
+      "ambiguity_type": "temporal",
+      "default_interp": "Most recent single contact",
+      "cypher_default": "MATCH (p1:Phone {phoneNo:'9-(488)105-0765'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'0-(711)302-8090'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date DESC, pc.call_time DESC LIMIT 1",
+      "interpretations": [
+        {"interp": "Most recent only: 26/08/2017 13:45", "cypher": "MATCH (p1:Phone {phoneNo:'9-(488)105-0765'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'0-(711)302-8090'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date DESC, pc.call_time DESC LIMIT 1"},
+        {"interp": "Full contact history: 02/08 22:45, 03/08 21:31, 04/08 20:29, 18/08 14:16, 23/08 10:45, 26/08 13:45", "cypher": "MATCH (p1:Phone {phoneNo:'9-(488)105-0765'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'0-(711)302-8090'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date, pc.call_time"}
+      ]
+    },
+
+    "Q-POLE-T09": {
+      "question": "When did phone 9-(494)467-2643 last contact phone 0-(649)542-7430?",
+      "num_hops": 2,
+      "is_ambiguous": true,
+      "ambiguity_type": "temporal",
+      "default_interp": "Most recent single contact",
+      "cypher_default": "MATCH (p1:Phone {phoneNo:'9-(494)467-2643'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'0-(649)542-7430'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date DESC, pc.call_time DESC LIMIT 1",
+      "interpretations": [
+        {"interp": "Most recent only: 26/08/2017 12:33", "cypher": "MATCH (p1:Phone {phoneNo:'9-(494)467-2643'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'0-(649)542-7430'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date DESC, pc.call_time DESC LIMIT 1"},
+        {"interp": "Full contact history: 02/08 22:48, 03/08 21:34, 04/08 20:32, 09/08 02:34, 22/08 20:28, 26/08 12:33", "cypher": "MATCH (p1:Phone {phoneNo:'9-(494)467-2643'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'0-(649)542-7430'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date, pc.call_time"}
+      ]
+    },
+
+    "Q-POLE-T10": {
+      "question": "When did phone 9-(601)270-8329 last contact phone 0-(521)287-3218?",
+      "num_hops": 2,
+      "is_ambiguous": true,
+      "ambiguity_type": "temporal",
+      "default_interp": "Most recent single contact",
+      "cypher_default": "MATCH (p1:Phone {phoneNo:'9-(601)270-8329'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'0-(521)287-3218'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date DESC, pc.call_time DESC LIMIT 1",
+      "interpretations": [
+        {"interp": "Most recent only: 23/08/2017 21:11", "cypher": "MATCH (p1:Phone {phoneNo:'9-(601)270-8329'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'0-(521)287-3218'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date DESC, pc.call_time DESC LIMIT 1"},
+        {"interp": "Full contact history: 01/08 07:48, 02/08 23:02, 03/08 21:39, 04/08 20:46, 07/08 20:50, 23/08 21:11", "cypher": "MATCH (p1:Phone {phoneNo:'9-(601)270-8329'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'0-(521)287-3218'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date, pc.call_time"}
+      ]
+    },
+
+    "Q-POLE-T11": {
+      "question": "When did phone 9-(777)035-6240 last contact phone 0-(273)550-0236?",
+      "num_hops": 2,
+      "is_ambiguous": true,
+      "ambiguity_type": "temporal",
+      "default_interp": "Most recent single contact",
+      "cypher_default": "MATCH (p1:Phone {phoneNo:'9-(777)035-6240'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'0-(273)550-0236'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date DESC, pc.call_time DESC LIMIT 1",
+      "interpretations": [
+        {"interp": "Most recent only: 21/08/2017 03:52", "cypher": "MATCH (p1:Phone {phoneNo:'9-(777)035-6240'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'0-(273)550-0236'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date DESC, pc.call_time DESC LIMIT 1"},
+        {"interp": "Full contact history: 01/08 23:32, 02/08 22:07, 03/08 21:01, 08/08 10:01, 10/08 13:39, 21/08 03:52", "cypher": "MATCH (p1:Phone {phoneNo:'9-(777)035-6240'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'0-(273)550-0236'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date, pc.call_time"}
+      ]
+    },
+
+    "Q-POLE-T12": {
+      "question": "When did phone 9-(721)729-4724 last contact phone 0-(404)296-6252?",
+      "num_hops": 2,
+      "is_ambiguous": true,
+      "ambiguity_type": "temporal",
+      "default_interp": "Most recent single contact",
+      "cypher_default": "MATCH (p1:Phone {phoneNo:'9-(721)729-4724'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'0-(404)296-6252'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date DESC, pc.call_time DESC LIMIT 1",
+      "interpretations": [
+        {"interp": "Most recent only: 24/08/2017 14:48", "cypher": "MATCH (p1:Phone {phoneNo:'9-(721)729-4724'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'0-(404)296-6252'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date DESC, pc.call_time DESC LIMIT 1"},
+        {"interp": "Full contact history: 01/08 23:20, 02/08 21:58, 03/08 20:53, 10/08 00:09, 15/08 15:24, 24/08 14:48", "cypher": "MATCH (p1:Phone {phoneNo:'9-(721)729-4724'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'0-(404)296-6252'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date, pc.call_time"}
+      ]
+    },
+
+    "Q-POLE-T13": {
+      "question": "How many calls did phone 0-(608)989-7174 make around 8 August 2017?",
+      "num_hops": 1,
+      "is_ambiguous": true,
+      "ambiguity_type": "temporal",
+      "default_interp": "Same calendar day",
+      "cypher_default": "MATCH (ph:Phone {phoneNo:'0-(608)989-7174'})<-[:CALLER|CALLED]-(pc:PhoneCall) WHERE toInteger(split(pc.call_date,'/')[0]) = 8 RETURN count(*) AS n",
+      "interpretations": [
+        {"interp": "Same day only (1)", "cypher": "MATCH (ph:Phone {phoneNo:'0-(608)989-7174'})<-[:CALLER|CALLED]-(pc:PhoneCall) WHERE toInteger(split(pc.call_date,'/')[0]) = 8 RETURN count(*) AS n"},
+        {"interp": "Trailing 7-day window, 2-8 Aug (6)", "cypher": "MATCH (ph:Phone {phoneNo:'0-(608)989-7174'})<-[:CALLER|CALLED]-(pc:PhoneCall) WHERE toInteger(split(pc.call_date,'/')[0]) >= 2 AND toInteger(split(pc.call_date,'/')[0]) <= 8 RETURN count(*) AS n"}
+      ]
+    },
+
+    "Q-POLE-T14": {
+      "question": "How many calls did phone 0-(807)194-4140 make around 4 August 2017?",
+      "num_hops": 1,
+      "is_ambiguous": true,
+      "ambiguity_type": "temporal",
+      "default_interp": "Same calendar day",
+      "cypher_default": "MATCH (ph:Phone {phoneNo:'0-(807)194-4140'})<-[:CALLER|CALLED]-(pc:PhoneCall) WHERE toInteger(split(pc.call_date,'/')[0]) = 4 RETURN count(*) AS n",
+      "interpretations": [
+        {"interp": "Same day only (1)", "cypher": "MATCH (ph:Phone {phoneNo:'0-(807)194-4140'})<-[:CALLER|CALLED]-(pc:PhoneCall) WHERE toInteger(split(pc.call_date,'/')[0]) = 4 RETURN count(*) AS n"},
+        {"interp": "Trailing 7-day window, 1-4 Aug (4)", "cypher": "MATCH (ph:Phone {phoneNo:'0-(807)194-4140'})<-[:CALLER|CALLED]-(pc:PhoneCall) WHERE toInteger(split(pc.call_date,'/')[0]) >= 1 AND toInteger(split(pc.call_date,'/')[0]) <= 4 RETURN count(*) AS n"}
+      ]
+    },
+
+    "Q-POLE-T15": {
+      "question": "How many calls did phone 9-(882)417-7531 make around 17 August 2017?",
+      "num_hops": 1,
+      "is_ambiguous": true,
+      "ambiguity_type": "temporal",
+      "default_interp": "Same calendar day",
+      "cypher_default": "MATCH (ph:Phone {phoneNo:'9-(882)417-7531'})<-[:CALLER|CALLED]-(pc:PhoneCall) WHERE toInteger(split(pc.call_date,'/')[0]) = 17 RETURN count(*) AS n",
+      "interpretations": [
+        {"interp": "Same day only (2)", "cypher": "MATCH (ph:Phone {phoneNo:'9-(882)417-7531'})<-[:CALLER|CALLED]-(pc:PhoneCall) WHERE toInteger(split(pc.call_date,'/')[0]) = 17 RETURN count(*) AS n"},
+        {"interp": "Trailing 7-day window, 11-17 Aug (3)", "cypher": "MATCH (ph:Phone {phoneNo:'9-(882)417-7531'})<-[:CALLER|CALLED]-(pc:PhoneCall) WHERE toInteger(split(pc.call_date,'/')[0]) >= 11 AND toInteger(split(pc.call_date,'/')[0]) <= 17 RETURN count(*) AS n"}
+      ]
+    }
+  },
+
+  "temporal_drop_list": [
+    "Old T05 content (M1, day 18)", "Old T06 content (M1, day 24)", "Old T09 content (M1, day 2)",
+    "Old T10 content (M1, day 13)", "Old T11 content (M1, day 16)", "Old T12 content (M1, day 21)",
+    "Old T13 content (M1, day 27)", "Old T14 content (M1, day 5)", "Old T15 content (M1, day 29)"
+  ]
+}

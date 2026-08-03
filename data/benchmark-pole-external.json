@@ -1,0 +1,1874 @@
+[
+  {
+    "question_id": "Q-POLE-E01",
+    "question": "What is Andrea George's address?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default \u2014 two distinct Persons share the identical full name",
+    "cypher_default": "MATCH (p:Person {name:'Andrea', surname:'George'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address",
+    "interpretations": [
+      {
+        "interp": "nhs_no 800-46-2184",
+        "cypher": "MATCH (p:Person {name:'Andrea', surname:'George', nhs_no:'800-46-2184'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "nhs_no 391-46-9135",
+        "cypher": "MATCH (p:Person {name:'Andrea', surname:'George', nhs_no:'391-46-9135'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-E02",
+    "question": "What is Anne Rice's address?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default \u2014 two distinct Persons share the identical full name",
+    "cypher_default": "MATCH (p:Person {name:'Anne', surname:'Rice'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address",
+    "interpretations": [
+      {
+        "interp": "nhs_no 632-68-0917",
+        "cypher": "MATCH (p:Person {name:'Anne', surname:'Rice', nhs_no:'632-68-0917'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "nhs_no 612-83-6356",
+        "cypher": "MATCH (p:Person {name:'Anne', surname:'Rice', nhs_no:'612-83-6356'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-E03",
+    "question": "What is the home address of a person with surname Ford?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default \u2014 4 distinct Ford persons",
+    "cypher_default": "MATCH (p:Person {surname:'Ford'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address",
+    "interpretations": [
+      {
+        "interp": "Deborah",
+        "cypher": "MATCH (p:Person {surname:'Ford', name:'Deborah'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Dennis",
+        "cypher": "MATCH (p:Person {surname:'Ford', name:'Dennis'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Jimmy",
+        "cypher": "MATCH (p:Person {surname:'Ford', name:'Jimmy'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Philip",
+        "cypher": "MATCH (p:Person {surname:'Ford', name:'Philip'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-E04",
+    "question": "Where does a person with the surname Fuller live?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default \u2014 5 distinct Fuller persons",
+    "cypher_default": "MATCH (p:Person {surname:'Fuller'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address",
+    "interpretations": [
+      {
+        "interp": "Carl",
+        "cypher": "MATCH (p:Person {surname:'Fuller', name:'Carl'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Jeffrey",
+        "cypher": "MATCH (p:Person {surname:'Fuller', name:'Jeffrey'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Juan",
+        "cypher": "MATCH (p:Person {surname:'Fuller', name:'Juan'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Nancy",
+        "cypher": "MATCH (p:Person {surname:'Fuller', name:'Nancy'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-E05",
+    "question": "What address is registered for a person with the surname Murray?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default \u2014 5 distinct Murray persons",
+    "cypher_default": "MATCH (p:Person {surname:'Murray'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address",
+    "interpretations": [
+      {
+        "interp": "Diana",
+        "cypher": "MATCH (p:Person {surname:'Murray', name:'Diana'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Jennifer",
+        "cypher": "MATCH (p:Person {surname:'Murray', name:'Jennifer'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Mary",
+        "cypher": "MATCH (p:Person {surname:'Murray', name:'Mary'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Phyllis",
+        "cypher": "MATCH (p:Person {surname:'Murray', name:'Phyllis'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-E06",
+    "question": "Find the address for a person with the surname Nguyen.",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default \u2014 5 distinct Nguyen persons",
+    "cypher_default": "MATCH (p:Person {surname:'Nguyen'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address",
+    "interpretations": [
+      {
+        "interp": "Anne",
+        "cypher": "MATCH (p:Person {surname:'Nguyen', name:'Anne'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Jeffrey",
+        "cypher": "MATCH (p:Person {surname:'Nguyen', name:'Jeffrey'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Paul",
+        "cypher": "MATCH (p:Person {surname:'Nguyen', name:'Paul'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Wayne",
+        "cypher": "MATCH (p:Person {surname:'Nguyen', name:'Wayne'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-E07",
+    "question": "What is the current address of a person with the surname Austin?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default \u2014 5 distinct Austin persons",
+    "cypher_default": "MATCH (p:Person {surname:'Austin'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address",
+    "interpretations": [
+      {
+        "interp": "Brian",
+        "cypher": "MATCH (p:Person {surname:'Austin', name:'Brian'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Dennis",
+        "cypher": "MATCH (p:Person {surname:'Austin', name:'Dennis'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Heather",
+        "cypher": "MATCH (p:Person {surname:'Austin', name:'Heather'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Irene",
+        "cypher": "MATCH (p:Person {surname:'Austin', name:'Irene'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-E08",
+    "question": "Where is a person with the surname Bradley currently living?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default \u2014 4 distinct Bradley persons",
+    "cypher_default": "MATCH (p:Person {surname:'Bradley'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address",
+    "interpretations": [
+      {
+        "interp": "Adam",
+        "cypher": "MATCH (p:Person {surname:'Bradley', name:'Adam'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Dennis",
+        "cypher": "MATCH (p:Person {surname:'Bradley', name:'Dennis'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Diane",
+        "cypher": "MATCH (p:Person {surname:'Bradley', name:'Diane'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Rachel",
+        "cypher": "MATCH (p:Person {surname:'Bradley', name:'Rachel'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-E09",
+    "question": "What address does a person with the surname Butler live at?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default \u2014 4 distinct Butler persons",
+    "cypher_default": "MATCH (p:Person {surname:'Butler'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address",
+    "interpretations": [
+      {
+        "interp": "Denise",
+        "cypher": "MATCH (p:Person {surname:'Butler', name:'Denise'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Jennifer",
+        "cypher": "MATCH (p:Person {surname:'Butler', name:'Jennifer'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Maria",
+        "cypher": "MATCH (p:Person {surname:'Butler', name:'Maria'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Patricia",
+        "cypher": "MATCH (p:Person {surname:'Butler', name:'Patricia'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-E10",
+    "question": "What is the address of a person with the surname Foster?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default \u2014 4 distinct Foster persons",
+    "cypher_default": "MATCH (p:Person {surname:'Foster'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address",
+    "interpretations": [
+      {
+        "interp": "Andrew",
+        "cypher": "MATCH (p:Person {surname:'Foster', name:'Andrew'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Cynthia",
+        "cypher": "MATCH (p:Person {surname:'Foster', name:'Cynthia'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Jessica",
+        "cypher": "MATCH (p:Person {surname:'Foster', name:'Jessica'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Tammy",
+        "cypher": "MATCH (p:Person {surname:'Foster', name:'Tammy'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-E11",
+    "question": "Where does a person with the surname Hanson currently live?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default \u2014 4 distinct Hanson persons",
+    "cypher_default": "MATCH (p:Person {surname:'Hanson'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address",
+    "interpretations": [
+      {
+        "interp": "Andrea",
+        "cypher": "MATCH (p:Person {surname:'Hanson', name:'Andrea'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Irene",
+        "cypher": "MATCH (p:Person {surname:'Hanson', name:'Irene'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Patricia",
+        "cypher": "MATCH (p:Person {surname:'Hanson', name:'Patricia'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Richard",
+        "cypher": "MATCH (p:Person {surname:'Hanson', name:'Richard'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-E12",
+    "question": "What address is on file for Hughes?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default \u2014 4 distinct Hughes persons",
+    "cypher_default": "MATCH (p:Person {surname:'Hughes'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address",
+    "interpretations": [
+      {
+        "interp": "Louis",
+        "cypher": "MATCH (p:Person {surname:'Hughes', name:'Louis'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Maria",
+        "cypher": "MATCH (p:Person {surname:'Hughes', name:'Maria'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Nancy",
+        "cypher": "MATCH (p:Person {surname:'Hughes', name:'Nancy'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Stephanie",
+        "cypher": "MATCH (p:Person {surname:'Hughes', name:'Stephanie'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-E13",
+    "question": "Find the home address of Jackson.",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default \u2014 4 distinct Jackson persons",
+    "cypher_default": "MATCH (p:Person {surname:'Jackson'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address",
+    "interpretations": [
+      {
+        "interp": "Diana",
+        "cypher": "MATCH (p:Person {surname:'Jackson', name:'Diana'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Mark",
+        "cypher": "MATCH (p:Person {surname:'Jackson', name:'Mark'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Norma",
+        "cypher": "MATCH (p:Person {surname:'Jackson', name:'Norma'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Steven",
+        "cypher": "MATCH (p:Person {surname:'Jackson', name:'Steven'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-E14",
+    "question": "What is Knight's registered address?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default \u2014 4 distinct Knight persons",
+    "cypher_default": "MATCH (p:Person {surname:'Knight'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address",
+    "interpretations": [
+      {
+        "interp": "Christopher",
+        "cypher": "MATCH (p:Person {surname:'Knight', name:'Christopher'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Cynthia",
+        "cypher": "MATCH (p:Person {surname:'Knight', name:'Cynthia'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "James",
+        "cypher": "MATCH (p:Person {surname:'Knight', name:'James'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Peter",
+        "cypher": "MATCH (p:Person {surname:'Knight', name:'Peter'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-E15",
+    "question": "Where can Martin be found living?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default \u2014 4 distinct Martin persons",
+    "cypher_default": "MATCH (p:Person {surname:'Martin'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address",
+    "interpretations": [
+      {
+        "interp": "Brandon",
+        "cypher": "MATCH (p:Person {surname:'Martin', name:'Brandon'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Cheryl",
+        "cypher": "MATCH (p:Person {surname:'Martin', name:'Cheryl'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Douglas",
+        "cypher": "MATCH (p:Person {surname:'Martin', name:'Douglas'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Michael",
+        "cypher": "MATCH (p:Person {surname:'Martin', name:'Michael'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-E16",
+    "question": "What address does Mason live at?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default \u2014 4 distinct Mason persons",
+    "cypher_default": "MATCH (p:Person {surname:'Mason'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address",
+    "interpretations": [
+      {
+        "interp": "Michael",
+        "cypher": "MATCH (p:Person {surname:'Mason', name:'Michael'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Nicholas",
+        "cypher": "MATCH (p:Person {surname:'Mason', name:'Nicholas'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Philip",
+        "cypher": "MATCH (p:Person {surname:'Mason', name:'Philip'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Wayne",
+        "cypher": "MATCH (p:Person {surname:'Mason', name:'Wayne'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-E17",
+    "question": "Find Moreno's address.",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default \u2014 4 distinct Moreno persons",
+    "cypher_default": "MATCH (p:Person {surname:'Moreno'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address",
+    "interpretations": [
+      {
+        "interp": "Andrea",
+        "cypher": "MATCH (p:Person {surname:'Moreno', name:'Andrea'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Barbara",
+        "cypher": "MATCH (p:Person {surname:'Moreno', name:'Barbara'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Daniel",
+        "cypher": "MATCH (p:Person {surname:'Moreno', name:'Daniel'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Julie",
+        "cypher": "MATCH (p:Person {surname:'Moreno', name:'Julie'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-E18",
+    "question": "What is Robertson's home address?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default \u2014 4 distinct Robertson persons",
+    "cypher_default": "MATCH (p:Person {surname:'Robertson'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address",
+    "interpretations": [
+      {
+        "interp": "Amanda",
+        "cypher": "MATCH (p:Person {surname:'Robertson', name:'Amanda'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Ashley",
+        "cypher": "MATCH (p:Person {surname:'Robertson', name:'Ashley'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Harold",
+        "cypher": "MATCH (p:Person {surname:'Robertson', name:'Harold'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Kelly",
+        "cypher": "MATCH (p:Person {surname:'Robertson', name:'Kelly'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-E19",
+    "question": "Where does Rogers currently reside?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default \u2014 4 distinct Rogers persons",
+    "cypher_default": "MATCH (p:Person {surname:'Rogers'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address",
+    "interpretations": [
+      {
+        "interp": "Donna",
+        "cypher": "MATCH (p:Person {surname:'Rogers', name:'Donna'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Jennifer",
+        "cypher": "MATCH (p:Person {surname:'Rogers', name:'Jennifer'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Joseph",
+        "cypher": "MATCH (p:Person {surname:'Rogers', name:'Joseph'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Kathleen",
+        "cypher": "MATCH (p:Person {surname:'Rogers', name:'Kathleen'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-E20",
+    "question": "What address is Williamson registered at?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "entity",
+    "default_interp": "No safe default \u2014 4 distinct Williamson persons",
+    "cypher_default": "MATCH (p:Person {surname:'Williamson'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address",
+    "interpretations": [
+      {
+        "interp": "Emily",
+        "cypher": "MATCH (p:Person {surname:'Williamson', name:'Emily'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Fred",
+        "cypher": "MATCH (p:Person {surname:'Williamson', name:'Fred'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Phillip",
+        "cypher": "MATCH (p:Person {surname:'Williamson', name:'Phillip'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      },
+      {
+        "interp": "Raymond",
+        "cypher": "MATCH (p:Person {surname:'Williamson', name:'Raymond'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-S01",
+    "question": "Who has Alan Hicks communicated with digitally?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any digital communication relationship type (KNOWS_SN or KNOWS_PHONE) \u2014 8 people",
+    "cypher_default": "MATCH (p1:Person {surname:'Hicks', name:'Alan'})-[:KNOWS_SN|KNOWS_PHONE]-(p2:Person) RETURN DISTINCT p2.name, p2.surname",
+    "interpretations": [
+      {
+        "interp": "Only KNOWS_PHONE (1 person: Cynthia Knight)",
+        "cypher": "MATCH (p1:Person {surname:'Hicks', name:'Alan'})-[:KNOWS_PHONE]-(p2:Person) RETURN DISTINCT p2.name, p2.surname"
+      },
+      {
+        "interp": "Only KNOWS_SN (7 people)",
+        "cypher": "MATCH (p1:Person {surname:'Hicks', name:'Alan'})-[:KNOWS_SN]-(p2:Person) RETURN DISTINCT p2.name, p2.surname"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-S02",
+    "question": "Who has Ann Fox been in digital contact with?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any digital communication relationship type (KNOWS_SN or KNOWS_PHONE) \u2014 10 people",
+    "cypher_default": "MATCH (p1:Person {surname:'Fox', name:'Ann'})-[:KNOWS_SN|KNOWS_PHONE]-(p2:Person) RETURN DISTINCT p2.name, p2.surname",
+    "interpretations": [
+      {
+        "interp": "Only KNOWS_PHONE (1 person: Jessica Kelly)",
+        "cypher": "MATCH (p1:Person {surname:'Fox', name:'Ann'})-[:KNOWS_PHONE]-(p2:Person) RETURN DISTINCT p2.name, p2.surname"
+      },
+      {
+        "interp": "Only KNOWS_SN (9 people)",
+        "cypher": "MATCH (p1:Person {surname:'Fox', name:'Ann'})-[:KNOWS_SN]-(p2:Person) RETURN DISTINCT p2.name, p2.surname"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-S03",
+    "question": "Who has Benjamin Hamilton had digital communication with?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any digital communication relationship type (KNOWS_SN or KNOWS_PHONE)",
+    "cypher_default": "MATCH (p1:Person {surname:'Hamilton', name:'Benjamin'})-[:KNOWS_SN|KNOWS_PHONE]-(p2:Person) RETURN DISTINCT p2.name, p2.surname",
+    "interpretations": [
+      {
+        "interp": "Only KNOWS_PHONE",
+        "cypher": "MATCH (p1:Person {surname:'Hamilton', name:'Benjamin'})-[:KNOWS_PHONE]-(p2:Person) RETURN DISTINCT p2.name, p2.surname"
+      },
+      {
+        "interp": "Only KNOWS_SN",
+        "cypher": "MATCH (p1:Person {surname:'Hamilton', name:'Benjamin'})-[:KNOWS_SN]-(p2:Person) RETURN DISTINCT p2.name, p2.surname"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-S04",
+    "question": "Who has Bonnie Gilbert had electronic communication with?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any digital communication relationship type (KNOWS_SN or KNOWS_PHONE) \u2014 8 people",
+    "cypher_default": "MATCH (p1:Person {surname:'Gilbert', name:'Bonnie'})-[:KNOWS_SN|KNOWS_PHONE]-(p2:Person) RETURN DISTINCT p2.name, p2.surname",
+    "interpretations": [
+      {
+        "interp": "Only KNOWS_PHONE (1 person: Fred Williamson)",
+        "cypher": "MATCH (p1:Person {surname:'Gilbert', name:'Bonnie'})-[:KNOWS_PHONE]-(p2:Person) RETURN DISTINCT p2.name, p2.surname"
+      },
+      {
+        "interp": "Only KNOWS_SN (8 people)",
+        "cypher": "MATCH (p1:Person {surname:'Gilbert', name:'Bonnie'})-[:KNOWS_SN]-(p2:Person) RETURN DISTINCT p2.name, p2.surname"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-S05",
+    "question": "Who has Brenda Edwards been digitally connected to?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any digital communication relationship type (KNOWS_SN or KNOWS_PHONE) \u2014 8 people",
+    "cypher_default": "MATCH (p1:Person {surname:'Edwards', name:'Brenda'})-[:KNOWS_SN|KNOWS_PHONE]-(p2:Person) RETURN DISTINCT p2.name, p2.surname",
+    "interpretations": [
+      {
+        "interp": "Only KNOWS_PHONE (1 person: Steven Jackson)",
+        "cypher": "MATCH (p1:Person {surname:'Edwards', name:'Brenda'})-[:KNOWS_PHONE]-(p2:Person) RETURN DISTINCT p2.name, p2.surname"
+      },
+      {
+        "interp": "Only KNOWS_SN (8 people)",
+        "cypher": "MATCH (p1:Person {surname:'Edwards', name:'Brenda'})-[:KNOWS_SN]-(p2:Person) RETURN DISTINCT p2.name, p2.surname"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-S06",
+    "question": "Who has the person that Theresa Powell lives with had digital contact with?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any digital communication relationship type, one hop past Theresa Powell's sole KNOWS_LW housemate (Amanda Alexander) \u2014 10 people",
+    "cypher_default": "MATCH (a:Person {surname:'Powell', name:'Theresa'})-[:KNOWS_LW]-(b:Person)-[:KNOWS_SN|KNOWS_PHONE]-(p2:Person) RETURN DISTINCT p2.name, p2.surname",
+    "interpretations": [
+      {
+        "interp": "Only KNOWS_PHONE (1 person: Dennis Mcdonald)",
+        "cypher": "MATCH (a:Person {surname:'Powell', name:'Theresa'})-[:KNOWS_LW]-(b:Person)-[:KNOWS_PHONE]-(p2:Person) RETURN DISTINCT p2.name, p2.surname"
+      },
+      {
+        "interp": "Only KNOWS_SN (9 people)",
+        "cypher": "MATCH (a:Person {surname:'Powell', name:'Theresa'})-[:KNOWS_LW]-(b:Person)-[:KNOWS_SN]-(p2:Person) RETURN DISTINCT p2.name, p2.surname"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-S07",
+    "question": "Who has Mildred Kelly had digital contact with?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any digital communication relationship type (KNOWS_SN or KNOWS_PHONE)",
+    "cypher_default": "MATCH (p1:Person {surname:'Kelly', name:'Mildred'})-[:KNOWS_SN|KNOWS_PHONE]-(p2:Person) RETURN DISTINCT p2.name, p2.surname",
+    "interpretations": [
+      {
+        "interp": "Only KNOWS_PHONE",
+        "cypher": "MATCH (p1:Person {surname:'Kelly', name:'Mildred'})-[:KNOWS_PHONE]-(p2:Person) RETURN DISTINCT p2.name, p2.surname"
+      },
+      {
+        "interp": "Only KNOWS_SN",
+        "cypher": "MATCH (p1:Person {surname:'Kelly', name:'Mildred'})-[:KNOWS_SN]-(p2:Person) RETURN DISTINCT p2.name, p2.surname"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-S08",
+    "question": "Who has Nancy Campbell had digital contact with?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any digital communication relationship type (KNOWS_SN or KNOWS_PHONE)",
+    "cypher_default": "MATCH (p1:Person {surname:'Campbell', name:'Nancy'})-[:KNOWS_SN|KNOWS_PHONE]-(p2:Person) RETURN DISTINCT p2.name, p2.surname",
+    "interpretations": [
+      {
+        "interp": "Only KNOWS_PHONE",
+        "cypher": "MATCH (p1:Person {surname:'Campbell', name:'Nancy'})-[:KNOWS_PHONE]-(p2:Person) RETURN DISTINCT p2.name, p2.surname"
+      },
+      {
+        "interp": "Only KNOWS_SN",
+        "cypher": "MATCH (p1:Person {surname:'Campbell', name:'Nancy'})-[:KNOWS_SN]-(p2:Person) RETURN DISTINCT p2.name, p2.surname"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-S09",
+    "question": "Who has the person that Kathy Wheeler lives with been in digital contact with?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any digital communication relationship type, one hop past Kathy Wheeler's sole KNOWS_LW housemate (Alan Ward) \u2014 5 people",
+    "cypher_default": "MATCH (a:Person {surname:'Wheeler', name:'Kathy'})-[:KNOWS_LW]-(b:Person)-[:KNOWS_SN|KNOWS_PHONE]-(p2:Person) RETURN DISTINCT p2.name, p2.surname",
+    "interpretations": [
+      {
+        "interp": "Only KNOWS_PHONE (1 person: Philip Gardner)",
+        "cypher": "MATCH (a:Person {surname:'Wheeler', name:'Kathy'})-[:KNOWS_LW]-(b:Person)-[:KNOWS_PHONE]-(p2:Person) RETURN DISTINCT p2.name, p2.surname"
+      },
+      {
+        "interp": "Only KNOWS_SN (4 people)",
+        "cypher": "MATCH (a:Person {surname:'Wheeler', name:'Kathy'})-[:KNOWS_LW]-(b:Person)-[:KNOWS_SN]-(p2:Person) RETURN DISTINCT p2.name, p2.surname"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-S10",
+    "question": "Who has the person that Eugene Ferguson lives with had electronic communication with?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any digital communication relationship type, one hop past Eugene Ferguson's sole KNOWS_LW housemate (Harry Garrett) \u2014 2 people",
+    "cypher_default": "MATCH (a:Person {surname:'Ferguson', name:'Eugene'})-[:KNOWS_LW]-(b:Person)-[:KNOWS_SN|KNOWS_PHONE]-(p2:Person) RETURN DISTINCT p2.name, p2.surname",
+    "interpretations": [
+      {
+        "interp": "Only KNOWS_PHONE (1 person: Irene Austin)",
+        "cypher": "MATCH (a:Person {surname:'Ferguson', name:'Eugene'})-[:KNOWS_LW]-(b:Person)-[:KNOWS_PHONE]-(p2:Person) RETURN DISTINCT p2.name, p2.surname"
+      },
+      {
+        "interp": "Only KNOWS_SN (1 person: Anne Rice)",
+        "cypher": "MATCH (a:Person {surname:'Ferguson', name:'Eugene'})-[:KNOWS_LW]-(b:Person)-[:KNOWS_SN]-(p2:Person) RETURN DISTINCT p2.name, p2.surname"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-S11",
+    "question": "Who or what was involved in crime id ab71bb05a5b0620dfec3779eead19d2c121cb73ee58e51cc7306d0dc5ff471c0?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any participant (person via PARTY_TO or vehicle via INVOLVED_IN)",
+    "cypher_default": "MATCH (a)-[:PARTY_TO|INVOLVED_IN]->(c:Crime {id:'ab71bb05a5b0620dfec3779eead19d2c121cb73ee58e51cc7306d0dc5ff471c0'}) RETURN labels(a) AS labels, a",
+    "interpretations": [
+      {
+        "interp": "Only the person (PARTY_TO)",
+        "cypher": "MATCH (p:Person)-[:PARTY_TO]->(c:Crime {id:'ab71bb05a5b0620dfec3779eead19d2c121cb73ee58e51cc7306d0dc5ff471c0'}) RETURN p.name, p.surname"
+      },
+      {
+        "interp": "Only the vehicle (INVOLVED_IN)",
+        "cypher": "MATCH (v:Vehicle)-[:INVOLVED_IN]->(c:Crime {id:'ab71bb05a5b0620dfec3779eead19d2c121cb73ee58e51cc7306d0dc5ff471c0'}) RETURN v.reg"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-S12",
+    "question": "What was connected to crime id e35c34d58fa35f2110b059882a34703d132552a4ad408eac3f82f15aeb165f0f?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any participant (person via PARTY_TO or vehicle via INVOLVED_IN)",
+    "cypher_default": "MATCH (a)-[:PARTY_TO|INVOLVED_IN]->(c:Crime {id:'e35c34d58fa35f2110b059882a34703d132552a4ad408eac3f82f15aeb165f0f'}) RETURN labels(a) AS labels, a",
+    "interpretations": [
+      {
+        "interp": "Only the person (PARTY_TO)",
+        "cypher": "MATCH (p:Person)-[:PARTY_TO]->(c:Crime {id:'e35c34d58fa35f2110b059882a34703d132552a4ad408eac3f82f15aeb165f0f'}) RETURN p.name, p.surname"
+      },
+      {
+        "interp": "Only the vehicle (INVOLVED_IN)",
+        "cypher": "MATCH (v:Vehicle)-[:INVOLVED_IN]->(c:Crime {id:'e35c34d58fa35f2110b059882a34703d132552a4ad408eac3f82f15aeb165f0f'}) RETURN v.reg"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-S13",
+    "question": "Who/what does crime id 576f4e50b1cbeb488c89bd28bd1697a1ad48fa0a5f4df857a844657e61f4487a involve?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any participant (person via PARTY_TO or vehicle via INVOLVED_IN)",
+    "cypher_default": "MATCH (a)-[:PARTY_TO|INVOLVED_IN]->(c:Crime {id:'576f4e50b1cbeb488c89bd28bd1697a1ad48fa0a5f4df857a844657e61f4487a'}) RETURN labels(a) AS labels, a",
+    "interpretations": [
+      {
+        "interp": "Only the person (PARTY_TO)",
+        "cypher": "MATCH (p:Person)-[:PARTY_TO]->(c:Crime {id:'576f4e50b1cbeb488c89bd28bd1697a1ad48fa0a5f4df857a844657e61f4487a'}) RETURN p.name, p.surname"
+      },
+      {
+        "interp": "Only the vehicle (INVOLVED_IN)",
+        "cypher": "MATCH (v:Vehicle)-[:INVOLVED_IN]->(c:Crime {id:'576f4e50b1cbeb488c89bd28bd1697a1ad48fa0a5f4df857a844657e61f4487a'}) RETURN v.reg"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-S14",
+    "question": "What's linked to incident id 9cdadc1c345c17336210079096c372a7faaae0268e4725edbb031e4a19a4bc45?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any participant (person via PARTY_TO or vehicle via INVOLVED_IN)",
+    "cypher_default": "MATCH (a)-[:PARTY_TO|INVOLVED_IN]->(c:Crime {id:'9cdadc1c345c17336210079096c372a7faaae0268e4725edbb031e4a19a4bc45'}) RETURN labels(a) AS labels, a",
+    "interpretations": [
+      {
+        "interp": "Only the person (PARTY_TO)",
+        "cypher": "MATCH (p:Person)-[:PARTY_TO]->(c:Crime {id:'9cdadc1c345c17336210079096c372a7faaae0268e4725edbb031e4a19a4bc45'}) RETURN p.name, p.surname"
+      },
+      {
+        "interp": "Only the vehicle (INVOLVED_IN)",
+        "cypher": "MATCH (v:Vehicle)-[:INVOLVED_IN]->(c:Crime {id:'9cdadc1c345c17336210079096c372a7faaae0268e4725edbb031e4a19a4bc45'}) RETURN v.reg"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-S15",
+    "question": "Who or what was tied to crime id 87b7f4fb4e9168b8c46dc5195ae75b68b2c2aeae6d7c36a6d2738280a2940f04?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any participant (person via PARTY_TO or vehicle via INVOLVED_IN)",
+    "cypher_default": "MATCH (a)-[:PARTY_TO|INVOLVED_IN]->(c:Crime {id:'87b7f4fb4e9168b8c46dc5195ae75b68b2c2aeae6d7c36a6d2738280a2940f04'}) RETURN labels(a) AS labels, a",
+    "interpretations": [
+      {
+        "interp": "Only the person (PARTY_TO)",
+        "cypher": "MATCH (p:Person)-[:PARTY_TO]->(c:Crime {id:'87b7f4fb4e9168b8c46dc5195ae75b68b2c2aeae6d7c36a6d2738280a2940f04'}) RETURN p.name, p.surname"
+      },
+      {
+        "interp": "Only the vehicle (INVOLVED_IN)",
+        "cypher": "MATCH (v:Vehicle)-[:INVOLVED_IN]->(c:Crime {id:'87b7f4fb4e9168b8c46dc5195ae75b68b2c2aeae6d7c36a6d2738280a2940f04'}) RETURN v.reg"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-S16",
+    "question": "Who/what is connected to crime cb58245b5903b1c02536c9f487c099015c1cc29405bce7107a6b99c1ccb81f0c?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any participant (person via PARTY_TO or vehicle via INVOLVED_IN)",
+    "cypher_default": "MATCH (a)-[:PARTY_TO|INVOLVED_IN]->(c:Crime {id:'cb58245b5903b1c02536c9f487c099015c1cc29405bce7107a6b99c1ccb81f0c'}) RETURN labels(a) AS labels, a",
+    "interpretations": [
+      {
+        "interp": "Only the person (PARTY_TO)",
+        "cypher": "MATCH (p:Person)-[:PARTY_TO]->(c:Crime {id:'cb58245b5903b1c02536c9f487c099015c1cc29405bce7107a6b99c1ccb81f0c'}) RETURN p.name, p.surname"
+      },
+      {
+        "interp": "Only the vehicle (INVOLVED_IN)",
+        "cypher": "MATCH (v:Vehicle)-[:INVOLVED_IN]->(c:Crime {id:'cb58245b5903b1c02536c9f487c099015c1cc29405bce7107a6b99c1ccb81f0c'}) RETURN v.reg"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-S17",
+    "question": "What was involved in crime 0e2192e79961a6572131429c9adbbae2a25b051a490e170913fb36bdb762f862?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any participant (person via PARTY_TO or vehicle via INVOLVED_IN)",
+    "cypher_default": "MATCH (a)-[:PARTY_TO|INVOLVED_IN]->(c:Crime {id:'0e2192e79961a6572131429c9adbbae2a25b051a490e170913fb36bdb762f862'}) RETURN labels(a) AS labels, a",
+    "interpretations": [
+      {
+        "interp": "Only the person (PARTY_TO)",
+        "cypher": "MATCH (p:Person)-[:PARTY_TO]->(c:Crime {id:'0e2192e79961a6572131429c9adbbae2a25b051a490e170913fb36bdb762f862'}) RETURN p.name, p.surname"
+      },
+      {
+        "interp": "Only the vehicle (INVOLVED_IN)",
+        "cypher": "MATCH (v:Vehicle)-[:INVOLVED_IN]->(c:Crime {id:'0e2192e79961a6572131429c9adbbae2a25b051a490e170913fb36bdb762f862'}) RETURN v.reg"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-S18",
+    "question": "Who or what featured in crime 70160845dc32f6cf61d614fa8a296d0e95a981d48325a57bcc73c9996bac7109?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any participant (person via PARTY_TO or vehicle via INVOLVED_IN)",
+    "cypher_default": "MATCH (a)-[:PARTY_TO|INVOLVED_IN]->(c:Crime {id:'70160845dc32f6cf61d614fa8a296d0e95a981d48325a57bcc73c9996bac7109'}) RETURN labels(a) AS labels, a",
+    "interpretations": [
+      {
+        "interp": "Only the person (PARTY_TO)",
+        "cypher": "MATCH (p:Person)-[:PARTY_TO]->(c:Crime {id:'70160845dc32f6cf61d614fa8a296d0e95a981d48325a57bcc73c9996bac7109'}) RETURN p.name, p.surname"
+      },
+      {
+        "interp": "Only the vehicle (INVOLVED_IN)",
+        "cypher": "MATCH (v:Vehicle)-[:INVOLVED_IN]->(c:Crime {id:'70160845dc32f6cf61d614fa8a296d0e95a981d48325a57bcc73c9996bac7109'}) RETURN v.reg"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-S19",
+    "question": "What's associated with incident 8aab5d71757708aeac451ffedfdecbcfffb8cdbdf5a07bdce397ed2ba7d6d8e3?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any participant (person via PARTY_TO or vehicle via INVOLVED_IN)",
+    "cypher_default": "MATCH (a)-[:PARTY_TO|INVOLVED_IN]->(c:Crime {id:'8aab5d71757708aeac451ffedfdecbcfffb8cdbdf5a07bdce397ed2ba7d6d8e3'}) RETURN labels(a) AS labels, a",
+    "interpretations": [
+      {
+        "interp": "Only the person (PARTY_TO)",
+        "cypher": "MATCH (p:Person)-[:PARTY_TO]->(c:Crime {id:'8aab5d71757708aeac451ffedfdecbcfffb8cdbdf5a07bdce397ed2ba7d6d8e3'}) RETURN p.name, p.surname"
+      },
+      {
+        "interp": "Only the vehicle (INVOLVED_IN)",
+        "cypher": "MATCH (v:Vehicle)-[:INVOLVED_IN]->(c:Crime {id:'8aab5d71757708aeac451ffedfdecbcfffb8cdbdf5a07bdce397ed2ba7d6d8e3'}) RETURN v.reg"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-S20",
+    "question": "Who or what was part of crime 2dec74f10fd12d8dcb28cb05ff058b4e4134ecb58d0e515c888f0611ca794339?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "schema",
+    "default_interp": "Any participant (person via PARTY_TO or object via INVOLVED_IN)",
+    "cypher_default": "MATCH (a)-[:PARTY_TO|INVOLVED_IN]->(c:Crime {id:'2dec74f10fd12d8dcb28cb05ff058b4e4134ecb58d0e515c888f0611ca794339'}) RETURN labels(a) AS labels, a",
+    "interpretations": [
+      {
+        "interp": "Only the person (PARTY_TO)",
+        "cypher": "MATCH (p:Person)-[:PARTY_TO]->(c:Crime {id:'2dec74f10fd12d8dcb28cb05ff058b4e4134ecb58d0e515c888f0611ca794339'}) RETURN p.name, p.surname"
+      },
+      {
+        "interp": "Only the object(s) (INVOLVED_IN)",
+        "cypher": "MATCH (o:Object)-[:INVOLVED_IN]->(c:Crime {id:'2dec74f10fd12d8dcb28cb05ff058b4e4134ecb58d0e515c888f0611ca794339'}) RETURN o.description"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-I01",
+    "question": "Which Inspector has investigated the most crimes, aside from Nettles Worthy?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Single top of the remainder (arbitrary tiebreak)",
+    "cypher_default": "MATCH (c:Crime)-[:INVESTIGATED_BY]->(o:Officer {rank:'Inspector'}) WHERE NOT (o.surname='Nettles' AND o.name='Worthy') WITH o, count(*) AS n RETURN o.surname, o.name, n ORDER BY n DESC LIMIT 1",
+    "interpretations": [
+      {
+        "interp": "Winonah Skynner (n=44)",
+        "cypher": "MATCH (c:Crime)-[:INVESTIGATED_BY]->(o:Officer {surname:'Skynner', name:'Winonah'}) RETURN o.surname, o.name, count(*) AS n"
+      },
+      {
+        "interp": "Ricca Miskimmon (n=44)",
+        "cypher": "MATCH (c:Crime)-[:INVESTIGATED_BY]->(o:Officer {surname:'Miskimmon', name:'Ricca'}) RETURN o.surname, o.name, count(*) AS n"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-I02",
+    "question": "Which Police Constable has investigated the most crimes, aside from Ings Cloe?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Single top of the remainder (arbitrary tiebreak)",
+    "cypher_default": "MATCH (c:Crime)-[:INVESTIGATED_BY]->(o:Officer {rank:'Police Constable'}) WHERE NOT (o.surname='Ings' AND o.name='Cloe') WITH o, count(*) AS n RETURN o.surname, o.name, n ORDER BY n DESC LIMIT 1",
+    "interpretations": [
+      {
+        "interp": "Hedy Vinson (n=43)",
+        "cypher": "MATCH (c:Crime)-[:INVESTIGATED_BY]->(o:Officer {surname:'Vinson', name:'Hedy'}) RETURN o.surname, o.name, count(*) AS n"
+      },
+      {
+        "interp": "Simmonds Greensall (n=43)",
+        "cypher": "MATCH (c:Crime)-[:INVESTIGATED_BY]->(o:Officer {surname:'Greensall', name:'Simmonds'}) RETURN o.surname, o.name, count(*) AS n"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-I03",
+    "question": "Which Chief Inspector has investigated the most crimes, aside from the top three (Monelli Kort, Stave Urban, Febry Roberto)?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Single top of the remainder (arbitrary tiebreak)",
+    "cypher_default": "MATCH (c:Crime)-[:INVESTIGATED_BY]->(o:Officer {rank:'Chief Inspector'}) WHERE NOT (o.surname='Monelli' AND o.name='Kort') AND NOT (o.surname='Stave' AND o.name='Urban') AND NOT (o.surname='Febry' AND o.name='Roberto') WITH o, count(*) AS n RETURN o.surname, o.name, n ORDER BY n DESC LIMIT 1",
+    "interpretations": [
+      {
+        "interp": "Whitney Jeandot (n=37)",
+        "cypher": "MATCH (c:Crime)-[:INVESTIGATED_BY]->(o:Officer {surname:'Jeandot', name:'Whitney'}) RETURN o.surname, o.name, count(*) AS n"
+      },
+      {
+        "interp": "Esma Gorrie (n=37)",
+        "cypher": "MATCH (c:Crime)-[:INVESTIGATED_BY]->(o:Officer {surname:'Gorrie', name:'Esma'}) RETURN o.surname, o.name, count(*) AS n"
+      },
+      {
+        "interp": "Evey Rahlof (n=37)",
+        "cypher": "MATCH (c:Crime)-[:INVESTIGATED_BY]->(o:Officer {surname:'Rahlof', name:'Evey'}) RETURN o.surname, o.name, count(*) AS n"
+      },
+      {
+        "interp": "Dottie Syddie (n=37)",
+        "cypher": "MATCH (c:Crime)-[:INVESTIGATED_BY]->(o:Officer {surname:'Syddie', name:'Dottie'}) RETURN o.surname, o.name, count(*) AS n"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-I04",
+    "question": "Which Sergeant has investigated the most crimes, aside from the top three (DeSousa Madelon, Notti Kania, Klehyn Olenolin)?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Single top of the remainder (arbitrary tiebreak)",
+    "cypher_default": "MATCH (c:Crime)-[:INVESTIGATED_BY]->(o:Officer {rank:'Sergeant'}) WHERE NOT (o.surname='DeSousa' AND o.name='Madelon') AND NOT (o.surname='Notti' AND o.name='Kania') AND NOT (o.surname='Klehyn' AND o.name='Olenolin') WITH o, count(*) AS n RETURN o.surname, o.name, n ORDER BY n DESC LIMIT 1",
+    "interpretations": [
+      {
+        "interp": "Hernando Macias (n=42)",
+        "cypher": "MATCH (c:Crime)-[:INVESTIGATED_BY]->(o:Officer {surname:'Macias', name:'Hernando'}) RETURN o.surname, o.name, count(*) AS n"
+      },
+      {
+        "interp": "Rea Shurmore (n=42)",
+        "cypher": "MATCH (c:Crime)-[:INVESTIGATED_BY]->(o:Officer {surname:'Shurmore', name:'Rea'}) RETURN o.surname, o.name, count(*) AS n"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-I05",
+    "question": "Which area recorded the most crime, after BL9?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Single top of the remainder (arbitrary tiebreak)",
+    "cypher_default": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area) WHERE a.areaCode <> 'BL9' WITH a, count(*) AS n RETURN a.areaCode, n ORDER BY n DESC LIMIT 1",
+    "interpretations": [
+      {
+        "interp": "M14 (n=562)",
+        "cypher": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area {areaCode:'M14'}) RETURN a.areaCode, count(*) AS n"
+      },
+      {
+        "interp": "BL4 (n=562)",
+        "cypher": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area {areaCode:'BL4'}) RETURN a.areaCode, count(*) AS n"
+      },
+      {
+        "interp": "BL2 (n=562)",
+        "cypher": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area {areaCode:'BL2'}) RETURN a.areaCode, count(*) AS n"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-I06",
+    "question": "Which area is more dangerous, BL3 or M40?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Total crime count (broadest reading of 'dangerous')",
+    "cypher_default": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area) WHERE a.areaCode IN ['BL3','M40'] WITH a.areaCode AS area, count(*) AS n RETURN area, n ORDER BY n DESC LIMIT 1",
+    "interpretations": [
+      {
+        "interp": "By total crime count: BL3 (814 > 766)",
+        "cypher": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area) WHERE a.areaCode IN ['BL3','M40'] WITH a.areaCode AS area, count(*) AS n RETURN area, n ORDER BY n DESC LIMIT 1"
+      },
+      {
+        "interp": "By violent/sexual-offence count specifically: M40 (234 > 223)",
+        "cypher": "MATCH (c:Crime {type:'Violence and sexual offences'})-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area) WHERE a.areaCode IN ['BL3','M40'] WITH a.areaCode AS area, count(*) AS n RETURN area, n ORDER BY n DESC LIMIT 1"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-I07",
+    "question": "Which area is more dangerous, M9 or BL9?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Total crime count (broadest reading of 'dangerous')",
+    "cypher_default": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area) WHERE a.areaCode IN ['M9','BL9'] WITH a.areaCode AS area, count(*) AS n RETURN area, n ORDER BY n DESC LIMIT 1",
+    "interpretations": [
+      {
+        "interp": "By total crime count: M9 (699 > 623)",
+        "cypher": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area) WHERE a.areaCode IN ['M9','BL9'] WITH a.areaCode AS area, count(*) AS n RETURN area, n ORDER BY n DESC LIMIT 1"
+      },
+      {
+        "interp": "By violent/sexual-offence count specifically: BL9 (204 > 187)",
+        "cypher": "MATCH (c:Crime {type:'Violence and sexual offences'})-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area) WHERE a.areaCode IN ['M9','BL9'] WITH a.areaCode AS area, count(*) AS n RETURN area, n ORDER BY n DESC LIMIT 1"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-I08",
+    "question": "Which area is more dangerous, M14 or M6?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Total crime count (broadest reading of 'dangerous')",
+    "cypher_default": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area) WHERE a.areaCode IN ['M14','M6'] WITH a.areaCode AS area, count(*) AS n RETURN area, n ORDER BY n DESC LIMIT 1",
+    "interpretations": [
+      {
+        "interp": "By total crime count: M14 (562 > 540)",
+        "cypher": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area) WHERE a.areaCode IN ['M14','M6'] WITH a.areaCode AS area, count(*) AS n RETURN area, n ORDER BY n DESC LIMIT 1"
+      },
+      {
+        "interp": "By violent/sexual-offence count specifically: M6 (176 > 144)",
+        "cypher": "MATCH (c:Crime {type:'Violence and sexual offences'})-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area) WHERE a.areaCode IN ['M14','M6'] WITH a.areaCode AS area, count(*) AS n RETURN area, n ORDER BY n DESC LIMIT 1"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-I09",
+    "question": "How many crimes happened in area M1?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Return the count (single number)",
+    "cypher_default": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area) WHERE a.areaCode='M1' RETURN count(*) AS n",
+    "interpretations": [
+      {
+        "interp": "Count only (975)",
+        "cypher": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area) WHERE a.areaCode='M1' RETURN count(*) AS n"
+      },
+      {
+        "interp": "List every individual crime in area M1",
+        "cypher": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area) WHERE a.areaCode='M1' RETURN c.id, c.type, c.date"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-I10",
+    "question": "What crimes happened in area BL1?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "List every individual crime",
+    "cypher_default": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area) WHERE a.areaCode='BL1' RETURN c.id, c.type, c.date",
+    "interpretations": [
+      {
+        "interp": "Count only (860)",
+        "cypher": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area) WHERE a.areaCode='BL1' RETURN count(*) AS n"
+      },
+      {
+        "interp": "List every individual crime in area BL1",
+        "cypher": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area) WHERE a.areaCode='BL1' RETURN c.id, c.type, c.date"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-I11",
+    "question": "How many Violence and sexual offences crimes occurred in BL3?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Return the count (single number)",
+    "cypher_default": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area) WHERE a.areaCode='BL3' AND c.type='Violence and sexual offences' RETURN count(*) AS n",
+    "interpretations": [
+      {
+        "interp": "Count only (223)",
+        "cypher": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area) WHERE a.areaCode='BL3' AND c.type='Violence and sexual offences' RETURN count(*) AS n"
+      },
+      {
+        "interp": "List every individual crime in area BL3",
+        "cypher": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area) WHERE a.areaCode='BL3' AND c.type='Violence and sexual offences' RETURN c.id, c.type, c.date"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-I12",
+    "question": "How many crimes happened in area BL9?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Return the count (single number)",
+    "cypher_default": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area) WHERE a.areaCode='BL9' RETURN count(*) AS n",
+    "interpretations": [
+      {
+        "interp": "Count only (623)",
+        "cypher": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area) WHERE a.areaCode='BL9' RETURN count(*) AS n"
+      },
+      {
+        "interp": "List every individual crime in area BL9",
+        "cypher": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area) WHERE a.areaCode='BL9' RETURN c.id, c.type, c.date"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-I13",
+    "question": "How many crimes happened in area M14?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Return the count (single number)",
+    "cypher_default": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area) WHERE a.areaCode='M14' RETURN count(*) AS n",
+    "interpretations": [
+      {
+        "interp": "Count only (562)",
+        "cypher": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area) WHERE a.areaCode='M14' RETURN count(*) AS n"
+      },
+      {
+        "interp": "List every individual crime in area M14",
+        "cypher": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area) WHERE a.areaCode='M14' RETURN c.id, c.type, c.date"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-I14",
+    "question": "List crimes of type Public order in area M9.",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "List every individual crime",
+    "cypher_default": "MATCH (c:Crime {type:'Public order'})-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area {areaCode:'M9'}) RETURN c.id, c.date",
+    "interpretations": [
+      {
+        "interp": "List all matching crimes (174)",
+        "cypher": "MATCH (c:Crime {type:'Public order'})-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area {areaCode:'M9'}) RETURN c.id, c.date"
+      },
+      {
+        "interp": "Count only (174)",
+        "cypher": "MATCH (c:Crime {type:'Public order'})-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area {areaCode:'M9'}) RETURN count(*) AS n"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-I15",
+    "question": "How many crimes has Sergeant DeSousa Madelon investigated?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Return the count (single number)",
+    "cypher_default": "MATCH (c:Crime)-[:INVESTIGATED_BY]->(o:Officer {surname:'DeSousa', name:'Madelon'}) RETURN count(*) AS n",
+    "interpretations": [
+      {
+        "interp": "Count only (50)",
+        "cypher": "MATCH (c:Crime)-[:INVESTIGATED_BY]->(o:Officer {surname:'DeSousa', name:'Madelon'}) RETURN count(*) AS n"
+      },
+      {
+        "interp": "List every individual crime investigated",
+        "cypher": "MATCH (c:Crime)-[:INVESTIGATED_BY]->(o:Officer {surname:'DeSousa', name:'Madelon'}) RETURN c.id, c.date"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-I16",
+    "question": "List all crimes investigated by Inspector Skynner Winonah.",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "List every individual crime",
+    "cypher_default": "MATCH (c:Crime)-[:INVESTIGATED_BY]->(o:Officer {surname:'Skynner', name:'Winonah'}) RETURN c.id, c.date",
+    "interpretations": [
+      {
+        "interp": "List all 44 crimes",
+        "cypher": "MATCH (c:Crime)-[:INVESTIGATED_BY]->(o:Officer {surname:'Skynner', name:'Winonah'}) RETURN c.id, c.date"
+      },
+      {
+        "interp": "Count only (44)",
+        "cypher": "MATCH (c:Crime)-[:INVESTIGATED_BY]->(o:Officer {surname:'Skynner', name:'Winonah'}) RETURN count(*) AS n"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-I17",
+    "question": "How many crimes has Police Constable Vinson Hedy investigated?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Return the count (single number)",
+    "cypher_default": "MATCH (c:Crime)-[:INVESTIGATED_BY]->(o:Officer {surname:'Vinson', name:'Hedy'}) RETURN count(*) AS n",
+    "interpretations": [
+      {
+        "interp": "Count only (43)",
+        "cypher": "MATCH (c:Crime)-[:INVESTIGATED_BY]->(o:Officer {surname:'Vinson', name:'Hedy'}) RETURN count(*) AS n"
+      },
+      {
+        "interp": "List every individual crime",
+        "cypher": "MATCH (c:Crime)-[:INVESTIGATED_BY]->(o:Officer {surname:'Vinson', name:'Hedy'}) RETURN c.id, c.date"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-I18",
+    "question": "What crime types occurred in area BL4?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "List distinct crime types",
+    "cypher_default": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area {areaCode:'BL4'}) RETURN DISTINCT c.type",
+    "interpretations": [
+      {
+        "interp": "List distinct crime types present",
+        "cypher": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area {areaCode:'BL4'}) RETURN DISTINCT c.type"
+      },
+      {
+        "interp": "List every individual crime record",
+        "cypher": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area {areaCode:'BL4'}) RETURN c.id, c.type, c.date"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-I19",
+    "question": "Which is the most common crime type across all areas?",
+    "num_hops": 0,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Single top type (Violence and sexual offences, n=8765)",
+    "cypher_default": "MATCH (c:Crime) RETURN c.type AS crime_type, count(c) AS total ORDER BY count(c) DESC limit 1",
+    "interpretations": [
+      {
+        "interp": "List all types above a threshold (>2000 occurrences)",
+        "cypher": "MATCH (c:Crime) WHERE c.type IS NOT NULL WITH c.type AS t, count(*) AS n WHERE n > 2000 RETURN t, n ORDER BY n DESC"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-I20",
+    "question": "How many Vehicle crime incidents were recorded?",
+    "num_hops": 0,
+    "is_ambiguous": true,
+    "ambiguity_type": "intent",
+    "default_interp": "Return the count (single number)",
+    "cypher_default": "MATCH (c:Crime {type:'Vehicle crime'}) RETURN count(*) AS n",
+    "interpretations": [
+      {
+        "interp": "Count only (2598)",
+        "cypher": "MATCH (c:Crime {type:'Vehicle crime'}) RETURN count(*) AS n"
+      },
+      {
+        "interp": "List every individual crime",
+        "cypher": "MATCH (c:Crime {type:'Vehicle crime'}) RETURN c.id, c.date"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-T01",
+    "question": "How many crimes happened in area M1 around 11 August 2017?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Same calendar day",
+    "cypher_default": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area {areaCode:'M1'}) WHERE toInteger(split(c.date,'/')[0]) = 11 RETURN count(*) AS n",
+    "interpretations": [
+      {
+        "interp": "Same day only (47)",
+        "cypher": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area {areaCode:'M1'}) WHERE toInteger(split(c.date,'/')[0]) = 11 RETURN count(*) AS n"
+      },
+      {
+        "interp": "Trailing 7-day window, 5-11 Aug (217)",
+        "cypher": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area {areaCode:'M1'}) WHERE toInteger(split(c.date,'/')[0]) >= 5 AND toInteger(split(c.date,'/')[0]) <= 11 RETURN count(*) AS n"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-T02",
+    "question": "How many crimes happened in area M1 around 26 August 2017?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Same calendar day",
+    "cypher_default": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area {areaCode:'M1'}) WHERE toInteger(split(c.date,'/')[0]) = 26 RETURN count(*) AS n",
+    "interpretations": [
+      {
+        "interp": "Same day only (46)",
+        "cypher": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area {areaCode:'M1'}) WHERE toInteger(split(c.date,'/')[0]) = 26 RETURN count(*) AS n"
+      },
+      {
+        "interp": "Trailing 7-day window, 20-26 Aug (247)",
+        "cypher": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area {areaCode:'M1'}) WHERE toInteger(split(c.date,'/')[0]) >= 20 AND toInteger(split(c.date,'/')[0]) <= 26 RETURN count(*) AS n"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-T03",
+    "question": "How many crimes happened in area M1 around 4 August 2017?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Same calendar day",
+    "cypher_default": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area {areaCode:'M1'}) WHERE toInteger(split(c.date,'/')[0]) = 4 RETURN count(*) AS n",
+    "interpretations": [
+      {
+        "interp": "Same day only (41)",
+        "cypher": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area {areaCode:'M1'}) WHERE toInteger(split(c.date,'/')[0]) = 4 RETURN count(*) AS n"
+      },
+      {
+        "interp": "Trailing window, 1-4 Aug clipped at month start (132)",
+        "cypher": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area {areaCode:'M1'}) WHERE toInteger(split(c.date,'/')[0]) >= 1 AND toInteger(split(c.date,'/')[0]) <= 4 RETURN count(*) AS n"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-T04",
+    "question": "How many crimes happened in area M1 around 31 August 2017?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Same calendar day",
+    "cypher_default": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area {areaCode:'M1'}) WHERE toInteger(split(c.date,'/')[0]) = 31 RETURN count(*) AS n",
+    "interpretations": [
+      {
+        "interp": "Same day only (42)",
+        "cypher": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area {areaCode:'M1'}) WHERE toInteger(split(c.date,'/')[0]) = 31 RETURN count(*) AS n"
+      },
+      {
+        "interp": "Trailing 7-day window, 25-31 Aug (231)",
+        "cypher": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area {areaCode:'M1'}) WHERE toInteger(split(c.date,'/')[0]) >= 25 AND toInteger(split(c.date,'/')[0]) <= 31 RETURN count(*) AS n"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-T05",
+    "question": "When did phone 9-(776)276-2772 last contact phone 0-(377)507-0388?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Most recent single contact",
+    "cypher_default": "MATCH (p1:Phone {phoneNo:'9-(776)276-2772'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'0-(377)507-0388'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date DESC, pc.call_time DESC LIMIT 1",
+    "interpretations": [
+      {
+        "interp": "Most recent only: 16/08/2017 14:14",
+        "cypher": "MATCH (p1:Phone {phoneNo:'9-(776)276-2772'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'0-(377)507-0388'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date DESC, pc.call_time DESC LIMIT 1"
+      },
+      {
+        "interp": "Full contact history: 01/08 23:30, 02/08 22:02, 03/08 21:00, 11/08 16:27, 13/08 04:37, 16/08 14:14",
+        "cypher": "MATCH (p1:Phone {phoneNo:'9-(776)276-2772'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'0-(377)507-0388'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date, pc.call_time"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-T06",
+    "question": "When did phone 9-(488)105-0765 last contact phone 0-(711)302-8090?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Most recent single contact",
+    "cypher_default": "MATCH (p1:Phone {phoneNo:'9-(488)105-0765'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'0-(711)302-8090'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date DESC, pc.call_time DESC LIMIT 1",
+    "interpretations": [
+      {
+        "interp": "Most recent only: 26/08/2017 13:45",
+        "cypher": "MATCH (p1:Phone {phoneNo:'9-(488)105-0765'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'0-(711)302-8090'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date DESC, pc.call_time DESC LIMIT 1"
+      },
+      {
+        "interp": "Full contact history: 02/08 22:45, 03/08 21:31, 04/08 20:29, 18/08 14:16, 23/08 10:45, 26/08 13:45",
+        "cypher": "MATCH (p1:Phone {phoneNo:'9-(488)105-0765'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'0-(711)302-8090'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date, pc.call_time"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-T07",
+    "question": "How many crimes happened in area M1 around 20 August 2017?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Same calendar day",
+    "cypher_default": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area {areaCode:'M1'}) WHERE toInteger(split(c.date,'/')[0]) = 20 RETURN count(*) AS n",
+    "interpretations": [
+      {
+        "interp": "Same day only (39)",
+        "cypher": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area {areaCode:'M1'}) WHERE toInteger(split(c.date,'/')[0]) = 20 RETURN count(*) AS n"
+      },
+      {
+        "interp": "Trailing 7-day window, 14-20 Aug (208)",
+        "cypher": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area {areaCode:'M1'}) WHERE toInteger(split(c.date,'/')[0]) >= 14 AND toInteger(split(c.date,'/')[0]) <= 20 RETURN count(*) AS n"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-T08",
+    "question": "How many crimes happened in area M1 around 9 August 2017?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Same calendar day",
+    "cypher_default": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area {areaCode:'M1'}) WHERE toInteger(split(c.date,'/')[0]) = 9 RETURN count(*) AS n",
+    "interpretations": [
+      {
+        "interp": "Same day only (26)",
+        "cypher": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area {areaCode:'M1'}) WHERE toInteger(split(c.date,'/')[0]) = 9 RETURN count(*) AS n"
+      },
+      {
+        "interp": "Trailing 7-day window, 3-9 Aug (199)",
+        "cypher": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area {areaCode:'M1'}) WHERE toInteger(split(c.date,'/')[0]) >= 3 AND toInteger(split(c.date,'/')[0]) <= 9 RETURN count(*) AS n"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-T09",
+    "question": "When did phone 9-(494)467-2643 last contact phone 0-(649)542-7430?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Most recent single contact",
+    "cypher_default": "MATCH (p1:Phone {phoneNo:'9-(494)467-2643'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'0-(649)542-7430'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date DESC, pc.call_time DESC LIMIT 1",
+    "interpretations": [
+      {
+        "interp": "Most recent only: 26/08/2017 12:33",
+        "cypher": "MATCH (p1:Phone {phoneNo:'9-(494)467-2643'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'0-(649)542-7430'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date DESC, pc.call_time DESC LIMIT 1"
+      },
+      {
+        "interp": "Full contact history: 02/08 22:48, 03/08 21:34, 04/08 20:32, 09/08 02:34, 22/08 20:28, 26/08 12:33",
+        "cypher": "MATCH (p1:Phone {phoneNo:'9-(494)467-2643'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'0-(649)542-7430'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date, pc.call_time"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-T10",
+    "question": "When did phone 9-(601)270-8329 last contact phone 0-(521)287-3218?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Most recent single contact",
+    "cypher_default": "MATCH (p1:Phone {phoneNo:'9-(601)270-8329'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'0-(521)287-3218'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date DESC, pc.call_time DESC LIMIT 1",
+    "interpretations": [
+      {
+        "interp": "Most recent only: 23/08/2017 21:11",
+        "cypher": "MATCH (p1:Phone {phoneNo:'9-(601)270-8329'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'0-(521)287-3218'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date DESC, pc.call_time DESC LIMIT 1"
+      },
+      {
+        "interp": "Full contact history: 01/08 07:48, 02/08 23:02, 03/08 21:39, 04/08 20:46, 07/08 20:50, 23/08 21:11",
+        "cypher": "MATCH (p1:Phone {phoneNo:'9-(601)270-8329'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'0-(521)287-3218'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date, pc.call_time"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-T11",
+    "question": "When did phone 9-(777)035-6240 last contact phone 0-(273)550-0236?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Most recent single contact",
+    "cypher_default": "MATCH (p1:Phone {phoneNo:'9-(777)035-6240'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'0-(273)550-0236'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date DESC, pc.call_time DESC LIMIT 1",
+    "interpretations": [
+      {
+        "interp": "Most recent only: 21/08/2017 03:52",
+        "cypher": "MATCH (p1:Phone {phoneNo:'9-(777)035-6240'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'0-(273)550-0236'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date DESC, pc.call_time DESC LIMIT 1"
+      },
+      {
+        "interp": "Full contact history: 01/08 23:32, 02/08 22:07, 03/08 21:01, 08/08 10:01, 10/08 13:39, 21/08 03:52",
+        "cypher": "MATCH (p1:Phone {phoneNo:'9-(777)035-6240'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'0-(273)550-0236'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date, pc.call_time"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-T12",
+    "question": "When did phone 9-(721)729-4724 last contact phone 0-(404)296-6252?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Most recent single contact",
+    "cypher_default": "MATCH (p1:Phone {phoneNo:'9-(721)729-4724'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'0-(404)296-6252'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date DESC, pc.call_time DESC LIMIT 1",
+    "interpretations": [
+      {
+        "interp": "Most recent only: 24/08/2017 14:48",
+        "cypher": "MATCH (p1:Phone {phoneNo:'9-(721)729-4724'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'0-(404)296-6252'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date DESC, pc.call_time DESC LIMIT 1"
+      },
+      {
+        "interp": "Full contact history: 01/08 23:20, 02/08 21:58, 03/08 20:53, 10/08 00:09, 15/08 15:24, 24/08 14:48",
+        "cypher": "MATCH (p1:Phone {phoneNo:'9-(721)729-4724'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'0-(404)296-6252'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date, pc.call_time"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-T13",
+    "question": "How many calls did phone 0-(608)989-7174 make around 8 August 2017?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Same calendar day",
+    "cypher_default": "MATCH (ph:Phone {phoneNo:'0-(608)989-7174'})<-[:CALLER|CALLED]-(pc:PhoneCall) WHERE toInteger(split(pc.call_date,'/')[0]) = 8 RETURN count(*) AS n",
+    "interpretations": [
+      {
+        "interp": "Same day only (1)",
+        "cypher": "MATCH (ph:Phone {phoneNo:'0-(608)989-7174'})<-[:CALLER|CALLED]-(pc:PhoneCall) WHERE toInteger(split(pc.call_date,'/')[0]) = 8 RETURN count(*) AS n"
+      },
+      {
+        "interp": "Trailing 7-day window, 2-8 Aug (6)",
+        "cypher": "MATCH (ph:Phone {phoneNo:'0-(608)989-7174'})<-[:CALLER|CALLED]-(pc:PhoneCall) WHERE toInteger(split(pc.call_date,'/')[0]) >= 2 AND toInteger(split(pc.call_date,'/')[0]) <= 8 RETURN count(*) AS n"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-T14",
+    "question": "How many calls did phone 0-(807)194-4140 make around 4 August 2017?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Same calendar day",
+    "cypher_default": "MATCH (ph:Phone {phoneNo:'0-(807)194-4140'})<-[:CALLER|CALLED]-(pc:PhoneCall) WHERE toInteger(split(pc.call_date,'/')[0]) = 4 RETURN count(*) AS n",
+    "interpretations": [
+      {
+        "interp": "Same day only (1)",
+        "cypher": "MATCH (ph:Phone {phoneNo:'0-(807)194-4140'})<-[:CALLER|CALLED]-(pc:PhoneCall) WHERE toInteger(split(pc.call_date,'/')[0]) = 4 RETURN count(*) AS n"
+      },
+      {
+        "interp": "Trailing 7-day window, 1-4 Aug (4)",
+        "cypher": "MATCH (ph:Phone {phoneNo:'0-(807)194-4140'})<-[:CALLER|CALLED]-(pc:PhoneCall) WHERE toInteger(split(pc.call_date,'/')[0]) >= 1 AND toInteger(split(pc.call_date,'/')[0]) <= 4 RETURN count(*) AS n"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-T15",
+    "question": "How many calls did phone 9-(882)417-7531 make around 17 August 2017?",
+    "num_hops": 1,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Same calendar day",
+    "cypher_default": "MATCH (ph:Phone {phoneNo:'9-(882)417-7531'})<-[:CALLER|CALLED]-(pc:PhoneCall) WHERE toInteger(split(pc.call_date,'/')[0]) = 17 RETURN count(*) AS n",
+    "interpretations": [
+      {
+        "interp": "Same day only (2)",
+        "cypher": "MATCH (ph:Phone {phoneNo:'9-(882)417-7531'})<-[:CALLER|CALLED]-(pc:PhoneCall) WHERE toInteger(split(pc.call_date,'/')[0]) = 17 RETURN count(*) AS n"
+      },
+      {
+        "interp": "Trailing 7-day window, 11-17 Aug (3)",
+        "cypher": "MATCH (ph:Phone {phoneNo:'9-(882)417-7531'})<-[:CALLER|CALLED]-(pc:PhoneCall) WHERE toInteger(split(pc.call_date,'/')[0]) >= 11 AND toInteger(split(pc.call_date,'/')[0]) <= 17 RETURN count(*) AS n"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-T16",
+    "question": "How many crimes happened in area BL1 around 15 August 2017, same-day vs trailing-week?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Same calendar day",
+    "cypher_default": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area {areaCode:'BL1'}) WHERE toInteger(split(c.date,'/')[0]) = 15 RETURN count(*) AS n",
+    "interpretations": [
+      {
+        "interp": "Same day only (26)",
+        "cypher": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area {areaCode:'BL1'}) WHERE toInteger(split(c.date,'/')[0]) = 15 RETURN count(*) AS n"
+      },
+      {
+        "interp": "Trailing 7-day window, 09-15 Aug (182)",
+        "cypher": "MATCH (c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area {areaCode:'BL1'}) WHERE toInteger(split(c.date,'/')[0]) >= 9 AND toInteger(split(c.date,'/')[0]) <= 15 RETURN count(*) AS n"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-T17",
+    "question": "How many crimes were recorded (citywide) around 28 August 2017?",
+    "num_hops": 0,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Same calendar day",
+    "cypher_default": "MATCH (c:Crime) WHERE toInteger(split(c.date,'/')[0]) = 28 RETURN count(*) AS n",
+    "interpretations": [
+      {
+        "interp": "Same day only (1014)",
+        "cypher": "MATCH (c:Crime) WHERE toInteger(split(c.date,'/')[0]) = 28 RETURN count(*) AS n"
+      },
+      {
+        "interp": "Trailing 7-day window, 22-28 Aug (6556)",
+        "cypher": "MATCH (c:Crime) WHERE toInteger(split(c.date,'/')[0]) >= 22 AND toInteger(split(c.date,'/')[0]) <= 28 RETURN count(*) AS n"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-T18",
+    "question": "How many crimes were recorded (citywide) around 30 August 2017?",
+    "num_hops": 0,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Same calendar day",
+    "cypher_default": "MATCH (c:Crime) WHERE toInteger(split(c.date,'/')[0]) = 30 RETURN count(*) AS n",
+    "interpretations": [
+      {
+        "interp": "Same day only (871)",
+        "cypher": "MATCH (c:Crime) WHERE toInteger(split(c.date,'/')[0]) = 30 RETURN count(*) AS n"
+      },
+      {
+        "interp": "Trailing 7-day window, 24-30 Aug (6557)",
+        "cypher": "MATCH (c:Crime) WHERE toInteger(split(c.date,'/')[0]) >= 24 AND toInteger(split(c.date,'/')[0]) <= 30 RETURN count(*) AS n"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-T19",
+    "question": "How many crimes were recorded (citywide) around 11 August 2017?",
+    "num_hops": 0,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Same calendar day",
+    "cypher_default": "MATCH (c:Crime) WHERE toInteger(split(c.date,'/')[0]) = 11 RETURN count(*) AS n",
+    "interpretations": [
+      {
+        "interp": "Same day only (930)",
+        "cypher": "MATCH (c:Crime) WHERE toInteger(split(c.date,'/')[0]) = 11 RETURN count(*) AS n"
+      },
+      {
+        "interp": "Trailing 7-day window, 5-11 Aug (6423)",
+        "cypher": "MATCH (c:Crime) WHERE toInteger(split(c.date,'/')[0]) >= 5 AND toInteger(split(c.date,'/')[0]) <= 11 RETURN count(*) AS n"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-T20",
+    "question": "When did phone 0-(008)297-1581 last contact 9-(984)524-5395?",
+    "num_hops": 2,
+    "is_ambiguous": true,
+    "ambiguity_type": "temporal",
+    "default_interp": "Most recent single contact",
+    "cypher_default": "MATCH (p1:Phone {phoneNo:'0-(008)297-1581'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'9-(984)524-5395'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date DESC, pc.call_time DESC LIMIT 1",
+    "interpretations": [
+      {
+        "interp": "Most recent only: 20/08/2017 00:05",
+        "cypher": "MATCH (p1:Phone {phoneNo:'0-(008)297-1581'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'9-(984)524-5395'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date DESC, pc.call_time DESC LIMIT 1"
+      },
+      {
+        "interp": "Full contact history: 04/08/2017 00:32 and 20/08/2017 00:05",
+        "cypher": "MATCH (p1:Phone {phoneNo:'0-(008)297-1581'})<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone {phoneNo:'9-(984)524-5395'}) RETURN pc.call_date, pc.call_time ORDER BY pc.call_date, pc.call_time"
+      }
+    ]
+  },
+  {
+    "question_id": "Q-POLE-U01",
+    "question": "What rank does the officer with badge number 80-1015383 hold?",
+    "num_hops": 0,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct/keyed property lookup",
+    "cypher_default": "MATCH (o:Officer {badge_no:'80-1015383'}) RETURN o.rank",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-POLE-U02",
+    "question": "What is the surname of the officer with badge number 70-0643982?",
+    "num_hops": 0,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct/keyed property lookup",
+    "cypher_default": "MATCH (o:Officer {badge_no:'70-0643982'}) RETURN o.surname",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-POLE-U03",
+    "question": "What rank is the officer with badge number 57-6110377?",
+    "num_hops": 0,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct/keyed property lookup",
+    "cypher_default": "MATCH (o:Officer {badge_no:'57-6110377'}) RETURN o.rank",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-POLE-U04",
+    "question": "Who is Betty Kennedy related to by family?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct FAMILY_REL relationship lookup (2 people: Donna Frazier, Anne Clark)",
+    "cypher_default": "MATCH (p1:Person {surname:'Kennedy', name:'Betty'})-[:FAMILY_REL]-(p2:Person) RETURN DISTINCT p2.name, p2.surname",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-POLE-U05",
+    "question": "Who does Denise Rodriguez know?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct generic KNOWS relationship lookup (1 person: Alice Mcdonald)",
+    "cypher_default": "MATCH (p1:Person {surname:'Rodriguez', name:'Denise'})-[:KNOWS]-(p2:Person) RETURN DISTINCT p2.name, p2.surname",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-POLE-U06",
+    "question": "What make is the vehicle with registration RY52 APF?",
+    "num_hops": 0,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct/keyed property lookup",
+    "cypher_default": "MATCH (v:Vehicle {reg:'RY52 APF'}) RETURN v.make",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-POLE-U07",
+    "question": "What model is the vehicle with registration RH42 TAB?",
+    "num_hops": 0,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct/keyed property lookup",
+    "cypher_default": "MATCH (v:Vehicle {reg:'RH42 TAB'}) RETURN v.model",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-POLE-U08",
+    "question": "What year was the vehicle with registration LW72 POF made?",
+    "num_hops": 0,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct/keyed property lookup",
+    "cypher_default": "MATCH (v:Vehicle {reg:'LW72 POF'}) RETURN v.year",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-POLE-U09",
+    "question": "What phone number is registered to the person with NHS number 991-70-5333?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct/keyed property lookup",
+    "cypher_default": "MATCH (p:Person {nhs_no:'991-70-5333'})-[:HAS_PHONE]->(ph:Phone) RETURN ph.phoneNo",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-POLE-U10",
+    "question": "What email address is registered to the person with NHS number 556-65-1110?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct/keyed property lookup",
+    "cypher_default": "MATCH (p:Person {nhs_no:'556-65-1110'})-[:HAS_EMAIL]->(e:Email) RETURN e.email_address",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-POLE-U11",
+    "question": "What postcode covers 178 Polding Street?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct/keyed property lookup",
+    "cypher_default": "MATCH (l:Location {address:'178 Polding Street'})-[:HAS_POSTCODE]->(pc:PostCode) RETURN pc.code",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-POLE-U12",
+    "question": "What postcode covers 6 Gypsy Lane?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct/keyed property lookup",
+    "cypher_default": "MATCH (l:Location {address:'6 Gypsy Lane'})-[:HAS_POSTCODE]->(pc:PostCode) RETURN pc.code",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-POLE-U13",
+    "question": "What postcode covers 116 Myrtle Street?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct/keyed property lookup",
+    "cypher_default": "MATCH (l:Location {address:'116 Myrtle Street'})-[:HAS_POSTCODE]->(pc:PostCode) RETURN pc.code",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-POLE-U14",
+    "question": "What postcode covers 53 Birch Lane?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct/keyed property lookup",
+    "cypher_default": "MATCH (l:Location {address:'53 Birch Lane'})-[:HAS_POSTCODE]->(pc:PostCode) RETURN pc.code",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-POLE-U15",
+    "question": "What area is postcode WN3 4NL in?",
+    "num_hops": 1,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct/keyed property lookup",
+    "cypher_default": "MATCH (pc:PostCode {code:'WN3 4NL'})-[:POSTCODE_IN_AREA]->(a:Area) RETURN a.areaCode",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-POLE-U16",
+    "question": "What type of crime was recorded under ID 10305fdb9613b698a9fe8a26468564ebe15ba01eb870994739180ffc51440c31?",
+    "num_hops": 0,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct/keyed property lookup",
+    "cypher_default": "MATCH (c:Crime {id:'10305fdb9613b698a9fe8a26468564ebe15ba01eb870994739180ffc51440c31'}) RETURN c.type",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-POLE-U17",
+    "question": "On what date did crime 8dae6537bfb64a92cc91539ce9e76abf729f60592a9c503300905130afaacef4 occur?",
+    "num_hops": 0,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct/keyed property lookup",
+    "cypher_default": "MATCH (c:Crime {id:'8dae6537bfb64a92cc91539ce9e76abf729f60592a9c503300905130afaacef4'}) RETURN c.date",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-POLE-U18",
+    "question": "What is the last recorded outcome for crime 9bc0db533b9248a8b3a7ac151f273fe01f25ad72b394dd5cc6ef9bd6558eb707?",
+    "num_hops": 0,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct/keyed property lookup",
+    "cypher_default": "MATCH (c:Crime {id:'9bc0db533b9248a8b3a7ac151f273fe01f25ad72b394dd5cc6ef9bd6558eb707'}) RETURN c.last_outcome",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-POLE-U19",
+    "question": "What is the surname of the person with NHS number 117-66-8129?",
+    "num_hops": 0,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct/keyed property lookup",
+    "cypher_default": "MATCH (p:Person {nhs_no:'117-66-8129'}) RETURN p.surname",
+    "interpretations": []
+  },
+  {
+    "question_id": "Q-POLE-U20",
+    "question": "What is the surname of the person with NHS number 620-83-1546?",
+    "num_hops": 0,
+    "is_ambiguous": false,
+    "ambiguity_type": null,
+    "default_interp": "Direct/keyed property lookup",
+    "cypher_default": "MATCH (p:Person {nhs_no:'620-83-1546'}) RETURN p.surname",
+    "interpretations": []
+  }
+]

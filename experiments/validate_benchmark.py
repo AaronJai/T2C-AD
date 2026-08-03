@@ -3,12 +3,14 @@
 
 Makes a benchmark's correctness *executable*: every gold Cypher must run non-empty on the
 live KG and every ambiguous item's interpretations must return pairwise-distinct result
-sets — the precondition that makes DSR / Execution-Accuracy measurable. Version-agnostic:
-takes a benchmark path, so it is reusable on any benchmark over the v3 schema.
+sets — the precondition that makes DSR / Execution-Accuracy measurable. Version-agnostic via
+`BenchmarkProfile` (9.2): a profile carries the relationship-type inventory, expected
+distribution/total, and coverage floor for whichever schema the benchmark is authored
+against, so the same 8-gate harness serves v3 and the external POLE benchmark alike.
 
 CLI:
     python -m experiments.validate_benchmark --benchmark data/benchmark-v3.json \
-        [--report results/benchmark_v3_validation.json]
+        [--report results/benchmark_v3_validation.json] [--profile {v3,pole_external}]
 
 Connects via the same NEO4J_URI / NEO4J_USERNAME / NEO4J_PASSWORD env contract as 3.2+.
 Writes a per-gate / per-item JSON report and exits non-zero on any gate failure.
@@ -56,6 +58,53 @@ EXPECTED_DISTRIBUTION = {None: 40, "schema": 20, "entity": 20, "intent": 20, "te
 EXPECTED_TOTAL = 120
 MAX_HOPS = 3
 MIN_COVERAGE = 3
+
+
+# ── BenchmarkProfile (9.2) — generalizes gates 2 & 8 beyond the v3-hardcoded constants ─
+@dataclass
+class BenchmarkProfile:
+    """The per-schema inventory/expectations gates 2 (distribution) and 8 (coverage) read.
+
+    Gates 3-6 already route through CyVer's live-introspecting validators and db_executor
+    against whatever the connection points at, so they need no profile — only the two gates
+    that previously read module-level v3 constants do.
+    """
+    name: str
+    rel_types: list[str]                              # closure target for gate 8 (coverage)
+    expected_distribution: dict[Optional[str], int]    # gate 2
+    expected_total: int                                # gate 2
+    max_hops: int = 3                                  # gate 7
+    min_coverage: int = 3                               # gate 8
+
+
+V3_PROFILE = BenchmarkProfile(
+    name="v3",
+    rel_types=V3_REL_TYPES,
+    expected_distribution=EXPECTED_DISTRIBUTION,
+    expected_total=EXPECTED_TOTAL,
+    max_hops=MAX_HOPS,
+    min_coverage=MIN_COVERAGE,
+)
+
+# ── POLE-external schema inventory (9.1, docs/neo4jpole.md) — the closure target ──────
+POLE_EXTERNAL_REL_TYPES = [
+    "CURRENT_ADDRESS", "HAS_PHONE", "HAS_EMAIL", "HAS_POSTCODE", "POSTCODE_IN_AREA",
+    "LOCATION_IN_AREA", "KNOWS_SN", "KNOWS", "CALLER", "CALLED", "KNOWS_PHONE",
+    "OCCURRED_AT", "INVESTIGATED_BY", "INVOLVED_IN", "PARTY_TO", "FAMILY_REL", "KNOWS_LW",
+]
+
+POLE_EXTERNAL_PROFILE = BenchmarkProfile(
+    name="pole_external",
+    rel_types=POLE_EXTERNAL_REL_TYPES,
+    expected_distribution={None: 20, "schema": 20, "entity": 20, "intent": 20, "temporal": 20},
+    expected_total=100,
+    max_hops=3,
+    # Relaxed from v3's 3: several real relationship types are structurally rare in this
+    # graph (PARTY_TO has only 55 edges total, FAMILY_REL 155) — a >=3-item bar designed
+    # for the *authored* synthetic v3 schema is not realistic here without contriving
+    # repetitive questions against the coverage gate. See decisions-log 2026-08-02.
+    min_coverage=1,
+)
 
 
 # ── helpers ───────────────────────────────────────────────────────────────────────
@@ -121,14 +170,14 @@ class GateResult:
 
 
 # ── offline gates (DB-free — unit-testable) ───────────────────────────────────────
-def gate_distribution(items: list[BenchmarkItem]) -> GateResult:
+def gate_distribution(items: list[BenchmarkItem], profile: BenchmarkProfile = V3_PROFILE) -> GateResult:
     """Gate 2: count, per-type distribution, unique question_id and question text."""
     failures: list[dict] = []
-    if len(items) != EXPECTED_TOTAL:
-        failures.append({"issue": "count", "expected": EXPECTED_TOTAL, "got": len(items)})
+    if len(items) != profile.expected_total:
+        failures.append({"issue": "count", "expected": profile.expected_total, "got": len(items)})
     dist = Counter(it.ambiguity_type for it in items)
-    if dict(dist) != EXPECTED_DISTRIBUTION:
-        failures.append({"issue": "distribution", "expected": {str(k): v for k, v in EXPECTED_DISTRIBUTION.items()},
+    if dict(dist) != profile.expected_distribution:
+        failures.append({"issue": "distribution", "expected": {str(k): v for k, v in profile.expected_distribution.items()},
                          "got": {str(k): v for k, v in dist.items()}})
     id_dups = [q for q, n in Counter(it.question_id for it in items).items() if n > 1]
     if id_dups:
@@ -156,24 +205,24 @@ def gate_hops(items: list[BenchmarkItem]) -> GateResult:
     return GateResult("7_hop_honesty", not failures, failures)
 
 
-def gate_coverage(items: list[BenchmarkItem]) -> GateResult:
-    """Gate 8: each of the 11 v3 relationship types appears in >=3 items' gold Cypher."""
+def gate_coverage(items: list[BenchmarkItem], profile: BenchmarkProfile = V3_PROFILE) -> GateResult:
+    """Gate 8: each of profile.rel_types appears in >=profile.min_coverage items' gold Cypher."""
     per_type: Counter[str] = Counter()
     for it in items:
         item_types: set[str] = set()
         for cy in gold_cyphers(it):
-            item_types |= (rel_types_in(cy) & set(V3_REL_TYPES))
+            item_types |= (rel_types_in(cy) & set(profile.rel_types))
         for rt in item_types:
             per_type[rt] += 1
-    failures = [{"relationship_type": rt, "items": per_type[rt], "required": MIN_COVERAGE}
-                for rt in V3_REL_TYPES if per_type[rt] < MIN_COVERAGE]
+    failures = [{"relationship_type": rt, "items": per_type[rt], "required": profile.min_coverage}
+                for rt in profile.rel_types if per_type[rt] < profile.min_coverage]
     return GateResult("8_coverage", not failures, failures,
-                      detail={rt: per_type[rt] for rt in V3_REL_TYPES})
+                      detail={rt: per_type[rt] for rt in profile.rel_types})
 
 
-def run_offline_gates(items: list[BenchmarkItem]) -> list[GateResult]:
+def run_offline_gates(items: list[BenchmarkItem], profile: BenchmarkProfile = V3_PROFILE) -> list[GateResult]:
     """Gates 2, 7, 8 — no database required (used by the offline unit tests)."""
-    return [gate_distribution(items), gate_hops(items), gate_coverage(items)]
+    return [gate_distribution(items, profile), gate_hops(items), gate_coverage(items, profile)]
 
 
 # ── live gates (require a driver + CyVer) ─────────────────────────────────────────
@@ -264,7 +313,8 @@ def _open_driver():
     return driver
 
 
-def validate(benchmark_path: str, report_path: Optional[str] = None) -> dict:
+def validate(benchmark_path: str, report_path: Optional[str] = None,
+            profile: BenchmarkProfile = V3_PROFILE) -> dict:
     """Run all 8 gates against the live KG; write the report; return the report dict."""
     database = os.environ.get("NEO4J_DATABASE", "neo4j")
     gates: list[GateResult] = []
@@ -274,13 +324,13 @@ def validate(benchmark_path: str, report_path: Optional[str] = None) -> dict:
         items = load_benchmark(benchmark_path)
         gates.append(GateResult("1_loads", True, detail={"items": len(items)}))
     except (ValueError, TypeError) as e:
-        report = {"benchmark": benchmark_path, "passed": False,
+        report = {"benchmark": benchmark_path, "profile": profile.name, "passed": False,
                   "gates": {"1_loads": {"passed": False, "failures": [{"error": str(e)}]}}}
         _write_report(report, report_path)
         return report
 
     # Gates 2, 7, 8 (offline).
-    gates.extend(run_offline_gates(items))
+    gates.extend(run_offline_gates(items, profile))
 
     # Gates 3–6 (live).
     driver = _open_driver()
@@ -295,7 +345,7 @@ def validate(benchmark_path: str, report_path: Optional[str] = None) -> dict:
         driver.close()
 
     passed = all(g.passed for g in gates)
-    report = {"benchmark": benchmark_path, "passed": passed,
+    report = {"benchmark": benchmark_path, "profile": profile.name, "passed": passed,
               "gates": {g.name: g.as_dict() for g in sorted(gates, key=lambda g: g.name)}}
     _write_report(report, report_path)
     return report
@@ -318,12 +368,16 @@ def _print_summary(report: dict) -> None:
     print("OVERALL:", "PASS" if report["passed"] else "FAIL")
 
 
+_PROFILES = {"v3": V3_PROFILE, "pole_external": POLE_EXTERNAL_PROFILE}
+
+
 def main(argv: Optional[list[str]] = None) -> int:
     ap = argparse.ArgumentParser(description="Executable benchmark validation harness (7.2).")
     ap.add_argument("--benchmark", default="data/benchmark-v3.json")
     ap.add_argument("--report", default=None)
+    ap.add_argument("--profile", choices=sorted(_PROFILES), default="v3")
     args = ap.parse_args(argv)
-    report = validate(args.benchmark, args.report)
+    report = validate(args.benchmark, args.report, _PROFILES[args.profile])
     _print_summary(report)
     return 0 if report["passed"] else 1
 
