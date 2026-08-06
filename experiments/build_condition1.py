@@ -12,7 +12,8 @@ from pipeline.types import SchemaRepr
 
 def build_condition1(*, neo4j_uri: str, neo4j_auth: tuple, database_name, base_model_spec: dict,
                      schema: SchemaRepr,
-                     qg_include_properties: Optional[bool] = None) -> PipelineComponents:
+                     qg_include_properties: Optional[bool] = None,
+                     qg_few_shot: Optional[str] = None) -> PipelineComponents:
     """Zero-shot baseline: the base model generates Cypher with no committed pattern.
     No Schema Linker, Ambiguity Detector, Disambiguator, or entity cache.
     base_model_spec e.g. {"backend": "huggingface", "model_name_or_path": "mistralai/Mistral-7B-v0.1"}.
@@ -27,7 +28,8 @@ def build_condition1(*, neo4j_uri: str, neo4j_auth: tuple, database_name, base_m
     """
     base = build_llm(base_model_spec)
     return PipelineComponents.build(
-        query_generator=QueryGenerator(base, include_properties=qg_include_properties),
+        query_generator=QueryGenerator(base, include_properties=qg_include_properties,
+                                       few_shot_override=qg_few_shot),
         schema_linker=None, ad_llm=None, dis_llm=None,
         neo4j_uri=neo4j_uri, neo4j_auth=neo4j_auth, database_name=database_name,
         schema=schema, use_prefilter=False, load_entity_cache=False,

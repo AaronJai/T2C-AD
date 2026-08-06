@@ -12,14 +12,18 @@ import yaml
 from experiments.build_condition1 import build_condition1
 from experiments.build_condition2 import build_condition2
 from experiments.build_condition3 import build_condition3
-from pipeline.ambiguity.prompts import AD_SYSTEM_PROMPT, AD_SYSTEM_PROMPT_V3
+from pipeline.ambiguity.prompts import (AD_SYSTEM_PROMPT, AD_SYSTEM_PROMPT_POLE_EXTERNAL,
+                                        AD_SYSTEM_PROMPT_V3)
 from pipeline.data.benchmark_loader import load_benchmark
-from pipeline.disambiguator.prompts import DIS_SYSTEM_PROMPT, DIS_SYSTEM_PROMPT_V3
+from pipeline.disambiguator.prompts import (DIS_SYSTEM_PROMPT, DIS_SYSTEM_PROMPT_POLE_EXTERNAL,
+                                            DIS_SYSTEM_PROMPT_V3)
 from pipeline.entity_lookup.registry import registry_for_version
 from pipeline.evaluation.metrics import (MetricBundle, QuestionRecord, compute_metrics,
                                          format_metric_tables)
 from pipeline.orchestrator import Orchestrator
-from pipeline.schema import adapter_suffix_for_version, build_pole_schema_repr, build_pole_v3_schema_repr
+from pipeline.query_generator.prompts import _QG_FEW_SHOT_API_POLE_EXTERNAL
+from pipeline.schema import (adapter_suffix_for_version, build_pole_external_schema_repr,
+                             build_pole_schema_repr, build_pole_v3_schema_repr)
 from pipeline.types import BenchmarkItem, Condition, EvaluationResult
 
 
@@ -131,11 +135,14 @@ def _persist_details(results_dir: str, model_key: str, details_by_condition: dic
 
 
 def resolve_dataset(cfg: dict) -> dict:
-    """Resolve the version-specific run objects from config, without loading any model (7.3).
+    """Resolve the version-specific run objects from config, without loading any model (7.3;
+    'pole_external' branch added 9.3).
 
-    Returns the schema repr, entity registry, AD/Dis system prompts, results_tag and benchmark
-    path for `dataset_version` (default 'v2' when the key is absent → the frozen baseline). v2 is
-    byte-identical to pre-7.3 behaviour; 'v3' selects the concise schema/registry/prompts.
+    Returns the schema repr, entity registry, AD/Dis system prompts, QG few-shot override,
+    results_tag and benchmark path for `dataset_version` (default 'v2' when the key is absent →
+    the frozen baseline). v2/v3 stay byte-identical to pre-9.3 behaviour (`qg_few_shot: None` →
+    `QueryGenerator` keeps its built-in `_QG_FEW_SHOT_API` default, 9.4); 'pole_external' selects
+    the real external-graph schema/registry/prompts (9.1/9.2) plus its QG few-shot (9.4).
     """
     version = cfg.get("dataset_version", "v2")
     if version == "v3":
@@ -145,6 +152,7 @@ def resolve_dataset(cfg: dict) -> dict:
             "entity_registry": registry_for_version("v3"),
             "ad_system_prompt": AD_SYSTEM_PROMPT_V3,
             "dis_system_prompt": DIS_SYSTEM_PROMPT_V3,
+            "qg_few_shot": None,
             "adapter_suffix": adapter_suffix_for_version("v3"),
             "results_tag": cfg.get("results_tag", ""),
             "benchmark": cfg["benchmark"],
@@ -156,11 +164,25 @@ def resolve_dataset(cfg: dict) -> dict:
             "entity_registry": registry_for_version("v2"),
             "ad_system_prompt": AD_SYSTEM_PROMPT,
             "dis_system_prompt": DIS_SYSTEM_PROMPT,
+            "qg_few_shot": None,
             "adapter_suffix": adapter_suffix_for_version("v2"),
             "results_tag": cfg.get("results_tag", ""),
             "benchmark": cfg["benchmark"],
         }
-    raise SystemExit(f"Unknown dataset_version '{version}' in config. Known: 'v2', 'v3'.")
+    if version == "pole_external":
+        return {
+            "dataset_version": "pole_external",
+            "schema": build_pole_external_schema_repr(),
+            "entity_registry": registry_for_version("pole_external"),
+            "ad_system_prompt": AD_SYSTEM_PROMPT_POLE_EXTERNAL,
+            "dis_system_prompt": DIS_SYSTEM_PROMPT_POLE_EXTERNAL,
+            "qg_few_shot": _QG_FEW_SHOT_API_POLE_EXTERNAL,
+            "adapter_suffix": adapter_suffix_for_version("pole_external"),
+            "results_tag": cfg.get("results_tag", ""),
+            "benchmark": cfg["benchmark"],
+        }
+    raise SystemExit(
+        f"Unknown dataset_version '{version}' in config. Known: 'v2', 'v3', 'pole_external'.")
 
 
 def _resolve_sl_decoding(sli: dict, key: str, kind: str) -> dict:
@@ -263,7 +285,8 @@ def main(config_path: str = "config/pipeline.yaml") -> None:
     with build_condition1(neo4j_uri=neo4j_uri, neo4j_auth=neo4j_auth, database_name=database,
                           base_model_spec=dict(base_spec),
                           schema=schema,
-                          qg_include_properties=qg_include_properties) as c1:
+                          qg_include_properties=qg_include_properties,
+                          qg_few_shot=ds["qg_few_shot"]) as c1:
         c1.embedding_model = embedding_model
         results, _, details = run_condition(benchmark, c1, "baseline")
         bundles["baseline"] = compute_metrics(results, ad_predictions=None)
@@ -272,7 +295,8 @@ def main(config_path: str = "config/pipeline.yaml") -> None:
     with build_condition2(neo4j_uri=neo4j_uri, neo4j_auth=neo4j_auth, database_name=database,
                           sl_spec=dict(sl_spec), qg_spec=dict(qg_spec), schema=schema,
                           prompt_style=prompt_style,
-                          qg_include_properties=qg_include_properties) as c2:
+                          qg_include_properties=qg_include_properties,
+                          qg_few_shot=ds["qg_few_shot"]) as c2:
         c2.embedding_model = embedding_model
         results, _, details = run_condition(benchmark, c2, "schema_grounded")
         bundles["schema_grounded"] = compute_metrics(results, ad_predictions=None)
@@ -287,7 +311,8 @@ def main(config_path: str = "config/pipeline.yaml") -> None:
                           ad_system_prompt=ds["ad_system_prompt"],
                           dis_system_prompt=ds["dis_system_prompt"],
                           prompt_style=prompt_style,
-                          qg_include_properties=qg_include_properties) as c3:
+                          qg_include_properties=qg_include_properties,
+                          qg_few_shot=ds["qg_few_shot"]) as c3:
         results, ad_preds, details = run_condition(benchmark, c3, "disambiguation_enhanced")
         bundles["disambiguation_enhanced"] = compute_metrics(results, ad_predictions=ad_preds)
         details_by_condition["disambiguation_enhanced"] = details

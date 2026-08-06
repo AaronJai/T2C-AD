@@ -14,7 +14,8 @@ from pipeline.types import SchemaRepr
 def build_condition2(*, neo4j_uri, neo4j_auth, database_name,
                      sl_spec: dict, qg_spec: dict, schema: SchemaRepr,
                      prompt_style: str = "completion",
-                     qg_include_properties: Optional[bool] = None) -> PipelineComponents:
+                     qg_include_properties: Optional[bool] = None,
+                     qg_few_shot: Optional[str] = None) -> PipelineComponents:
     """Schema Linker (beam_k=1 → top-1, no distribution) + Query Generator. No AD/Dis.
 
     `sl_spec`/`qg_spec` are full `build_llm` specs (run_evaluation, 5.4, builds them from the
@@ -35,7 +36,8 @@ def build_condition2(*, neo4j_uri, neo4j_auth, database_name,
     qg_llm = build_llm(qg_spec)
     return PipelineComponents.build(
         query_generator=QueryGenerator(qg_llm, prompt_style=prompt_style,
-                                       include_properties=qg_include_properties),
+                                       include_properties=qg_include_properties,
+                                       few_shot_override=qg_few_shot),
         schema_linker=SchemaLinker(sl_llm, beam_k=1, prompt_style=prompt_style),
         ad_llm=None, dis_llm=None,
         neo4j_uri=neo4j_uri, neo4j_auth=neo4j_auth, database_name=database_name,

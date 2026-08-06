@@ -39,10 +39,12 @@ class _FakeSchemaLinker:
 
 
 class _FakeQueryGenerator:
-    def __init__(self, llm, *, prompt_style="completion", include_properties=None) -> None:
+    def __init__(self, llm, *, prompt_style="completion", include_properties=None,
+                 few_shot_override=None) -> None:
         self.llm = llm
         self.prompt_style = prompt_style
         self.include_properties = include_properties
+        self.few_shot_override = few_shot_override
 
 
 class _Captured:

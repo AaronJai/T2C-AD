@@ -122,15 +122,71 @@ def build_pole_v3_schema_repr() -> SchemaRepr:
     )
 
 
+def build_pole_external_schema_repr() -> SchemaRepr:
+    """The external `neo4j-graph-examples/pole` schema (9.1 audit): 11 node labels, 17
+    relationship types. Real graph, not designed — no dated/state-change edge properties
+    anywhere (`FAMILY_REL.rel_type` is the only relationship property); temporal ambiguity
+    lives on node properties (`Crime.date`, `PhoneCall.call_date`/`call_time`) instead.
+
+    `INVOLVED_IN`'s true source is `Vehicle` **or** `Object` (9.1: 978 Vehicle->Crime, 7
+    Object->Crime) — `SchemaRepr.relationship_paths` carries one {type,source,target} triple
+    per entry (the v2/v3 convention), so only the dominant Vehicle->Crime pattern is listed
+    here, mirroring how v2's SEEN_AT/REGISTERED_AT already handle single-sourced entries.
+    """
+    return SchemaRepr(
+        node_labels=[
+            "Person", "Location", "Phone", "Email", "Officer", "PostCode",
+            "Area", "PhoneCall", "Crime", "Object", "Vehicle",
+        ],
+        relationship_paths=[
+            {"type": "CURRENT_ADDRESS",   "source": "Person",    "target": "Location"},
+            {"type": "HAS_PHONE",         "source": "Person",    "target": "Phone"},
+            {"type": "HAS_EMAIL",         "source": "Person",    "target": "Email"},
+            {"type": "HAS_POSTCODE",      "source": "Location",  "target": "PostCode"},
+            {"type": "POSTCODE_IN_AREA",  "source": "PostCode",  "target": "Area"},
+            {"type": "LOCATION_IN_AREA",  "source": "Location",  "target": "Area"},
+            {"type": "KNOWS_SN",          "source": "Person",    "target": "Person"},
+            {"type": "KNOWS",             "source": "Person",    "target": "Person"},
+            {"type": "CALLER",            "source": "PhoneCall", "target": "Phone"},
+            {"type": "CALLED",            "source": "PhoneCall", "target": "Phone"},
+            {"type": "KNOWS_PHONE",       "source": "Person",    "target": "Person"},
+            {"type": "OCCURRED_AT",       "source": "Crime",     "target": "Location"},
+            {"type": "INVESTIGATED_BY",   "source": "Crime",     "target": "Officer"},
+            {"type": "INVOLVED_IN",       "source": "Vehicle",   "target": "Crime"},   # + Object->Crime (9.1)
+            {"type": "PARTY_TO",          "source": "Person",    "target": "Crime"},
+            {"type": "FAMILY_REL",        "source": "Person",    "target": "Person"},
+            {"type": "KNOWS_LW",          "source": "Person",    "target": "Person"},
+        ],
+        properties={
+            "Person":    ["nhs_no", "name", "surname"],
+            "Location":  ["address", "postcode", "latitude", "longitude"],
+            "Phone":     ["phoneNo"],
+            "Email":     ["email_address"],
+            "Officer":   ["badge_no", "name", "surname", "rank"],
+            "PostCode":  ["code"],
+            "Area":      ["areaCode"],
+            "PhoneCall": ["call_date", "call_time", "call_type", "call_duration"],
+            "Crime":     ["id", "date", "type", "last_outcome"],
+            "Object":    ["id", "description", "type"],
+            "Vehicle":   ["reg", "make", "model", "year"],
+            "FAMILY_REL": ["rel_type"],   # the one relationship type carrying a property (9.1)
+        },
+        format="nodes_and_paths",
+    )
+
+
 def build_schema_repr(version: str = "v2") -> SchemaRepr:
     """Select the schema repr by dataset version. 'v2' (default) → frozen 9/28 POLE schema;
-    'v3' → concise 6/11 schema. Consumers keep receiving a `SchemaRepr` — no consumer change.
+    'v3' → concise 6/11 schema; 'pole_external' → the real external 11/17 schema (9.3).
+    Consumers keep receiving a `SchemaRepr` — no consumer change.
     """
     if version == "v3":
         return build_pole_v3_schema_repr()
     if version == "v2":
         return build_pole_schema_repr()
-    raise ValueError(f"Unknown dataset_version '{version}'. Known: 'v2', 'v3'.")
+    if version == "pole_external":
+        return build_pole_external_schema_repr()
+    raise ValueError(f"Unknown dataset_version '{version}'. Known: 'v2', 'v3', 'pole_external'.")
 
 
 def adapter_suffix_for_version(version: str = "v2") -> str:
@@ -138,12 +194,16 @@ def adapter_suffix_for_version(version: str = "v2") -> str:
     that pairs a run's substrate with the adapters trained for it (7.4/7.5).
 
     'v2' (default) → '' → the frozen `checkpoints/{key}/{sl,qg}_adapter`; 'v3' → '_v3' → the
-    POLE-refreshed `checkpoints/{key}/{sl,qg}_adapter_v3`. Keeps v2 byte-identical while
-    `dataset_version: v3` auto-selects the v3 adapters everywhere (run_evaluation G4, the 2.2
-    sweep + 2.3 probe G2). API models carry no adapter, so this is unused for `kind: api`.
+    POLE-refreshed `checkpoints/{key}/{sl,qg}_adapter_v3`; 'pole_external' → '_pole_external'
+    (9.3) — a distinct suffix, not '', so a future locally-fine-tuned model pointed at this
+    dataset version can't silently collide with v2's checkpoint path. The API model this step
+    actually runs carries no adapter and never reads this value, so it is inert for this run.
+    Keeps v2/v3 byte-identical.
     """
     if version == "v3":
         return "_v3"
     if version == "v2":
         return ""
-    raise ValueError(f"Unknown dataset_version '{version}'. Known: 'v2', 'v3'.")
+    if version == "pole_external":
+        return "_pole_external"
+    raise ValueError(f"Unknown dataset_version '{version}'. Known: 'v2', 'v3', 'pole_external'.")

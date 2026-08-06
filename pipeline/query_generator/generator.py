@@ -33,10 +33,12 @@ class QueryGenerator:
     """
 
     def __init__(self, llm: BaseLLM, *, prompt_style: str = "completion",
-                 include_properties: Optional[bool] = None):
+                 include_properties: Optional[bool] = None,
+                 few_shot_override: Optional[str] = None):
         self.llm = llm
         self.prompt_style = prompt_style
         self.include_properties = include_properties
+        self.few_shot_override = few_shot_override
         self._build_prompt = build_qg_prompt_api if prompt_style == "instruct" else build_qg_prompt
         self._config = GenerationConfig(
             max_new_tokens=256,   # a full Cypher query is longer than a schema pattern
@@ -49,11 +51,18 @@ class QueryGenerator:
         committed = schema_mapping.cypher_syntax or None    # "" → zero-shot (C1)
         include_properties = (self.include_properties if self.include_properties is not None
                               else self.prompt_style == "instruct")
+        # few_shot_override (9.4): only meaningful on the instruct/API prompt path — the local
+        # completion path (build_qg_prompt) has no such parameter and stays untouched (train/
+        # inference match, 3.6). None (v2/v3) omits the kwarg entirely, byte-identical.
+        extra_kwargs = {}
+        if self.prompt_style == "instruct" and self.few_shot_override is not None:
+            extra_kwargs["few_shot"] = self.few_shot_override
         prompt = self._build_prompt(
             question,
             schema.to_prompt_string(include_properties=include_properties),
             committed_pattern=committed,
             error_feedback=error_feedback,    # retry path only (5.2); None on first attempt
+            **extra_kwargs,
         )
         completion = self.llm.generate(prompt, self._config)[0].text
         return _clean_cypher(completion)

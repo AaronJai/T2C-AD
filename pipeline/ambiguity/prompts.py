@@ -275,6 +275,185 @@ Classify this question.
 AD_SYSTEM_PROMPT_V3 = _AD_SYSTEM_HEAD_V3 + _AD_FEW_SHOT_V3
 
 
+# ── pole_external variant (9.3) ─────────────────────────────────────────────────────────
+# Same taxonomy/output-contract structure as the v3 head, but the schema block is the real
+# external POLE schema (build_pole_external_schema_repr, 9.1 audit) and the few-shots are
+# re-grounded in real data already on hand from the 9.1/9.2 sessions (no invention needed).
+# This graph carries NO dated/state-change relationship properties anywhere (9.1 finding) —
+# temporal ambiguity here is a same-day-vs-trailing-week date/time-window mechanism on node
+# properties (Crime.date, PhoneCall.call_date/call_time), a DIFFERENT mechanism than v2/v3's
+# edge-state (active/from_date/to_date) one; do not conflate the two in the write-up.
+_AD_SYSTEM_HEAD_POLE_EXTERNAL = """\
+You are an ambiguity classifier for a police knowledge graph question-answering system.
+Your task is to determine whether a natural-language question is ambiguous with respect to
+the graph schema, and if so, identify the type of ambiguity.
+
+A question is ambiguous if it could map to more than one structurally different Cypher query,
+each returning different results. A question is NOT ambiguous if all reasonable interpretations
+lead to the same query result.
+
+The knowledge graph is a real external POLE dataset (Person, Object, Location, Event/Crime),
+not a designed one.
+Node labels: Person, Location, Phone, Email, Officer, PostCode, Area, PhoneCall, Crime, Object, Vehicle
+Relationship types:
+  (Person)-[:CURRENT_ADDRESS]->(Location)
+  (Person)-[:HAS_PHONE]->(Phone)
+  (Person)-[:HAS_EMAIL]->(Email)
+  (Location)-[:HAS_POSTCODE]->(PostCode)
+  (PostCode)-[:POSTCODE_IN_AREA]->(Area)
+  (Location)-[:LOCATION_IN_AREA]->(Area)
+  (Person)-[:KNOWS_SN]-(Person)
+  (Person)-[:KNOWS]-(Person)
+  (PhoneCall)-[:CALLER]->(Phone)
+  (PhoneCall)-[:CALLED]->(Phone)
+  (Person)-[:KNOWS_PHONE]-(Person)
+  (Crime)-[:OCCURRED_AT]->(Location)
+  (Crime)-[:INVESTIGATED_BY]->(Officer)
+  (Vehicle)-[:INVOLVED_IN]->(Crime)   -- Object->Crime also occurs, far rarer (9.1)
+  (Person)-[:PARTY_TO]->(Crime)
+  (Person)-[:FAMILY_REL {rel_type}]-(Person)
+  (Person)-[:KNOWS_LW]-(Person)
+
+This graph has NO dated/state-change relationship properties (unlike v2/v3's active/from_date/
+to_date edges) — FAMILY_REL.rel_type is the only relationship property at all. Temporal signal
+lives on NODE properties instead: Crime.date, PhoneCall.call_date/call_time.
+
+## Ambiguity Types
+**SCHEMA**: an NL term maps to multiple relationship types / node labels / properties. In this
+  graph the confirmed axis is the digital-communication channel split: "digital contact" /
+  "communicated with digitally" -> KNOWS_SN (social-network) vs KNOWS_PHONE (phone contact),
+  which return different, non-overlapping people. Do NOT use a KNOWS-family broad-vs-narrow
+  split (e.g. bare KNOWS vs FAMILY_REL) as an ambiguity signal here — every specific KNOWS-family
+  edge (KNOWS_SN/KNOWS_PHONE/KNOWS_LW/FAMILY_REL) has a parallel generic KNOWS edge, so a union
+  that includes the generic edge returns the same person set regardless of which specific types
+  are also included; that mechanism is structurally non-divergent in this graph (9.2 finding).
+**ENTITY**: a named entity matches more than one node and the question doesn't disambiguate.
+  e.g. two distinct Persons named "Andrea George" (different nhs_no), or "Anne Rice".
+**INTENT**: the target operation is underspecified; valid readings need different RETURN clauses.
+  e.g. "aside from X" superlative questions with a real tie in the remainder (a count vs a list,
+  or which tied record to prefer) — no schema/entity ambiguity, purely what to return.
+**TEMPORAL**: which of several readings of an implicit time constraint is meant — either (a) a
+  date/time WINDOW is unspecified, e.g. "crimes around 15 August" -> same calendar day vs a
+  trailing multi-day window, or (b) the SCOPE of a time-ordered relation is unspecified, e.g.
+  "when did phone X last contact phone Y" -> the single most-recent call vs the full call
+  history. Both return different, non-overlapping results. This is a DIFFERENT mechanism than
+  v2/v3's active/from_date/to_date edge-state ambiguity — there is no `active` property anywhere
+  in this graph.
+
+## Input You Will Receive
+1. The question. 2. The schema candidate distribution (Cypher syntax + normalised scores).
+3. Entity lookup results (KG instances matching mentions). 4. A schema ambiguity score and an
+entity ambiguity score (0-1) from the candidate-distribution entropy - a signal, not a decision.
+
+## Output Format
+Respond with a JSON object ONLY. No preamble.
+{"is_ambiguous": true|false, "detected_types": [], "rationale": "..."}
+detected_types is a subset of {"schema","entity","intent","temporal"}; empty if not ambiguous.
+
+## Examples
+"""
+
+# Five few-shot examples, grounded in real items already validated in
+# data/benchmark-pole-external.json (9.2): Q-POLE-S01 (schema), Q-POLE-E01/E02 (entity),
+# Q-POLE-I01 (intent), Q-POLE-T16 (temporal, day-window mechanism), Q-POLE-T05 (temporal,
+# most-recent-vs-full-history mechanism — added 9.4, closes the 0% AD recall this mechanism
+# had under the original 4 few-shots; see decisions-log 2026-08-06). Rendered in the same
+# layout as build_ad_user_turn + the shared block serialisers, so the model sees an
+# identical format at inference time.
+_AD_FEW_SHOT_POLE_EXTERNAL = """\
+### Example 1
+Question: Who has Alan Hicks communicated with digitally?
+
+Schema candidate distribution (from Schema Linker, beam k=5):
+rel_1 candidates:
+  (Person)-[:KNOWS_SN]-(Person)   [score: 0.55]
+  (Person)-[:KNOWS_PHONE]-(Person)   [score: 0.45]
+
+Entity lookup results:
+"Alan Hicks" matches:
+  1. Person: Alan Hicks (312-77-4408) [match: 0.97]
+
+Schema ambiguity score: 0.99 (higher = more spread across candidates)
+Entity ambiguity score: 0.00 (higher = more matching instances)
+
+Classify this question.
+{"is_ambiguous": true, "detected_types": ["schema"], "rationale": "'communicated with digitally' does not say which digital channel: KNOWS_SN (social-network contact, 7 people) and KNOWS_PHONE (phone contact, 1 person) are disjoint edge types returning different, non-overlapping people (high schema score 0.99)."}
+
+### Example 2
+Question: What is Andrea George's address?
+
+Schema candidate distribution (from Schema Linker, beam k=5):
+rel_1 candidates:
+  (Person)-[:CURRENT_ADDRESS]->(Location)   [score: 0.98]
+
+Entity lookup results:
+"Andrea George" matches:
+  1. Person: Andrea George (800-46-2184) [match: 1.00]
+  2. Person: Andrea George (391-46-9135) [match: 1.00]
+
+Schema ambiguity score: 0.02 (higher = more spread across candidates)
+Entity ambiguity score: 1.00 (higher = more matching instances)
+
+Classify this question.
+{"is_ambiguous": true, "detected_types": ["entity"], "rationale": "Two distinct Person nodes (nhs_no 800-46-2184 and 391-46-9135) share the identical full name 'Andrea George' (high entity score 1.00), and the question gives nothing to tell them apart, so the result depends on which one is meant."}
+
+### Example 3
+Question: Which Inspector has investigated the most crimes, aside from Nettles Worthy?
+
+Schema candidate distribution (from Schema Linker, beam k=5):
+rel_1 candidates:
+  (Crime)-[:INVESTIGATED_BY]->(Officer)   [score: 0.94]
+
+Entity lookup results:
+"Nettles Worthy" matches:
+  1. Officer: Worthy Nettles (70-0643982) [match: 0.92]
+
+Schema ambiguity score: 0.05 (higher = more spread across candidates)
+Entity ambiguity score: 0.00 (higher = more matching instances)
+
+Classify this question.
+{"is_ambiguous": true, "detected_types": ["intent"], "rationale": "Excluding Nettles Worthy (the outright leader) leaves a genuine tie for the remainder (Winonah Skynner and Ricca Miskimmon both n=44); 'aside from X' doesn't say whether to return a single arbitrary top result, a count, or all tied records, and each reading returns a different answer."}
+
+### Example 4
+Question: How many crimes happened in area BL1 around 15 August 2017, same-day vs trailing-week?
+
+Schema candidate distribution (from Schema Linker, beam k=5):
+rel_1 candidates:
+  (Crime)-[:OCCURRED_AT]->(Location)   [score: 0.96]
+rel_2 candidates:
+  (Location)-[:LOCATION_IN_AREA]->(Area)   [score: 0.96]
+
+Entity lookup results:
+No entity ambiguity detected.
+
+Schema ambiguity score: 0.04 (higher = more spread across candidates)
+Entity ambiguity score: 0.00 (higher = more matching instances)
+
+Classify this question.
+{"is_ambiguous": true, "detected_types": ["temporal"], "rationale": "'around 15 August' does not fix a window: same-day-only (26 crimes) and the trailing 7-day window 09-15 Aug (182 crimes) are both reasonable readings of Crime.date and return very different counts. This graph has no active/from_date/to_date edge state; the ambiguity is a date-window choice on Crime.date, not edge-state."}
+
+### Example 5
+Question: When did phone 9-(776)276-2772 last contact phone 0-(377)507-0388?
+
+Schema candidate distribution (from Schema Linker, beam k=5):
+rel_1 candidates:
+  (PhoneCall)-[:CALLER]->(Phone)   [score: 0.97]
+rel_2 candidates:
+  (PhoneCall)-[:CALLED]->(Phone)   [score: 0.97]
+
+Entity lookup results:
+No entity ambiguity detected.
+
+Schema ambiguity score: 0.03 (higher = more spread across candidates)
+Entity ambiguity score: 0.00 (higher = more matching instances)
+
+Classify this question.
+{"is_ambiguous": true, "detected_types": ["temporal"], "rationale": "'last contact' does not fix the SCOPE of the call history, not a date window - no date is even mentioned. The single most-recent call (ORDER BY call_date DESC, call_time DESC LIMIT 1) and the full contact history (every call, no LIMIT) are both valid readings and return a different number of rows, so this is a query-shape/scope choice, distinct from the day-window mechanism in Example 4."}
+"""
+
+AD_SYSTEM_PROMPT_POLE_EXTERNAL = _AD_SYSTEM_HEAD_POLE_EXTERNAL + _AD_FEW_SHOT_POLE_EXTERNAL
+
+
 def _render_element(element: SchemaElement) -> str:
     """Render a SchemaElement for the candidate block.
 
