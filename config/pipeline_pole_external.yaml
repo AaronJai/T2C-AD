@@ -1,0 +1,33 @@
+# config/pipeline_pole_external.yaml — 9.3: run the whole pipeline against the external POLE
+# benchmark (data/benchmark-pole-external.json, 9.2), locally, API-backed, no GPU, no Kaya.
+#
+# Kept as a full standalone copy of config/pipeline.yaml's shape (7.3's own convention for a
+# run variant not meant to become the shared default) rather than a mutation of that file, which
+# stays on the active v2/v3 work — this avoids any risk of an in-progress v3 run accidentally
+# picking up external-benchmark settings, or vice versa.
+
+neo4j:
+  uri: "bolt://localhost:7687"
+  user: "neo4j"
+  # password via env var NEO4J_PASSWORD (do not commit real credentials) — export
+  # NEO4J_PASSWORD=changeme in the shell before running.
+  database: "neo4j"
+
+dataset_version: pole_external
+results_tag: pole_external_local          # -> tables_/metrics_/qual_records_claude-sonnet_pole_external_local.*
+
+models_registry: "config/models.yaml"
+active_model: "claude-sonnet"             # API model — no GPU, no adapters (per user: local+API now, Kaya deferred)
+
+ad: null                                  # null -> defaults to the active model's base
+dis: null                                 # null -> shares the AD backend
+
+benchmark: "data/benchmark-pole-external.json"
+schema_linker_inference: "config/schema_linker_inference.yaml"   # reuses the existing claude-sonnet
+                                            # decoding[claude-sonnet] (temperature 0.3, k=5, locked
+                                            # by the Phase 8 v3 sweep). NOT re-swept for this schema —
+                                            # a documented pragmatic default, not a re-validated one.
+                                            # A dedicated re-sweep is optional future work if the SL
+                                            # coverage on this schema looks decoding-limited.
+use_embedding_model: true
+results_dir: "results/"
