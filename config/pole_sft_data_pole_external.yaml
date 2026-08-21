@@ -1,0 +1,53 @@
+# config/pole_sft_data_pole_external.yaml — external-POLE in-domain SFT data generation (10.2).
+#
+# Same shape as config/pole_sft_data.yaml (7.4), pointed at the REAL external `neo4j-graph-
+# examples/pole` schema (11 labels / 17 relationship types) and its benchmark blocklist. The
+# `dataset_version: pole_external` key routes experiments/build_pole_sft_data.py to
+# build_pole_external_sft_dataset (the v3 config omits the key → the v3 builder, byte-identical).
+#
+# The paraphrase LLM is swappable by config (0.2 factory) — never hardcode a model name outside
+# this file. Set `paraphrase_llm: null` (or drop the key) to skip paraphrasing entirely (a quick
+# offline dry run with no API key) — templates alone still write well-formed jsonl.
+
+dataset_version: pole_external
+
+paraphrase_llm:
+  backend: anthropic
+  model: "claude-sonnet-4-6"
+
+seed: 13
+entities_per_pattern: 1        # leaf-entity samples drawn per enumerated schema pattern
+paraphrases_per_template: 3    # LLM paraphrases requested per templated question
+schema_connector_samples_per_form: 30  # grounded samples per vague-connector surface form —
+                                # single-hop rows for the two confirmed schema-ambiguity axes:
+                                # the digital-comm channel split (KNOWS_SN/KNOWS_PHONE) and
+                                # Crime-participant scope (PARTY_TO person vs INVOLVED_IN vehicle),
+                                # so the SL proposes each divergent channel/scope as a separate
+                                # single-hop beam; see pole_sft_data.py
+temporal_samples_per_form: 30  # grounded samples per temporal surface form — value-level temporal
+                                # rows carrying the 9.4 date-window / ORDER BY-LIMIT Cypher idioms
+                                # (no {active:true}; external temporal is a node-property choice)
+eval_fraction: 0.10
+disjointness_threshold: 0.90   # rapidfuzz token_set_ratio (0-1); exact normalised match also drops
+max_rows: 2200                 # deterministic shuffle+slice cap after the disjointness gate —
+                                # the exhaustive 1-3 hop pattern walk × templates × paraphrases
+                                # comfortably overshoots the ~1,500-2,500 target row count
+
+benchmark_path: "data/benchmark-pole-external.json"
+skeleton_path: null            # this external benchmark ships no in-repo skeleton (9.1)
+report_path: "results/pole_ext_sft_generation_report.json"
+
+output:
+  sl_train: "data/pole_ext_sl_train.jsonl"
+  sl_eval:  "data/pole_ext_sl_eval.jsonl"
+  qg_train: "data/pole_ext_qg_train.jsonl"
+  qg_eval:  "data/pole_ext_qg_eval.jsonl"
+
+# Ozsoy-replay mix for the external continue-SFT train YAMLs (10.3/10.6) — built by the same CLI
+# run, right after the four files above. replay_size is the mix-ratio knob.
+ozsoy_replay:
+  sl_source: "data/ozsoy_schema_linker_train.jsonl"
+  sl_out: "data/pole_ext_sl_train_mixed.jsonl"
+  qg_source: "data/ozsoy_qg_train.jsonl"
+  qg_out: "data/pole_ext_qg_train_mixed.jsonl"
+  replay_size: 4000
