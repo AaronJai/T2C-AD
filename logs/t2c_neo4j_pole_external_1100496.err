@@ -1,0 +1,2 @@
+slurmstepd: error: *** JOB 1100496 ON k001 CANCELLED AT 2026-08-21T20:44:00 ***
+INFO:    Cleanup error: while stopping driver for /var/lib/apptainer/mnt/session/final: fuse-overlayfs exited: fuse: reading device: Software caused connection abort

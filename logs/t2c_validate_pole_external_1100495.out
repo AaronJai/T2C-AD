@@ -1,0 +1,53 @@
+Job 1100495 on k001 at Fri 21 Aug 2026 20:41:44 AWST
+Wiping external-POLE volume /group/pmc084/atan/neo4j_data_pole_external and loading from /group/pmc084/atan/dumps/pole-external/neo4j.dump.
+Fresh volume — setting initial password via neo4j-admin
+Changed password for user 'neo4j'. IMPORTANT: this change will only take effect if performed before the database is started for the first time.
+Loading dump /group/pmc084/atan/dumps/pole-external/neo4j.dump into database 'neo4j'
+WARNING: The database: neo4j has a deprecated store format: standard. For details on deprecated store formats, see https://neo4j.com/docs/store-format-deprecations.
+Dump loaded into offline store.
+Directories in use:
+home:         /var/lib/neo4j
+config:       /var/lib/neo4j/conf
+logs:         /var/lib/neo4j/logs
+plugins:      /var/lib/neo4j/plugins
+import:       /var/lib/neo4j/import
+data:         /var/lib/neo4j/data
+certificates: /var/lib/neo4j/certificates
+licenses:     /var/lib/neo4j/licenses
+run:          /var/lib/neo4j/run
+Starting Neo4j.
+2026-08-21 12:41:55.856+0000 INFO  Logging config in use: File '/var/lib/neo4j/conf/user-logs.xml'
+2026-08-21 12:41:55.885+0000 INFO  Starting...
+2026-08-21 12:41:56.758+0000 INFO  This instance is ServerId{6dc49cca} (6dc49cca-b8cb-40b7-b18c-31816a527c93)
+2026-08-21 12:41:58.035+0000 INFO  ======== Neo4j 5.26.27 ========
+2026-08-21 12:42:01.201+0000 INFO  Anonymous Usage Data is being sent to Neo4j, see https://neo4j.com/docs/usage-data/
+2026-08-21 12:42:01.236+0000 INFO  Bolt enabled on localhost:7687.
+2026-08-21 12:42:02.651+0000 INFO  HTTP enabled on localhost:7474.
+2026-08-21 12:42:02.651+0000 INFO  Remote interface available at http://localhost:7474/
+2026-08-21 12:42:02.654+0000 INFO  id: D7BA7CCC8582A31BE71B5662776EAA49EACEBCF9BEBC32C523034AC41C3117D8
+2026-08-21 12:42:02.654+0000 INFO  name: system
+2026-08-21 12:42:02.654+0000 INFO  creationDate: 2026-08-21T12:41:59.754Z
+2026-08-21 12:42:02.655+0000 INFO  Started.
+Neo4j ready after 3 checks.
+── Graph spot-check ──
+nodes
+61521
+relationships
+105840
+── Running validation harness (--profile pole_external) ──
+Benchmark: data/benchmark-pole-external.json
+  [PASS] 1_loads
+  [PASS] 2_distribution
+  [PASS] 3_syntax
+  [PASS] 4_schema_closure
+  [PASS] 5_nonempty_execution
+  [PASS] 6_interpretation_divergence
+  [PASS] 7_hop_honesty
+  [PASS] 8_coverage
+OVERALL: PASS
+Harness exit code: 0 (0 = all 8 gates green)
+Finished at Fri 21 Aug 2026 20:42:40 AWST
+Stopping neo4j (pid 1700557) at Fri 21 Aug 2026 20:42:40 AWST
+2026-08-21 12:42:40.591+0000 INFO  Neo4j Server shutdown initiated by request
+2026-08-21 12:42:40.592+0000 INFO  Stopping...
+2026-08-21 12:42:45.978+0000 INFO  Stopped.

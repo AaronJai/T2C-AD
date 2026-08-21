@@ -1,0 +1,37 @@
+Job 1100496 on k001 at Fri 21 Aug 2026 20:43:39 AWST
+KEEP=1 — reusing existing external-POLE volume at /group/pmc084/atan/neo4j_data_pole_external (no reload).
+Directories in use:
+home:         /var/lib/neo4j
+config:       /var/lib/neo4j/conf
+logs:         /var/lib/neo4j/logs
+plugins:      /var/lib/neo4j/plugins
+import:       /var/lib/neo4j/import
+data:         /var/lib/neo4j/data
+certificates: /var/lib/neo4j/certificates
+licenses:     /var/lib/neo4j/licenses
+run:          /var/lib/neo4j/run
+Starting Neo4j.
+2026-08-21 12:43:44.742+0000 INFO  Logging config in use: File '/var/lib/neo4j/conf/user-logs.xml'
+2026-08-21 12:43:44.767+0000 INFO  Starting...
+2026-08-21 12:43:45.684+0000 INFO  This instance is ServerId{6dc49cca} (6dc49cca-b8cb-40b7-b18c-31816a527c93)
+2026-08-21 12:43:47.005+0000 INFO  ======== Neo4j 5.26.27 ========
+2026-08-21 12:43:49.531+0000 INFO  Anonymous Usage Data is being sent to Neo4j, see https://neo4j.com/docs/usage-data/
+2026-08-21 12:43:49.577+0000 INFO  Bolt enabled on localhost:7687.
+2026-08-21 12:43:51.648+0000 INFO  HTTP enabled on localhost:7474.
+2026-08-21 12:43:51.654+0000 INFO  Remote interface available at http://localhost:7474/
+2026-08-21 12:43:51.657+0000 INFO  id: D7BA7CCC8582A31BE71B5662776EAA49EACEBCF9BEBC32C523034AC41C3117D8
+2026-08-21 12:43:51.657+0000 INFO  name: system
+2026-08-21 12:43:51.657+0000 INFO  creationDate: 2026-08-21T12:41:59.754Z
+2026-08-21 12:43:51.657+0000 INFO  Started.
+Neo4j ready after 2 checks.
+── Graph spot-check ──
+nodes
+61521
+relationships
+105840
+Neo4j external-POLE ready: bolt://localhost:7687 (user neo4j, password $NEO4J_PASSWORD=pole-dev-password)
+Node: k001 — connect from a job/session on the same node.
+Stopping neo4j (pid 1701368) at Fri 21 Aug 2026 20:44:00 AWST
+2026-08-21 12:44:00.469+0000 INFO  Neo4j Server shutdown initiated by request
+2026-08-21 12:44:00.473+0000 INFO  Stopping...
+2026-08-21 12:44:10.725+0000 INFO  Stopped.
