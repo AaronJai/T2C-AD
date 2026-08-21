@@ -1,0 +1,32 @@
+{
+  "beam_k": 5,
+  "decoding": {
+    "strategy": "sample",
+    "temperature": 0.3,
+    "k": 5
+  },
+  "diversity_penalty": null,
+  "baseline_auc": 0.62,
+  "headline_signal": "h_norm_candidates",
+  "auc_table": [
+    {
+      "signal": "h_norm_candidates",
+      "pole_sft_auc": 0.5253125,
+      "prior_general_auc": 0.622
+    },
+    {
+      "signal": "h_norm_beams",
+      "pole_sft_auc": 0.5253125,
+      "prior_general_auc": 0.624
+    },
+    {
+      "signal": "top_beam_dominance",
+      "pole_sft_auc": 0.5253125,
+      "prior_general_auc": 0.625
+    }
+  ],
+  "ablation_spread": 0.0,
+  "ablations_flat": true,
+  "headline_improves_over_baseline": false,
+  "finding": "POLE-SFT entropy AUC (0.525) is flat/at the ~0.62 general-model baseline. This is still acceptable: the design treats the entropy signal as secondary and the LLM self-assessment as primary \u2014 note it, do not change the architecture. Ablations remain flat (spread 0.000 <= 0.01): the scoring function is not the bottleneck (beam diversity is), so 3.3 may use the simplest scorer (normalised entropy) without loss."
+}

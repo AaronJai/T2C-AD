@@ -1,0 +1,40 @@
+{
+  "patterns_enumerated": 840,
+  "raw_candidates": 3356,
+  "schema_connector_rows": 240,
+  "disjointness_dropped": 82,
+  "duplicate_dropped": 51,
+  "max_rows_trimmed": 1223,
+  "kept": 2000,
+  "sl_train": 1800,
+  "sl_eval": 200,
+  "qg_train": 1800,
+  "qg_eval": 200,
+  "sl_coverage_by_rel_type": {
+    "INVESTIGATES": 651,
+    "ASSOCIATED_WITH": 587,
+    "VICTIM_OF": 630,
+    "OWNS": 406,
+    "LIVES_AT": 561,
+    "USES_PHONE": 428,
+    "WITNESSED": 657,
+    "OCCURRED_AT": 359,
+    "CALLED": 145,
+    "CONTAINS": 255,
+    "SUSPECTED_OF": 636
+  },
+  "pattern_count_by_rel_type": {
+    "SUSPECTED_OF": 268,
+    "WITNESSED": 268,
+    "VICTIM_OF": 268,
+    "INVESTIGATES": 268,
+    "LIVES_AT": 228,
+    "OWNS": 176,
+    "USES_PHONE": 240,
+    "ASSOCIATED_WITH": 254,
+    "CONTAINS": 104,
+    "OCCURRED_AT": 158,
+    "CALLED": 78
+  },
+  "paraphrase_used": false
+}

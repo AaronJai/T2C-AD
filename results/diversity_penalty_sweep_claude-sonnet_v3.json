@@ -1,0 +1,48 @@
+{
+  "beam_k": 5,
+  "cov_guardrail": 0.85,
+  "values": [
+    {
+      "decoding": {
+        "strategy": "sample",
+        "temperature": 0.3,
+        "k": 5
+      },
+      "diversity_penalty": null,
+      "temperature": 0.3,
+      "entropy_auc": 0.525,
+      "cov_at_5": 0.6666666666666666,
+      "hallucination_rate": 0.0
+    },
+    {
+      "decoding": {
+        "strategy": "sample",
+        "temperature": 0.7,
+        "k": 5
+      },
+      "diversity_penalty": null,
+      "temperature": 0.7,
+      "entropy_auc": 0.53125,
+      "cov_at_5": 0.6583333333333333,
+      "hallucination_rate": 0.0
+    },
+    {
+      "decoding": {
+        "strategy": "sample",
+        "temperature": 1.0,
+        "k": 5
+      },
+      "diversity_penalty": null,
+      "temperature": 1.0,
+      "entropy_auc": 0.5375,
+      "cov_at_5": 0.6583333333333333,
+      "hallucination_rate": 0.0
+    }
+  ],
+  "chosen_decoding": {
+    "strategy": "sample",
+    "temperature": 0.3,
+    "k": 5
+  },
+  "selection_reason": "NO temperature cleared Cov@5 \u2265 0.85; picked best Cov@5/AUC trade-off (Cov@5=0.667, AUC=0.525). RECORD THIS IN decisions-log.md."
+}

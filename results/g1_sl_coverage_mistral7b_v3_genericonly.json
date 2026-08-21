@@ -1,0 +1,46 @@
+{
+  "model_key": "mistral7b",
+  "dataset_version": "v3",
+  "kind": "local",
+  "adapter": "checkpoints/mistral7b/sl_adapter",
+  "decoding": {
+    "strategy": "beam",
+    "diversity_penalty": 1.0,
+    "k": 5
+  },
+  "prompt_style": "completion",
+  "n_items": 120,
+  "cov_at_5": 0.48333333333333334,
+  "em_at_1": 0.425,
+  "gate_threshold": 0.6,
+  "gate_passed": false,
+  "target": 0.85,
+  "per_type": {
+    "entity": {
+      "n": 20,
+      "cov_at_5": 0.3,
+      "em_at_1": 0.3
+    },
+    "intent": {
+      "n": 20,
+      "cov_at_5": 0.4,
+      "em_at_1": 0.35
+    },
+    "null": {
+      "n": 40,
+      "cov_at_5": 0.525,
+      "em_at_1": 0.45
+    },
+    "schema": {
+      "n": 20,
+      "cov_at_5": 0.15,
+      "em_at_1": 0.0
+    },
+    "temporal": {
+      "n": 20,
+      "cov_at_5": 1.0,
+      "em_at_1": 1.0
+    }
+  },
+  "beam_cache": "results/beams_mistral7b_v3_genericonly.jsonl"
+}

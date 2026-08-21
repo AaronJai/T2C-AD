@@ -15,7 +15,7 @@ __pycache__/
 checkpoints/
 
 # Evaluation outputs
-results/
+# results/
 
 # Generated training data
 *.jsonl

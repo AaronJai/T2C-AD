@@ -1,0 +1,63 @@
+{
+  "benchmark": "data/benchmark-v3.json",
+  "passed": true,
+  "gates": {
+    "1_loads": {
+      "passed": true,
+      "failures": [],
+      "detail": {
+        "items": 120
+      }
+    },
+    "2_distribution": {
+      "passed": true,
+      "failures": [],
+      "detail": {
+        "distribution": {
+          "None": 40,
+          "schema": 20,
+          "entity": 20,
+          "intent": 20,
+          "temporal": 20
+        }
+      }
+    },
+    "3_syntax": {
+      "passed": true,
+      "failures": []
+    },
+    "4_schema_closure": {
+      "passed": true,
+      "failures": []
+    },
+    "5_nonempty_execution": {
+      "passed": true,
+      "failures": []
+    },
+    "6_interpretation_divergence": {
+      "passed": true,
+      "failures": []
+    },
+    "7_hop_honesty": {
+      "passed": true,
+      "failures": []
+    },
+    "8_coverage": {
+      "passed": true,
+      "failures": [],
+      "detail": {
+        "SUSPECTED_OF": 31,
+        "WITNESSED": 22,
+        "VICTIM_OF": 6,
+        "INVESTIGATES": 27,
+        "CONTAINS": 10,
+        "OCCURRED_AT": 27,
+        "LIVES_AT": 18,
+        "OWNS": 12,
+        "USES_PHONE": 15,
+        "CALLED": 8,
+        "ASSOCIATED_WITH": 6
+      }
+    }
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "baseline": {
+    "ex": 0.2,
+    "ea": 0.21,
+    "kg_valid_pct": 0.79,
+    "syntax_pct": 1.0,
+    "schema_pct": 1.0,
+    "pass_at_1": 0.13,
+    "ambiguous_ea": 0.075,
+    "dsr": NaN,
+    "detection_f1": NaN,
+    "detection_prec": NaN,
+    "detection_rec": NaN,
+    "per_type_ea": {
+      "schema": 0.0,
+      "entity": 0.0,
+      "intent": 0.3,
+      "temporal": 0.0
+    },
+    "n_total": 100,
+    "n_ambiguous": 80,
+    "per_type_n": {
+      "schema": 20,
+      "entity": 20,
+      "intent": 20,
+      "temporal": 20
+    },
+    "initial_valid_pct": 0.58,
+    "post_cyver_valid_pct": 0.79,
+    "structural_repair_pct": 0.5,
+    "semantic_repair_pct": 0.0,
+    "avg_iterations": 0.96
+  },
+  "schema_grounded": {
+    "ex": 0.59,
+    "ea": 0.64,
+    "kg_valid_pct": 1.0,
+    "syntax_pct": 1.0,
+    "schema_pct": 1.0,
+    "pass_at_1": 0.59,
+    "ambiguous_ea": 0.575,
+    "dsr": NaN,
+    "detection_f1": NaN,
+    "detection_prec": NaN,
+    "detection_rec": NaN,
+    "per_type_ea": {
+      "schema": 0.25,
+      "entity": 0.8,
+      "intent": 0.4,
+      "temporal": 0.85
+    },
+    "n_total": 100,
+    "n_ambiguous": 80,
+    "per_type_n": {
+      "schema": 20,
+      "entity": 20,
+      "intent": 20,
+      "temporal": 20
+    },
+    "initial_valid_pct": 0.99,
+    "post_cyver_valid_pct": 1.0,
+    "structural_repair_pct": 1.0,
+    "semantic_repair_pct": 0.0,
+    "avg_iterations": 0.01
+  },
+  "disambiguation_enhanced": {
+    "ex": 0.64,
+    "ea": 0.7,
+    "kg_valid_pct": 1.0,
+    "syntax_pct": 1.0,
+    "schema_pct": 1.0,
+    "pass_at_1": 0.59,
+    "ambiguous_ea": 0.6375,
+    "dsr": 0.6440677966101694,
+    "detection_f1": 0.8201438848920863,
+    "detection_prec": 0.9661016949152542,
+    "detection_rec": 0.7125,
+    "per_type_ea": {
+      "schema": 0.3,
+      "entity": 0.95,
+      "intent": 0.35,
+      "temporal": 0.95
+    },
+    "n_total": 100,
+    "n_ambiguous": 80,
+    "per_type_n": {
+      "schema": 20,
+      "entity": 20,
+      "intent": 20,
+      "temporal": 20
+    },
+    "initial_valid_pct": 0.99,
+    "post_cyver_valid_pct": 1.0,
+    "structural_repair_pct": 1.0,
+    "semantic_repair_pct": 0.10810810810810811,
+    "avg_iterations": 0.03
+  }
+}

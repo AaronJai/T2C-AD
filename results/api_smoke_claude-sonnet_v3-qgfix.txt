@@ -1,0 +1,176 @@
+===== API smoke (v3) — model_key=claude-sonnet model=claude-sonnet-4-6 =====
+sampled 6 questions; SL temperature=0.7, k=5 (instruct prompt)
+
+----- PROMPT-CACHE PREFIX TOKENS (Sonnet 4.6 needs >= 2048 to cache) -----
+  SL instruct prefix (system+few-shots+schema)        703  [below bar]
+  AD system prompt (v3)                              1725  [below bar]
+  Dis system prompt (v3)                             1029  [below bar]
+
+========== [Q-041] (schema) ==========
+Q: Show people connected to the Northbridge robbery.
+  SL raw completions  ->  extracted pattern  ->  parsed nodes/rels:
+    raw: (:Person)-[:ASSOCIATED_WITH]->(:Person)-[:SUSPECTED_OF]->(:Incident)
+      extracted: (:Person)-[:ASSOCIATED_WITH]->(:Person)-[:SUSPECTED_OF]->(:Incident)
+      parsed:    nodes=[('_n0', 'Person'), ('_n1', 'Person'), ('_n2', 'Incident')] rels=[('_n0', 'ASSOCIATED_WITH', '_n1', '->'), ('_n1', 'SUSPECTED_OF', '_n2', '->')]
+    raw: (:Person)-[:ASSOCIATED_WITH]->(:Person)-[:SUSPECTED_OF]->(:Incident)
+      extracted: (:Person)-[:ASSOCIATED_WITH]->(:Person)-[:SUSPECTED_OF]->(:Incident)
+      parsed:    nodes=[('_n0', 'Person'), ('_n1', 'Person'), ('_n2', 'Incident')] rels=[('_n0', 'ASSOCIATED_WITH', '_n1', '->'), ('_n1', 'SUSPECTED_OF', '_n2', '->')]
+    raw: (:Person)-[:ASSOCIATED_WITH]->(:Person)-[:SUSPECTED_OF]->(:Incident)
+      extracted: (:Person)-[:ASSOCIATED_WITH]->(:Person)-[:SUSPECTED_OF]->(:Incident)
+      parsed:    nodes=[('_n0', 'Person'), ('_n1', 'Person'), ('_n2', 'Incident')] rels=[('_n0', 'ASSOCIATED_WITH', '_n1', '->'), ('_n1', 'SUSPECTED_OF', '_n2', '->')]
+    raw: (:Person)-[:ASSOCIATED_WITH]->(:Person)-[:SUSPECTED_OF]->(:Incident)
+      extracted: (:Person)-[:ASSOCIATED_WITH]->(:Person)-[:SUSPECTED_OF]->(:Incident)
+      parsed:    nodes=[('_n0', 'Person'), ('_n1', 'Person'), ('_n2', 'Incident')] rels=[('_n0', 'ASSOCIATED_WITH', '_n1', '->'), ('_n1', 'SUSPECTED_OF', '_n2', '->')]
+    raw: (:Person)-[:ASSOCIATED_WITH]->(:Person)-[:SUSPECTED_OF]->(:Incident)
+      extracted: (:Person)-[:ASSOCIATED_WITH]->(:Person)-[:SUSPECTED_OF]->(:Incident)
+      parsed:    nodes=[('_n0', 'Person'), ('_n1', 'Person'), ('_n2', 'Incident')] rels=[('_n0', 'ASSOCIATED_WITH', '_n1', '->'), ('_n1', 'SUSPECTED_OF', '_n2', '->')]
+  CandidateMapping mentions (5 slots):
+    rel_1: ASSOCIATED_WITH:1.00
+    rel_2: SUSPECTED_OF:1.00
+    node_1: Person:1.00
+    node_2: Person:1.00
+    node_3: Incident:1.00
+
+========== [Q-061] (entity) ==========
+Q: What is Tran's current address?
+  SL raw completions  ->  extracted pattern  ->  parsed nodes/rels:
+    raw: (:Person)-[:LIVES_AT {active: true}]->(:Location)
+      extracted: (:Person)-[:LIVES_AT {active: true}]->(:Location)
+      parsed:    nodes=[('_n0', 'Person'), ('_n1', 'Location')] rels=[('_n0', 'LIVES_AT', '_n1', '->')]
+    raw: (:Person)-[:LIVES_AT {active: true}]->(:Location)
+      extracted: (:Person)-[:LIVES_AT {active: true}]->(:Location)
+      parsed:    nodes=[('_n0', 'Person'), ('_n1', 'Location')] rels=[('_n0', 'LIVES_AT', '_n1', '->')]
+    raw: (:Person)-[:LIVES_AT {active: true}]->(:Location)
+      extracted: (:Person)-[:LIVES_AT {active: true}]->(:Location)
+      parsed:    nodes=[('_n0', 'Person'), ('_n1', 'Location')] rels=[('_n0', 'LIVES_AT', '_n1', '->')]
+    raw: (:Person)-[:LIVES_AT {active: true}]->(:Location)
+      extracted: (:Person)-[:LIVES_AT {active: true}]->(:Location)
+      parsed:    nodes=[('_n0', 'Person'), ('_n1', 'Location')] rels=[('_n0', 'LIVES_AT', '_n1', '->')]
+    raw: (:Person)-[:LIVES_AT {active: true}]->(:Location)
+      extracted: (:Person)-[:LIVES_AT {active: true}]->(:Location)
+      parsed:    nodes=[('_n0', 'Person'), ('_n1', 'Location')] rels=[('_n0', 'LIVES_AT', '_n1', '->')]
+  CandidateMapping mentions (3 slots):
+    rel_1: LIVES_AT:1.00
+    node_1: Person:1.00
+    node_2: Location:1.00
+
+========== [Q-101] (temporal) ==========
+Q: Where does James Whitfield live?
+  SL raw completions  ->  extracted pattern  ->  parsed nodes/rels:
+    raw: (:Person)-[:LIVES_AT]->(:Location)
+      extracted: (:Person)-[:LIVES_AT]->(:Location)
+      parsed:    nodes=[('_n0', 'Person'), ('_n1', 'Location')] rels=[('_n0', 'LIVES_AT', '_n1', '->')]
+    raw: (:Person)-[:LIVES_AT]->(:Location)
+      extracted: (:Person)-[:LIVES_AT]->(:Location)
+      parsed:    nodes=[('_n0', 'Person'), ('_n1', 'Location')] rels=[('_n0', 'LIVES_AT', '_n1', '->')]
+    raw: (:Person)-[:LIVES_AT]->(:Location)
+      extracted: (:Person)-[:LIVES_AT]->(:Location)
+      parsed:    nodes=[('_n0', 'Person'), ('_n1', 'Location')] rels=[('_n0', 'LIVES_AT', '_n1', '->')]
+    raw: (:Person)-[:LIVES_AT]->(:Location)
+      extracted: (:Person)-[:LIVES_AT]->(:Location)
+      parsed:    nodes=[('_n0', 'Person'), ('_n1', 'Location')] rels=[('_n0', 'LIVES_AT', '_n1', '->')]
+    raw: (:Person)-[:LIVES_AT]->(:Location)
+      extracted: (:Person)-[:LIVES_AT]->(:Location)
+      parsed:    nodes=[('_n0', 'Person'), ('_n1', 'Location')] rels=[('_n0', 'LIVES_AT', '_n1', '->')]
+  CandidateMapping mentions (3 slots):
+    rel_1: LIVES_AT:1.00
+    node_1: Person:1.00
+    node_2: Location:1.00
+
+========== [Q-081] (intent) ==========
+Q: Tell me about the suspects in the Lake Street drug offence.
+  SL raw completions  ->  extracted pattern  ->  parsed nodes/rels:
+    raw: (:Person)-[:SUSPECTED_OF]->(:Incident)
+      extracted: (:Person)-[:SUSPECTED_OF]->(:Incident)
+      parsed:    nodes=[('_n0', 'Person'), ('_n1', 'Incident')] rels=[('_n0', 'SUSPECTED_OF', '_n1', '->')]
+    raw: (:Person)-[:SUSPECTED_OF]->(:Incident)
+      extracted: (:Person)-[:SUSPECTED_OF]->(:Incident)
+      parsed:    nodes=[('_n0', 'Person'), ('_n1', 'Incident')] rels=[('_n0', 'SUSPECTED_OF', '_n1', '->')]
+    raw: (:Person)-[:SUSPECTED_OF]->(:Incident)
+      extracted: (:Person)-[:SUSPECTED_OF]->(:Incident)
+      parsed:    nodes=[('_n0', 'Person'), ('_n1', 'Incident')] rels=[('_n0', 'SUSPECTED_OF', '_n1', '->')]
+    raw: (:Person)-[:SUSPECTED_OF]->(:Incident)
+      extracted: (:Person)-[:SUSPECTED_OF]->(:Incident)
+      parsed:    nodes=[('_n0', 'Person'), ('_n1', 'Incident')] rels=[('_n0', 'SUSPECTED_OF', '_n1', '->')]
+    raw: (:Person)-[:SUSPECTED_OF]->(:Incident)
+      extracted: (:Person)-[:SUSPECTED_OF]->(:Incident)
+      parsed:    nodes=[('_n0', 'Person'), ('_n1', 'Incident')] rels=[('_n0', 'SUSPECTED_OF', '_n1', '->')]
+  CandidateMapping mentions (3 slots):
+    rel_1: SUSPECTED_OF:1.00
+    node_1: Person:1.00
+    node_2: Incident:1.00
+
+========== [Q-001] (null) ==========
+Q: Who is suspected of the homicide?
+  SL raw completions  ->  extracted pattern  ->  parsed nodes/rels:
+    raw: (:Person)-[:SUSPECTED_OF]->(:Incident)
+      extracted: (:Person)-[:SUSPECTED_OF]->(:Incident)
+      parsed:    nodes=[('_n0', 'Person'), ('_n1', 'Incident')] rels=[('_n0', 'SUSPECTED_OF', '_n1', '->')]
+    raw: (:Person)-[:SUSPECTED_OF]->(:Incident)
+      extracted: (:Person)-[:SUSPECTED_OF]->(:Incident)
+      parsed:    nodes=[('_n0', 'Person'), ('_n1', 'Incident')] rels=[('_n0', 'SUSPECTED_OF', '_n1', '->')]
+    raw: (:Person)-[:SUSPECTED_OF]->(:Incident)
+      extracted: (:Person)-[:SUSPECTED_OF]->(:Incident)
+      parsed:    nodes=[('_n0', 'Person'), ('_n1', 'Incident')] rels=[('_n0', 'SUSPECTED_OF', '_n1', '->')]
+    raw: (:Person)-[:SUSPECTED_OF]->(:Incident)
+      extracted: (:Person)-[:SUSPECTED_OF]->(:Incident)
+      parsed:    nodes=[('_n0', 'Person'), ('_n1', 'Incident')] rels=[('_n0', 'SUSPECTED_OF', '_n1', '->')]
+    raw: (:Person)-[:SUSPECTED_OF]->(:Incident)
+      extracted: (:Person)-[:SUSPECTED_OF]->(:Incident)
+      parsed:    nodes=[('_n0', 'Person'), ('_n1', 'Incident')] rels=[('_n0', 'SUSPECTED_OF', '_n1', '->')]
+  CandidateMapping mentions (3 slots):
+    rel_1: SUSPECTED_OF:1.00
+    node_1: Person:1.00
+    node_2: Incident:1.00
+
+========== [Q-042] (schema) ==========
+Q: Who is involved in the Cannington homicide?
+  SL raw completions  ->  extracted pattern  ->  parsed nodes/rels:
+    raw: (:Person)-[:SUSPECTED_OF]->(:Incident), (:Person)-[:WITNESSED]->(:Incident), (:Person)-[:VICTIM_OF]->(:Incident), (:Person)-[:INVESTIGATES]-
+      extracted: (:Person)-[:SUSPECTED_OF]->(:Incident), (:Person)-[:WITNESSED]->(:Incident), (:Person)-[:VICTIM_OF]->(:Incident), (:Person)-[:INVESTIGATES]-
+      parsed:    nodes=[('_n0', 'Person'), ('_n1', 'Incident'), ('_n2', 'Person'), ('_n3', 'Incident'), ('_n4', 'Person'), ('_n5', 'Incident'), ('_n6', 'Person'), ('_n7', 'Incid
+    raw: (:Person)-[:SUSPECTED_OF]->(:Incident), (:Person)-[:WITNESSED]->(:Incident), (:Person)-[:VICTIM_OF]->(:Incident), (:Person)-[:INVESTIGATES]-
+      extracted: (:Person)-[:SUSPECTED_OF]->(:Incident), (:Person)-[:WITNESSED]->(:Incident), (:Person)-[:VICTIM_OF]->(:Incident), (:Person)-[:INVESTIGATES]-
+      parsed:    nodes=[('_n0', 'Person'), ('_n1', 'Incident'), ('_n2', 'Person'), ('_n3', 'Incident'), ('_n4', 'Person'), ('_n5', 'Incident'), ('_n6', 'Person'), ('_n7', 'Incid
+    raw: (:Person)-[:SUSPECTED_OF]->(:Incident), (:Person)-[:WITNESSED]->(:Incident), (:Person)-[:VICTIM_OF]->(:Incident), (:Person)-[:INVESTIGATES]-
+      extracted: (:Person)-[:SUSPECTED_OF]->(:Incident), (:Person)-[:WITNESSED]->(:Incident), (:Person)-[:VICTIM_OF]->(:Incident), (:Person)-[:INVESTIGATES]-
+      parsed:    nodes=[('_n0', 'Person'), ('_n1', 'Incident'), ('_n2', 'Person'), ('_n3', 'Incident'), ('_n4', 'Person'), ('_n5', 'Incident'), ('_n6', 'Person'), ('_n7', 'Incid
+    raw: (:Person)-[:SUSPECTED_OF]->(:Incident), (:Person)-[:WITNESSED]->(:Incident), (:Person)-[:VICTIM_OF]->(:Incident), (:Person)-[:INVESTIGATES]-
+      extracted: (:Person)-[:SUSPECTED_OF]->(:Incident), (:Person)-[:WITNESSED]->(:Incident), (:Person)-[:VICTIM_OF]->(:Incident), (:Person)-[:INVESTIGATES]-
+      parsed:    nodes=[('_n0', 'Person'), ('_n1', 'Incident'), ('_n2', 'Person'), ('_n3', 'Incident'), ('_n4', 'Person'), ('_n5', 'Incident'), ('_n6', 'Person'), ('_n7', 'Incid
+    raw: (:Person)-[:SUSPECTED_OF]->(:Incident), (:Person)-[:WITNESSED]->(:Incident), (:Person)-[:VICTIM_OF]->(:Incident), (:Person)-[:INVESTIGATES]-
+      extracted: (:Person)-[:SUSPECTED_OF]->(:Incident), (:Person)-[:WITNESSED]->(:Incident), (:Person)-[:VICTIM_OF]->(:Incident), (:Person)-[:INVESTIGATES]-
+      parsed:    nodes=[('_n0', 'Person'), ('_n1', 'Incident'), ('_n2', 'Person'), ('_n3', 'Incident'), ('_n4', 'Person'), ('_n5', 'Incident'), ('_n6', 'Person'), ('_n7', 'Incid
+  CandidateMapping mentions (12 slots):
+    rel_1: SUSPECTED_OF:1.00
+    rel_2: WITNESSED:1.00
+    rel_3: VICTIM_OF:1.00
+    rel_4: INVESTIGATES:1.00
+    node_1: Person:1.00
+    node_2: Incident:1.00
+    node_3: Person:1.00
+    node_4: Incident:1.00
+    node_5: Person:1.00
+    node_6: Incident:1.00
+    node_7: Person:1.00
+    node_8: Incident:1.00
+
+========== AD call on [Q-041] ==========
+  raw:    {"is_ambiguous": true, "detected_types": ["schema"], "rationale": "Despite the low schema ambiguity score, the phrase 'connected to' is inherently ambiguous in this schema. It could map to any of the four Person->Incident relationship types (SUSPECTED_OF, WITNESSED, VICTIM_OF, INVESTIGATES), each returning a different set of people. The candidate distribution appears to have collapsed onto SUSPECT
+  parsed: {'is_ambiguous': True, 'detected_types': ['schema'], 'rationale': "Despite the low schema ambiguity score, the phrase 'connected to' is inherently ambiguous in this schema. It could map to any of the four Person->Incident relationship types (SUSPECTED_OF, WITNESSED, VICTIM_OF, INVESTIGATES), each returning a different set of people. The candidate distribution appears to have collapsed onto SUSPECTED_OF and ASSOCIATED_WITH, but the natural language 'connected to' reasonably encompasses witnesses, victims, and investigators as well. The schema linker's narrow distribution does not override the genuine structural ambiguity present in the question."}
+
+========== Dis call on [Q-041] ==========
+  raw:    ```json
+{"committed_pattern": "(p:Person)-[r]->(i:Incident {name: 'Northbridge robbery'})", "rationale": "The question asks for 'people connected to' an incident, which suggests all roles (suspect, witness, victim, investigator) are relevant. Using an untyped edge captures the most informative result across all Person->Incident relationship types. The ASSOCIATED_WITH candidate links Person to Pers
+  parsed committed_pattern: "(p:Person)-[r]->(i:Incident {name: 'Northbridge robbery'})"
+
+========== QG call (committed-pattern) on [Q-041] ==========
+  committed_pattern in: "(p:Person)-[r]->(i:Incident {name: 'Northbridge robbery'})"
+  raw:     MATCH (p:Person)-[r]->(i:Incident)-[:OCCURRED_AT]->(l:Location {suburb:'Northbridge'}) RETURN DISTINCT p.name
+  cleaned: MATCH (p:Person)-[r]->(i:Incident)-[:OCCURRED_AT]->(l:Location {suburb:'Northbridge'}) RETURN DISTINCT p.name
+
+========== QG call (zero-shot) on [Q-041] ==========
+  committed_pattern in: ''
+  raw:     MATCH (i:Incident {crime_type:'robbery'})-[:OCCURRED_AT]->(l:Location {suburb:'Northbridge'}), (p:Person)-[:SUSPECTED_OF|WITNESSED|VICTIM_OF|INVESTIGATES]->(i) RETURN DISTINCT p.name
+  cleaned: MATCH (i:Incident {crime_type:'robbery'})-[:OCCURRED_AT]->(l:Location {suburb:'Northbridge'}), (p:Person)-[:SUSPECTED_OF|WITNESSED|VICTIM_OF|INVESTIGATES]->(i) RETURN DISTINCT p.name
+

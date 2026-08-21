@@ -1,0 +1,46 @@
+{
+  "model_key": "claude-sonnet",
+  "dataset_version": "v3",
+  "kind": "api",
+  "adapter": null,
+  "decoding": {
+    "strategy": "sample",
+    "temperature": 0.7,
+    "k": 5
+  },
+  "prompt_style": "instruct",
+  "n_items": 120,
+  "cov_at_5": 0.6583333333333333,
+  "em_at_1": 0.65,
+  "gate_threshold": 0.6,
+  "gate_passed": true,
+  "target": 0.85,
+  "per_type": {
+    "entity": {
+      "n": 20,
+      "cov_at_5": 0.45,
+      "em_at_1": 0.45
+    },
+    "intent": {
+      "n": 20,
+      "cov_at_5": 0.65,
+      "em_at_1": 0.65
+    },
+    "null": {
+      "n": 40,
+      "cov_at_5": 0.8,
+      "em_at_1": 0.8
+    },
+    "schema": {
+      "n": 20,
+      "cov_at_5": 0.25,
+      "em_at_1": 0.2
+    },
+    "temporal": {
+      "n": 20,
+      "cov_at_5": 1.0,
+      "em_at_1": 1.0
+    }
+  },
+  "beam_cache": "results/beams_claude-sonnet_v3.jsonl"
+}

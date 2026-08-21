@@ -1,0 +1,40 @@
+{
+  "model_key": "mistral7b",
+  "sl_adapter": "sl_adapter",
+  "qg_adapter": "qg_adapter",
+  "ad_backend": "base",
+  "qg_include_properties": true,
+  "tag": "genericonly_qgprops",
+  "metrics": {
+    "ex": 0.008333333333333333,
+    "ea": 0.08333333333333333,
+    "kg_valid_pct": 0.55,
+    "syntax_pct": 0.6833333333333333,
+    "schema_pct": 0.9878048780487805,
+    "pass_at_1": 0.008333333333333333,
+    "ambiguous_ea": 0.1125,
+    "dsr": 0.0,
+    "detection_f1": 0.2962962962962963,
+    "detection_prec": 0.7058823529411765,
+    "detection_rec": 0.1875,
+    "per_type_ea": {
+      "schema": 0.0,
+      "entity": 0.0,
+      "intent": 0.0,
+      "temporal": 0.45
+    },
+    "n_total": 120,
+    "n_ambiguous": 80,
+    "per_type_n": {
+      "schema": 20,
+      "entity": 20,
+      "intent": 20,
+      "temporal": 20
+    },
+    "initial_valid_pct": 0.5333333333333333,
+    "post_cyver_valid_pct": 0.55,
+    "structural_repair_pct": 0.03571428571428571,
+    "semantic_repair_pct": 0.0,
+    "avg_iterations": 0.275
+  }
+}

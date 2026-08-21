@@ -1,0 +1,70 @@
+{
+  "benchmark": "data/benchmark-pole-external.json",
+  "profile": "pole_external",
+  "passed": true,
+  "gates": {
+    "1_loads": {
+      "passed": true,
+      "failures": [],
+      "detail": {
+        "items": 100
+      }
+    },
+    "2_distribution": {
+      "passed": true,
+      "failures": [],
+      "detail": {
+        "distribution": {
+          "entity": 20,
+          "schema": 20,
+          "intent": 20,
+          "temporal": 20,
+          "None": 20
+        }
+      }
+    },
+    "3_syntax": {
+      "passed": true,
+      "failures": []
+    },
+    "4_schema_closure": {
+      "passed": true,
+      "failures": []
+    },
+    "5_nonempty_execution": {
+      "passed": true,
+      "failures": []
+    },
+    "6_interpretation_divergence": {
+      "passed": true,
+      "failures": []
+    },
+    "7_hop_honesty": {
+      "passed": true,
+      "failures": []
+    },
+    "8_coverage": {
+      "passed": true,
+      "failures": [],
+      "detail": {
+        "CURRENT_ADDRESS": 20,
+        "HAS_PHONE": 1,
+        "HAS_EMAIL": 1,
+        "HAS_POSTCODE": 4,
+        "POSTCODE_IN_AREA": 1,
+        "LOCATION_IN_AREA": 18,
+        "KNOWS_SN": 10,
+        "KNOWS": 1,
+        "CALLER": 10,
+        "CALLED": 10,
+        "KNOWS_PHONE": 10,
+        "OCCURRED_AT": 18,
+        "INVESTIGATED_BY": 7,
+        "INVOLVED_IN": 10,
+        "PARTY_TO": 10,
+        "FAMILY_REL": 1,
+        "KNOWS_LW": 3
+      }
+    }
+  }
+}

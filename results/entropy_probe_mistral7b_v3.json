@@ -1,0 +1,32 @@
+{
+  "beam_k": 5,
+  "decoding": {
+    "strategy": "beam",
+    "diversity_penalty": 1.0,
+    "k": 5
+  },
+  "diversity_penalty": 1.0,
+  "baseline_auc": 0.62,
+  "headline_signal": "h_norm_candidates",
+  "auc_table": [
+    {
+      "signal": "h_norm_candidates",
+      "pole_sft_auc": 0.6890625,
+      "prior_general_auc": 0.622
+    },
+    {
+      "signal": "h_norm_beams",
+      "pole_sft_auc": 0.68171875,
+      "prior_general_auc": 0.624
+    },
+    {
+      "signal": "top_beam_dominance",
+      "pole_sft_auc": 0.66078125,
+      "prior_general_auc": 0.625
+    }
+  ],
+  "ablation_spread": 0.028281250000000036,
+  "ablations_flat": false,
+  "headline_improves_over_baseline": true,
+  "finding": "POLE-SFT entropy AUC (0.689) improves over the ~0.62 general-model baseline: POLE-specific fine-tuning sharpens the schema-entropy->ambiguity signal, so the Bayesian scorer (3.3) is a usable secondary input to the Ambiguity Detector. Ablations are NOT flat (spread 0.028 > 0.01): unlike the prior probe, the scoring function matters here \u2014 record this in decisions-log.md."
+}

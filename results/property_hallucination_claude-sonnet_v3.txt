@@ -1,0 +1,93 @@
+Property-hallucination evidence — claude-sonnet, v3 substrate, G4 job 1055879
+==============================================================================
+
+Source: logs/t2c_run_eval_api_v3_1055879.err (Neo4j driver GqlStatusObject notifications,
+raised whenever CyVer's live EXPLAIN-based Schema/Properties check, or execution, references
+a property key that does not exist on the v3 graph). Extracted via:
+
+  grep -oP 'The property `[a-zA-Z_]*` does not exist' logs/t2c_run_eval_api_v3_1055879.err \
+    | sort | uniq -c | sort -rn
+
+Real v3 property names for reference (data/SyntheticPoliceKG-v3.cypher):
+  Incident:  incident_id, crime_type, date, status         (NOT: type, id, description, category)
+  Person:    person_id, name, ...                           (NOT: id)
+  Location:  location_id, address, ...                      (NOT: city, street, district, area)
+  Vehicle:   ..., licence-style field under its real name   (NOT: licensePlate, license_plate, color)
+
+Counts of invented (non-existent) property names across the 120x3 = 360 questionxcondition
+runs (many properties invented repeatedly across draft/retry attempts within a single run):
+
+    486  type            (real: crime_type)
+    338  description      (does not exist under any name in v3)
+    221  id               (real: incident_id / person_id / location_id / case_id)
+     79  city             (real: part of Location.address)
+     71  number
+     70  title
+     39  incident_type
+     32  category
+     20  phoneNumber
+     20  location
+     14  street
+     12  color
+     10  year
+      9  locationId
+      8  role
+      8  location_name
+      8  area
+      6  district
+      5  incidentType
+      4  licensePlate
+      2  recent
+      2  primary
+      2  personId
+      2  offense
+      2  locationType
+      2  license_plate
+      2  incidentId
+      2  details
+      2  crimeType
+      2  caseId
+      2  area_type
+
+Reading: these are not random typos. Every invented name is a plausible, generic property a
+"typical" crime-database schema would have (type, id, description, city, title) — the model is
+falling back on pretraining-prior schema conventions. CORRECTION (found while scoping the fix):
+this is NOT the model ignoring properties it was shown. `pipeline/query_generator/generator.py`
+calls `schema.to_prompt_string(include_properties=False)` — the QG prompt has NEVER included the
+property list, for either backend, since step 3.6's original design. The local fine-tuned model
+still gets the real names mostly right because it was fine-tuned on POLE-specific templated data
+(Phase 7.4) and memorised them into its weights; the API model was never trained on anything
+POLE-specific, so showing it the schema block minus properties leaves it with no source for the
+real names at all except guessing from generic world knowledge. The fix is therefore not "tell it
+to adhere to a schema it was given" — it is "give the API-backend QG the properties block the
+Schema Linker already gets" (`include_properties=True`, conditional on backend so the local
+fine-tuned model's prompt — and its train/inference match — stays untouched).
+CyVer's Properties validator catches many of these via a live EXPLAIN check and routes the
+question back to the Schema Linker for a retry (this is most of what Table 3's 47.9-51.6%
+structural-repair rate is recovering); not all recover within the retry budget.
+
+Concrete paired example (Q-041, "Show people connected to the Northbridge robbery."):
+
+  gold (benchmark-v3.json, executable-validated):
+    MATCH (p:Person)-[r]->(i:Incident {incident_id:'INC-001'}) RETURN DISTINCT p.name
+
+  claude-sonnet generated (results/api_smoke_claude-sonnet_v3.txt, G0.5):
+    MATCH (p:Person)-[r]->(i:Incident {name: 'Northbridge robbery'}) RETURN p, r, i
+
+  Two distinct problems, illustrated side by side:
+    1. `i.name` does not exist (real property: incident_id) -> a genuine content error, would
+       return empty, not merely a formatting difference.
+    2. `RETURN p, r, i` (whole nodes) vs `RETURN DISTINCT p.name` -> even when the entity
+       selection is correct, the exact-match evaluator scores this as wrong_result purely on
+       shape.
+
+Contributing factor for problem 2: pipeline/query_generator/prompts.py::build_qg_prompt is a
+bare instruction + schema + question, with NO few-shot examples, on every backend (local
+fine-tuned or API) -- confirmed by reading generator.py, which calls build_qg_prompt
+unconditionally. The fine-tuned local model learns the exact output shape from thousands of
+SFT training examples using this same prompt; the API model only ever sees this one bare
+instruction, so it has no worked example to imitate the gold's projection style. By contrast,
+the Schema Linker, Ambiguity Detector, and Disambiguator prompts for the API model DO carry
+authored few-shot examples (pipeline/schema_linker/prompts.py::build_sl_prompt_api,
+pipeline/ambiguity/prompts.py, pipeline/disambiguator/prompts.py) -- the QG is the one stage
+left without any worked example, which may be the cheapest lever to try next.

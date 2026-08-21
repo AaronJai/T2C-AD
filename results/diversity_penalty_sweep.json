@@ -1,0 +1,26 @@
+{
+  "beam_k": 5,
+  "cov_guardrail": 0.85,
+  "penalties": [
+    {
+      "diversity_penalty": 0.2,
+      "entropy_auc": 0.5873333333333334,
+      "cov_at_5": 0.0,
+      "hallucination_rate": 0.024000000000000004
+    },
+    {
+      "diversity_penalty": 0.5,
+      "entropy_auc": 0.5632,
+      "cov_at_5": 0.0,
+      "hallucination_rate": 0.0256
+    },
+    {
+      "diversity_penalty": 1.0,
+      "entropy_auc": 0.5341333333333333,
+      "cov_at_5": 0.0,
+      "hallucination_rate": 0.030400000000000007
+    }
+  ],
+  "chosen_diversity_penalty": 0.2,
+  "selection_reason": "NO penalty cleared Cov@5 \u2265 0.85; picked best Cov@5/AUC trade-off (Cov@5=0.000, AUC=0.587). RECORD THIS IN decisions-log.md."
+}
