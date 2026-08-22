@@ -1,0 +1,55 @@
+{
+  "phase": "load",
+  "precision": "4bit",
+  "base": "Qwen/Qwen2.5-32B",
+  "dtype": "float16",
+  "load_seconds": 163.1,
+  "gpu_count": 2,
+  "gpus_used_by_device_map": [
+    0,
+    1
+  ],
+  "non_gpu_placements": [],
+  "before": [
+    {
+      "device": 0,
+      "name": "Tesla V100-PCIE-32GB",
+      "total_mib": 32494.1,
+      "resident_mib": 309.9,
+      "alloc_mib": 0.0,
+      "reserved_mib": 0.0,
+      "peak_alloc_mib": 0.0
+    },
+    {
+      "device": 1,
+      "name": "Tesla V100-PCIE-32GB",
+      "total_mib": 32494.1,
+      "resident_mib": 309.9,
+      "alloc_mib": 0.0,
+      "reserved_mib": 0.0,
+      "peak_alloc_mib": 0.0
+    }
+  ],
+  "after": [
+    {
+      "device": 0,
+      "name": "Tesla V100-PCIE-32GB",
+      "total_mib": 32494.1,
+      "resident_mib": 8509.9,
+      "alloc_mib": 8076.7,
+      "reserved_mib": 8142.0,
+      "peak_alloc_mib": 8312.0
+    },
+    {
+      "device": 1,
+      "name": "Tesla V100-PCIE-32GB",
+      "total_mib": 32494.1,
+      "resident_mib": 12215.9,
+      "alloc_mib": 11767.8,
+      "reserved_mib": 11848.0,
+      "peak_alloc_mib": 12003.4
+    }
+  ],
+  "total_resident_mib": 20725.8,
+  "max_single_gpu_resident_mib": 12215.9
+}

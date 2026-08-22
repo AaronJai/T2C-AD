@@ -1,0 +1,81 @@
+{
+  "phase": "train",
+  "precision": "4bit",
+  "base": "Qwen/Qwen2.5-32B",
+  "dtype": "float16",
+  "target_modules": [
+    "q_proj",
+    "v_proj"
+  ],
+  "train_config": "config/schema_linker_train_pole_external.yaml",
+  "train_rows_file": "data/pole_ext_sl_train.jsonl",
+  "max_seq_length": 3584,
+  "per_device_train_batch_size": 1,
+  "gradient_checkpointing": true,
+  "real_tokens_in_batch": 466,
+  "load_seconds": 158.2,
+  "step_seconds": [
+    18.153,
+    14.88,
+    14.922
+  ],
+  "steady_step_seconds": 14.901,
+  "losses": [
+    0.6994,
+    0.6563,
+    0.6005
+  ],
+  "gpu_count": 2,
+  "gpus_used_by_device_map": [
+    0,
+    1
+  ],
+  "after_load": [
+    {
+      "device": 0,
+      "name": "Tesla V100-PCIE-32GB",
+      "total_mib": 32494.1,
+      "resident_mib": 10977.9,
+      "alloc_mib": 9032.9,
+      "reserved_mib": 10610.0,
+      "peak_alloc_mib": 10493.1
+    },
+    {
+      "device": 1,
+      "name": "Tesla V100-PCIE-32GB",
+      "total_mib": 32494.1,
+      "resident_mib": 14403.9,
+      "alloc_mib": 12424.2,
+      "reserved_mib": 14036.0,
+      "peak_alloc_mib": 13871.2
+    }
+  ],
+  "after_step": [
+    {
+      "device": 0,
+      "name": "Tesla V100-PCIE-32GB",
+      "total_mib": 32494.1,
+      "resident_mib": 19227.9,
+      "alloc_mib": 9125.1,
+      "reserved_mib": 18840.0,
+      "peak_alloc_mib": 15731.7
+    },
+    {
+      "device": 1,
+      "name": "Tesla V100-PCIE-32GB",
+      "total_mib": 32494.1,
+      "resident_mib": 25329.9,
+      "alloc_mib": 12557.7,
+      "reserved_mib": 24942.0,
+      "peak_alloc_mib": 22973.7
+    }
+  ],
+  "peak_total_mib": 38705.4,
+  "peak_resident_total_mib": 44557.8,
+  "max_single_gpu_resident_mib": 25329.9,
+  "no_gradient_checkpointing": {
+    "measured": true,
+    "oom": true,
+    "error": "CUDA out of memory. Tried to allocate 378.00 MiB. GPU 0 has a total capacity of 31.73 GiB of which 358.25 MiB is free. Including non-PyTorch memory, this process has 31.38 GiB memory in use. Of the allocated memory 30.56 GiB is allocated by PyTorch, and 454.49 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segm"
+  }
+}

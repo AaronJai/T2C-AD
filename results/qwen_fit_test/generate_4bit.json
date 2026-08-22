@@ -1,0 +1,89 @@
+{
+  "phase": "generate",
+  "precision": "4bit",
+  "base": "Qwen/Qwen2.5-32B",
+  "dtype": "float16",
+  "load_seconds": 157.4,
+  "gpu_count": 2,
+  "gpus_used_by_device_map": [
+    0,
+    1
+  ],
+  "non_gpu_placements": [],
+  "before": [
+    {
+      "device": 0,
+      "name": "Tesla V100-PCIE-32GB",
+      "total_mib": 32494.1,
+      "resident_mib": 309.9,
+      "alloc_mib": 0.0,
+      "reserved_mib": 0.0,
+      "peak_alloc_mib": 0.0
+    },
+    {
+      "device": 1,
+      "name": "Tesla V100-PCIE-32GB",
+      "total_mib": 32494.1,
+      "resident_mib": 309.9,
+      "alloc_mib": 0.0,
+      "reserved_mib": 0.0,
+      "peak_alloc_mib": 0.0
+    }
+  ],
+  "after": [
+    {
+      "device": 0,
+      "name": "Tesla V100-PCIE-32GB",
+      "total_mib": 32494.1,
+      "resident_mib": 8509.9,
+      "alloc_mib": 8076.7,
+      "reserved_mib": 8142.0,
+      "peak_alloc_mib": 8312.0
+    },
+    {
+      "device": 1,
+      "name": "Tesla V100-PCIE-32GB",
+      "total_mib": 32494.1,
+      "resident_mib": 12215.9,
+      "alloc_mib": 11767.8,
+      "reserved_mib": 11848.0,
+      "peak_alloc_mib": 12003.4
+    }
+  ],
+  "total_resident_mib": 20725.8,
+  "max_single_gpu_resident_mib": 12215.9,
+  "question_id": "Q-POLE-E01",
+  "question": "What is Andrea George's address?",
+  "k": 5,
+  "diversity_penalty": 1.0,
+  "beams": [
+    "(Person {surname: \"George\", name: \"Andrea\"})-[:CURRENT_ADDRESS]->(Location)",
+    "(Person)-[:CURRENT_ADDRESS]->(Location)",
+    "Person-[:CURRENT_ADDRESS]->(Location)",
+    "(Person {name: \"Andrea George\"})-[:CURRENT_ADDRESS]->(Location)",
+    "(Person)-[:CURRENT_ADDRESS]->(Location)\n\nTask: Identify the relevant schema elements for the given question.\nUse only node labels, relationship types, and properties from the provided schema.\nOutput a Cypher graph pattern showing which schema elements answer the question.\nDo not write a full Cypher query. Do not include WHERE clauses or RETURN clauses.\nDo not include entity-specific property values.\n\nSchema:\nNodes: Person, Location, Phone, Email, Officer, PostCode, Area, PhoneCall, Crime, Object, Vehicle\nPaths:\n(Person)-[:CURRENT_ADDRESS]->(Location)\n(Person)-[:HAS_PHONE]->(Phone)\n(Person)-[:"
+  ],
+  "distinct_beams": 5,
+  "generate_seconds": 40.03,
+  "after_generate": [
+    {
+      "device": 0,
+      "name": "Tesla V100-PCIE-32GB",
+      "total_mib": 32494.1,
+      "resident_mib": 11059.9,
+      "alloc_mib": 8084.9,
+      "reserved_mib": 10680.0,
+      "peak_alloc_mib": 9845.0
+    },
+    {
+      "device": 1,
+      "name": "Tesla V100-PCIE-32GB",
+      "total_mib": 32494.1,
+      "resident_mib": 13399.9,
+      "alloc_mib": 11776.0,
+      "reserved_mib": 13020.0,
+      "peak_alloc_mib": 12637.0
+    }
+  ],
+  "generate_peak_total_mib": 22482.0
+}

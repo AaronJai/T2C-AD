@@ -1,0 +1,11 @@
+/uwahpc/rocky9/python/anaconda3/2024.06/lib/python3.12/site-packages/conda/base/context.py:201: FutureWarning: Adding 'defaults' to channel list implicitly is deprecated and will be removed in 25.3. 
+
+To remove this warning, please choose a default channel explicitly with conda's regular configuration system, e.g. by adding 'defaults' to the list of channels:
+
+  conda config --add channels defaults
+
+For more information see https://docs.conda.io/projects/conda/en/stable/user-guide/configuration/use-condarc.html
+
+  deprecated.topic(
+Loading checkpoint shards:   0%|          | 0/17 [00:00<?, ?it/s]Loading checkpoint shards:   6%|▌         | 1/17 [00:07<02:05,  7.87s/it]Loading checkpoint shards:  12%|█▏        | 2/17 [00:16<02:01,  8.09s/it]Loading checkpoint shards:  18%|█▊        | 3/17 [00:23<01:51,  8.00s/it]Loading checkpoint shards:  24%|██▎       | 4/17 [00:31<01:43,  7.95s/it]Loading checkpoint shards:  29%|██▉       | 5/17 [00:40<01:36,  8.07s/it]Loading checkpoint shards:  35%|███▌      | 6/17 [00:47<01:27,  7.94s/it]Loading checkpoint shards:  41%|████      | 7/17 [00:55<01:19,  7.95s/it]Loading checkpoint shards:  47%|████▋     | 8/17 [01:03<01:11,  7.93s/it]Loading checkpoint shards:  53%|█████▎    | 9/17 [01:11<01:03,  7.90s/it]Loading checkpoint shards:  59%|█████▉    | 10/17 [01:19<00:55,  7.98s/it]Loading checkpoint shards:  65%|██████▍   | 11/17 [01:27<00:47,  7.96s/it]Loading checkpoint shards:  71%|███████   | 12/17 [01:35<00:39,  7.86s/it]Loading checkpoint shards:  76%|███████▋  | 13/17 [01:43<00:31,  7.88s/it]Loading checkpoint shards:  82%|████████▏ | 14/17 [01:50<00:23,  7.78s/it]Loading checkpoint shards:  88%|████████▊ | 15/17 [01:58<00:15,  7.85s/it]Loading checkpoint shards:  94%|█████████▍| 16/17 [02:06<00:07,  7.84s/it]Loading checkpoint shards: 100%|██████████| 17/17 [02:11<00:00,  6.95s/it]Loading checkpoint shards: 100%|██████████| 17/17 [02:11<00:00,  7.73s/it]
+`use_cache=True` is incompatible with gradient checkpointing. Setting `use_cache=False`...

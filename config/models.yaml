@@ -19,6 +19,21 @@ mistral7b:
                                              # (also sets bnb_4bit_compute_dtype). See decisions-log.
   load_in_4bit: true                         # QLoRA — required to fit a 7-8B base on a 16 GB GPU
 
+qwen2.5-32b:
+  base: "Qwen/Qwen2.5-32B"                   # BASE, not -Instruct: parity with mistral7b (v0.3 base) so
+                                             # C1 is an honest zero-shot base baseline and C2/C3 isolate
+                                             # the SFT effect. (-Instruct is the alternative if a strong
+                                             # C1 is wanted — record the choice.) Qwen2ForCausalLM, loads
+                                             # natively on the pinned transformers<4.46. See 10.5.
+  target_modules: ["q_proj", "v_proj"]       # Qwen2 attention proj names; mirrors mistral7b's set
+                                             # (["q_proj","k_proj","v_proj","o_proj"] is the alternative)
+  dtype: "float16"                           # Kaya v100-32gb (Volta) has no bf16 — fp16 here
+                                             # (also the bnb_4bit_compute_dtype). See decisions-log.
+  load_in_4bit: true                         # LOCKED by the 10.5 fit-test (job 1101258): 4-bit load
+                                             # = 20.2 GiB (fits 1 card for inference); 8-bit = 32.9 GiB
+                                             # (needs 2). Training needs batch 1 + gradient
+                                             # checkpointing across 2 cards. See decisions-log 2026-08-22.
+
 llama31-8b:
   base: "meta-llama/Llama-3.1-8B"
   target_modules: ["q_proj", "v_proj"]       # Llama-family: same names as Mistral

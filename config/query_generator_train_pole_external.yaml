@@ -1,0 +1,45 @@
+# config/query_generator_train_pole_external.yaml — continue-SFT: external-POLE in-domain data
+# + Ozsoy replay, initialised from the existing v2 qg_adapter (10.3). Identical in shape to
+# schema_linker_train_pole_external.yaml (see its header comment); differs only in `data` paths
+# and the init/output adapter names.
+#
+# python -m experiments.train_query_generator --model_key mistral7b --train
+# config/query_generator_train_pole_external.yaml
+
+model:
+  init_adapter_path_name: "qg_adapter"   # checkpoints/{model_key}/qg_adapter — continue-SFT base (frozen v2)
+
+peft:
+  method: "lora"
+  r: 16
+  lora_alpha: 32
+  lora_dropout: 0.05
+  bias: "none"
+  task_type: "CAUSAL_LM"
+  # target_modules: comes from config/models.yaml (per architecture); unused when
+  # init_adapter_path_name is set — kept for config-shape parity with query_generator_train.yaml.
+
+training:
+  output_name: "qg_adapter_pole_external"  # -> checkpoints/{model_key}/qg_adapter_pole_external
+  num_train_epochs: 2
+  per_device_train_batch_size: 2
+  per_device_eval_batch_size: 1
+  gradient_accumulation_steps: 16
+  learning_rate: 1.0e-4
+  lr_scheduler_type: "cosine"
+  warmup_ratio: 0.03
+  max_seq_length: 3584
+  weight_decay: 0.001
+  bf16: false
+  fp16: true
+  logging_steps: 20
+  save_strategy: "epoch"
+  evaluation_strategy: "epoch"
+
+data:
+  # Mixed = every external-POLE QG row + an Ozsoy replay sample (seed=13), built by
+  # experiments/build_pole_sft_data.py --config config/pole_sft_data_pole_external.yaml
+  # from data/pole_ext_qg_train.jsonl + data/ozsoy_qg_train.jsonl (10.2).
+  train_path: "data/pole_ext_qg_train_mixed.jsonl"
+  eval_path:  "data/pole_ext_qg_eval.jsonl"
+  format: "prompt_completion"

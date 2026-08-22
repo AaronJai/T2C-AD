@@ -1,0 +1,23 @@
+{
+  "phase": "summary",
+  "locked_precision": "4bit",
+  "fragments": [
+    "generate_4bit",
+    "load_4bit",
+    "load_8bit",
+    "train_4bit"
+  ],
+  "training_budget": {
+    "v3": {
+      "rows": 5800,
+      "micro_steps": 17400,
+      "estimated_hours_per_adapter": 72.0
+    },
+    "pole_external": {
+      "rows": 5980,
+      "micro_steps": 17940,
+      "estimated_hours_per_adapter": 74.3
+    }
+  },
+  "train_epochs_assumed": 3
+}
