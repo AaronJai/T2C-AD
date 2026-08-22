@@ -1,0 +1,120 @@
+Job 1101274 on k017 at Sat 22 Aug 2026 15:17:23 AWST
+Sat Aug 22 15:17:23 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.57.08              Driver Version: 575.57.08      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla V100-PCIE-32GB           Off |   00000000:3B:00.0 Off |                    0 |
+| N/A   41C    P0             26W /  250W |       0MiB /  32768MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Reusing existing external-POLE volume at /group/pmc084/atan/neo4j_data_pole_external.
+Directories in use:
+home:         /var/lib/neo4j
+config:       /var/lib/neo4j/conf
+logs:         /var/lib/neo4j/logs
+plugins:      /var/lib/neo4j/plugins
+import:       /var/lib/neo4j/import
+data:         /var/lib/neo4j/data
+certificates: /var/lib/neo4j/certificates
+licenses:     /var/lib/neo4j/licenses
+run:          /var/lib/neo4j/run
+Starting Neo4j.
+2026-08-22 07:17:27.335+0000 INFO  Logging config in use: File '/var/lib/neo4j/conf/user-logs.xml'
+2026-08-22 07:17:27.365+0000 INFO  Starting...
+2026-08-22 07:17:28.417+0000 INFO  This instance is ServerId{6dc49cca} (6dc49cca-b8cb-40b7-b18c-31816a527c93)
+2026-08-22 07:17:29.858+0000 INFO  ======== Neo4j 5.26.27 ========
+2026-08-22 07:17:33.594+0000 INFO  Anonymous Usage Data is being sent to Neo4j, see https://neo4j.com/docs/usage-data/
+2026-08-22 07:17:33.633+0000 INFO  Bolt enabled on localhost:7687.
+2026-08-22 07:17:34.866+0000 INFO  HTTP enabled on localhost:7474.
+2026-08-22 07:17:34.866+0000 INFO  Remote interface available at http://localhost:7474/
+2026-08-22 07:17:34.868+0000 INFO  id: D7BA7CCC8582A31BE71B5662776EAA49EACEBCF9BEBC32C523034AC41C3117D8
+2026-08-22 07:17:34.868+0000 INFO  name: system
+2026-08-22 07:17:34.868+0000 INFO  creationDate: 2026-08-21T12:41:59.754Z
+2026-08-22 07:17:34.868+0000 INFO  Started.
+Neo4j ready after 3 checks.
+Sampled 10 external-POLE questions; base=mistralai/Mistral-7B-v0.3 sl_adapter=sl_adapter_pole_external decoding={'strategy': 'beam', 'diversity_penalty': 1.0, 'k': 5} ad_backend=base
+
+============ AD CLASSIFICATIONS (pole_external, ad=base:mistralai/Mistral-7B-v0.3) ============
+
+[Q-POLE-S01] Who has Alan Hicks communicated with digitally?
+  gold: is_ambiguous=True type=schema
+  AD  : is_ambiguous=True detected=['entity']
+  entropy: schema=0.00 entity=1.00
+  rationale: FALLBACK: LLM output unparseable; decided by entropy thresholds.
+
+[Q-POLE-S02] Who has Ann Fox been in digital contact with?
+  gold: is_ambiguous=True type=schema
+  AD  : is_ambiguous=True detected=['schema']
+  entropy: schema=0.00 entity=1.00
+  rationale: 'been in digital contact with' does not say which digital channel: KNOWS_SN (social-network contact, 3 people) and KNOWS_PHONE (phone contact, 0 people) are disjoint edge types returning different, no
+
+[Q-POLE-E01] What is Andrea George's address?
+  gold: is_ambiguous=True type=entity
+  AD  : is_ambiguous=True detected=['entity']
+  entropy: schema=0.00 entity=1.00
+  rationale: Two distinct Person nodes (nhs_no 800-46-2184 and 391-46-9135) share the identical full name 'Andrea George' (high entity score 1.00), and the question gives nothing to tell them apart, so the result 
+
+[Q-POLE-E02] What is Anne Rice's address?
+  gold: is_ambiguous=True type=entity
+  AD  : is_ambiguous=True detected=['entity']
+  entropy: schema=0.00 entity=1.00
+  rationale: FALLBACK: LLM output unparseable; decided by entropy thresholds.
+
+[Q-POLE-T01] How many crimes happened in area M1 around 11 August 2017?
+  gold: is_ambiguous=True type=temporal
+  AD  : is_ambiguous=False detected=[]
+  entropy: schema=0.00 entity=0.00
+  rationale: FALLBACK: LLM output unparseable; decided by entropy thresholds.
+
+[Q-POLE-T02] How many crimes happened in area M1 around 26 August 2017?
+  gold: is_ambiguous=True type=temporal
+  AD  : is_ambiguous=False detected=[]
+  entropy: schema=0.00 entity=0.00
+  rationale: FALLBACK: LLM output unparseable; decided by entropy thresholds.
+
+[Q-POLE-I01] Which Inspector has investigated the most crimes, aside from Nettles Worthy?
+  gold: is_ambiguous=True type=intent
+  AD  : is_ambiguous=False detected=[]
+  entropy: schema=0.00 entity=0.00
+  rationale: FALLBACK: LLM output unparseable; decided by entropy thresholds.
+
+[Q-POLE-I02] Which Police Constable has investigated the most crimes, aside from Ings Cloe?
+  gold: is_ambiguous=True type=intent
+  AD  : is_ambiguous=False detected=[]
+  entropy: schema=0.00 entity=0.00
+  rationale: FALLBACK: LLM output unparseable; decided by entropy thresholds.
+
+[Q-POLE-U01] What rank does the officer with badge number 80-1015383 hold?
+  gold: is_ambiguous=False type=null
+  AD  : is_ambiguous=False detected=[]
+  entropy: schema=0.00 entity=0.00
+  rationale: FALLBACK: LLM output unparseable; decided by entropy thresholds.
+
+[Q-POLE-U02] What is the surname of the officer with badge number 70-0643982?
+  gold: is_ambiguous=False type=null
+  AD  : is_ambiguous=False detected=[]
+  entropy: schema=0.00 entity=0.00
+  rationale: FALLBACK: LLM output unparseable; decided by entropy thresholds.
+
+============ SUMMARY (pole_external, ad=base:mistralai/Mistral-7B-v0.3) ============
+  binary detection: correct 6/10
+  TP=4 FP=0 FN=4 TN=2
+  (base-Mistral AD detection counts on the external graph; the API-AD swap is the
+   documented path to higher recall — mirrors 3.4/7.5's finding.)
+Finished at Sat 22 Aug 2026 15:22:09 AWST
+Stopping neo4j (pid 456788) at Sat 22 Aug 2026 15:22:09 AWST
+2026-08-22 07:22:09.706+0000 INFO  Neo4j Server shutdown initiated by request
+2026-08-22 07:22:09.708+0000 INFO  Stopping...
+2026-08-22 07:22:20.289+0000 INFO  Stopped.

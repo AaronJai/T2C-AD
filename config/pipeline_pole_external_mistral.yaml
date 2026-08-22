@@ -1,0 +1,38 @@
+# config/pipeline_pole_external_mistral.yaml — 10.4: run the WHOLE pipeline against the external
+# POLE benchmark (data/benchmark-pole-external.json, 9.2/10.1) with the FINE-TUNED 7B Mistral, so
+# the write-up has a fine-tuned-local column beside 9.3's instruct-API (Claude) column on a graph
+# the student did not author.
+#
+# Standalone copy of config/pipeline.yaml's shape (7.3/9.3 convention — never mutate the shared
+# file). Differs from 9.3's config/pipeline_pole_external.yaml only in the model columns:
+# active_model is the LOCAL mistral7b (loads {sl,qg}_adapter_pole_external via the
+# adapter_suffix_for_version("pole_external") == "_pole_external" the 10.3 adapters were saved to),
+# and the results_tag is distinct so the two never collide.
+
+neo4j:
+  uri: "bolt://localhost:7687"       # the 10.1 external-POLE graph, on this GPU job's node
+  user: "neo4j"
+  # password via env var NEO4J_PASSWORD (do not commit real credentials) — the Kaya runner
+  # exports NEO4J_PASSWORD before invoking run_evaluation.
+  database: "neo4j"
+
+dataset_version: pole_external
+results_tag: pole_external_mistral        # -> tables_/metrics_/qual_records_mistral7b_pole_external_mistral.*
+                                          # (distinct from 9.3's *_claude-sonnet_pole_external_local.*)
+
+models_registry: "config/models.yaml"
+active_model: "mistral7b"                 # LOCAL — loads checkpoints/mistral7b/{sl,qg}_adapter_pole_external
+                                          # (10.3) via the "_pole_external" adapter suffix.
+
+ad: null                                  # null -> base mistral as AD (the documented default; matches
+dis: null                                 # null -> shares the AD backend                the v3 mistral runs)
+
+benchmark: "data/benchmark-pole-external.json"
+schema_linker_inference: "config/schema_linker_inference.yaml"   # reuses decoding[mistral7b]
+                                          # (diversity_penalty 1.0, k=5) — the v3-locked penalty, reused
+                                          # as a documented pragmatic default (see 10.4 spec "SL decoding":
+                                          # the sweep is skipped for budget; 10.3's sample Cov@5=0.840 at
+                                          # dp=1.0 on this exact adapter/schema confirms it is not
+                                          # decoding-limited). A dedicated re-sweep is optional future work.
+use_embedding_model: true
+results_dir: "results/"

@@ -1,0 +1,44 @@
+{
+  "model_key": "mistral7b",
+  "dataset_version": "pole_external",
+  "adapter": "checkpoints/mistral7b/sl_adapter_pole_external",
+  "decoding": {
+    "strategy": "beam",
+    "diversity_penalty": 1.0,
+    "k": 5
+  },
+  "n_items": 100,
+  "cov_at_5": 0.81,
+  "em_at_1": 0.62,
+  "gate_threshold": 0.6,
+  "gate_passed": true,
+  "target": 0.85,
+  "per_type": {
+    "entity": {
+      "n": 20,
+      "cov_at_5": 1.0,
+      "em_at_1": 0.95
+    },
+    "intent": {
+      "n": 20,
+      "cov_at_5": 0.45,
+      "em_at_1": 0.2
+    },
+    "null": {
+      "n": 20,
+      "cov_at_5": 0.95,
+      "em_at_1": 0.55
+    },
+    "schema": {
+      "n": 20,
+      "cov_at_5": 0.8,
+      "em_at_1": 0.8
+    },
+    "temporal": {
+      "n": 20,
+      "cov_at_5": 0.85,
+      "em_at_1": 0.6
+    }
+  },
+  "beam_cache": "results/beams_mistral7b_pole_external.jsonl"
+}

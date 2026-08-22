@@ -1,0 +1,53 @@
+Job 1101275 on k020 at Sat 22 Aug 2026 15:22:49 AWST
+Sat Aug 22 15:22:49 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.57.08              Driver Version: 575.57.08      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla V100-PCIE-32GB           Off |   00000000:3B:00.0 Off |                    0 |
+| N/A   29C    P0             22W /  250W |       0MiB /  32768MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   1  Tesla V100-PCIE-32GB           Off |   00000000:D8:00.0 Off |                    0 |
+| N/A   30C    P0             24W /  250W |       0MiB /  32768MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Reusing existing external-POLE volume at /group/pmc084/atan/neo4j_data_pole_external.
+Directories in use:
+home:         /var/lib/neo4j
+config:       /var/lib/neo4j/conf
+logs:         /var/lib/neo4j/logs
+plugins:      /var/lib/neo4j/plugins
+import:       /var/lib/neo4j/import
+data:         /var/lib/neo4j/data
+certificates: /var/lib/neo4j/certificates
+licenses:     /var/lib/neo4j/licenses
+run:          /var/lib/neo4j/run
+Starting Neo4j.
+2026-08-22 07:22:54.046+0000 INFO  Logging config in use: File '/var/lib/neo4j/conf/user-logs.xml'
+2026-08-22 07:22:54.076+0000 INFO  Starting...
+2026-08-22 07:22:55.142+0000 INFO  This instance is ServerId{6dc49cca} (6dc49cca-b8cb-40b7-b18c-31816a527c93)
+2026-08-22 07:22:56.655+0000 INFO  ======== Neo4j 5.26.27 ========
+2026-08-22 07:23:00.750+0000 INFO  Anonymous Usage Data is being sent to Neo4j, see https://neo4j.com/docs/usage-data/
+2026-08-22 07:23:00.794+0000 INFO  Bolt enabled on localhost:7687.
+2026-08-22 07:23:02.074+0000 INFO  HTTP enabled on localhost:7474.
+2026-08-22 07:23:02.074+0000 INFO  Remote interface available at http://localhost:7474/
+2026-08-22 07:23:02.078+0000 INFO  id: D7BA7CCC8582A31BE71B5662776EAA49EACEBCF9BEBC32C523034AC41C3117D8
+2026-08-22 07:23:02.078+0000 INFO  name: system
+2026-08-22 07:23:02.078+0000 INFO  creationDate: 2026-08-21T12:41:59.754Z
+2026-08-22 07:23:02.078+0000 INFO  Started.
+Neo4j ready after 3 checks.
+── Graph spot-check (expect nodes 61521, relationships ~105840) ──
+nodes
+61521
