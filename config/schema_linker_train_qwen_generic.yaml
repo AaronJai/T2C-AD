@@ -1,0 +1,55 @@
+# config/schema_linker_train_qwen_generic.yaml — Stage 1 of 10.6: FROM-SCRATCH LoRA on a
+# 4,000-row seed=13 sample of the Ozsoy Text2Cypher SL split, producing the generic
+# checkpoints/qwen2.5-32b/sl_adapter. This is the Qwen analogue of the 2.1 Mistral run
+# (config/schema_linker_train.yaml) and keeps its 3-epoch / 2e-4 from-scratch schedule; the two
+# POLE continue-SFT YAMLs (schema_linker_train_qwen_{v3,pole_external}.yaml) start from the
+# adapter this run writes.
+#
+# Deliberately NOT the shared schema_linker_train.yaml: three Qwen-specific overrides are
+# required (10.5 fit-test, job 1101258) and one is a scale reduction.
+#   - per_device_train_batch_size 1 (not 2): batch 2 OOMs a 32 GB V100 — Qwen's ~152k-vocab
+#     fp32 logit upcast is 4.06 GiB at seq 3584 x batch 2.
+#   - gradient_accumulation_steps 32 (not 16): keeps the effective batch at 32.
+#   - gradient_checkpointing true: run_sft OOMs even at batch 1 without it (10.6 adds the flag;
+#     it is absent from every Mistral YAML, which therefore train byte-identically to before).
+#   - data = a 4k sample, not the full 15,262-row SL split: at the measured 14.9 s/step,
+#     4000 x 3 epochs ~= 49.7 h (under Kaya's 72 h cap, one job); the full split would be ~190 h.
+#     Regenerate with `python -m experiments.sample_ozsoy_subset --split sl` (deterministic).
+#     The reduced generic scale is an acknowledged Qwen-vs-Mistral difference — see the 10.6 spec.
+#
+# python -m experiments.train_schema_linker --model_key qwen2.5-32b \
+#     --train config/schema_linker_train_qwen_generic.yaml
+
+# model: no init_adapter_path_name — fresh LoraConfig (target_modules from config/models.yaml).
+
+peft:
+  method: "lora"
+  r: 16
+  lora_alpha: 32
+  lora_dropout: 0.05
+  bias: "none"
+  task_type: "CAUSAL_LM"
+  # target_modules: comes from config/models.yaml (qwen2.5-32b -> ["q_proj","v_proj"])
+
+training:
+  output_name: "sl_adapter"              # -> checkpoints/qwen2.5-32b/sl_adapter (generic)
+  num_train_epochs: 3
+  per_device_train_batch_size: 1
+  per_device_eval_batch_size: 1
+  gradient_accumulation_steps: 32        # effective batch = 32, matching the Mistral runs
+  gradient_checkpointing: true           # REQUIRED for Qwen2.5-32B on v100-32gb (10.5)
+  learning_rate: 2.0e-4                  # from-scratch rate, same as 2.1
+  lr_scheduler_type: "cosine"
+  warmup_ratio: 0.03
+  max_seq_length: 3584                   # same cap as 2.1 (measured Ozsoy p99)
+  weight_decay: 0.001
+  bf16: false                            # Kaya v100-32gb (Volta) has no bf16 — fp16
+  fp16: true
+  logging_steps: 50
+  save_strategy: "epoch"
+  evaluation_strategy: "epoch"
+
+data:
+  train_path: "data/ozsoy_sl_train_4k.jsonl"        # seed=13 sample of ozsoy_schema_linker_train.jsonl
+  eval_path:  "data/ozsoy_schema_linker_eval.jsonl"  # full Ozsoy eval split (unchanged, 2.1)
+  format: "prompt_completion"

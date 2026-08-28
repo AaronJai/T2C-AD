@@ -71,6 +71,39 @@ class _JsonlSFTDataset(torch.utils.data.Dataset):
         )
 
 
+def _training_arguments_kwargs(train_cfg: dict, has_eval: bool) -> dict:
+    """Assemble the ``TrainingArguments`` kwargs for one SFT run from ``config["training"]``.
+
+    CONTRACT (10.6 regression guard): when ``train_cfg`` carries no ``gradient_checkpointing``
+    key, or carries it false, the returned dict is exactly the pre-10.6 kwarg set — so the
+    Mistral v2/v3/`_pole_external` runs are byte-identical to what they trained with. Only when
+    the flag is true are ``gradient_checkpointing=True`` and
+    ``gradient_checkpointing_kwargs={"use_reentrant": False}`` added (the non-reentrant
+    implementation is the one that works with PEFT + 4-bit; see the 10.5 fit-test — Qwen2.5-32B
+    OOMs at batch 1 on a 32 GB V100 without checkpointing).
+    """
+    kwargs = {
+        "output_dir": train_cfg["output_dir"],
+        "num_train_epochs": train_cfg["num_train_epochs"],
+        "per_device_train_batch_size": train_cfg["per_device_train_batch_size"],
+        "gradient_accumulation_steps": train_cfg["gradient_accumulation_steps"],
+        "learning_rate": train_cfg["learning_rate"],
+        "lr_scheduler_type": train_cfg["lr_scheduler_type"],
+        "warmup_ratio": train_cfg["warmup_ratio"],
+        "weight_decay": train_cfg["weight_decay"],
+        "bf16": train_cfg.get("bf16", False),
+        "fp16": train_cfg.get("fp16", False),
+        "logging_steps": train_cfg["logging_steps"],
+        "save_strategy": train_cfg["save_strategy"],
+        "evaluation_strategy": train_cfg["evaluation_strategy"] if has_eval else "no",
+        "per_device_eval_batch_size": train_cfg.get("per_device_eval_batch_size", 1),
+    }
+    if train_cfg.get("gradient_checkpointing"):
+        kwargs["gradient_checkpointing"] = True
+        kwargs["gradient_checkpointing_kwargs"] = {"use_reentrant": False}
+    return kwargs
+
+
 def run_sft(config: dict) -> str:
     """Run LoRA SFT from a parsed config dict; return the saved adapter path.
 
@@ -84,7 +117,8 @@ def run_sft(config: dict) -> str:
                             "gradient_accumulation_steps", "learning_rate", "lr_scheduler_type",
                             "warmup_ratio", "max_seq_length", "weight_decay", "bf16", "fp16",
                             "logging_steps", "save_strategy", "evaluation_strategy",
-                            "per_device_eval_batch_size" (optional, default 1)}
+                            "per_device_eval_batch_size" (optional, default 1),
+                            "gradient_checkpointing" (optional, default False — 10.6)}
       config["data"]     : {"train_path", "eval_path"}  # eval_path optional
 
     Steps:
@@ -93,8 +127,9 @@ def run_sft(config: dict) -> str:
          config["model"]["init_adapter_path"] is set (continue-SFT, 7.4), in which case the
          existing adapter at that path is loaded (with its own saved LoRA config) instead.
       3. Build train/eval datasets via build_model_inputs (completion-only loss).
-      4. transformers.Trainer with TrainingArguments from config["training"]; train,
-         resuming from the last checkpoint in output_dir if one exists.
+      4. transformers.Trainer with TrainingArguments from config["training"] (assembled by
+         _training_arguments_kwargs, incl. the optional 10.6 gradient_checkpointing flag);
+         train, resuming from the last checkpoint in output_dir if one exists.
       5. Save the adapter to output_dir; return that path.
 
     Idempotent: if output_dir already holds a saved adapter (``adapter_model.safetensors``
@@ -177,22 +212,7 @@ def run_sft(config: dict) -> str:
     eval_ds = _JsonlSFTDataset(eval_path, tokenizer, max_seq_length) if eval_path else None
 
     # 4. Trainer; resume from the last epoch checkpoint if a prior chained run left one.
-    args = TrainingArguments(
-        output_dir=output_dir,
-        num_train_epochs=train_cfg["num_train_epochs"],
-        per_device_train_batch_size=train_cfg["per_device_train_batch_size"],
-        gradient_accumulation_steps=train_cfg["gradient_accumulation_steps"],
-        learning_rate=train_cfg["learning_rate"],
-        lr_scheduler_type=train_cfg["lr_scheduler_type"],
-        warmup_ratio=train_cfg["warmup_ratio"],
-        weight_decay=train_cfg["weight_decay"],
-        bf16=train_cfg.get("bf16", False),
-        fp16=train_cfg.get("fp16", False),
-        logging_steps=train_cfg["logging_steps"],
-        save_strategy=train_cfg["save_strategy"],
-        evaluation_strategy=train_cfg["evaluation_strategy"] if eval_ds else "no",
-        per_device_eval_batch_size=train_cfg.get("per_device_eval_batch_size", 1),
-    )
+    args = TrainingArguments(**_training_arguments_kwargs(train_cfg, eval_ds is not None))
     trainer = Trainer(
         model=model,
         args=args,

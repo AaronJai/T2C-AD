@@ -1,0 +1,34 @@
+Job 1101277 on k018 at Tue 25 Aug 2026 16:17:49 AWST — stage=v3, train=config/schema_linker_train_qwen_v3.yaml
+Tue Aug 25 16:17:49 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.57.08              Driver Version: 575.57.08      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla V100-PCIE-32GB           Off |   00000000:3B:00.0 Off |                    0 |
+| N/A   34C    P0             22W /  250W |       0MiB /  32768MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   1  Tesla V100-PCIE-32GB           Off |   00000000:D8:00.0 Off |                    0 |
+| N/A   42C    P0             48W /  250W |       0MiB /  32768MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+{'loss': 0.1363, 'grad_norm': 0.36429363489151, 'learning_rate': 9.468163201617062e-05, 'epoch': 0.36}
+{'loss': 0.0117, 'grad_norm': 0.18506205081939697, 'learning_rate': 7.500000000000001e-05, 'epoch': 0.71}
+{'eval_loss': 0.007857868447899818, 'eval_runtime': 937.7426, 'eval_samples_per_second': 0.213, 'eval_steps_per_second': 0.213, 'epoch': 1.0}
+{'loss': 0.007, 'grad_norm': 0.06012996286153793, 'learning_rate': 4.709275855447621e-05, 'epoch': 1.07}
+{'loss': 0.0072, 'grad_norm': 0.14919917285442352, 'learning_rate': 2.0142070414860704e-05, 'epoch': 1.42}
+{'loss': 0.0035, 'grad_norm': 0.10166867077350616, 'learning_rate': 3.0153689607045845e-06, 'epoch': 1.78}
+{'eval_loss': 0.007030502427369356, 'eval_runtime': 937.9139, 'eval_samples_per_second': 0.213, 'eval_steps_per_second': 0.213, 'epoch': 1.99}
+{'train_runtime': 51795.9258, 'train_samples_per_second': 0.07, 'train_steps_per_second': 0.002, 'train_loss': 0.030141967880938734, 'epoch': 1.99}
+Finished at Wed 26 Aug 2026 06:44:16 AWST

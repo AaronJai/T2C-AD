@@ -1,5 +1,5 @@
-Job 1101275 on k020 at Sat 22 Aug 2026 15:22:49 AWST
-Sat Aug 22 15:22:49 2026       
+Job 1101814 on k035 at Sat 22 Aug 2026 21:51:33 AWST
+Sat Aug 22 21:51:33 2026       
 +-----------------------------------------------------------------------------------------+
 | NVIDIA-SMI 575.57.08              Driver Version: 575.57.08      CUDA Version: 12.9     |
 |-----------------------------------------+------------------------+----------------------+
@@ -7,12 +7,12 @@ Sat Aug 22 15:22:49 2026
 | Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
 |                                         |                        |               MIG M. |
 |=========================================+========================+======================|
-|   0  Tesla V100-PCIE-32GB           Off |   00000000:3B:00.0 Off |                    0 |
-| N/A   29C    P0             22W /  250W |       0MiB /  32768MiB |      0%      Default |
+|   0  Tesla V100-PCIE-16GB           Off |   00000000:18:00.0 Off |                    0 |
+| N/A   29C    P0             23W /  250W |       0MiB /  16384MiB |      0%      Default |
 |                                         |                        |                  N/A |
 +-----------------------------------------+------------------------+----------------------+
-|   1  Tesla V100-PCIE-32GB           Off |   00000000:D8:00.0 Off |                    0 |
-| N/A   30C    P0             24W /  250W |       0MiB /  32768MiB |      0%      Default |
+|   1  Tesla V100-PCIE-16GB           Off |   00000000:AF:00.0 Off |                    0 |
+| N/A   29C    P0             25W /  250W |       0MiB /  16384MiB |      0%      Default |
 |                                         |                        |                  N/A |
 +-----------------------------------------+------------------------+----------------------+
                                                                                          
@@ -35,18 +35,18 @@ certificates: /var/lib/neo4j/certificates
 licenses:     /var/lib/neo4j/licenses
 run:          /var/lib/neo4j/run
 Starting Neo4j.
-2026-08-22 07:22:54.046+0000 INFO  Logging config in use: File '/var/lib/neo4j/conf/user-logs.xml'
-2026-08-22 07:22:54.076+0000 INFO  Starting...
-2026-08-22 07:22:55.142+0000 INFO  This instance is ServerId{6dc49cca} (6dc49cca-b8cb-40b7-b18c-31816a527c93)
-2026-08-22 07:22:56.655+0000 INFO  ======== Neo4j 5.26.27 ========
-2026-08-22 07:23:00.750+0000 INFO  Anonymous Usage Data is being sent to Neo4j, see https://neo4j.com/docs/usage-data/
-2026-08-22 07:23:00.794+0000 INFO  Bolt enabled on localhost:7687.
-2026-08-22 07:23:02.074+0000 INFO  HTTP enabled on localhost:7474.
-2026-08-22 07:23:02.074+0000 INFO  Remote interface available at http://localhost:7474/
-2026-08-22 07:23:02.078+0000 INFO  id: D7BA7CCC8582A31BE71B5662776EAA49EACEBCF9BEBC32C523034AC41C3117D8
-2026-08-22 07:23:02.078+0000 INFO  name: system
-2026-08-22 07:23:02.078+0000 INFO  creationDate: 2026-08-21T12:41:59.754Z
-2026-08-22 07:23:02.078+0000 INFO  Started.
+2026-08-22 13:51:37.576+0000 INFO  Logging config in use: File '/var/lib/neo4j/conf/user-logs.xml'
+2026-08-22 13:51:37.612+0000 INFO  Starting...
+2026-08-22 13:51:38.593+0000 INFO  This instance is ServerId{6dc49cca} (6dc49cca-b8cb-40b7-b18c-31816a527c93)
+2026-08-22 13:51:39.930+0000 INFO  ======== Neo4j 5.26.27 ========
+2026-08-22 13:51:43.180+0000 INFO  Anonymous Usage Data is being sent to Neo4j, see https://neo4j.com/docs/usage-data/
+2026-08-22 13:51:43.217+0000 INFO  Bolt enabled on localhost:7687.
+2026-08-22 13:51:44.577+0000 INFO  HTTP enabled on localhost:7474.
+2026-08-22 13:51:44.577+0000 INFO  Remote interface available at http://localhost:7474/
+2026-08-22 13:51:44.580+0000 INFO  id: D7BA7CCC8582A31BE71B5662776EAA49EACEBCF9BEBC32C523034AC41C3117D8
+2026-08-22 13:51:44.580+0000 INFO  name: system
+2026-08-22 13:51:44.581+0000 INFO  creationDate: 2026-08-21T12:41:59.754Z
+2026-08-22 13:51:44.581+0000 INFO  Started.
 Neo4j ready after 3 checks.
 ── Graph spot-check (expect nodes 61521, relationships ~105840) ──
 nodes
@@ -55,42 +55,42 @@ nodes
 
 | Metric | C1 | C2 | C3 |
 | --- | --- | --- | --- |
-| EX | 2.0 | 13.0 | 16.0 |
-| EA / AREA | 2.0 | 13.0 | 19.0 |
-| KG-Valid % | 26.0 | 45.0 | 50.0 |
-| Syntax % | 83.0 | 62.0 | 70.0 |
-| Schema % | 75.9 | 95.2 | 88.6 |
-| Pass@1 | 2.0 | 13.0 | 15.0 |
+| EX | 14.0 | 21.0 | 24.0 |
+| EA / AREA | 14.0 | 21.0 | 26.0 |
+| KG-Valid % | 46.0 | 58.0 | 62.0 |
+| Syntax % | 81.0 | 64.0 | 73.0 |
+| Schema % | 70.4 | 95.3 | 90.4 |
+| Pass@1 | 14.0 | 21.0 | 23.0 |
 
 ### Table 2 — Ambiguity-specific (80)
 
 | Metric | C1 | C2 | C3 |
 | --- | --- | --- | --- |
-| Ambiguous EA | 0.0 | 11.2 | 21.2 |
-| DSR | — | — | 15.2 |
+| Ambiguous EA | 2.5 | 15.0 | 23.8 |
+| DSR | — | — | 30.4 |
 | Detection F1 | — | — | 61.2 |
 | Detection Prec | — | — | 80.4 |
 | Detection Rec | — | — | 49.3 |
-| EA — schema (n=20) | 0.0 | 0.0 | 15.0 |
-| EA — entity (n=20) | 0.0 | 25.0 | 25.0 |
+| EA — schema (n=20) | 0.0 | 0.0 | 10.0 |
+| EA — entity (n=20) | 10.0 | 50.0 | 50.0 |
 | EA — intent (n=20) | 0.0 | 10.0 | 25.0 |
-| EA — temporal (n=20) | 0.0 | 10.0 | 20.0 |
+| EA — temporal (n=20) | 0.0 | 0.0 | 10.0 |
 
 ### Table 3 — Repair/routing (C2, C3)
 
 | Metric | C2 | C3 |
 | --- | --- | --- |
-| Initial Valid % | 44.0 | 47.0 |
-| Post-CyVer Valid % | 45.0 | 50.0 |
-| Structural Repair % | 1.8 | 5.7 |
-| Semantic Repair % | 0.0 | 3.3 |
-| Avg Iterations | 0.52 | 0.41 |
+| Initial Valid % | 57.0 | 60.0 |
+| Post-CyVer Valid % | 58.0 | 62.0 |
+| Structural Repair % | 2.3 | 5.0 |
+| Semantic Repair % | 0.0 | 2.9 |
+| Avg Iterations | 0.19 | 0.22 |
 Wrote results/tables_mistral7b_pole_external_mistral.md + metrics_/qual_records_ ...
 Wrote results/qualitative_analysis_mistral7b_pole_external_mistral.md
-both_correct=11 both_wrong=82 fixed=5 regressed=2
+both_correct=19 both_wrong=74 fixed=5 regressed=2
 Wrote results/qualitative_analysis_mistral7b_pole_external_mistral.md
-Finished at Sat 22 Aug 2026 18:30:48 AWST
-Stopping neo4j (pid 1280533) at Sat 22 Aug 2026 18:30:48 AWST
-2026-08-22 10:30:48.205+0000 INFO  Neo4j Server shutdown initiated by request
-2026-08-22 10:30:48.209+0000 INFO  Stopping...
-2026-08-22 10:30:59.019+0000 INFO  Stopped.
+Finished at Sun 23 Aug 2026 00:46:32 AWST
+Stopping neo4j (pid 513220) at Sun 23 Aug 2026 00:46:32 AWST
+2026-08-22 16:46:32.356+0000 INFO  Neo4j Server shutdown initiated by request
+2026-08-22 16:46:32.358+0000 INFO  Stopping...
+2026-08-22 16:46:42.897+0000 INFO  Stopped.

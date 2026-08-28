@@ -35,4 +35,11 @@ schema_linker_inference: "config/schema_linker_inference.yaml"   # reuses decodi
                                           # dp=1.0 on this exact adapter/schema confirms it is not
                                           # decoding-limited). A dedicated re-sweep is optional future work.
 use_embedding_model: true
+# QG properties block: REQUIRED on the local "completion" path. QueryGenerator derives
+# include_properties from prompt_style, so a local model gets False unless overridden — the QG
+# would never see the schema's property names. decisions-log 2026-07-17 reframed properties-off
+# as a DEFECT (not a condition) and made True the canonical local configuration
+# (config/pipeline_v3_qgprops.yaml). 4 of this schema's 27 properties — incl. `nhs_no` — appear
+# ZERO times in data/pole_ext_qg_train_mixed.jsonl, so the prompt is their only source.
+qg_include_properties: true
 results_dir: "results/"

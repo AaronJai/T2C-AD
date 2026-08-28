@@ -1,0 +1,225 @@
+Job 1144336 on k172 at Fri 28 Aug 2026 23:17:25 AWST — substrate=v3, script=kaya/sl_v3_cov_check.py
+Fri Aug 28 23:17:25 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.57.08              Driver Version: 575.57.08      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100 NVL                Off |   00000000:64:00.0 Off |                    0 |
+| N/A   49C    P0             66W /  400W |       0MiB /  95830MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Sampled 25/25 v3 items; decoding={'strategy': 'beam', 'diversity_penalty': 1.0, 'k': 5}
+[Q-041] (schema) covered=True
+    Q: Show people connected to the Northbridge robbery.
+    gold:  ['(p:Person)-[r]->(i:Incident)', '(p:Person)-[:SUSPECTED_OF]->(i:Incident)', '(p:Person)-[:WITNESSED]->(i:Incident)', '(p:Person)-[:INVESTIGATES]->(i:Incident)']
+    beam1: '(i:Incident)<-[:SUSPECTED_OF]-(p:Person)'
+    beam2: '(i:Incident)<-[:WITNESSED]-(p:Person)'
+    beam3: '(i:Incident)<-[:INVESTIGATES]-(p:Person)'
+    beam4: '(:Incident)<-[:SUSPECTED_OF]-(p:Person)'
+    beam5: '(i:Incident)<-[:VICTIM_OF|:WITNESSED|:SUSPECTED_OF|:INVESTIGATES]-(p:Person)'
+[Q-042] (schema) covered=True
+    Q: Who is involved in the Cannington homicide?
+    gold:  ['(p:Person)-[r]->(i:Incident)', '(p:Person)-[:SUSPECTED_OF]->(i:Incident)', '(p:Person)-[:WITNESSED]->(i:Incident)', '(p:Person)-[:INVESTIGATES]->(i:Incident)']
+    beam1: '(i:Incident)<-[:INVESTIGATES]-(p:Person)'
+    beam2: '(i:Incident)<-[:SUSPECTED_OF]-(p:Person)'
+    beam3: '(:Incident)<-[:SUSPECTED_OF]-(p:Person)'
+    beam4: '(i:Incident)<-[:VICTIM_OF|:SUSPECTED_OF|:WITNESSED|:INVESTIGATES]-(p:Person)'
+    beam5: '(i:Incident)<-[:WITNESSED]-(p:Person), (i)<-[:SUSPECTED_OF]-(p:Person), (i)<-[:VICTIM_OF]-(p:Person)'
+[Q-043] (schema) covered=True
+    Q: List everyone linked to the fraud on St Georges Terrace.
+    gold:  ['(p:Person)-[r]->(i:Incident)', '(p:Person)-[:SUSPECTED_OF]->(i:Incident)', '(p:Person)-[:WITNESSED]->(i:Incident)', '(p:Person)-[:INVESTIGATES]->(i:Incident)']
+    beam1: '(i:Incident)<-[:WITNESSED]-(p:Person)'
+    beam2: '(i:Incident)<-[:WITNESSED]-(p:Person)'
+    beam3: '(i:Incident)<-[:INVESTIGATES]-(p:Person)'
+    beam4: '(i:Incident)<-[:SUSPECTED_OF]-(p:Person)'
+    beam5: '(i:Incident)-[:OCCURRED_AT]->(l:Location)'
+[Q-044] (schema) covered=True
+    Q: Who took part in the assault in Scarborough?
+    gold:  ['(p:Person)-[r]->(i:Incident)', '(p:Person)-[:SUSPECTED_OF]->(i:Incident)', '(p:Person)-[:WITNESSED]->(i:Incident)', '(p:Person)-[:INVESTIGATES]->(i:Incident)']
+    beam1: '(i:Incident)<-[:WITNESSED]-(p:Person)'
+    beam2: '(i:Incident)<-[:WITNESSED]-(p:Person)'
+    beam3: '(i:Incident)-[:OCCURRED_AT]->(l:Location)'
+    beam4: '(i:Incident)<-[:VICTIM_OF]-(p:Person), (i)<-[:WITNESSED]-(p), (i)<-[:SUSPECTED_OF]-(p)'
+    beam5: '(:Location)<-[:OCCURRED_AT]-(i:Incident)<-[:SUSPECTED_OF]-(p:Person)'
+[Q-045] (schema) covered=True
+    Q: Show the people associated with the drug offence on Lake Street.
+    gold:  ['(p:Person)-[r]->(i:Incident)', '(p:Person)-[:SUSPECTED_OF]->(i:Incident)', '(p:Person)-[:WITNESSED]->(i:Incident)', '(p:Person)-[:INVESTIGATES]->(i:Incident)']
+    beam1: '(i:Incident)<-[:WITNESSED]-(p:Person)-[:ASSOCIATED_WITH]-(p2:Person)'
+    beam2: '(i:Incident)<-[:VICTIM_OF]-(p:Person)-[:ASSOCIATED_WITH]-(p2:Person)'
+    beam3: '(i:Incident)<-[:INVESTIGATES]-(p:Person)'
+    beam4: '(i:Incident)<-[:SUSPECTED_OF]-(p:Person)-[:ASSOCIATED_WITH]-(p2:Person)'
+    beam5: '(i:Incident)-[:OCCURRED_AT]->(l:Location)<-[:LIVES_AT]-(p:Person)-[:ASSOCIATED_WITH]-(p2:Person)'
+[Q-061] (entity) covered=True
+    Q: What is Tran's current address?
+    gold:  ['(p:Person)-[:LIVES_AT {active:true}]->(l:Location)', '(:Person)-[:LIVES_AT {active:true}]->(l:Location)', '(:Person)-[:LIVES_AT {active:true}]->(l:Location)']
+    beam1: '(p:Person)-[:LIVES_AT {active:true}]->(l:Location)'
+    beam2: '(p:Person)-[:LIVES_AT {active:true}]->(l:Location)'
+    beam3: '(p:Person)-[:LIVES_AT {active:true}]->(l:Location)'
+    beam4: '(p:Person)-[:LIVES_AT {active:true}]->(l:Location)'
+    beam5: '(p:Person)-[:LIVES_AT {active:true}]->(l:Location)'
+[Q-062] (entity) covered=True
+    Q: Where does Kim currently live?
+    gold:  ['(p:Person)-[:LIVES_AT {active:true}]->(l:Location)', '(:Person)-[:LIVES_AT {active:true}]->(l:Location)', '(:Person)-[:LIVES_AT {active:true}]->(l:Location)']
+    beam1: '(p:Person)-[:LIVES_AT {active:true}]->(l:Location)'
+    beam2: '(p:Person)-[:LIVES_AT {active:true}]->(l:Location)'
+    beam3: '(p:Person)-[:LIVES_AT {active:true}]->(l:Location)'
+    beam4: '(p:Person)-[:LIVES_AT {active:true}]->(l:Location)'
+    beam5: '(p:Person)-[:LIVES_AT {active:true}]->(l:Location)'
+[Q-063] (entity) covered=False
+    Q: What is Nguyen's phone number?
+    gold:  ['(p:Person)-[:USES_PHONE {active:true}]->(ph:Phone)', '(:Person)-[:USES_PHONE {active:true}]->(ph:Phone)', '(:Person)-[:USES_PHONE {active:true}]->(ph:Phone)']
+    beam1: '(p:Person)-[:USES_PHONE]->(ph:Phone)'
+    beam2: '(p:Person)-[:USES_PHONE]->(ph:Phone)'
+    beam3: '(p:Person)-[:USES_PHONE]->(ph:Phone)'
+    beam4: '(p:Person)-[:USES_PHONE]->(ph:Phone)'
+    beam5: '(p:Person)-[:USES_PHONE]->(ph:Phone)'
+[Q-064] (entity) covered=False
+    Q: Which incidents is Chen connected to?
+    gold:  ['(p:Person)-[r]->(i:Incident)', '(:Person)-[r]->(i:Incident)', '(:Person)-[r]->(i:Incident)']
+    beam1: '(p:Person)-[:ASSOCIATED_WITH]-(p2:Person)-[:SUSPECTED_OF|:WITNESSED|:VICTIM_OF|:INVESTIGATES]->(i:Incident)'
+    beam2: '(p:Person)-[:ASSOCIATED_WITH]-(p2:Person)-[:SUSPECTED_OF|WITNESSED|VICTIM_OF|INVESTIGATES]->(i:Incident)'
+    beam3: '(p:Person)-[:SUSPECTED_OF|:WITNESSED|:VICTIM_OF|:INVESTIGATES]->(i:Incident)'
+    beam4: '(p:Person)-[:SUSPECTED_OF|:WITNESSED|:VICTIM_OF|:INVESTIGATES]->(i:Incident)'
+    beam5: '(p:Person)-[:ASSOCIATED_WITH*]-(p2:Person)-[:SUSPECTED_OF|:WITNESSED|:VICTIM_OF|:INVESTIGATES]->(i:Incident)'
+[Q-065] (entity) covered=False
+    Q: Which incidents is Smith connected to?
+    gold:  ['(p:Person)-[r]->(i:Incident)', '(:Person)-[r]->(i:Incident)', '(:Person)-[r]->(i:Incident)']
+    beam1: '(p:Person)-[:SUSPECTED_OF|:WITNESSED|:VICTIM_OF|:INVESTIGATES]->(i:Incident)'
+    beam2: '(p:Person)-[:SUSPECTED_OF|:WITNESSED|:VICTIM_OF|:INVESTIGATES]->(i:Incident)'
+    beam3: '(:Person)-[:SUSPECTED_OF|:WITNESSED|:VICTIM_OF|:INVESTIGATES]->(i:Incident)'
+    beam4: '(p:Person)-[:ASSOCIATED_WITH]-(p2:Person)-[:SUSPECTED_OF|WITNESSED|VICTIM_OF|INVESTIGATES]->(i:Incident)'
+    beam5: '(p:Person)-[:ASSOCIATED_WITH]-(p2:Person)-[:SUSPECTED_OF|WITNESSED|VICTIM_OF|INVESTIGATES]->(i:Incident)'
+[Q-081] (intent) covered=True
+    Q: Tell me about the suspects in the Lake Street drug offence.
+    gold:  ['(p:Person)-[:SUSPECTED_OF]->(:Incident)', '(p:Person)-[:SUSPECTED_OF]->(:Incident)', '(p:Person)-[:SUSPECTED_OF]->(:Incident)']
+    beam1: '(i:Incident)<-[:SUSPECTED_OF]-(p:Person)'
+    beam2: '(i:Incident)<-[:SUSPECTED_OF]-(p:Person)'
+    beam3: '(i:Incident)<-[:INVESTIGATES]-(p:Person)'
+    beam4: '(l:Location)<-[:OCCURRED_AT]-(i:Incident)<-[:SUSPECTED_OF]-(p:Person)'
+    beam5: '(l:Location)<-[:OCCURRED_AT]-(i:Incident)<-[:SUSPECTED_OF]-(p:Person)'
+[Q-082] (intent) covered=True
+    Q: What about the incidents in Northbridge?
+    gold:  ['(i:Incident)-[:OCCURRED_AT]->(:Location)', '(i:Incident)-[:OCCURRED_AT]->(:Location)', '(i:Incident)-[:OCCURRED_AT]->(:Location)']
+    beam1: '(l:Location)<-[:OCCURRED_AT]-(i:Incident)'
+    beam2: '(l:Location)<-[:OCCURRED_AT]-(i:Incident)'
+    beam3: '(l:Location)<-[:OCCURRED_AT]-(i:Incident)'
+    beam4: '(l:Location)<-[:OCCURRED_AT]-(i:Incident)'
+    beam5: '(:Location)<-[:OCCURRED_AT]-(i:Incident)'
+[Q-083] (intent) covered=True
+    Q: Show the current residents of 55 Beaufort Street.
+    gold:  ['(p:Person)-[l:LIVES_AT {active:true}]->(:Location)', '(p:Person)-[l:LIVES_AT {active:true}]->(:Location)', '(p:Person)-[l:LIVES_AT {active:true}]->(:Location)']
+    beam1: '(l:Location)<-[:LIVES_AT {active:true}]-(p:Person)'
+    beam2: '(l:Location)<-[:LIVES_AT {active:true}]-(p:Person)'
+    beam3: '(l:Location)<-[:LIVES_AT {active:true}]-(p:Person)'
+    beam4: '(l:Location)<-[:LIVES_AT {active:true}]-(p:Person)'
+    beam5: '(p:Person)-[:LIVES_AT {active:true}]->(l:Location)'
+[Q-084] (intent) covered=True
+    Q: Show incidents in Perth.
+    gold:  ['(i:Incident)-[:OCCURRED_AT]->(:Location)', '(i:Incident)-[:OCCURRED_AT]->(:Location)', '(i:Incident)']
+    beam1: '(l:Location)<-[:OCCURRED_AT]-(i:Incident)'
+    beam2: '(l:Location)<-[:OCCURRED_AT]-(i:Incident)'
+    beam3: '(l:Location)<-[:OCCURRED_AT]-(i:Incident)'
+    beam4: '(i:Incident)-[:OCCURRED_AT]->(l:Location)'
+    beam5: '(:Location {suburb:"Perth"})<-[:OCCURRED_AT]-(i:Incident)'
+[Q-085] (intent) covered=True
+    Q: Who is the main suspect in the homicide?
+    gold:  ['(p:Person)-[:SUSPECTED_OF]->(:Incident)', '(p:Person)-[:SUSPECTED_OF]->(:Incident)', '(p:Person)-[:SUSPECTED_OF]->(:Incident)']
+    beam1: '(i:Incident)<-[:SUSPECTED_OF]-(p:Person)'
+    beam2: '(i:Incident)<-[:SUSPECTED_OF]-(p:Person)'
+    beam3: '(i:Incident)<-[:SUSPECTED_OF]-(p:Person)'
+    beam4: '(i:Incident)<-[:INVESTIGATES]-(p:Person)'
+    beam5: '(:Incident)<-[:SUSPECTED_OF]-(p:Person)'
+[Q-101] (temporal) covered=True
+    Q: Where does James Whitfield live?
+    gold:  ['(:Person)-[:LIVES_AT {active:true}]->(l:Location)', '(:Person)-[:LIVES_AT {active:true}]->(l:Location)', '(:Person)-[:LIVES_AT]->(l:Location)']
+    beam1: '(p:Person)-[:LIVES_AT]->(l:Location)'
+    beam2: '(p:Person)-[:LIVES_AT]->(l:Location)'
+    beam3: '(p:Person)-[:LIVES_AT]->(l:Location)'
+    beam4: '(p:Person)-[:LIVES_AT]->(l:Location)'
+    beam5: '(p:Person)-[:LIVES_AT]->(l:Location)'
+[Q-102] (temporal) covered=True
+    Q: Where does Lina Petrova live?
+    gold:  ['(:Person)-[:LIVES_AT {active:true}]->(l:Location)', '(:Person)-[:LIVES_AT {active:true}]->(l:Location)', '(:Person)-[:LIVES_AT]->(l:Location)']
+    beam1: '(p:Person)-[:LIVES_AT]->(l:Location)'
+    beam2: '(p:Person)-[:LIVES_AT]->(l:Location)'
+    beam3: '(p:Person)-[:LIVES_AT]->(l:Location)'
+    beam4: '(p:Person)-[:LIVES_AT]->(l:Location)'
+    beam5: '(p:Person)-[:LIVES_AT]->(l:Location)'
+[Q-103] (temporal) covered=True
+    Q: What vehicle does Ricky Santos own?
+    gold:  ['(:Person)-[:OWNS {active:true}]->(v:Vehicle)', '(:Person)-[:OWNS {active:true}]->(v:Vehicle)', '(:Person)-[:OWNS]->(v:Vehicle)']
+    beam1: '(p:Person)-[:OWNS]->(v:Vehicle)'
+    beam2: '(p:Person)-[:OWNS]->(v:Vehicle)'
+    beam3: '(p:Person)-[:OWNS]->(v:Vehicle)'
+    beam4: '(p:Person)-[:OWNS]->(v:Vehicle)'
+    beam5: '(p:Person)-[:OWNS]->(v:Vehicle)'
+[Q-104] (temporal) covered=True
+    Q: Who owns the Holden Commodore?
+    gold:  ['(p:Person)-[:OWNS {active:true}]->(:Vehicle)', '(p:Person)-[:OWNS {active:true}]->(:Vehicle)', '(p:Person)-[:OWNS]->(:Vehicle)']
+    beam1: '(v:Vehicle)<-[:OWNS]-(p:Person)'
+    beam2: '(v:Vehicle)<-[:OWNS]-(p:Person)'
+    beam3: '(v:Vehicle)<-[:OWNS]-(p:Person)'
+    beam4: '(v:Vehicle)<-[:OWNS]-(p:Person)'
+    beam5: '(v:Vehicle)<-[:OWNS]-(p:Person)'
+[Q-105] (temporal) covered=True
+    Q: Who owns the Ford Ranger?
+    gold:  ['(p:Person)-[:OWNS {active:true}]->(:Vehicle)', '(p:Person)-[:OWNS {active:true}]->(:Vehicle)', '(p:Person)-[:OWNS]->(:Vehicle)']
+    beam1: '(v:Vehicle)<-[:OWNS]-(p:Person)'
+    beam2: '(v:Vehicle)<-[:OWNS]-(p:Person)'
+    beam3: '(v:Vehicle)<-[:OWNS]-(p:Person)'
+    beam4: '(v:Vehicle)<-[:OWNS]-(p:Person)'
+    beam5: '(v:Vehicle)<-[:OWNS]-(p:Person)'
+[Q-001] (null) covered=True
+    Q: Who is suspected of the homicide?
+    gold:  ['(p:Person)-[:SUSPECTED_OF]->(:Incident)']
+    beam1: '(i:Incident)<-[:SUSPECTED_OF]-(p:Person)'
+    beam2: '(i:Incident)<-[:SUSPECTED_OF]-(p:Person)'
+    beam3: '(i:Incident)<-[:SUSPECTED_OF]-(p:Person)'
+    beam4: '(i:Incident)<-[:INVESTIGATES]-(p:Person)'
+    beam5: '(:Incident)<-[:SUSPECTED_OF]-(p:Person)'
+[Q-002] (null) covered=True
+    Q: Which officers are investigating the homicide?
+    gold:  ['(p:Person)-[:INVESTIGATES]->(:Incident)']
+    beam1: '(i:Incident)<-[:INVESTIGATES]-(p:Person)'
+    beam2: '(i:Incident)<-[:INVESTIGATES]-(p:Person)'
+    beam3: '(i:Incident)<-[:INVESTIGATES]-(p:Person)'
+    beam4: '(i:Incident)<-[:INVESTIGATES]-(p:Person)'
+    beam5: '(i:Incident)<-[:INVESTIGATES]-(p:Person)'
+[Q-003] (null) covered=True
+    Q: Who is the victim of the homicide?
+    gold:  ['(p:Person)-[:VICTIM_OF]->(:Incident)']
+    beam1: '(i:Incident)<-[:VICTIM_OF]-(p:Person)'
+    beam2: '(i:Incident)<-[:VICTIM_OF]-(p:Person)'
+    beam3: '(i:Incident)<-[:VICTIM_OF]-(p:Person)'
+    beam4: '(:Incident)-[:VICTIM_OF]->(p:Person)'
+    beam5: '(:Incident {crime_type})-[:VICTIM_OF]->(p:Person)'
+[Q-004] (null) covered=True
+    Q: Which incidents are part of Operation Ironside?
+    gold:  ['(:Case)-[:CONTAINS]->(i:Incident)']
+    beam1: '(c:Case)-[:CONTAINS]->(i:Incident)'
+    beam2: '(c:Case)-[:CONTAINS]->(i:Incident)'
+    beam3: '(c:Case)-[:CONTAINS]->(i:Incident)'
+    beam4: '(c:Case)-[:CONTAINS]->(i:Incident)'
+    beam5: '(:Case)-[:CONTAINS]->(i:Incident)'
+[Q-005] (null) covered=True
+    Q: Which case contains the Cannington homicide?
+    gold:  ['(c:Case)-[:CONTAINS]->(:Incident)']
+    beam1: '(i:Incident)<-[:CONTAINS]-(c:Case)'
+    beam2: '(i:Incident)<-[:CONTAINS]-(c:Case)'
+    beam3: '(i:Incident)<-[:CONTAINS]-(c:Case)'
+    beam4: '(i:Incident)-[:CONTAINS]-(c:Case)'
+    beam5: '(i:Incident)-[:CONTAINS]-(c:Case)'
+
+Sample Cov@5 (sl_adapter_v3, n=25): 0.880
+Finished at Fri 28 Aug 2026 23:21:54 AWST

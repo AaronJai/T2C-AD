@@ -1,0 +1,225 @@
+Job 1144337 on k172 at Fri 28 Aug 2026 23:17:25 AWST — substrate=pole_external, script=kaya/sl_pole_external_cov_check.py
+Fri Aug 28 23:17:25 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.57.08              Driver Version: 575.57.08      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100 NVL                Off |   00000000:02:00.0 Off |                    0 |
+| N/A   51C    P0             66W /  400W |       0MiB /  95830MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Sampled 25/25 external-POLE items; decoding={'strategy': 'beam', 'diversity_penalty': 1.0, 'k': 5}
+[Q-POLE-S01] (schema) covered=True
+    Q: Who has Alan Hicks communicated with digitally?
+    gold:  ['(p1:Person)-[:KNOWS_SN|KNOWS_PHONE]-(p2:Person)', '(p1:Person)-[:KNOWS_PHONE]-(p2:Person)', '(p1:Person)-[:KNOWS_SN]-(p2:Person)']
+    beam1: '(p:Person)-[:KNOWS_SN|KNOWS_PHONE]-(p2:Person)'
+    beam2: '(p:Person)-[:KNOWS_SN]-(p2:Person)'
+    beam3: '(p:Person)-[:KNOWS_PHONE|KNOWS_SN|KNOWS_LW]-(p2:Person)'
+    beam4: '(p:Person)-[:KNOWS_PHONE|:KNOWS_SN]-(p2:Person)'
+    beam5: '(p1:Person)-[:KNOWS_SN|KNOWS_PHONE]-(p2:Person)'
+[Q-POLE-S02] (schema) covered=True
+    Q: Who has Ann Fox been in digital contact with?
+    gold:  ['(p1:Person)-[:KNOWS_SN|KNOWS_PHONE]-(p2:Person)', '(p1:Person)-[:KNOWS_PHONE]-(p2:Person)', '(p1:Person)-[:KNOWS_SN]-(p2:Person)']
+    beam1: '(p:Person)-[:KNOWS_SN]-(p2:Person)'
+    beam2: '(p:Person)-[:KNOWS_SN]-(p2:Person)'
+    beam3: '(p:Person)-[:KNOWS_SN]-(p2:Person)'
+    beam4: '(p:Person)-[:KNOWS]-(p2:Person)'
+    beam5: '(p:Person)-[:KNOWS_PHONE|KNOWS_SN]-(p2:Person)'
+[Q-POLE-S03] (schema) covered=True
+    Q: Who has Benjamin Hamilton had digital communication with?
+    gold:  ['(p1:Person)-[:KNOWS_SN|KNOWS_PHONE]-(p2:Person)', '(p1:Person)-[:KNOWS_PHONE]-(p2:Person)', '(p1:Person)-[:KNOWS_SN]-(p2:Person)']
+    beam1: '(p:Person)-[:KNOWS_SN]-(p2:Person)'
+    beam2: '(p:Person)-[:KNOWS_SN]-(p2:Person)'
+    beam3: '(p:Person)-[:KNOWS_PHONE]-(p2:Person)'
+    beam4: '(p:Person)-[:KNOWS_PHONE]-(p2:Person)'
+    beam5: '(p:Person)-[:KNOWS_DIGITAL]-(p2:Person)'
+[Q-POLE-S04] (schema) covered=True
+    Q: Who has Bonnie Gilbert had electronic communication with?
+    gold:  ['(p1:Person)-[:KNOWS_SN|KNOWS_PHONE]-(p2:Person)', '(p1:Person)-[:KNOWS_PHONE]-(p2:Person)', '(p1:Person)-[:KNOWS_SN]-(p2:Person)']
+    beam1: '(p:Person)-[:KNOWS_PHONE]-(p2:Person)'
+    beam2: '(p:Person)-[:KNOWS_PHONE]-(p2:Person)'
+    beam3: '(p:Person)-[:KNOWS_SN]-(p2:Person)'
+    beam4: '(p:Person)-[:KNOWS_EMAIL|KNOWS_PHONE]-(p2:Person)'
+    beam5: '(p:Person)-[:KNOWS_EMAIL|KNOWS_PHONE]-(p2:Person)'
+[Q-POLE-S05] (schema) covered=True
+    Q: Who has Brenda Edwards been digitally connected to?
+    gold:  ['(p1:Person)-[:KNOWS_SN|KNOWS_PHONE]-(p2:Person)', '(p1:Person)-[:KNOWS_PHONE]-(p2:Person)', '(p1:Person)-[:KNOWS_SN]-(p2:Person)']
+    beam1: '(p:Person)-[:KNOWS_SN]-(p2:Person)'
+    beam2: '(p:Person)-[:KNOWS_SN]-(p2:Person)'
+    beam3: '(p:Person)-[:KNOWS_SN]-(p2:Person)'
+    beam4: '(p:Person)-[:KNOWS_SN]-(p2:Person)'
+    beam5: '(p:Person)-[:KNOWS_PHONE|KNOWS_SN]-(p2:Person)'
+[Q-POLE-E01] (entity) covered=True
+    Q: What is Andrea George's address?
+    gold:  ['(p:Person)-[:CURRENT_ADDRESS]->(l:Location)', '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)', '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)']
+    beam1: '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)'
+    beam2: '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)'
+    beam3: '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)'
+    beam4: '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)'
+    beam5: '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)'
+[Q-POLE-E02] (entity) covered=True
+    Q: What is Anne Rice's address?
+    gold:  ['(p:Person)-[:CURRENT_ADDRESS]->(l:Location)', '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)', '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)']
+    beam1: '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)'
+    beam2: '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)'
+    beam3: '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)'
+    beam4: '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)'
+    beam5: '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)'
+[Q-POLE-E03] (entity) covered=True
+    Q: What is the home address of a person with surname Ford?
+    gold:  ['(p:Person)-[:CURRENT_ADDRESS]->(l:Location)', '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)', '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)', '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)', '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)']
+    beam1: '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)'
+    beam2: '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)'
+    beam3: '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)'
+    beam4: '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)'
+    beam5: '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)'
+[Q-POLE-E04] (entity) covered=True
+    Q: Where does a person with the surname Fuller live?
+    gold:  ['(p:Person)-[:CURRENT_ADDRESS]->(l:Location)', '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)', '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)', '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)', '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)']
+    beam1: '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)'
+    beam2: '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)'
+    beam3: '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)'
+    beam4: '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)'
+    beam5: '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)'
+[Q-POLE-E05] (entity) covered=True
+    Q: What address is registered for a person with the surname Murray?
+    gold:  ['(p:Person)-[:CURRENT_ADDRESS]->(l:Location)', '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)', '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)', '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)', '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)']
+    beam1: '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)'
+    beam2: '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)'
+    beam3: '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)'
+    beam4: '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)'
+    beam5: '(p:Person)-[:CURRENT_ADDRESS]->(l:Location)'
+[Q-POLE-I01] (intent) covered=False
+    Q: Which Inspector has investigated the most crimes, aside from Nettles Worthy?
+    gold:  ['(c:Crime)-[:INVESTIGATED_BY]->(o:Officer)', '(c:Crime)-[:INVESTIGATED_BY]->(o:Officer)', '(c:Crime)-[:INVESTIGATED_BY]->(o:Officer)']
+    beam1: '(p:Person)-[:KNOWS]-(p2:Person)-[:INVESTIGATED_BY]->(c:Crime)'
+    beam2: '(p:Person)-[:KNOWS]-(p2:Person)-[:INVESTIGATED_BY]->(c:Crime)'
+    beam3: '(p:Person)-[:FAMILY_REL]-(p2:Person)-[:KNOWS]-(p3:Person)-[:INVESTIGATED_BY]->(c:Crime)'
+    beam4: '(p:Person)-[:KNOWS_LW]-(p2:Person)-[:KNOWS]-(p3:Person)-[:INVESTIGATED_BY]->(c:Crime)'
+    beam5: '(p:Person)-[:KNOWS_PHONE]-(p2:Person)-[:KNOWS_LW]-(p3:Person)-[:KNOWS]-(p4:Person)-[:PARTY_TO]->(c:Crime)-[:INVESTIGATED_BY]->(off:Officer)'
+[Q-POLE-I02] (intent) covered=False
+    Q: Which Police Constable has investigated the most crimes, aside from Ings Cloe?
+    gold:  ['(c:Crime)-[:INVESTIGATED_BY]->(o:Officer)', '(c:Crime)-[:INVESTIGATED_BY]->(o:Officer)', '(c:Crime)-[:INVESTIGATED_BY]->(o:Officer)']
+    beam1: '(p:Person)-[:KNOWS]-(p2:Person)-[:INVESTIGATED_BY]->(c:Crime)'
+    beam2: '(p:Person)-[:KNOWS]-(p2:Person)-[:INVESTIGATED_BY]->(c:Crime)'
+    beam3: '(p:Person)-[:KNOWS]-(p2:Person)-[:INVESTIGATED_BY]->(c:Crime)'
+    beam4: '(p:Person)-[:KNOWS_PHONE]-(p2:Person)-[:INVESTIGATED_BY]->(c:Crime)'
+    beam5: '(p:Person)-[:KNOWS]-(p2:Person)-[:KNOWS]-(p3:Person)-[:KNOWS]-(p4:Person)-[:KNOWS]-(p5:Person)-[:KNOWS]-(p6:Person)'
+[Q-POLE-I03] (intent) covered=False
+    Q: Which Chief Inspector has investigated the most crimes, aside from the top three (Monelli Kort, Stave Urban, Febry Roberto)?
+    gold:  ['(c:Crime)-[:INVESTIGATED_BY]->(o:Officer)', '(c:Crime)-[:INVESTIGATED_BY]->(o:Officer)', '(c:Crime)-[:INVESTIGATED_BY]->(o:Officer)', '(c:Crime)-[:INVESTIGATED_BY]->(o:Officer)', '(c:Crime)-[:INVESTIGATED_BY]->(o:Officer)']
+    beam1: '(p:Person)-[:KNOWS]-(p2:Person)-[:INVESTIGATED_BY]->(c:Crime)'
+    beam2: '(p:Person)-[:KNOWS]-(p2:Person)-[:INVESTIGATED_BY]->(c:Crime)'
+    beam3: '(p:Person)-[:KNOWS_PHONE]-(p2:Person)-[:KNOWS_LW]-(p3:Person)'
+    beam4: '(p:Person)-[:KNOWS]-(p2:Person)-[:KNOWS]-(p3:Person)-[:KNOWS]-(p4:Person)-[:KNOWS]-(p5:Person)-[:KNOWS]-(p6:Person)-[:KNOWS]-(p7:Person)-[:KNOWS]-(p8:Person)-[:KNOWS]-(p9:Person)-[:KNOWS]-(p10:Person)-[:KNOWS]-(p11:Person)-[:KNOWS]-(p12:Person'
+    beam5: '(p:Person)-[:KNOWS_LW]-(p2:Person)-[:KNOWS_LW]-(p3:Person)-[:KNOWS_LW]-(p4:Person)-[:KNOWS_LW]-(p5:Person)-[:KNOWS_LW]-(p6:Person)-[:KNOWS_LW]-(p7:Person)-[:KNOWS_LW]-(p8:Person)-[:KNOWS_LW]-(p9:Person)-[:KNOWS_LW]-(p10:Person)-[:KNOWS_L'
+[Q-POLE-I04] (intent) covered=False
+    Q: Which Sergeant has investigated the most crimes, aside from the top three (DeSousa Madelon, Notti Kania, Klehyn Olenolin)?
+    gold:  ['(c:Crime)-[:INVESTIGATED_BY]->(o:Officer)', '(c:Crime)-[:INVESTIGATED_BY]->(o:Officer)', '(c:Crime)-[:INVESTIGATED_BY]->(o:Officer)']
+    beam1: '(p:Person)-[:KNOWS]-(p2:Person)-[:INVESTIGATED_BY]->(c:Crime)'
+    beam2: '(p:Person)-[:KNOWS]-(p2:Person)-[:INVESTIGATED_BY]->(c:Crime)'
+    beam3: '(p:Person)-[:FAMILY_REL]-(p2:Person)'
+    beam4: '(p:Person)-[:KNOWS_PHONE]-(p2:Person)'
+    beam5: '(p:Person)-[:KNOWS]-(p2:Person)-[:KNOWS]-(p3:Person)-[:KNOWS]-(p4:Person)-[:KNOWS]-(p5:Person)-[:KNOWS]-(p6:Person)-[:KNOWS]-(p7:Person)-[:KNOWS]-(p8:Person)-[:KNOWS]-(p9:Person)-[:KNOWS]-(p10:Person)-[:KNOWS]-(p11:Person)-[:KNOWS]-(p12:Person'
+[Q-POLE-I05] (intent) covered=False
+    Q: Which area recorded the most crime, after BL9?
+    gold:  ['(c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area)', '(c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area)', '(c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area)', '(c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area)']
+    beam1: '(p:PostCode)-[:POSTCODE_IN_AREA]->(a:Area)<-[:LOCATION_IN_AREA]-(l:Location)<-[:OCCURRED_AT]-(c:Crime)'
+    beam2: '(p:PostCode)-[:POSTCODE_IN_AREA]->(a:Area)<-[:LOCATION_IN_AREA]-(l:Location)<-[:OCCURRED_AT]-(c:Crime)'
+    beam3: '(post:PostCode)-[:POSTCODE_IN_AREA]->(area:Area)'
+    beam4: '(post:PostCode)-[:POSTCODE_IN_AREA]->(area:Area)'
+    beam5: '(p:PostCode)-[:POSTCODE_IN_AREA]->(a:Area)<-[:OCCURRED_AT]-(c:Crime)'
+[Q-POLE-T01] (temporal) covered=True
+    Q: How many crimes happened in area M1 around 11 August 2017?
+    gold:  ['(c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area)', '(c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area)', '(c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area)']
+    beam1: '(c:Crime)-[:OCCURRED_AT]->(l:Location)-[:LOCATION_IN_AREA]->(a:Area)'
+    beam2: '(c:Crime)-[:OCCURRED_AT]->(l:Location)-[:LOCATION_IN_AREA]->(a:Area)'
+    beam3: '(c:Crime)-[:OCCURRED_AT]->(l:Location)-[:LOCATION_IN_AREA]->(a:Area)'
+    beam4: '(:Area)<-[:LOCATION_IN_AREA]-(l:Location)<-[:OCCURRED_AT]-(c:Crime)'
+    beam5: '(:Crime)-[:OCCURRED_AT]->(l:Location)-[:LOCATION_IN_AREA]->(a:Area)'
+[Q-POLE-T02] (temporal) covered=True
+    Q: How many crimes happened in area M1 around 26 August 2017?
+    gold:  ['(c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area)', '(c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area)', '(c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area)']
+    beam1: '(c:Crime)-[:OCCURRED_AT]->(l:Location)-[:LOCATION_IN_AREA]->(a:Area)'
+    beam2: '(c:Crime)-[:OCCURRED_AT]->(l:Location)-[:LOCATION_IN_AREA]->(a:Area)'
+    beam3: '(c:Crime)-[:OCCURRED_AT]->(l:Location)-[:LOCATION_IN_AREA]->(a:Area)'
+    beam4: '(c:Crime)-[:OCCURRED_AT]->(l:Location)-[:LOCATION_IN_AREA]->(a:Area)'
+    beam5: '(:Area)<-[:LOCATION_IN_AREA]-(l:Location)<-[:OCCURRED_AT]-(c:Crime)'
+[Q-POLE-T03] (temporal) covered=True
+    Q: How many crimes happened in area M1 around 4 August 2017?
+    gold:  ['(c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area)', '(c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area)', '(c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area)']
+    beam1: '(c:Crime)-[:OCCURRED_AT]->(l:Location)-[:LOCATION_IN_AREA]->(a:Area)'
+    beam2: '(c:Crime)-[:OCCURRED_AT]->(l:Location)-[:LOCATION_IN_AREA]->(a:Area)'
+    beam3: '(c:Crime)-[:OCCURRED_AT]->(l:Location)-[:LOCATION_IN_AREA]->(a:Area)'
+    beam4: '(:Area)<-[:LOCATION_IN_AREA]-(l:Location)<-[:OCCURRED_AT]-(c:Crime)'
+    beam5: '(:Area)<-[:LOCATION_IN_AREA]-(l:Location)<-[:OCCURRED_AT]-(c:Crime)'
+[Q-POLE-T04] (temporal) covered=True
+    Q: How many crimes happened in area M1 around 31 August 2017?
+    gold:  ['(c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area)', '(c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area)', '(c:Crime)-[:OCCURRED_AT]->(:Location)-[:LOCATION_IN_AREA]->(a:Area)']
+    beam1: '(c:Crime)-[:OCCURRED_AT]->(l:Location)-[:LOCATION_IN_AREA]->(a:Area)'
+    beam2: '(c:Crime)-[:OCCURRED_AT]->(l:Location)-[:LOCATION_IN_AREA]->(a:Area)'
+    beam3: '(c:Crime)-[:OCCURRED_AT]->(l:Location)-[:LOCATION_IN_AREA]->(a:Area)'
+    beam4: '(:Area)<-[:LOCATION_IN_AREA]-(l:Location)<-[:OCCURRED_AT]-(c:Crime)'
+    beam5: '(:Area)<-[:LOCATION_IN_AREA]-(l:Location)<-[:OCCURRED_AT]-(c:Crime)'
+[Q-POLE-T05] (temporal) covered=True
+    Q: When did phone 9-(776)276-2772 last contact phone 0-(377)507-0388?
+    gold:  ['(p1:Phone)<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone)', '(p1:Phone)<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone)', '(p1:Phone)<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone)']
+    beam1: '(p1:Phone)<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(p2:Phone)'
+    beam2: '(ph1:Phone)<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(ph2:Phone)'
+    beam3: '(ph1:Phone)<-[:CALLER]-(pc:PhoneCall)-[:CALLED]->(ph2:Phone)'
+    beam4: '(p1:Phone)-[:CALLER|CALLED]-(pc:PhoneCall)-[:CALLER|CALLED]-(p2:Phone)'
+    beam5: '(p1:Phone)-[:CALLER|CALLED]-(pc:PhoneCall)-[:CALLER|CALLED]-(p2:Phone)'
+[Q-POLE-U01] (null) covered=True
+    Q: What rank does the officer with badge number 80-1015383 hold?
+    gold:  ['(o:Officer)']
+    beam1: '(o:Officer)'
+    beam2: '(o:Officer)'
+    beam3: '(officer:Officer)'
+    beam4: '(officer:Officer)'
+    beam5: '(o:Officer)-[:INVESTIGATED_BY]-(c:Crime)'
+[Q-POLE-U02] (null) covered=False
+    Q: What is the surname of the officer with badge number 70-0643982?
+    gold:  ['(o:Officer)']
+    beam1: '(o:Officer)-[:INVESTIGATED_BY]-(c:Crime)'
+    beam2: '(o:Officer)-[:INVESTIGATED_BY]-(c:Crime)'
+    beam3: '(o:Officer)-[:INVESTIGATED_BY]->(c:Crime)'
+    beam4: '(officer:Officer)-[:INVESTIGATED_BY]-(c:Crime)'
+    beam5: '(officer:Officer)-[:INVESTIGATED_BY]-(c:Crime)'
+[Q-POLE-U03] (null) covered=True
+    Q: What rank is the officer with badge number 57-6110377?
+    gold:  ['(o:Officer)']
+    beam1: '(o:Officer)'
+    beam2: '(o:Officer)'
+    beam3: '(o:Officer)'
+    beam4: '(officer:Officer)'
+    beam5: '(o:Officer)-[:INVESTIGATED_BY]-(c:Crime)'
+[Q-POLE-U04] (null) covered=True
+    Q: Who is Betty Kennedy related to by family?
+    gold:  ['(p1:Person)-[:FAMILY_REL]-(p2:Person)']
+    beam1: '(p:Person)-[:FAMILY_REL]-(p2:Person)'
+    beam2: '(p:Person)-[:FAMILY_REL]-(p2:Person)'
+    beam3: '(p:Person)-[:FAMILY_REL]-(p2:Person)'
+    beam4: '(p:Person)-[:FAMILY_REL]-(p2)'
+    beam5: '(p:Person)-[:FAMILY_REL]-(p2)'
+[Q-POLE-U05] (null) covered=True
+    Q: Who does Denise Rodriguez know?
+    gold:  ['(p1:Person)-[:KNOWS]-(p2:Person)']
+    beam1: '(p:Person)-[:KNOWS]-(p2:Person)'
+    beam2: '(p:Person)-[:KNOWS]-(p2:Person)'
+    beam3: '(p:Person)-[:KNOWS]-(p2:Person)'
+    beam4: '(p:Person)-[:KNOWS]-(p2:Person)'
+    beam5: '(p:Person)-[:KNOWS]-(p2)'
+
+Sample Cov@5 (sl_adapter_pole_external, n=25): 0.760
+Finished at Fri 28 Aug 2026 23:22:17 AWST
