@@ -26,6 +26,9 @@
 # SUBMIT ONE STAGE ONLY (e.g. to re-run a continue after fixing something):
 #     sbatch --time=1-00:00:00 --export=ALL,STAGE=v3 kaya/101_train_qwen_sl.slurm
 # Plain `sbatch kaya/101_train_qwen_sl.slurm` runs the generic stage alone (STAGE defaults to it).
+# A DIFFERENT BASE MODEL (11.1) — one env var, no edit to this file (see the knob block below):
+#     MODEL_KEY=qwen2.5-72b bash kaya/101_train_qwen_sl.slurm
+#     MODEL_KEY=qwen2.5-72b sbatch --export=ALL,STAGE=v3,MODEL_KEY=qwen2.5-72b kaya/101_train_qwen_sl.slurm
 #
 #
 #
@@ -35,6 +38,8 @@
 # V100 (4.6x faster). Override on the command line — no edit to this file is needed:
 #     sbatch --partition=rrifcs --gres=gpu:h100:1 --time=12:00:00 --mem=64G \
 #            --export=ALL,STAGE=v3 kaya/101_train_qwen_sl.slurm
+# `rrifcs` is the documented default GPU target from Phase 11 on — see kaya/README.md
+# § "H100 on rrifcs (Phase 11+)" for the partition facts and the one-GPU-per-training-job rule.
 # Keep fp16 as the YAMLs set it (do NOT switch to bf16 on sm90) so all six adapters share one recipe.
 # Wall-clock: the generic stage is ~49.7 h of optimiser steps (4000 rows x 3 epochs at the
 # measured 14.9 s/step) PLUS three full Ozsoy eval passes, so it is budgeted at the gpu
@@ -51,6 +56,15 @@
 
 set -uo pipefail
 
+# MODEL / TRAIN-YAML KNOBS (11.1). Both default to the 10.6 Qwen2.5-32B run, so a bare
+#     bash kaya/101_train_qwen_sl.slurm
+# submits exactly the DAG 10.6 submitted. Phase 11 retargets the same file with one env var:
+#     MODEL_KEY=qwen2.5-72b bash kaya/101_train_qwen_sl.slurm
+# MODEL_KEY selects the config/models.yaml entry AND (via the case arm below) the train-YAML
+# prefix; TRAIN_PREFIX overrides that prefix directly for a model key the case arm doesn't know.
+# Both are forwarded through --export so every job in the DAG inherits them.
+MODEL_KEY="${MODEL_KEY:-qwen2.5-32b}"
+
 # ── Submit path: not running under Slurm -> submit the three-job DAG and exit. ───────────
 if [[ -z "${SLURM_JOB_ID:-}" ]]; then
     cd "$(dirname "$0")/.." || exit 1
@@ -59,12 +73,15 @@ if [[ -z "${SLURM_JOB_ID:-}" ]]; then
         echo "  Run: python -m experiments.sample_ozsoy_subset --split sl" >&2
         exit 1
     fi
+    EXPORTS="MODEL_KEY=$MODEL_KEY${TRAIN_PREFIX:+,TRAIN_PREFIX=$TRAIN_PREFIX}"
+    echo "submitting the sl DAG for model_key=$MODEL_KEY"
     GENERIC_ID=$(sbatch --parsable --job-name=t2c_qwen_sl_generic \
-        --export=ALL,STAGE=generic "$0") || exit 1
+        --export=ALL,STAGE=generic,"$EXPORTS" "$0") || exit 1
     echo "generic        -> job $GENERIC_ID (~50 h)"
     for STAGE in v3 pole_external; do
         DEP_ID=$(sbatch --parsable --job-name="t2c_qwen_sl_$STAGE" --time=1-00:00:00 \
-            --dependency="afterok:$GENERIC_ID" --export=ALL,STAGE="$STAGE" "$0") || exit 1
+            --dependency="afterok:$GENERIC_ID" \
+            --export=ALL,STAGE="$STAGE","$EXPORTS" "$0") || exit 1
         echo "$STAGE (afterok:$GENERIC_ID) -> job $DEP_ID (~15-17 h)"
     done
     exit 0
@@ -73,11 +90,28 @@ fi
 # ── Job path: train the one stage named by $STAGE. ──────────────────────────────────────
 STAGE="${STAGE:-generic}"
 case "$STAGE" in
-    generic)       TRAIN_YAML=config/schema_linker_train_qwen_generic.yaml ;;
-    v3)            TRAIN_YAML=config/schema_linker_train_qwen_v3.yaml ;;
-    pole_external) TRAIN_YAML=config/schema_linker_train_qwen_pole_external.yaml ;;
+    generic|v3|pole_external) ;;
     *) echo "Unknown STAGE '$STAGE' (generic|v3|pole_external)" >&2; exit 1 ;;
 esac
+
+# Train-YAML prefix: MODEL_KEY-keyed, overridable by TRAIN_PREFIX. The STAGE suffix is the
+# same for every model, so one case arm per model key is the whole per-model surface.
+case "$MODEL_KEY" in
+    qwen2.5-32b) DEFAULT_PREFIX=schema_linker_train_qwen ;;      # 10.6
+    qwen2.5-72b) DEFAULT_PREFIX=schema_linker_train_qwen72 ;;    # 11.3
+    *)           DEFAULT_PREFIX="" ;;
+esac
+TRAIN_PREFIX="${TRAIN_PREFIX:-$DEFAULT_PREFIX}"
+if [[ -z "$TRAIN_PREFIX" ]]; then
+    echo "No train-YAML prefix for MODEL_KEY='$MODEL_KEY'." >&2
+    echo "  Add a case arm above, or pass TRAIN_PREFIX=<config/<prefix>_<stage>.yaml prefix>." >&2
+    exit 1
+fi
+TRAIN_YAML="config/${TRAIN_PREFIX}_${STAGE}.yaml"
+if [[ ! -f "$TRAIN_YAML" ]]; then
+    echo "Train config '$TRAIN_YAML' does not exist (MODEL_KEY=$MODEL_KEY STAGE=$STAGE)." >&2
+    exit 1
+fi
 
 module load Anaconda3/2024.06
 module load cuda/12.6.3
@@ -89,9 +123,9 @@ export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 HF_DATASETS_OFFLINE=1
 unset LD_PRELOAD
 
 cd "$SLURM_SUBMIT_DIR"
-echo "Job $SLURM_JOBID on $SLURM_NODELIST at $(date) — stage=$STAGE, train=$TRAIN_YAML"
+echo "Job $SLURM_JOBID on $SLURM_NODELIST at $(date) — model_key=$MODEL_KEY, stage=$STAGE, train=$TRAIN_YAML"
 nvidia-smi
 
 # run_sft's skip-if-saved + resume-from-checkpoint (2.1) make a re-queue safe.
-python -m experiments.train_schema_linker --model_key qwen2.5-32b --train "$TRAIN_YAML"
+python -m experiments.train_schema_linker --model_key "$MODEL_KEY" --train "$TRAIN_YAML"
 echo "Finished at $(date)"
