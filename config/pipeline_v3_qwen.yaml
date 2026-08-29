@@ -1,0 +1,47 @@
+# config/pipeline_v3_qwen.yaml — 10.7: run the WHOLE pipeline against the v3 ("custom") POLE
+# benchmark with the FINE-TUNED Qwen2.5-32B (10.6), so the write-up gains a LARGE open-model
+# SFT column beside 7.5's mistral-7B-SFT and Phase 8's claude-sonnet-instruct columns.
+#
+# Standalone copy of the pipeline config shape (7.3/9.3 convention — never mutate the shared
+# config/pipeline.yaml). Differs from the canonical local v3 config
+# (config/pipeline_v3_qgprops.yaml) ONLY in the model column and the results tag:
+#   active_model: qwen2.5-32b   (loads checkpoints/qwen2.5-32b/{sl,qg}_adapter_v3 via the
+#                                adapter_suffix_for_version("v3") == "_v3" the 10.6 Stage-2
+#                                continue-SFT adapters were saved to)
+#   results_tag:  v3_qwen       (distinct from v3_qgprops / v3 / v3_localdb — nothing collides)
+#
+# Run: sbatch kaya/109_run_evaluation_v3_qwen.slurm   (GPU + its own background v3 Neo4j)
+
+neo4j:
+  uri: "bolt://localhost:7687"          # the 70_neo4j_v3 graph; the runner injects a per-job Bolt port
+  user: "neo4j"
+  # password via env var NEO4J_PASSWORD (do not commit real credentials) — the Kaya runner
+  # exports NEO4J_PASSWORD before invoking run_evaluation.
+  database: "neo4j"
+
+dataset_version: v3
+results_tag: v3_qwen                    # -> results/{tables,metrics,qual_records}_qwen2.5-32b_v3_qwen.*
+
+models_registry: "config/models.yaml"
+active_model: "qwen2.5-32b"             # LOCAL — base Qwen/Qwen2.5-32B (4-bit/fp16, locked by the
+                                        # 10.5 fit-test) + the 10.6 `_v3` SL/QG adapters.
+
+ad: null                                # null -> base Qwen as the AD (the documented default; matches
+dis: null                               # null -> shares the AD backend        the mistral v3/external runs.
+                                        # A stronger ad/dis swap is the documented optional lever, 10.7 spec.)
+
+benchmark: "data/benchmark-v3.json"
+schema_linker_inference: "config/schema_linker_inference.yaml"   # reads decoding[qwen2.5-32b]
+                                        # (added by 10.7; beam, k=5). run_evaluation FAILS LOUDLY if the
+                                        # block is missing — it never silently defaults.
+use_embedding_model: true
+
+# QG properties block: REQUIRED on the local "completion" path. QueryGenerator derives
+# include_properties from prompt_style, so a local model gets False unless overridden and the QG
+# would never see the schema's property names. decisions-log 2026-07-17 reframed properties-off as
+# a DEFECT (not an experimental condition) and made True the canonical local configuration
+# (config/pipeline_v3_qgprops.yaml); 10.4 re-learned this the hard way on the external substrate
+# (decisions-log 2026-08-22, job 1101275 superseded). 14 of the v3 schema's 24 properties appear
+# ZERO times in data/pole_qg_train.jsonl, so for those names the prompt is the QG's only source.
+qg_include_properties: true
+results_dir: "results/"

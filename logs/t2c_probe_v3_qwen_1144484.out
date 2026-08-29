@@ -1,0 +1,31 @@
+Job 1144484 on k172 at Sat 29 Aug 2026 00:36:49 AWST
+Sat Aug 29 00:36:49 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.57.08              Driver Version: 575.57.08      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100 NVL                Off |   00000000:64:00.0 Off |                    0 |
+| N/A   54C    P0             68W /  400W |       0MiB /  95830MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Loaded 120 cached beam records from results/beams_qwen2.5-32b_v3.jsonl.
+
+decoding = {'strategy': 'beam', 'diversity_penalty': 1.0, 'k': 5}   (k=5)
+            signal | POLE-SFT AUC |  prior
+ h_norm_candidates |        0.569 |  0.622
+      h_norm_beams |        0.570 |  0.624
+top_beam_dominance |        0.558 |  0.625
+
+POLE-SFT entropy AUC (0.569) is flat/at the ~0.62 general-model baseline. This is still acceptable: the design treats the entropy signal as secondary and the LLM self-assessment as primary — note it, do not change the architecture. Ablations are NOT flat (spread 0.012 > 0.01): unlike the prior probe, the scoring function matters here — record this in decisions-log.md.
+Finished at Sat 29 Aug 2026 00:37:19 AWST

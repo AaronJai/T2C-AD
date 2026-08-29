@@ -1,0 +1,99 @@
+nohup: ignoring input
+Fetching 47 files:   0%|          | 0/47 [00:00<?, ?it/s]Downloading 'model-00002-of-00037.safetensors' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/f597885404ed877706e6b78aa14147002169549c6e6a2e344ca4132365464be0.incomplete'
+Downloading 'model-00001-of-00037.safetensors' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/f4ee40f3b260372082ee0cb2aff1dcdbbe310322651a6ad36327536cdcdf3f40.incomplete'
+Downloading 'config.json' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/67663e297b8c12fb23e24643a4caf391851dd530.incomplete'
+Downloading '.gitattributes' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/a6344aac8c09253b3b630fb776ae94478aa0275b.incomplete'
+Downloading 'README.md' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/0a01a8af7312712d3e100a7399c45f547d3402cf.incomplete'
+Downloading 'generation_config.json' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/cbbb3133034e192527e5321b4c679154e4819ab8.incomplete'
+Downloading 'LICENSE' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/5dda3230b4cb5a86e8b120cce004d6e34b195ee4.incomplete'
+Downloading 'merges.txt' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/20024bfe7c83998e9aeaf98a0cd6a2ce6306c2f0.incomplete'
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/67663e297b8c12fb23e24643a4caf391851dd530
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/0a01a8af7312712d3e100a7399c45f547d3402cf
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/cbbb3133034e192527e5321b4c679154e4819ab8
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/a6344aac8c09253b3b630fb776ae94478aa0275b
+Fetching 47 files:   2%|▏         | 1/47 [00:00<00:40,  1.12it/s]Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/5dda3230b4cb5a86e8b120cce004d6e34b195ee4
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/20024bfe7c83998e9aeaf98a0cd6a2ce6306c2f0
+Fetching 47 files:  13%|█▎        | 6/47 [00:01<00:05,  7.63it/s]Downloading 'model-00003-of-00037.safetensors' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/482d4ff5fca9e5be7bc4285d806fcb31582798f20881be23b02270baa37b1d6d.incomplete'
+Downloading 'model-00004-of-00037.safetensors' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/896add67b07b2770692df6ff84eee73ec36599c460cf77069e25c860dad18397.incomplete'
+Downloading 'model-00005-of-00037.safetensors' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/b21a29eba64b550a11276653eee792bead634d6d35dd9e42fc8c985b53fd501c.incomplete'
+Downloading 'model-00006-of-00037.safetensors' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/0df2ac6d33f6d84676f7e9262b560ca000bf09d747210d99db210a15bc6d0d71.incomplete'
+Downloading 'model-00007-of-00037.safetensors' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/fb10a0836ea707feb6d8d601e31736b660a8afb5124778f6166788ef05e13294.incomplete'
+Downloading 'model-00008-of-00037.safetensors' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/f0bc0fb24967c5a76bbb01062ab7332cab52d9318a991e7df4b56bab7c5698a8.incomplete'
+Fetching 47 files:  13%|█▎        | 6/47 [00:19<00:05,  7.63it/s]Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/482d4ff5fca9e5be7bc4285d806fcb31582798f20881be23b02270baa37b1d6d
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/fb10a0836ea707feb6d8d601e31736b660a8afb5124778f6166788ef05e13294
+Downloading 'model-00009-of-00037.safetensors' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/245557ee717eae14d3518846a57f0e6c08f35afbf24431af781a06bc6aae1979.incomplete'
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/b21a29eba64b550a11276653eee792bead634d6d35dd9e42fc8c985b53fd501c
+Downloading 'model-00010-of-00037.safetensors' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/71e36dac4ee9b4bac0d84667f0e145c807e4afd4475df6ec637b50306d6275fa.incomplete'
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/0df2ac6d33f6d84676f7e9262b560ca000bf09d747210d99db210a15bc6d0d71
+Downloading 'model-00011-of-00037.safetensors' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/813f3e3da9cc8c4fd3082bc97d6637fe20ef3eccb22b3ab02c69bf3657a0099d.incomplete'
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/896add67b07b2770692df6ff84eee73ec36599c460cf77069e25c860dad18397
+Downloading 'model-00012-of-00037.safetensors' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/74b9936573bb7224a84f7918e7f5cb8f06181724adab3ab6096e6d41183566c5.incomplete'
+Downloading 'model-00013-of-00037.safetensors' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/3e045dd4d74312cdad07f0b6362a136409d6c6f5f899c94fe549bf9c7c0f02e6.incomplete'
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/f4ee40f3b260372082ee0cb2aff1dcdbbe310322651a6ad36327536cdcdf3f40
+Fetching 47 files:  15%|█▍        | 7/47 [00:36<04:47,  7.20s/it]Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/f0bc0fb24967c5a76bbb01062ab7332cab52d9318a991e7df4b56bab7c5698a8
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/f597885404ed877706e6b78aa14147002169549c6e6a2e344ca4132365464be0
+Fetching 47 files:  17%|█▋        | 8/47 [00:36<03:40,  5.65s/it]Downloading 'model-00014-of-00037.safetensors' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/91ab9e87b6714ac200878194b3b3f35de3ffb8a06634dfc1e2e3eca1365434bf.incomplete'
+Downloading 'model-00015-of-00037.safetensors' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/032881313cc59138dd2ba989e745949b40b8f051b632228125623a631c1d9091.incomplete'
+Downloading 'model-00016-of-00037.safetensors' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/c630e1138bcbd24068f04f560e0228338f3176d7408a4bde94b95944d040c983.incomplete'
+Fetching 47 files:  17%|█▋        | 8/47 [00:49<03:40,  5.65s/it]Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/74b9936573bb7224a84f7918e7f5cb8f06181724adab3ab6096e6d41183566c5
+Downloading 'model-00017-of-00037.safetensors' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/e490539af1e466088190e308345208f6cbb669cfcab858854ab5d43d04d4ee6e.incomplete'
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/71e36dac4ee9b4bac0d84667f0e145c807e4afd4475df6ec637b50306d6275fa
+Downloading 'model-00018-of-00037.safetensors' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/d0fb2f86f6f1d353d68a555fcc3535ba900ace5c5604637f046dd881495371fb.incomplete'
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/3e045dd4d74312cdad07f0b6362a136409d6c6f5f899c94fe549bf9c7c0f02e6
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/813f3e3da9cc8c4fd3082bc97d6637fe20ef3eccb22b3ab02c69bf3657a0099d
+Downloading 'model-00019-of-00037.safetensors' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/17b3b45a50485a0a787adda848b5b156ea4a23ffaced4258c3245d2871a9b54c.incomplete'
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/245557ee717eae14d3518846a57f0e6c08f35afbf24431af781a06bc6aae1979
+Fetching 47 files:  32%|███▏      | 15/47 [01:11<02:44,  5.15s/it]Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/032881313cc59138dd2ba989e745949b40b8f051b632228125623a631c1d9091
+Downloading 'model-00020-of-00037.safetensors' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/2743bb77d5b3d4ec5b08a5f253384f8afffc570535fe12909cc844ca2d6097e8.incomplete'
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/91ab9e87b6714ac200878194b3b3f35de3ffb8a06634dfc1e2e3eca1365434bf
+Fetching 47 files:  43%|████▎     | 20/47 [01:11<01:22,  3.04s/it]Downloading 'model-00021-of-00037.safetensors' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/f0e75ef93d84e4e0b7032fea2319fd72ec8002bb7daff604a44e970aafc8223a.incomplete'
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/c630e1138bcbd24068f04f560e0228338f3176d7408a4bde94b95944d040c983
+Downloading 'model-00022-of-00037.safetensors' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/2be65792b4208d152ec6f4e61807c91a2b626780f78623707ab250cd983d9a3c.incomplete'
+Downloading 'model-00023-of-00037.safetensors' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/c3a2e473aee1112543eba956e4e372d6334f20ce68d5555bccd1d3f2135b9f65.incomplete'
+Downloading 'model-00024-of-00037.safetensors' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/a84572e48baa363d59ae3ddc2ddccaaf8ca8cc74dbd82b6d762532458d9ca234.incomplete'
+Fetching 47 files:  43%|████▎     | 20/47 [01:30<01:22,  3.04s/it]Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/e490539af1e466088190e308345208f6cbb669cfcab858854ab5d43d04d4ee6e
+Fetching 47 files:  49%|████▉     | 23/47 [01:31<01:36,  4.01s/it]Downloading 'model-00025-of-00037.safetensors' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/4c1a2db87437177942090860b1864551bf0b2d0d30f877592b22f989062d77a9.incomplete'
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/d0fb2f86f6f1d353d68a555fcc3535ba900ace5c5604637f046dd881495371fb
+Fetching 47 files:  51%|█████     | 24/47 [01:44<01:55,  5.01s/it]Downloading 'model-00026-of-00037.safetensors' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/75a735c4229be855e5c63e51761c8f48496f956c810b714c5ca65715f288f642.incomplete'
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/c3a2e473aee1112543eba956e4e372d6334f20ce68d5555bccd1d3f2135b9f65
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/17b3b45a50485a0a787adda848b5b156ea4a23ffaced4258c3245d2871a9b54c
+Fetching 47 files:  53%|█████▎    | 25/47 [01:45<01:37,  4.44s/it]Downloading 'model-00028-of-00037.safetensors' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/67f03396528c9bc6dcb84ab423fc031fc752aaa1bb6490113d0b455ce9bf7765.incomplete'
+Downloading 'model-00027-of-00037.safetensors' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/56fef97bb825522b7cdc6625f47b95e43d92567b983e9715cc22aff92988d304.incomplete'
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/f0e75ef93d84e4e0b7032fea2319fd72ec8002bb7daff604a44e970aafc8223a
+Downloading 'model-00029-of-00037.safetensors' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/9a97920c7ec14a8b39169f32a8a198a10ec8d7086a785fcc5cf66ec4d03c3277.incomplete'
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/a84572e48baa363d59ae3ddc2ddccaaf8ca8cc74dbd82b6d762532458d9ca234
+Downloading 'model-00030-of-00037.safetensors' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/7633fd6cfa5510eb21f04bd351e1f49c4ffd1c65ed0e44e17422503ddd53efeb.incomplete'
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/2743bb77d5b3d4ec5b08a5f253384f8afffc570535fe12909cc844ca2d6097e8
+Fetching 47 files:  57%|█████▋    | 27/47 [01:48<01:11,  3.58s/it]Downloading 'model-00031-of-00037.safetensors' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/a09c1f86e2b9e000c4f52d4f93deb065fc3e79eca358093e7192aaf3546b7792.incomplete'
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/2be65792b4208d152ec6f4e61807c91a2b626780f78623707ab250cd983d9a3c
+Fetching 47 files:  60%|█████▉    | 28/47 [01:49<00:59,  3.12s/it]Downloading 'model-00032-of-00037.safetensors' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/49d05d776bcfb42c99f82b1f317cc6484c0a5f882f51e7e9f812fa203e4e602d.incomplete'
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/4c1a2db87437177942090860b1864551bf0b2d0d30f877592b22f989062d77a9
+Fetching 47 files:  66%|██████▌   | 31/47 [02:02<00:58,  3.65s/it]Downloading 'model-00033-of-00037.safetensors' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/cc4be04c3535822c512a78729b3114295eec14a077c06990a4f5542cea55fe76.incomplete'
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/75a735c4229be855e5c63e51761c8f48496f956c810b714c5ca65715f288f642
+Fetching 47 files:  68%|██████▊   | 32/47 [02:13<01:14,  4.94s/it]Downloading 'model-00034-of-00037.safetensors' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/f1c32adf9174a26ec992e920157fa0a21660a008cf6ae696c6da643d78258cce.incomplete'
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/56fef97bb825522b7cdc6625f47b95e43d92567b983e9715cc22aff92988d304
+Fetching 47 files:  70%|███████   | 33/47 [02:19<01:10,  5.02s/it]Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/7633fd6cfa5510eb21f04bd351e1f49c4ffd1c65ed0e44e17422503ddd53efeb
+Downloading 'model-00036-of-00037.safetensors' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/5a527ff24c567883670d86290e7d08a722980b235f32da39a5500830164273b6.incomplete'
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/67f03396528c9bc6dcb84ab423fc031fc752aaa1bb6490113d0b455ce9bf7765
+Fetching 47 files:  72%|███████▏  | 34/47 [02:20<00:56,  4.33s/it]Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/a09c1f86e2b9e000c4f52d4f93deb065fc3e79eca358093e7192aaf3546b7792
+Downloading 'model-00037-of-00037.safetensors' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/4c35eacb26ab65a8bd09f705e10248605ffee3efe9ccc7c20fba0d9773f6150f.incomplete'
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/9a97920c7ec14a8b39169f32a8a198a10ec8d7086a785fcc5cf66ec4d03c3277
+Fetching 47 files:  74%|███████▍  | 35/47 [02:21<00:40,  3.38s/it]Downloading 'model.safetensors.index.json' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/b0c512b3b51d24cb7b7c53f63444d5c5ad7affbb.incomplete'
+Downloading 'tokenizer.json' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/443909a61d429dff23010e5bddd28ff530edda00.incomplete'
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/b0c512b3b51d24cb7b7c53f63444d5c5ad7affbb
+Downloading 'tokenizer_config.json' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/ba7e4c5637b9732dadcd66286ce48334e8b31e9e.incomplete'
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/443909a61d429dff23010e5bddd28ff530edda00
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/ba7e4c5637b9732dadcd66286ce48334e8b31e9e
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/49d05d776bcfb42c99f82b1f317cc6484c0a5f882f51e7e9f812fa203e4e602d
+Fetching 47 files:  81%|████████  | 38/47 [02:22<00:17,  1.99s/it]Downloading 'vocab.json' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/4783fe10ac3adce15ac8f358ef5462739852c569.incomplete'
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/4783fe10ac3adce15ac8f358ef5462739852c569
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/cc4be04c3535822c512a78729b3114295eec14a077c06990a4f5542cea55fe76
+Fetching 47 files:  83%|████████▎ | 39/47 [02:28<00:20,  2.62s/it]'(ReadTimeoutError("HTTPSConnectionPool(host='huggingface.co', port=443): Read timed out. (read timeout=10)"), '(Request ID: 3185bfa3-4160-418c-a10c-7f19380c7055)')' thrown while requesting HEAD https://huggingface.co/Qwen/Qwen2.5-72B/resolve/efba10c8e54e91e0d9570ab5f7b51a958474d4cb/model-00035-of-00037.safetensors
+Retrying in 1s [Retry 1/5].
+Downloading 'model-00035-of-00037.safetensors' to '/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/306cb2ac381648e28d6765184689c09cad40881b982a7f73efdf6f6f51627584.incomplete'
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/f1c32adf9174a26ec992e920157fa0a21660a008cf6ae696c6da643d78258cce
+Fetching 47 files:  85%|████████▌ | 40/47 [02:31<00:19,  2.76s/it]Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/4c35eacb26ab65a8bd09f705e10248605ffee3efe9ccc7c20fba0d9773f6150f
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/5a527ff24c567883670d86290e7d08a722980b235f32da39a5500830164273b6
+Download complete. Moving file to /group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/blobs/306cb2ac381648e28d6765184689c09cad40881b982a7f73efdf6f6f51627584
+Fetching 47 files:  87%|████████▋ | 41/47 [02:38<00:23,  3.87s/it]Fetching 47 files: 100%|██████████| 47/47 [02:38<00:00,  3.38s/it]
+/group/pmc084/atan/hf_cache/hub/models--Qwen--Qwen2.5-72B/snapshots/efba10c8e54e91e0d9570ab5f7b51a958474d4cb

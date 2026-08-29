@@ -15,6 +15,11 @@ Target >= 0.85.
 Side effect: caches the beams to results/beams_{model_key}_pole_external.jsonl in the SAME record
 shape the 2.3 entropy probe uses (so a later probe can reuse them GPU-free).
 
+10.7 addition: `--adapter_suffix ''` / `--no_adapter` select the generic Ozsoy-only adapter or no
+adapter at all, so this harness can also produce the cheap intrinsic tier of the three-way
+adapter attribution (no adapter / +generic / +generic+POLE) on this substrate. Both flags are
+additive and default-preserving — the recorded 10.4 invocation is byte-identical.
+
 No Neo4j (schema linking alone). GPU only. Reuses experiments/probe_utils.py verbatim so the
 measure is byte-identical to the one the v3 and external cov-checks use. Differs from the v3 G1
 harness only in the schema (build_pole_external_schema_repr), adapter suffix (_pole_external),
@@ -62,6 +67,16 @@ def main() -> None:
                     help="default results/beams_{model_key}_pole_external.jsonl")
     ap.add_argument("--results", default=None,
                     help="default results/g1_sl_coverage_{model_key}_pole_external.json")
+    ap.add_argument("--adapter_suffix", default="_pole_external",
+                    help="Which SL adapter to load: default '_pole_external' (the in-domain "
+                         "continue-SFT adapter this gate normally measures). Pass '' to load the "
+                         "generic Ozsoy-only sl_adapter instead — the middle column of the "
+                         "no-adapter / +generic / +generic+POLE attribution (10.7). Mirrors the "
+                         "flag kaya/g1_sl_coverage_v3.py has carried since the 2026-07 v3 "
+                         "ablation; added here by 10.7, default-preserving.")
+    ap.add_argument("--no_adapter", action="store_true",
+                    help="Load the raw base model with NO PEFT adapter at all — the first column "
+                         "of that three-way attribution. Overrides --adapter_suffix.")
     args = ap.parse_args()
 
     from pipeline.llm import HuggingFaceLLM
@@ -82,9 +97,11 @@ def main() -> None:
     items = load_benchmark(args.benchmark)
     print(f"Loaded {len(items)} external-POLE items; decoding={decoding}")
 
+    adapter = (None if args.no_adapter
+               else f"checkpoints/{args.model_key}/sl_adapter{args.adapter_suffix}")
     llm = HuggingFaceLLM(
         model_name_or_path=registry["base"],
-        peft_adapter_path=f"checkpoints/{args.model_key}/sl_adapter_pole_external",
+        peft_adapter_path=adapter,
         load_in_4bit=registry.get("load_in_4bit", True),
         torch_dtype=registry.get("dtype", "float16"),
     )
@@ -132,7 +149,7 @@ def main() -> None:
     payload = {
         "model_key": args.model_key,
         "dataset_version": "pole_external",
-        "adapter": f"checkpoints/{args.model_key}/sl_adapter_pole_external",
+        "adapter": adapter,
         "decoding": decoding,
         "n_items": n,
         "cov_at_5": cov_at_5,

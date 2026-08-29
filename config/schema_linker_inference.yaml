@@ -11,4 +11,14 @@ decoding:
     strategy: sample
     temperature: 0.3
     k: 5
+  # qwen2.5-32b (10.7). Added so run_evaluation resolves an EXPLICIT block for the Qwen runs
+  # instead of falling through to the flat `diversity_penalty` mirror below (10.6's cov-checks
+  # used that fallback). Seeded at the v3-locked dp=1.0 — the same pragmatic default 10.3/10.4
+  # reused for Mistral — and RE-LOCKED in place by 10.7's G2a sweep on the v3 substrate
+  # (kaya/105_sweep_v3_qwen.slurm). The external substrate reuses whatever is locked here: the
+  # sweep CLI accepts only --dataset_version v2|v3, so it is not re-swept there (10.4 precedent).
+  qwen2.5-32b:
+    strategy: beam
+    diversity_penalty: 1.0
+    k: 5
 diversity_penalty: 1.0

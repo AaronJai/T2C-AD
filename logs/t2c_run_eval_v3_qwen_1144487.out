@@ -1,0 +1,96 @@
+Job 1144487 on k172 at Sat 29 Aug 2026 00:48:48 AWST
+Sat Aug 29 00:48:48 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.57.08              Driver Version: 575.57.08      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100 NVL                Off |   00000000:02:00.0 Off |                    0 |
+| N/A   43C    P0             67W /  400W |       0MiB /  95830MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+|   1  NVIDIA H100 NVL                Off |   00000000:64:00.0 Off |                    0 |
+| N/A   56C    P0             67W /  400W |       0MiB /  95830MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Wiping v3 volume /group/pmc084/atan/neo4j_data_v3_qwen_g4 and reloading data/SyntheticPoliceKG-v3.cypher (Bolt port 24487).
+Changed password for user 'neo4j'. IMPORTANT: this change will only take effect if performed before the database is started for the first time.
+Directories in use:
+home:         /var/lib/neo4j
+config:       /conf
+logs:         /var/lib/neo4j/logs
+plugins:      /var/lib/neo4j/plugins
+import:       /var/lib/neo4j/import
+data:         /var/lib/neo4j/data
+certificates: /var/lib/neo4j/certificates
+licenses:     /var/lib/neo4j/licenses
+run:          /var/lib/neo4j/run
+Starting Neo4j.
+2026-08-28 16:48:53.863+0000 INFO  Logging config in use: File '/var/lib/neo4j/conf/user-logs.xml'
+2026-08-28 16:48:53.877+0000 INFO  Starting...
+2026-08-28 16:48:54.469+0000 INFO  This instance is ServerId{5e27f970} (5e27f970-f19e-48a1-bad0-0e4845c46e9b)
+2026-08-28 16:48:56.646+0000 INFO  Anonymous Usage Data is being sent to Neo4j, see https://neo4j.com/docs/usage-data/
+2026-08-28 16:48:56.674+0000 INFO  Bolt enabled on localhost:24487.
+2026-08-28 16:48:56.680+0000 INFO  id: AEBF6AE868D2F20BF41A08DBB04CFFD625CE360F8CC57C1AD9DD940A496BEDEA
+2026-08-28 16:48:56.680+0000 INFO  name: system
+2026-08-28 16:48:56.680+0000 INFO  creationDate: 2026-08-28T16:48:55.944Z
+2026-08-28 16:48:56.680+0000 INFO  Started.
+Neo4j ready after 2 checks on bolt://localhost:24487.
+Loading data/SyntheticPoliceKG-v3.cypher
+nodes
+96
+v3 graph loaded.
+runtime config -> config/.pipeline_v3_qwen.runtime.yaml (neo4j.uri=bolt://localhost:24487, qg_include_properties=True)
+### Table 1 — Overall (120)
+
+| Metric | C1 | C2 | C3 |
+| --- | --- | --- | --- |
+| EX | 5.8 | 20.0 | 25.0 |
+| EA / AREA | 7.5 | 35.8 | 43.3 |
+| KG-Valid % | 89.2 | 83.3 | 85.0 |
+| Syntax % | 99.2 | 89.2 | 87.5 |
+| Schema % | 99.2 | 100.0 | 100.0 |
+| Pass@1 | 5.8 | 18.3 | 19.2 |
+
+### Table 2 — Ambiguity-specific (80)
+
+| Metric | C1 | C2 | C3 |
+| --- | --- | --- | --- |
+| Ambiguous EA | 5.0 | 36.2 | 42.5 |
+| DSR | — | — | 19.6 |
+| Detection F1 | — | — | 60.5 |
+| Detection Prec | — | — | 69.6 |
+| Detection Rec | — | — | 53.4 |
+| EA — schema (n=20) | 5.0 | 25.0 | 45.0 |
+| EA — entity (n=20) | 5.0 | 20.0 | 25.0 |
+| EA — intent (n=20) | 5.0 | 30.0 | 30.0 |
+| EA — temporal (n=20) | 5.0 | 70.0 | 70.0 |
+
+### Table 3 — Repair/routing (C2, C3)
+
+| Metric | C2 | C3 |
+| --- | --- | --- |
+| Initial Valid % | 65.8 | 60.8 |
+| Post-CyVer Valid % | 83.3 | 85.0 |
+| Structural Repair % | 51.2 | 61.7 |
+| Semantic Repair % | 0.0 | 10.4 |
+| Avg Iterations | 0.23 | 0.28 |
+Wrote results/{tables,metrics,qual_records}_qwen2.5-32b_v3_qwen.*
+Wrote results/qualitative_analysis_qwen2.5-32b_v3_qwen.md
+both_correct=22 both_wrong=88 fixed=8 regressed=2
+Wrote results/qualitative_analysis_qwen2.5-32b_v3_qwen.md
+Finished at Sat 29 Aug 2026 02:10:29 AWST
+Stopping neo4j (pid 978956) at Sat 29 Aug 2026 02:10:29 AWST
+2026-08-28 18:10:29.161+0000 INFO  Neo4j Server shutdown initiated by request
+2026-08-28 18:10:29.163+0000 INFO  Stopping...
+2026-08-28 18:10:39.554+0000 INFO  Stopped.

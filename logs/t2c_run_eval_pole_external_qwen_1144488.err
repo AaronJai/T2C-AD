@@ -1,0 +1,327 @@
+/uwahpc/rocky9/python/anaconda3/2024.06/lib/python3.12/site-packages/conda/base/context.py:201: FutureWarning: Adding 'defaults' to channel list implicitly is deprecated and will be removed in 25.3. 
+
+To remove this warning, please choose a default channel explicitly with conda's regular configuration system, e.g. by adding 'defaults' to the list of channels:
+
+  conda config --add channels defaults
+
+For more information see https://docs.conda.io/projects/conda/en/stable/user-guide/configuration/use-condarc.html
+
+  deprecated.topic(
+
+Files: 1/112, data:  0.0%
+Files: 1/112, data:  0.2%
+Files: 2/112, data:  0.4%
+Files: 3/112, data:  0.6%
+Files: 4/112, data:  1.0%
+Files: 4/112, data:  1.1%
+Files: 5/112, data:  2.0%
+Files: 5/112, data:  3.0%
+Files: 5/112, data:  4.0%
+Files: 5/112, data:  5.0%
+Files: 5/112, data:  6.0%
+Files: 5/112, data:  7.0%
+Files: 5/112, data:  8.0%
+Files: 5/112, data:  9.0%
+Files: 5/112, data: 10.0%
+Files: 5/112, data: 11.0%
+Files: 5/112, data: 12.0%
+Files: 5/112, data: 13.0%
+Files: 5/112, data: 14.0%
+Files: 5/112, data: 15.0%
+Files: 5/112, data: 16.0%
+Files: 5/112, data: 17.0%
+Files: 5/112, data: 18.0%
+Files: 5/112, data: 19.0%
+Files: 5/112, data: 20.0%
+Files: 5/112, data: 21.0%
+Files: 5/112, data: 22.0%
+Files: 5/112, data: 23.0%
+Files: 5/112, data: 24.0%
+Files: 5/112, data: 25.0%
+Files: 5/112, data: 26.0%
+Files: 5/112, data: 27.0%
+Files: 5/112, data: 28.0%
+Files: 5/112, data: 28.3%
+Files: 6/112, data: 29.0%
+Files: 6/112, data: 30.0%
+Files: 6/112, data: 31.0%
+Files: 6/112, data: 32.0%
+Files: 6/112, data: 33.0%
+Files: 6/112, data: 34.0%
+Files: 6/112, data: 35.0%
+Files: 6/112, data: 36.0%
+Files: 6/112, data: 37.0%
+Files: 6/112, data: 38.0%
+Files: 6/112, data: 39.0%
+Files: 6/112, data: 40.0%
+Files: 6/112, data: 41.0%
+Files: 6/112, data: 42.0%
+Files: 6/112, data: 43.0%
+Files: 6/112, data: 44.0%
+Files: 6/112, data: 45.0%
+Files: 6/112, data: 46.0%
+Files: 6/112, data: 46.8%
+Files: 7/112, data: 46.8%
+Files: 8/112, data: 46.8%
+Files: 9/112, data: 47.0%
+Files: 9/112, data: 47.0%
+Files: 10/112, data: 47.1%
+Files: 11/112, data: 47.3%
+Files: 12/112, data: 48.0%
+Files: 12/112, data: 49.0%
+Files: 12/112, data: 50.0%
+Files: 12/112, data: 51.0%
+Files: 12/112, data: 52.0%
+Files: 12/112, data: 53.0%
+Files: 12/112, data: 54.0%
+Files: 12/112, data: 55.0%
+Files: 12/112, data: 56.0%
+Files: 12/112, data: 57.0%
+Files: 12/112, data: 58.0%
+Files: 12/112, data: 59.0%
+Files: 12/112, data: 60.0%
+Files: 12/112, data: 61.0%
+Files: 12/112, data: 62.0%
+Files: 12/112, data: 63.0%
+Files: 12/112, data: 64.0%
+Files: 12/112, data: 65.0%
+Files: 12/112, data: 66.0%
+Files: 12/112, data: 67.0%
+Files: 12/112, data: 68.0%
+Files: 12/112, data: 69.0%
+Files: 12/112, data: 70.0%
+Files: 12/112, data: 71.0%
+Files: 12/112, data: 71.9%
+Files: 13/112, data: 72.0%
+Files: 13/112, data: 72.0%
+Files: 14/112, data: 72.2%
+Files: 15/112, data: 72.4%
+Files: 16/112, data: 72.6%
+Files: 17/112, data: 72.7%
+Files: 18/112, data: 72.9%
+Files: 19/112, data: 73.0%
+Files: 19/112, data: 73.1%
+Files: 20/112, data: 73.3%
+Files: 21/112, data: 73.4%
+Files: 22/112, data: 73.7%
+Files: 23/112, data: 73.9%
+Files: 24/112, data: 74.0%
+Files: 24/112, data: 75.0%
+Files: 24/112, data: 76.0%
+Files: 24/112, data: 76.2%
+Files: 25/112, data: 76.5%
+Files: 26/112, data: 76.8%
+Files: 27/112, data: 77.0%
+Files: 27/112, data: 78.0%
+Files: 27/112, data: 78.4%
+Files: 28/112, data: 79.0%
+Files: 28/112, data: 80.0%
+Files: 28/112, data: 81.0%
+Files: 28/112, data: 82.0%
+Files: 28/112, data: 82.9%
+Files: 29/112, data: 83.0%
+Files: 29/112, data: 84.0%
+Files: 29/112, data: 85.0%
+Files: 29/112, data: 86.0%
+Files: 29/112, data: 87.0%
+Files: 29/112, data: 88.0%
+Files: 29/112, data: 89.0%
+Files: 29/112, data: 90.0%
+Files: 29/112, data: 90.0%
+Files: 30/112, data: 90.3%
+Files: 31/112, data: 90.7%
+Files: 32/112, data: 91.0%
+Files: 32/112, data: 92.0%
+Files: 32/112, data: 92.3%
+Files: 33/112, data: 92.5%
+Files: 34/112, data: 92.7%
+Files: 35/112, data: 92.9%
+Files: 36/112, data: 92.9%
+Files: 37/112, data: 93.0%
+Files: 37/112, data: 93.7%
+Files: 38/112, data: 93.9%
+Files: 39/112, data: 93.9%
+Files: 40/112, data: 94.0%
+Files: 41/112, data: 94.0%
+Files: 41/112, data: 94.0%
+Files: 42/112, data: 94.0%
+Files: 43/112, data: 94.0%
+Files: 44/112, data: 94.0%
+Files: 45/112, data: 94.0%
+Files: 46/112, data: 94.0%
+Files: 47/112, data: 94.0%
+Files: 48/112, data: 94.0%
+Files: 49/112, data: 94.0%
+Files: 50/112, data: 94.0%
+Files: 51/112, data: 94.0%
+Files: 52/112, data: 94.0%
+Files: 53/112, data: 94.0%
+Files: 54/112, data: 94.0%
+Files: 55/112, data: 94.0%
+Files: 56/112, data: 94.0%
+Files: 57/112, data: 94.0%
+Files: 58/112, data: 94.0%
+Files: 59/112, data: 94.0%
+Files: 60/112, data: 94.0%
+Files: 61/112, data: 94.0%
+Files: 62/112, data: 94.0%
+Files: 63/112, data: 94.0%
+Files: 64/112, data: 94.0%
+Files: 65/112, data: 94.0%
+Files: 66/112, data: 94.0%
+Files: 67/112, data: 94.0%
+Files: 68/112, data: 94.0%
+Files: 69/112, data: 94.0%
+Files: 70/112, data: 94.0%
+Files: 71/112, data: 94.0%
+Files: 72/112, data: 94.0%
+Files: 73/112, data: 94.0%
+Files: 74/112, data: 94.0%
+Files: 75/112, data: 94.0%
+Files: 76/112, data: 94.0%
+Files: 77/112, data: 94.0%
+Files: 78/112, data: 94.0%
+Files: 79/112, data: 94.0%
+Files: 80/112, data: 94.0%
+Files: 81/112, data: 94.0%
+Files: 82/112, data: 94.0%
+Files: 83/112, data: 94.0%
+Files: 84/112, data: 94.0%
+Files: 85/112, data: 94.0%
+Files: 86/112, data: 94.0%
+Files: 87/112, data: 94.0%
+Files: 88/112, data: 94.0%
+Files: 89/112, data: 94.0%
+Files: 90/112, data: 94.0%
+Files: 91/112, data: 94.0%
+Files: 92/112, data: 94.0%
+Files: 93/112, data: 94.0%
+Files: 94/112, data: 94.0%
+Files: 95/112, data: 94.0%
+Files: 96/112, data: 94.0%
+Files: 97/112, data: 94.0%
+Files: 98/112, data: 94.0%
+Files: 99/112, data: 94.0%
+Files: 100/112, data: 94.0%
+Files: 101/112, data: 94.0%
+Files: 102/112, data: 94.0%
+Files: 103/112, data: 94.3%
+Files: 104/112, data: 94.4%
+Files: 105/112, data: 94.5%
+Files: 106/112, data: 94.5%
+Files: 107/112, data: 95.0%
+Files: 107/112, data: 96.0%
+Files: 107/112, data: 97.0%
+Files: 107/112, data: 98.0%
+Files: 107/112, data: 98.7%
+Files: 108/112, data: 99.0%
+Files: 108/112, data: 99.7%
+Files: 109/112, data: 99.8%
+Files: 110/112, data: 100.0%
+Files: 111/112, data: 100.0%
+Files: 112/112, data: 100.0%
+Files: 112/112, data: 100.0%
+Done: 112 files, 21.36MiB processed in 0.203 seconds.
+INFO:    Cleanup error: while stopping driver for /var/lib/apptainer/mnt/session/final: fuse-overlayfs exited: fuse: reading device: Software caused connection abort
+Loading checkpoint shards:   0%|          | 0/17 [00:00<?, ?it/s]Loading checkpoint shards:   6%|▌         | 1/17 [00:06<01:38,  6.14s/it]Loading checkpoint shards:  12%|█▏        | 2/17 [00:12<01:37,  6.49s/it]Loading checkpoint shards:  18%|█▊        | 3/17 [00:19<01:34,  6.75s/it]Loading checkpoint shards:  24%|██▎       | 4/17 [00:26<01:27,  6.71s/it]Loading checkpoint shards:  29%|██▉       | 5/17 [00:33<01:21,  6.78s/it]Loading checkpoint shards:  35%|███▌      | 6/17 [00:41<01:17,  7.04s/it]Loading checkpoint shards:  41%|████      | 7/17 [00:47<01:08,  6.86s/it]Loading checkpoint shards:  47%|████▋     | 8/17 [00:55<01:03,  7.09s/it]Loading checkpoint shards:  53%|█████▎    | 9/17 [01:01<00:55,  6.93s/it]Loading checkpoint shards:  59%|█████▉    | 10/17 [01:08<00:47,  6.81s/it]Loading checkpoint shards:  65%|██████▍   | 11/17 [01:14<00:40,  6.77s/it]Loading checkpoint shards:  71%|███████   | 12/17 [01:21<00:33,  6.77s/it]Loading checkpoint shards:  76%|███████▋  | 13/17 [01:28<00:26,  6.74s/it]Loading checkpoint shards:  82%|████████▏ | 14/17 [01:35<00:20,  6.73s/it]Loading checkpoint shards:  88%|████████▊ | 15/17 [01:41<00:13,  6.56s/it]Loading checkpoint shards:  94%|█████████▍| 16/17 [01:47<00:06,  6.53s/it]Loading checkpoint shards: 100%|██████████| 17/17 [01:51<00:00,  5.68s/it]Loading checkpoint shards: 100%|██████████| 17/17 [01:51<00:00,  6.55s/it]
+Starting from v4.46, the `logits` model output will have the same type as the model (except at train time, where it will always be FP32)
+From v4.47 onwards, when a model cache is to be returned, `generate` will return a `Cache` instance instead by default (as opposed to the legacy tuple of tuples format). If you want to keep returning the legacy format, please set `return_legacy_cache=True`.
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `EMAIL_COMMUNICATION` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=1, column=138, offset=137>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 137, 'line': 1, 'column': 138}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: 'EXPLAIN MATCH (p1:Person {name: "Benjamin", surname: "Hamilton"})-[:HAS_EMAIL]->(e1:Email), (p2:Person)-[:HAS_EMAIL]->(e2:Email), (e1)-[:EMAIL_COMMUNICATION]->(e2)\nRETURN p2.name, p2.surname'
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `EMAIL_COMMUNICATION` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=3, column=32, offset=64>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 64, 'line': 3, 'column': 32}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: '\n                RETURN EXISTS {\n                    MATCH ()-[:EMAIL_COMMUNICATION]-() \n                } AS path_exists\n            '
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `EMAIL_COMMUNICATION` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=3, column=38, offset=70>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 70, 'line': 3, 'column': 38}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: '\n                RETURN EXISTS {\n                    MATCH (:Email)-[:EMAIL_COMMUNICATION]->(:Email) \n                } AS path_exists\n            '
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `EMAIL_COMMUNICATION` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=1, column=138, offset=137>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 137, 'line': 1, 'column': 138}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: 'EXPLAIN MATCH (p1:Person {name: "Benjamin", surname: "Hamilton"})-[:HAS_EMAIL]->(e1:Email), (p2:Person)-[:HAS_EMAIL]->(e2:Email), (e1)-[:EMAIL_COMMUNICATION]->(e2)\nRETURN p2.name, p2.surname'
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `EMAIL_COMMUNICATION` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=3, column=32, offset=64>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 64, 'line': 3, 'column': 32}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: '\n                RETURN EXISTS {\n                    MATCH ()-[:EMAIL_COMMUNICATION]-() \n                } AS path_exists\n            '
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `EMAIL_COMMUNICATION` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=3, column=38, offset=70>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 70, 'line': 3, 'column': 38}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: '\n                RETURN EXISTS {\n                    MATCH (:Email)-[:EMAIL_COMMUNICATION]->(:Email) \n                } AS path_exists\n            '
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `EMAIL_COMMUNICATION` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=1, column=138, offset=137>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 137, 'line': 1, 'column': 138}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: 'EXPLAIN MATCH (p1:Person {name: "Benjamin", surname: "Hamilton"})-[:HAS_EMAIL]->(e1:Email), (p2:Person)-[:HAS_EMAIL]->(e2:Email), (e1)-[:EMAIL_COMMUNICATION]->(e2)\nRETURN p2.name, p2.surname'
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `EMAIL_COMMUNICATION` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=3, column=32, offset=64>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 64, 'line': 3, 'column': 32}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: '\n                RETURN EXISTS {\n                    MATCH ()-[:EMAIL_COMMUNICATION]-() \n                } AS path_exists\n            '
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `EMAIL_COMMUNICATION` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=3, column=38, offset=70>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 70, 'line': 3, 'column': 38}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: '\n                RETURN EXISTS {\n                    MATCH (:Email)-[:EMAIL_COMMUNICATION]->(:Email) \n                } AS path_exists\n            '
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `EMAIL_COMMUNICATION` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=1, column=138, offset=137>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 137, 'line': 1, 'column': 138}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: 'EXPLAIN MATCH (p1:Person {name: "Benjamin", surname: "Hamilton"})-[:HAS_EMAIL]->(e1:Email), (p2:Person)-[:HAS_EMAIL]->(e2:Email), (e1)-[:EMAIL_COMMUNICATION]->(e2)\nRETURN p2.name, p2.surname'
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `EMAIL_COMMUNICATION` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=3, column=32, offset=64>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 64, 'line': 3, 'column': 32}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: '\n                RETURN EXISTS {\n                    MATCH ()-[:EMAIL_COMMUNICATION]-() \n                } AS path_exists\n            '
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `EMAIL_COMMUNICATION` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=3, column=38, offset=70>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 70, 'line': 3, 'column': 38}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: '\n                RETURN EXISTS {\n                    MATCH (:Email)-[:EMAIL_COMMUNICATION]->(:Email) \n                } AS path_exists\n            '
+Loading checkpoint shards:   0%|          | 0/17 [00:00<?, ?it/s]Loading checkpoint shards:   6%|▌         | 1/17 [00:00<00:15,  1.05it/s]Loading checkpoint shards:  12%|█▏        | 2/17 [00:01<00:14,  1.07it/s]Loading checkpoint shards:  18%|█▊        | 3/17 [00:02<00:12,  1.09it/s]Loading checkpoint shards:  24%|██▎       | 4/17 [00:03<00:11,  1.11it/s]Loading checkpoint shards:  29%|██▉       | 5/17 [00:04<00:10,  1.10it/s]Loading checkpoint shards:  35%|███▌      | 6/17 [00:05<00:09,  1.11it/s]Loading checkpoint shards:  41%|████      | 7/17 [00:06<00:08,  1.11it/s]Loading checkpoint shards:  47%|████▋     | 8/17 [00:07<00:08,  1.12it/s]Loading checkpoint shards:  53%|█████▎    | 9/17 [00:08<00:07,  1.12it/s]Loading checkpoint shards:  59%|█████▉    | 10/17 [00:08<00:06,  1.13it/s]Loading checkpoint shards:  65%|██████▍   | 11/17 [00:09<00:05,  1.13it/s]Loading checkpoint shards:  71%|███████   | 12/17 [00:10<00:04,  1.13it/s]Loading checkpoint shards:  76%|███████▋  | 13/17 [00:11<00:03,  1.14it/s]Loading checkpoint shards:  82%|████████▏ | 14/17 [00:12<00:02,  1.14it/s]Loading checkpoint shards:  88%|████████▊ | 15/17 [00:13<00:01,  1.13it/s]Loading checkpoint shards:  94%|█████████▍| 16/17 [00:14<00:00,  1.14it/s]Loading checkpoint shards: 100%|██████████| 17/17 [00:14<00:00,  1.21it/s]Loading checkpoint shards: 100%|██████████| 17/17 [00:14<00:00,  1.14it/s]
+Loading checkpoint shards:   0%|          | 0/17 [00:00<?, ?it/s]Loading checkpoint shards:   6%|▌         | 1/17 [00:00<00:14,  1.11it/s]Loading checkpoint shards:  12%|█▏        | 2/17 [00:01<00:13,  1.10it/s]Loading checkpoint shards:  18%|█▊        | 3/17 [00:02<00:12,  1.11it/s]Loading checkpoint shards:  24%|██▎       | 4/17 [00:03<00:11,  1.11it/s]Loading checkpoint shards:  29%|██▉       | 5/17 [00:04<00:10,  1.12it/s]Loading checkpoint shards:  35%|███▌      | 6/17 [00:05<00:09,  1.11it/s]Loading checkpoint shards:  41%|████      | 7/17 [00:06<00:08,  1.12it/s]Loading checkpoint shards:  47%|████▋     | 8/17 [00:07<00:08,  1.12it/s]Loading checkpoint shards:  53%|█████▎    | 9/17 [00:08<00:07,  1.13it/s]Loading checkpoint shards:  59%|█████▉    | 10/17 [00:08<00:06,  1.13it/s]Loading checkpoint shards:  65%|██████▍   | 11/17 [00:09<00:05,  1.12it/s]Loading checkpoint shards:  71%|███████   | 12/17 [00:10<00:04,  1.12it/s]Loading checkpoint shards:  76%|███████▋  | 13/17 [00:11<00:03,  1.12it/s]Loading checkpoint shards:  82%|████████▏ | 14/17 [00:12<00:02,  1.12it/s]Loading checkpoint shards:  88%|████████▊ | 15/17 [00:13<00:01,  1.12it/s]Loading checkpoint shards:  94%|█████████▍| 16/17 [00:14<00:00,  1.12it/s]Loading checkpoint shards: 100%|██████████| 17/17 [00:15<00:00,  1.19it/s]Loading checkpoint shards: 100%|██████████| 17/17 [00:15<00:00,  1.13it/s]
+Loading checkpoint shards:   0%|          | 0/17 [00:00<?, ?it/s]Loading checkpoint shards:   6%|▌         | 1/17 [00:00<00:15,  1.05it/s]Loading checkpoint shards:  12%|█▏        | 2/17 [00:01<00:14,  1.05it/s]Loading checkpoint shards:  18%|█▊        | 3/17 [00:02<00:13,  1.07it/s]Loading checkpoint shards:  24%|██▎       | 4/17 [00:03<00:12,  1.08it/s]Loading checkpoint shards:  29%|██▉       | 5/17 [00:04<00:11,  1.09it/s]Loading checkpoint shards:  35%|███▌      | 6/17 [00:05<00:10,  1.09it/s]Loading checkpoint shards:  41%|████      | 7/17 [00:06<00:09,  1.09it/s]Loading checkpoint shards:  47%|████▋     | 8/17 [00:07<00:08,  1.09it/s]Loading checkpoint shards:  53%|█████▎    | 9/17 [00:08<00:07,  1.09it/s]Loading checkpoint shards:  59%|█████▉    | 10/17 [00:09<00:06,  1.10it/s]Loading checkpoint shards:  65%|██████▍   | 11/17 [00:10<00:05,  1.10it/s]Loading checkpoint shards:  71%|███████   | 12/17 [00:11<00:04,  1.10it/s]Loading checkpoint shards:  76%|███████▋  | 13/17 [00:11<00:03,  1.10it/s]Loading checkpoint shards:  82%|████████▏ | 14/17 [00:12<00:02,  1.10it/s]Loading checkpoint shards:  88%|████████▊ | 15/17 [00:13<00:01,  1.10it/s]Loading checkpoint shards:  94%|█████████▍| 16/17 [00:14<00:00,  1.10it/s]Loading checkpoint shards: 100%|██████████| 17/17 [00:15<00:00,  1.17it/s]Loading checkpoint shards: 100%|██████████| 17/17 [00:15<00:00,  1.10it/s]
+Loading checkpoint shards:   0%|          | 0/17 [00:00<?, ?it/s]Loading checkpoint shards:   6%|▌         | 1/17 [00:00<00:14,  1.08it/s]Loading checkpoint shards:  12%|█▏        | 2/17 [00:01<00:13,  1.07it/s]Loading checkpoint shards:  18%|█▊        | 3/17 [00:02<00:13,  1.08it/s]Loading checkpoint shards:  24%|██▎       | 4/17 [00:03<00:12,  1.08it/s]Loading checkpoint shards:  29%|██▉       | 5/17 [00:04<00:11,  1.07it/s]Loading checkpoint shards:  35%|███▌      | 6/17 [00:05<00:10,  1.07it/s]Loading checkpoint shards:  41%|████      | 7/17 [00:06<00:09,  1.07it/s]Loading checkpoint shards:  47%|████▋     | 8/17 [00:07<00:08,  1.08it/s]Loading checkpoint shards:  53%|█████▎    | 9/17 [00:08<00:07,  1.08it/s]Loading checkpoint shards:  59%|█████▉    | 10/17 [00:09<00:06,  1.08it/s]Loading checkpoint shards:  65%|██████▍   | 11/17 [00:10<00:05,  1.08it/s]Loading checkpoint shards:  71%|███████   | 12/17 [00:11<00:04,  1.08it/s]Loading checkpoint shards:  76%|███████▋  | 13/17 [00:12<00:03,  1.08it/s]Loading checkpoint shards:  82%|████████▏ | 14/17 [00:12<00:02,  1.08it/s]Loading checkpoint shards:  88%|████████▊ | 15/17 [00:13<00:01,  1.08it/s]Loading checkpoint shards:  94%|█████████▍| 16/17 [00:14<00:00,  1.08it/s]Loading checkpoint shards: 100%|██████████| 17/17 [00:15<00:00,  1.14it/s]Loading checkpoint shards: 100%|██████████| 17/17 [00:15<00:00,  1.09it/s]
+Loading checkpoint shards:   0%|          | 0/17 [00:00<?, ?it/s]Loading checkpoint shards:   6%|▌         | 1/17 [00:00<00:15,  1.07it/s]Loading checkpoint shards:  12%|█▏        | 2/17 [00:01<00:14,  1.06it/s]Loading checkpoint shards:  18%|█▊        | 3/17 [00:02<00:13,  1.06it/s]Loading checkpoint shards:  24%|██▎       | 4/17 [00:03<00:12,  1.07it/s]Loading checkpoint shards:  29%|██▉       | 5/17 [00:04<00:11,  1.07it/s]Loading checkpoint shards:  35%|███▌      | 6/17 [00:05<00:10,  1.07it/s]Loading checkpoint shards:  41%|████      | 7/17 [00:06<00:09,  1.07it/s]Loading checkpoint shards:  47%|████▋     | 8/17 [00:07<00:08,  1.07it/s]Loading checkpoint shards:  53%|█████▎    | 9/17 [00:08<00:07,  1.07it/s]Loading checkpoint shards:  59%|█████▉    | 10/17 [00:09<00:06,  1.07it/s]Loading checkpoint shards:  65%|██████▍   | 11/17 [00:10<00:05,  1.07it/s]Loading checkpoint shards:  71%|███████   | 12/17 [00:11<00:04,  1.07it/s]Loading checkpoint shards:  76%|███████▋  | 13/17 [00:12<00:03,  1.07it/s]Loading checkpoint shards:  82%|████████▏ | 14/17 [00:13<00:02,  1.07it/s]Loading checkpoint shards:  88%|████████▊ | 15/17 [00:14<00:01,  1.07it/s]Loading checkpoint shards:  94%|█████████▍| 16/17 [00:14<00:00,  1.07it/s]Loading checkpoint shards: 100%|██████████| 17/17 [00:15<00:00,  1.13it/s]Loading checkpoint shards: 100%|██████████| 17/17 [00:15<00:00,  1.08it/s]
+Disambiguator repeated a previously-tried pattern; falling back to next candidate.
+Span 'Jackson' matched 17 candidates (> max_candidates_per_mention=10); keeping top-10 — likely an over-generic span.
+Disambiguator repeated a previously-tried pattern; falling back to next candidate.
+Disambiguator repeated a previously-tried pattern; falling back to next candidate.
+Span 'Martin' matched 15 candidates (> max_candidates_per_mention=10); keeping top-10 — likely an over-generic span.
+Disambiguator repeated a previously-tried pattern; falling back to next candidate.
+Disambiguator repeated a previously-tried pattern; falling back to next candidate.
+Disambiguator repeated a previously-tried pattern; falling back to next candidate.
+Disambiguator repeated a previously-tried pattern; falling back to next candidate.
+Disambiguator repeated a previously-tried pattern; falling back to next candidate.
+Span 'Williamson' matched 13 candidates (> max_candidates_per_mention=10); keeping top-10 — likely an over-generic span.
+Disambiguator repeated a previously-tried pattern; falling back to next candidate.
+Disambiguator repeated a previously-tried pattern; falling back to next candidate.
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `LIVES_WITH` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=1, column=64, offset=63>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 63, 'line': 1, 'column': 64}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: "EXPLAIN MATCH (p1:Person {name:'Theresa', surname:'Powell'})-[:LIVES_WITH]->(p2:Person)-[:KNOWS_SN]->(p3:Person) RETURN p3.name, p3.surname"
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `LIVES_WITH` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=3, column=32, offset=64>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 64, 'line': 3, 'column': 32}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: '\n                RETURN EXISTS {\n                    MATCH ()-[:LIVES_WITH]-() \n                } AS path_exists\n            '
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `LIVES_WITH` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=3, column=39, offset=71>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 71, 'line': 3, 'column': 39}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: '\n                RETURN EXISTS {\n                    MATCH (:Person)-[:LIVES_WITH]->(:Person) \n                } AS path_exists\n            '
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `LIVES_WITH` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=1, column=64, offset=63>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 63, 'line': 1, 'column': 64}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: "EXPLAIN MATCH (p1:Person {name:'Theresa', surname:'Powell'})-[:LIVES_WITH]->(p2:Person)-[:KNOWS]->(p3:Person) RETURN p3.name, p3.surname"
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `LIVES_WITH` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=3, column=32, offset=64>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 64, 'line': 3, 'column': 32}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: '\n                RETURN EXISTS {\n                    MATCH ()-[:LIVES_WITH]-() \n                } AS path_exists\n            '
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `LIVES_WITH` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=3, column=39, offset=71>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 71, 'line': 3, 'column': 39}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: '\n                RETURN EXISTS {\n                    MATCH (:Person)-[:LIVES_WITH]->(:Person) \n                } AS path_exists\n            '
+Disambiguator repeated a previously-tried pattern; falling back to next candidate.
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `LIVES_WITH` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=1, column=64, offset=63>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 63, 'line': 1, 'column': 64}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: "EXPLAIN MATCH (p1:Person {name:'Theresa', surname:'Powell'})-[:LIVES_WITH]->(p2:Person)-[:KNOWS_SN]->(p3:Person) RETURN p3.name, p3.surname"
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `LIVES_WITH` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=3, column=32, offset=64>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 64, 'line': 3, 'column': 32}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: '\n                RETURN EXISTS {\n                    MATCH ()-[:LIVES_WITH]-() \n                } AS path_exists\n            '
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `LIVES_WITH` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=3, column=39, offset=71>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 71, 'line': 3, 'column': 39}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: '\n                RETURN EXISTS {\n                    MATCH (:Person)-[:LIVES_WITH]->(:Person) \n                } AS path_exists\n            '
+Disambiguator LLM output unparseable; falling back to best untried candidate.
+Disambiguator repeated a previously-tried pattern; falling back to next candidate.
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `LIVES_WITH` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=1, column=63, offset=62>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 62, 'line': 1, 'column': 63}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: "EXPLAIN MATCH (p1:Person {name:'Kathy', surname:'Wheeler'})-[:LIVES_WITH]-(p2:Person)-[:KNOWS_SN]-(p3:Person) RETURN p3.name, p3.surname"
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `LIVES_WITH` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=3, column=32, offset=64>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 64, 'line': 3, 'column': 32}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: '\n                RETURN EXISTS {\n                    MATCH ()-[:LIVES_WITH]-() \n                } AS path_exists\n            '
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `LIVES_WITH` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=3, column=39, offset=71>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 71, 'line': 3, 'column': 39}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: '\n                RETURN EXISTS {\n                    MATCH (:Person)-[:LIVES_WITH]-(:Person) \n                } AS path_exists\n            '
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `LIVES_WITH` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=1, column=63, offset=62>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 62, 'line': 1, 'column': 63}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: "EXPLAIN MATCH (p1:Person {name:'Kathy', surname:'Wheeler'})-[:LIVES_WITH]-(p2:Person)-[:KNOWS]-(p3:Person) RETURN p3.name, p3.surname"
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `LIVES_WITH` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=3, column=32, offset=64>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 64, 'line': 3, 'column': 32}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: '\n                RETURN EXISTS {\n                    MATCH ()-[:LIVES_WITH]-() \n                } AS path_exists\n            '
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `LIVES_WITH` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=3, column=39, offset=71>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 71, 'line': 3, 'column': 39}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: '\n                RETURN EXISTS {\n                    MATCH (:Person)-[:LIVES_WITH]-(:Person) \n                } AS path_exists\n            '
+Disambiguator repeated a previously-tried pattern; falling back to next candidate.
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `LIVES_WITH` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=1, column=63, offset=62>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 62, 'line': 1, 'column': 63}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: "EXPLAIN MATCH (p1:Person {name:'Kathy', surname:'Wheeler'})-[:LIVES_WITH]-(p2:Person)-[:KNOWS_SN]->(p3:Person) RETURN p3.name, p3.surname"
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `LIVES_WITH` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=3, column=32, offset=64>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 64, 'line': 3, 'column': 32}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: '\n                RETURN EXISTS {\n                    MATCH ()-[:LIVES_WITH]-() \n                } AS path_exists\n            '
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `LIVES_WITH` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=3, column=39, offset=71>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 71, 'line': 3, 'column': 39}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: '\n                RETURN EXISTS {\n                    MATCH (:Person)-[:LIVES_WITH]-(:Person) \n                } AS path_exists\n            '
+Disambiguator repeated a previously-tried pattern; falling back to next candidate.
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `LIVES_WITH` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=1, column=63, offset=62>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 62, 'line': 1, 'column': 63}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: "EXPLAIN MATCH (p1:Person {name:'Kathy', surname:'Wheeler'})-[:LIVES_WITH]-(p2:Person)-[:KNOWS]->(p3:Person) RETURN p3.name, p3.surname"
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `LIVES_WITH` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=3, column=32, offset=64>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 64, 'line': 3, 'column': 32}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: '\n                RETURN EXISTS {\n                    MATCH ()-[:LIVES_WITH]-() \n                } AS path_exists\n            '
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `LIVES_WITH` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=3, column=39, offset=71>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 71, 'line': 3, 'column': 39}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: '\n                RETURN EXISTS {\n                    MATCH (:Person)-[:LIVES_WITH]-(:Person) \n                } AS path_exists\n            '
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `LIVES_WITH` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=1, column=65, offset=64>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 64, 'line': 1, 'column': 65}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: "EXPLAIN MATCH (p1:Person {name:'Eugene', surname:'Ferguson'})-[:LIVES_WITH]-(p2:Person)-[:KNOWS_SN]-(p3:Person) RETURN DISTINCT p3.name, p3.surname"
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `LIVES_WITH` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=3, column=32, offset=64>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 64, 'line': 3, 'column': 32}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: '\n                RETURN EXISTS {\n                    MATCH ()-[:LIVES_WITH]-() \n                } AS path_exists\n            '
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `LIVES_WITH` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=3, column=39, offset=71>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 71, 'line': 3, 'column': 39}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: '\n                RETURN EXISTS {\n                    MATCH (:Person)-[:LIVES_WITH]-(:Person) \n                } AS path_exists\n            '
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `LIVES_WITH` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=1, column=65, offset=64>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 64, 'line': 1, 'column': 65}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: "EXPLAIN MATCH (p1:Person {name:'Eugene', surname:'Ferguson'})-[:LIVES_WITH]-(p2:Person)-[:KNOWS_PHONE]-(p3:Person) RETURN DISTINCT p3.name, p3.surname"
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `LIVES_WITH` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=3, column=32, offset=64>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 64, 'line': 3, 'column': 32}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: '\n                RETURN EXISTS {\n                    MATCH ()-[:LIVES_WITH]-() \n                } AS path_exists\n            '
+Received notification from DBMS server: <GqlStatusObject gql_status='01N51', status_description='warn: relationship type does not exist. The relationship type `LIVES_WITH` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=3, column=39, offset=71>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 71, 'line': 3, 'column': 39}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: '\n                RETURN EXISTS {\n                    MATCH (:Person)-[:LIVES_WITH]-(:Person) \n                } AS path_exists\n            '
+Disambiguator repeated a previously-tried pattern; falling back to next candidate.
+Disambiguator repeated a previously-tried pattern; falling back to next candidate.
+Disambiguator repeated a previously-tried pattern; falling back to next candidate.
+Disambiguator LLM output unparseable; falling back to best untried candidate.
+Disambiguator LLM output unparseable; falling back to best untried candidate.
+Received notification from DBMS server: <GqlStatusObject gql_status='01N52', status_description='warn: property key does not exist. The property `title` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=1, column=27, offset=26>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 26, 'line': 1, 'column': 27}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: "EXPLAIN MATCH (p1:Person {title:'Police Constable'})-[:INVESTIGATED_BY]->(c:Crime) WHERE p1.name <> 'Ings' WITH p1, count(c) AS n ORDER BY n DESC LIMIT 1 RETURN p1.name"
+Disambiguator repeated a previously-tried pattern; falling back to next candidate.
+Received notification from DBMS server: <GqlStatusObject gql_status='01N52', status_description='warn: property key does not exist. The property `title` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=1, column=26, offset=25>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 25, 'line': 1, 'column': 26}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: "EXPLAIN MATCH (p:Person {title:'Police Constable'})-[:KNOWS]->(p:Person), (p:Person)-[:INVESTIGATED_BY]->(c:Crime) WHERE p.name <> 'Ings' WITH p, count(c) AS n ORDER BY n DESC LIMIT 1 RETURN p.name"
+Received notification from DBMS server: <GqlStatusObject gql_status='01N52', status_description='warn: property key does not exist. The property `title` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=1, column=26, offset=25>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 25, 'line': 1, 'column': 26}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: "EXPLAIN MATCH (p:Person {title:'Police Constable'})-[:KNOWS]->(p:Person), (p:Person {name:'Ings'})-[:INVESTIGATED_BY]->(c:Crime) WITH p, count(c) AS n ORDER BY n DESC LIMIT 1 RETURN p.name"
+Received notification from DBMS server: <GqlStatusObject gql_status='01N52', status_description='warn: property key does not exist. The property `title` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=1, column=26, offset=25>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 25, 'line': 1, 'column': 26}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: "EXPLAIN MATCH (p:Person {title:'Police Constable'})-[:KNOWS]->(p:Person), (p:Person {name:'Ings', surname:'Cloe'})-[:INVESTIGATED_BY]->(c:Crime) WITH p, count(c) AS n ORDER BY n DESC LIMIT 1 RETURN p.name"
+Disambiguator repeated a previously-tried pattern; falling back to next candidate.
+Disambiguator repeated a previously-tried pattern; falling back to next candidate.
+Disambiguator repeated a previously-tried pattern; falling back to next candidate.
+Received notification from DBMS server: <GqlStatusObject gql_status='01N52', status_description='warn: property key does not exist. The property `crime_type` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=1, column=25, offset=24>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 24, 'line': 1, 'column': 25}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: "EXPLAIN MATCH (c:Crime {crime_type:'Violence and sexual offences'})-[:OCCURRED_AT]->(l:Location)-[:LOCATION_IN_AREA]->(a:Area {area_code:'BL3'}) RETURN count(*) AS n"
+Received notification from DBMS server: <GqlStatusObject gql_status='01N52', status_description='warn: property key does not exist. The property `area_code` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=1, column=128, offset=127>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 127, 'line': 1, 'column': 128}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: "EXPLAIN MATCH (c:Crime {crime_type:'Violence and sexual offences'})-[:OCCURRED_AT]->(l:Location)-[:LOCATION_IN_AREA]->(a:Area {area_code:'BL3'}) RETURN count(*) AS n"
+Received notification from DBMS server: <GqlStatusObject gql_status='01N52', status_description='warn: property key does not exist. The property `crime_type` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=1, column=42, offset=41>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 41, 'line': 1, 'column': 42}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: 'RETURN exists { MATCH (x:Crime) WHERE (x.crime_type) IS NOT NULL} AS exists'
+Received notification from DBMS server: <GqlStatusObject gql_status='01N52', status_description='warn: property key does not exist. The property `area_code` does not exist. Verify that the spelling is correct.', position=<SummaryInputPosition line=1, column=41, offset=40>, raw_classification='UNRECOGNIZED', classification=<NotificationClassification.UNRECOGNIZED: 'UNRECOGNIZED'>, raw_severity='WARNING', severity=<NotificationSeverity.WARNING: 'WARNING'>, diagnostic_record={'_classification': 'UNRECOGNIZED', '_severity': 'WARNING', '_position': {'offset': 40, 'line': 1, 'column': 41}, 'OPERATION': '', 'OPERATION_CODE': '0', 'CURRENT_SCHEMA': '/'}> for query: 'RETURN exists { MATCH (x:Area) WHERE (x.area_code) IS NOT NULL} AS exists'
+Disambiguator repeated a previously-tried pattern; falling back to next candidate.
+Disambiguator repeated a previously-tried pattern; falling back to next candidate.
+Disambiguator repeated a previously-tried pattern; falling back to next candidate.
+Disambiguator repeated a previously-tried pattern; falling back to next candidate.
+Disambiguator repeated a previously-tried pattern; falling back to next candidate.
+Disambiguator repeated a previously-tried pattern; falling back to next candidate.
+Disambiguator repeated a previously-tried pattern; falling back to next candidate.
+Disambiguator repeated a previously-tried pattern; falling back to next candidate.
+Disambiguator repeated a previously-tried pattern; falling back to next candidate.
+Disambiguator repeated a previously-tried pattern; falling back to next candidate.
+Disambiguator repeated a previously-tried pattern; falling back to next candidate.
+Disambiguator repeated a previously-tried pattern; falling back to next candidate.
+Disambiguator LLM output unparseable; falling back to best untried candidate.
+Disambiguator repeated a previously-tried pattern; falling back to next candidate.
+Span 'Polding Street' matched 11 candidates (> max_candidates_per_mention=10); keeping top-10 — likely an over-generic span.
+AD LLM output unparseable; falling back to entropy thresholds (schema=0.00>=0.60? False, entity=1.00>=0.80? True) -> is_ambiguous=True
+AD LLM output unparseable; falling back to entropy thresholds (schema=0.00>=0.60? False, entity=1.00>=0.80? True) -> is_ambiguous=True
+Disambiguator repeated a previously-tried pattern; falling back to next candidate.
+Disambiguator repeated a previously-tried pattern; falling back to next candidate.
+INFO:    Cleanup error: while stopping driver for /var/lib/apptainer/mnt/session/final: fuse-overlayfs exited: fuse: reading device: Software caused connection abort

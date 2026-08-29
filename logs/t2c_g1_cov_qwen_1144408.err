@@ -1,0 +1,12 @@
+/uwahpc/rocky9/python/anaconda3/2024.06/lib/python3.12/site-packages/conda/base/context.py:201: FutureWarning: Adding 'defaults' to channel list implicitly is deprecated and will be removed in 25.3. 
+
+To remove this warning, please choose a default channel explicitly with conda's regular configuration system, e.g. by adding 'defaults' to the list of channels:
+
+  conda config --add channels defaults
+
+For more information see https://docs.conda.io/projects/conda/en/stable/user-guide/configuration/use-condarc.html
+
+  deprecated.topic(
+Loading checkpoint shards:   0%|          | 0/17 [00:00<?, ?it/s]Loading checkpoint shards:   6%|▌         | 1/17 [00:06<01:48,  6.80s/it]Loading checkpoint shards:  12%|█▏        | 2/17 [00:15<01:56,  7.77s/it]Loading checkpoint shards:  18%|█▊        | 3/17 [00:23<01:51,  7.99s/it]Loading checkpoint shards:  24%|██▎       | 4/17 [00:31<01:45,  8.08s/it]Loading checkpoint shards:  29%|██▉       | 5/17 [00:39<01:36,  8.02s/it]Loading checkpoint shards:  35%|███▌      | 6/17 [00:47<01:27,  7.96s/it]Loading checkpoint shards:  41%|████      | 7/17 [00:55<01:18,  7.82s/it]Loading checkpoint shards:  47%|████▋     | 8/17 [01:03<01:11,  7.94s/it]Loading checkpoint shards:  53%|█████▎    | 9/17 [01:10<01:02,  7.85s/it]Loading checkpoint shards:  59%|█████▉    | 10/17 [01:18<00:54,  7.78s/it]Loading checkpoint shards:  65%|██████▍   | 11/17 [01:26<00:46,  7.74s/it]Loading checkpoint shards:  71%|███████   | 12/17 [01:34<00:39,  7.85s/it]Loading checkpoint shards:  76%|███████▋  | 13/17 [01:41<00:30,  7.70s/it]Loading checkpoint shards:  82%|████████▏ | 14/17 [01:49<00:22,  7.63s/it]Loading checkpoint shards:  88%|████████▊ | 15/17 [01:56<00:15,  7.55s/it]Loading checkpoint shards:  94%|█████████▍| 16/17 [02:04<00:07,  7.56s/it]Loading checkpoint shards: 100%|██████████| 17/17 [02:08<00:00,  6.74s/it]Loading checkpoint shards: 100%|██████████| 17/17 [02:08<00:00,  7.58s/it]
+Starting from v4.46, the `logits` model output will have the same type as the model (except at train time, where it will always be FP32)
+From v4.47 onwards, when a model cache is to be returned, `generate` will return a `Cache` instance instead by default (as opposed to the legacy tuple of tuples format). If you want to keep returning the legacy format, please set `return_legacy_cache=True`.

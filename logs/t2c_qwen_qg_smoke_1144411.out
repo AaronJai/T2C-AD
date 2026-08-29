@@ -1,0 +1,68 @@
+Job 1144411 on k172 at Fri 28 Aug 2026 23:44:12 AWST
+Fri Aug 28 23:44:12 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.57.08              Driver Version: 575.57.08      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100 NVL                Off |   00000000:E3:00.0 Off |                    0 |
+| N/A   48C    P0             67W /  400W |       0MiB /  95830MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+==============================================================================
+== v3  adapter=checkpoints/qwen2.5-32b/qg_adapter_v3
+==============================================================================
+
+[Q-001] Who is suspected of the homicide?
+  gold pattern : (p:Person)-[:SUSPECTED_OF]->(:Incident)
+  gold cypher  : MATCH (p:Person)-[:SUSPECTED_OF]->(:Incident {crime_type:'homicide'}) RETURN p.name
+  C2/C3 cypher : "MATCH (p:Person)-[:SUSPECTED_OF]->(:Incident {crime_type:'homicide'}) RETURN p.name"
+  C1 cypher    : "MATCH (Person) -[:SUSPECTED_OF]->(Incident {crime_type:'homicide'}) RETURN Person.name"
+
+[Q-002] Which officers are investigating the homicide?
+  gold pattern : (p:Person)-[:INVESTIGATES]->(:Incident)
+  gold cypher  : MATCH (p:Person)-[:INVESTIGATES]->(:Incident {crime_type:'homicide'}) RETURN p.name
+  C2/C3 cypher : "MATCH (p:Person)-[:INVESTIGATES]->(:Incident {crime_type:'homicide'}) RETURN p.name"
+  C1 cypher    : "MATCH (p:Person)-[:INVESTIGATES]->(i:Incident {crime_type:'homicide'}) RETURN p.name"
+
+[Q-003] Who is the victim of the homicide?
+  gold pattern : (p:Person)-[:VICTIM_OF]->(:Incident)
+  gold cypher  : MATCH (p:Person)-[:VICTIM_OF]->(:Incident {crime_type:'homicide'}) RETURN p.name
+  C2/C3 cypher : "MATCH (p:Person)-[:VICTIM_OF]->(:Incident {crime_type:'homicide'}) RETURN p.name"
+  C1 cypher    : "MATCH (p:Person)-[:VICTIM_OF]->(i:Incident {crime_type:'homicide'}) RETURN p.name"
+
+==============================================================================
+== pole_external  adapter=checkpoints/qwen2.5-32b/qg_adapter_pole_external
+==============================================================================
+
+[Q-POLE-E01] What is Andrea George's address?
+  gold pattern : (p:Person)-[:CURRENT_ADDRESS]->(l:Location)
+  gold cypher  : MATCH (p:Person {name:'Andrea', surname:'George'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address
+  C2/C3 cypher : "MATCH (p:Person {name:'Andrea', surname:'George'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+  C1 cypher    : "MATCH (p:Person {name:'Andrea', surname:'George'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+
+[Q-POLE-E02] What is Anne Rice's address?
+  gold pattern : (p:Person)-[:CURRENT_ADDRESS]->(l:Location)
+  gold cypher  : MATCH (p:Person {name:'Anne', surname:'Rice'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address
+  C2/C3 cypher : "MATCH (p:Person {name:'Anne', surname:'Rice'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+  C1 cypher    : "MATCH (p:Person {name:'Anne', surname:'Rice'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+
+[Q-POLE-E03] What is the home address of a person with surname Ford?
+  gold pattern : (p:Person)-[:CURRENT_ADDRESS]->(l:Location)
+  gold cypher  : MATCH (p:Person {surname:'Ford'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address
+  C2/C3 cypher : "MATCH (p:Person {surname:'Ford'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+  C1 cypher    : "MATCH (p:Person {surname:'Ford'})-[:CURRENT_ADDRESS]->(l:Location) RETURN l.address"
+
+SMOKE DONE
+Finished at Fri 28 Aug 2026 23:47:46 AWST

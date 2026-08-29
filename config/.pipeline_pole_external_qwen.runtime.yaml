@@ -1,0 +1,15 @@
+neo4j:
+  uri: bolt://localhost:24488
+  user: neo4j
+  database: neo4j
+dataset_version: pole_external
+results_tag: pole_external_qwen
+models_registry: config/models.yaml
+active_model: qwen2.5-32b
+ad: null
+dis: null
+benchmark: data/benchmark-pole-external.json
+schema_linker_inference: config/schema_linker_inference.yaml
+use_embedding_model: true
+qg_include_properties: true
+results_dir: results/

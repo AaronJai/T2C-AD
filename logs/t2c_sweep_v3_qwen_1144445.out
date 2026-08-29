@@ -1,0 +1,31 @@
+Job 1144445 on k172 at Sat 29 Aug 2026 00:16:09 AWST
+Sat Aug 29 00:16:09 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.57.08              Driver Version: 575.57.08      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100 NVL                Off |   00000000:64:00.0 Off |                    0 |
+| N/A   32C    P0             60W /  400W |       0MiB /  95830MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+ penalty | entropy AUC |  Cov@5 | halluc.
+     0.2 |       0.605 |  0.725 |   0.000
+     0.5 |       0.605 |  0.717 |   0.000
+     1.0 |       0.570 |  0.750 |   0.000
+
+Chosen decoding = {'strategy': 'beam', 'diversity_penalty': 1.0, 'k': 5}
+NO penalty cleared Cov@5 ≥ 0.85; picked best Cov@5/AUC trade-off (Cov@5=0.750, AUC=0.570). RECORD THIS IN decisions-log.md.
+swept decoding[qwen2.5-32b]: {'strategy': 'beam', 'diversity_penalty': 1.0, 'k': 5}  ->  {'strategy': 'beam', 'diversity_penalty': 1.0, 'k': 5}
+locked decoding[qwen2.5-32b] = {'strategy': 'beam', 'diversity_penalty': 1.0, 'k': 5}; all other entries byte-unchanged.
+Finished at Sat 29 Aug 2026 00:36:01 AWST
