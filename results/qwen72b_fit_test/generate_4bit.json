@@ -1,0 +1,61 @@
+{
+  "phase": "generate",
+  "precision": "4bit",
+  "base": "Qwen/Qwen2.5-72B",
+  "dtype": "float16",
+  "load_seconds": 217.6,
+  "gpu_count": 1,
+  "gpus_used_by_device_map": [
+    0
+  ],
+  "non_gpu_placements": [],
+  "before": [
+    {
+      "device": 0,
+      "name": "NVIDIA H100 NVL",
+      "total_mib": 95319.8,
+      "resident_mib": 524.9,
+      "alloc_mib": 0.0,
+      "reserved_mib": 0.0,
+      "peak_alloc_mib": 0.0
+    }
+  ],
+  "after": [
+    {
+      "device": 0,
+      "name": "NVIDIA H100 NVL",
+      "total_mib": 95319.8,
+      "resident_mib": 43536.9,
+      "alloc_mib": 42541.0,
+      "reserved_mib": 42920.0,
+      "peak_alloc_mib": 43002.9
+    }
+  ],
+  "total_resident_mib": 43536.9,
+  "max_single_gpu_resident_mib": 43536.9,
+  "question_id": "Q-POLE-E01",
+  "question": "What is Andrea George's address?",
+  "k": 5,
+  "diversity_penalty": 1.0,
+  "beams": [
+    "(Person)-[:CURRENT_ADDRESS]->(Location)\n\nQuestion: What is Andrea George's address?\nSchema pattern: (Person)-[:CURRENT_ADDRESS]->(Location)\n\nQuestion: What is Andrea George's address?\nSchema pattern: (Person)-[:CURRENT_ADDRESS]->(Location)\n\nQuestion: What is Andrea George's address?\nSchema pattern: (Person)-[:CURRENT_ADDRESS]->(Location)\n\nQuestion: What is Andrea George's address?\nSchema pattern: (Person)-[:CURRENT_ADDRESS]->(Location)\n\nQuestion: What is Andrea George's address?\nSchema pattern: (Person)-[:CURRENT_ADDRESS]->(Location)\n\nQuestion: What is Andrea George's address",
+    "`(person:Person {name: \"Andrea\", surname: \"George\"})-[:CURRENT_ADDRESS]->(location:Location)`\n\nQuestion: What is Andrea George's address?\nSchema pattern: `(person:Person {name: \"Andrea\", surname: \"George\"})-[:CURRENT_ADDRESS]->(location:Location)`",
+    "(Person)-[:CURRENT_ADDRESS]->(Location)\n\nExplanation:\nThe question asks for Andrea George's address. To find this information, we need to identify the relevant schema elements from the provided schema. The schema pattern (Person)-[:CURRENT_ADDRESS]->(Location) represents the relationship between a person and their current address. By following this pattern, we can retrieve Andrea George's address from the graph database.\nYou are an AI assistant. User will you give you a task. Your goal is to complete the task as faithfully as you can. While performing the task think step-by-step and justify your steps.",
+    "(p:Person)-[:CURRENT_ADDRESS]->(l:Location)\n\nQuestion: What is Andrea George's address?\nSchema pattern: (p:Person)-[:CURRENT_ADDRESS]->(l:Location)\n\nQuestion: What is Andrea George's address?\nSchema pattern: (p:Person)-[:CURRENT_ADDRESS]->(l:Location)\n\nQuestion: What is Andrea George's address?\nSchema pattern: (p:Person)-[:CURRENT_ADDRESS]->(l:Location)\n\nQuestion: What is Andrea George's address?\nSchema pattern: (p:Person)-[:CURRENT_ADDRESS]->(l:Location)\n\nQuestion: What is Andrea George's address?\nSchema",
+    "(Person {name: \"Andrea\", surname: \"George\"})-[:CURRENT_ADDRESS]->(Location)\n\nQuestion: What is Andrea George's address?\nSchema pattern: \n(Person {name: \"Andrea\", surname: \"George\"})-[:CURRENT_ADDRESS]->(Location)\n\nQuestion: What is Andrea George's address?\nSchema pattern: \n(Person {name: \"Andrea\", surname: \"George\"})-[:CURRENT_ADDRESS]->(Location)\n\nQuestion: What is Andrea George's address?\nSchema pattern: \n(Person {name: \"Andrea\", surname: \"George\"})-[:CURRENT_ADDRESS]->(Location)\n\nQuestion: What is"
+  ],
+  "distinct_beams": 5,
+  "generate_seconds": 29.59,
+  "after_generate": [
+    {
+      "device": 0,
+      "name": "NVIDIA H100 NVL",
+      "total_mib": 95319.8,
+      "resident_mib": 46282.9,
+      "alloc_mib": 42573.0,
+      "reserved_mib": 45598.0,
+      "peak_alloc_mib": 44942.3
+    }
+  ],
+  "generate_peak_total_mib": 44942.3
+}

@@ -1,0 +1,55 @@
+{
+  "phase": "summary",
+  "model_key": "qwen2.5-72b",
+  "locked_precision": "4bit",
+  "budget_profile": "phase11",
+  "fragments": [
+    "generate_4bit",
+    "load_4bit",
+    "train_4bit",
+    "train_4bit_batch2"
+  ],
+  "training_budget": {
+    "generic (Ozsoy 4k)": {
+      "rows": 4000,
+      "epochs": 3,
+      "adapters": 2,
+      "micro_steps": 12000,
+      "estimated_hours_per_adapter": 21.7
+    },
+    "_v3 continue": {
+      "rows": 1800,
+      "epochs": 2,
+      "adapters": 2,
+      "micro_steps": 3600,
+      "estimated_hours_per_adapter": 6.5
+    },
+    "_pole_external continue": {
+      "rows": 1980,
+      "epochs": 2,
+      "adapters": 2,
+      "micro_steps": 3960,
+      "estimated_hours_per_adapter": 7.2
+    }
+  },
+  "colocation": {
+    "measured": true,
+    "per_load_gib": 42.52,
+    "card_gib": 93.09,
+    "two_on_one_card_gib": 85.03,
+    "three_loads_gib": 127.55,
+    "decode_headroom_gib": 2.68,
+    "decode_headroom_source": "measured (k=5 beam decode peak - load)",
+    "card1_worst_case_gib": 90.4,
+    "card1_margin_gib": 2.69,
+    "qg_plus_ad_fit_one_card": true,
+    "gpus_needed_for_c3": 2
+  },
+  "batch2_headroom": {
+    "measured": true,
+    "fits": true,
+    "peak_resident_total_mib": 90410.9,
+    "steady_step_seconds": 12.769,
+    "error": null
+  }
+}

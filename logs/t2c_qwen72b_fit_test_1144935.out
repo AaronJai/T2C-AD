@@ -1,0 +1,217 @@
+Job 1144935 on k172 at Sat 29 Aug 2026 10:35:25 AWST
+Sat Aug 29 10:35:25 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.57.08              Driver Version: 575.57.08      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100 NVL                Off |   00000000:64:00.0 Off |                    0 |
+| N/A   49C    P0             64W /  400W |       0MiB /  95830MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+========== [1/5] LOAD @ 4-bit (build_llm, no loader change) ==========
+model_key=qwen2.5-72b  base=Qwen/Qwen2.5-72B  dtype=float16  target_modules=['q_proj', 'v_proj']  precision=4bit
+GPUs visible: 1 — ['NVIDIA H100 NVL']
+
+--- VRAM: before load ---
+  gpu0 (NVIDIA H100 NVL): resident     524.9 MiB / 95320 MiB   torch alloc       0.0  reserved       0.0  peak       0.0
+  TOTAL resident: 524.9 MiB (0.51 GiB) across 1 GPU(s)
+
+build_llm({'backend': 'huggingface', 'model_name_or_path': 'Qwen/Qwen2.5-72B', 'torch_dtype': 'float16', 'load_in_4bit': True, 'load_in_8bit': False}) …
+
+--- VRAM: after load (4bit) ---
+  gpu0 (NVIDIA H100 NVL): resident   43536.9 MiB / 95320 MiB   torch alloc   42541.0  reserved   42920.0  peak   43002.9
+  TOTAL resident: 43536.9 MiB (42.52 GiB) across 1 GPU(s)
+  load wall-clock: 239.5s
+  hf_device_map spans device(s): [0] (entries: 1)
+
+Wrote results/qwen72b_fit_test/load_4bit.json
+
+========== [2/5] DIVERSE-BEAM SL GENERATE (k=5) @ 4-bit ==========
+model_key=qwen2.5-72b  base=Qwen/Qwen2.5-72B  dtype=float16  target_modules=['q_proj', 'v_proj']  precision=4bit
+GPUs visible: 1 — ['NVIDIA H100 NVL']
+
+--- VRAM: before load ---
+  gpu0 (NVIDIA H100 NVL): resident     524.9 MiB / 95320 MiB   torch alloc       0.0  reserved       0.0  peak       0.0
+  TOTAL resident: 524.9 MiB (0.51 GiB) across 1 GPU(s)
+
+build_llm({'backend': 'huggingface', 'model_name_or_path': 'Qwen/Qwen2.5-72B', 'torch_dtype': 'float16', 'load_in_4bit': True, 'load_in_8bit': False}) …
+
+--- VRAM: after load (4bit) ---
+  gpu0 (NVIDIA H100 NVL): resident   43536.9 MiB / 95320 MiB   torch alloc   42541.0  reserved   42920.0  peak   43002.9
+  TOTAL resident: 43536.9 MiB (42.52 GiB) across 1 GPU(s)
+  load wall-clock: 217.6s
+  hf_device_map spans device(s): [0] (entries: 1)
+
+Diverse-beam SL generate: k=5, dp=1.0, item=Q-POLE-E01
+  Q: What is Andrea George's address?
+  beam 1: (Person)-[:CURRENT_ADDRESS]->(Location)
+
+Question: What is Andrea George's address?
+Schema pattern: (Person)-[:CURRENT_ADDRESS]->(Location)
+
+Question: What is Andrea George's address?
+Schema pattern: (Person)-[:CURRENT_ADDRESS]->(Location)
+
+Question: What is Andrea George's address?
+Schema pattern: (Person)-[:CURRENT_ADDRESS]->(Location)
+
+Question: What is Andrea George's address?
+Schema pattern: (Person)-[:CURRENT_ADDRESS]->(Location)
+
+Question: What is Andrea George's address?
+Schema pattern: (Person)-[:CURRENT_ADDRESS]->(Location)
+
+Question: What is Andrea George's address
+  beam 2: `(person:Person {name: "Andrea", surname: "George"})-[:CURRENT_ADDRESS]->(location:Location)`
+
+Question: What is Andrea George's address?
+Schema pattern: `(person:Person {name: "Andrea", surname: "George"})-[:CURRENT_ADDRESS]->(location:Location)`
+  beam 3: (Person)-[:CURRENT_ADDRESS]->(Location)
+
+Explanation:
+The question asks for Andrea George's address. To find this information, we need to identify the relevant schema elements from the provided schema. The schema pattern (Person)-[:CURRENT_ADDRESS]->(Location) represents the relationship between a person and their current address. By following this pattern, we can retrieve Andrea George's address from the graph database.
+You are an AI assistant. User will you give you a task. Your goal is to complete the task as faithfully as you can. While performing the task think step-by-step and justify your steps.
+  beam 4: (p:Person)-[:CURRENT_ADDRESS]->(l:Location)
+
+Question: What is Andrea George's address?
+Schema pattern: (p:Person)-[:CURRENT_ADDRESS]->(l:Location)
+
+Question: What is Andrea George's address?
+Schema pattern: (p:Person)-[:CURRENT_ADDRESS]->(l:Location)
+
+Question: What is Andrea George's address?
+Schema pattern: (p:Person)-[:CURRENT_ADDRESS]->(l:Location)
+
+Question: What is Andrea George's address?
+Schema pattern: (p:Person)-[:CURRENT_ADDRESS]->(l:Location)
+
+Question: What is Andrea George's address?
+Schema
+  beam 5: (Person {name: "Andrea", surname: "George"})-[:CURRENT_ADDRESS]->(Location)
+
+Question: What is Andrea George's address?
+Schema pattern: 
+(Person {name: "Andrea", surname: "George"})-[:CURRENT_ADDRESS]->(Location)
+
+Question: What is Andrea George's address?
+Schema pattern: 
+(Person {name: "Andrea", surname: "George"})-[:CURRENT_ADDRESS]->(Location)
+
+Question: What is Andrea George's address?
+Schema pattern: 
+(Person {name: "Andrea", surname: "George"})-[:CURRENT_ADDRESS]->(Location)
+
+Question: What is
+
+--- VRAM: after generate ---
+  gpu0 (NVIDIA H100 NVL): resident   46282.9 MiB / 95320 MiB   torch alloc   42573.0  reserved   45598.0  peak   44942.3
+  TOTAL resident: 46282.9 MiB (45.20 GiB) across 1 GPU(s)
+  generate wall-clock: 29.6s for k=5 beams (5.9s/beam)
+
+Wrote results/qwen72b_fit_test/generate_4bit.json
+
+========== [3/5] QLoRA TRAIN STEP @ batch 1 + GC ==========
+model_key=qwen2.5-72b  base=Qwen/Qwen2.5-72B  dtype=float16  target_modules=['q_proj', 'v_proj']  precision=4bit
+GPUs visible: 1 — ['NVIDIA H100 NVL']
+
+Loading Qwen/Qwen2.5-72B for training at 4bit (max_seq_length=3584, per_device_train_batch_size=1) …
+trainable params: 32,768,000 || all params: 72,738,971,648 || trainable%: 0.0450
+
+--- VRAM: after train-load (4bit, +LoRA) ---
+  gpu0 (NVIDIA H100 NVL): resident   50006.9 MiB / 95320 MiB   torch alloc   44283.4  reserved   49390.0  peak   46534.4
+  TOTAL resident: 50006.9 MiB (48.83 GiB) across 1 GPU(s)
+  train-load wall-clock: 227.4s
+  batch: torch.Size([1, 3584]) from data/pole_ext_sl_train.jsonl (466 real tokens, rest padding)
+
+Leg 1/2 — gradient checkpointing ON (3 steps):
+  step 1/3: loss 0.5570  8.97s
+  step 2/3: loss 0.4678  6.49s
+  step 3/3: loss 0.3724  6.54s
+
+--- VRAM: after checkpointed step(s) — PEAK ---
+  gpu0 (NVIDIA H100 NVL): resident   67802.9 MiB / 95320 MiB   torch alloc   44722.5  reserved   67052.0  peak   64414.9
+  TOTAL resident: 67802.9 MiB (66.21 GiB) across 1 GPU(s)
+  steady-state step time: 6.51s (first step 8.97s, 2 steady sample(s))
+
+Wrote results/qwen72b_fit_test/train_4bit.json
+
+========== [4/5] BATCH-2 HEADROOM PROBE (evidence only) ==========
+model_key=qwen2.5-72b  base=Qwen/Qwen2.5-72B  dtype=float16  target_modules=['q_proj', 'v_proj']  precision=4bit
+GPUs visible: 1 — ['NVIDIA H100 NVL']
+
+Loading Qwen/Qwen2.5-72B for training at 4bit (max_seq_length=3584, per_device_train_batch_size=2) …
+trainable params: 32,768,000 || all params: 72,738,971,648 || trainable%: 0.0450
+
+--- VRAM: after train-load (4bit, +LoRA) ---
+  gpu0 (NVIDIA H100 NVL): resident   50006.9 MiB / 95320 MiB   torch alloc   44283.4  reserved   49390.0  peak   46534.4
+  TOTAL resident: 50006.9 MiB (48.83 GiB) across 1 GPU(s)
+  train-load wall-clock: 230.7s
+  batch: torch.Size([2, 3584]) from data/pole_ext_sl_train.jsonl (928 real tokens, rest padding)
+
+Leg 1/2 — gradient checkpointing ON (3 steps):
+  step 1/3: loss 0.4292  12.97s
+  step 2/3: loss 0.3703  12.74s
+  step 3/3: loss 0.3072  12.80s
+
+--- VRAM: after checkpointed step(s) — PEAK ---
+  gpu0 (NVIDIA H100 NVL): resident   90410.9 MiB / 95320 MiB   torch alloc   44722.6  reserved   89660.0  peak   82589.4
+  TOTAL resident: 90410.9 MiB (88.29 GiB) across 1 GPU(s)
+  steady-state step time: 12.77s (first step 12.97s, 2 steady sample(s))
+
+Wrote results/qwen72b_fit_test/train_4bit_batch2.json
+
+========== [5/5] SUMMARY (legs 5 + 6) ==========
+
+==============================================================================
+FIT-TEST SUMMARY — Qwen/Qwen2.5-72B on NVIDIA H100 NVL (93.1 GiB)
+==============================================================================
+
+1-2. LOAD VRAM BY PRECISION (inference path, via build_llm)
+  4bit: total 43537 MiB (42.5 GiB) — [gpu0 43537] MiB; one card: YES
+
+3. ONE QLoRA TRAIN STEP @ 4bit
+  max_seq_length 3584 × batch 1 + gradient checkpointing: NO OOM
+  peak resident 67803 MiB total, max single GPU 67803 MiB; one card: YES
+  steady-state step: 6.51s (all steps: [8.969, 6.489, 6.536])
+
+3b. BATCH-2 HEADROOM PROBE @ 4bit (evidence only — NOT adopted)
+  FITS: peak resident 90411 MiB (88.3 GiB), step 12.77s (vs batch 1: 6.51s)
+  Batch 1 is REQUIRED by the Phase-11 parity clause regardless of this result.
+
+4. ONE DIVERSE-BEAM SL GENERATE (k=5) @ 4bit
+  29.6s for k=5 (dp=1.0), 5 distinct beam(s)
+
+5. THREE CO-LOCATED LOADS (C3 e2e) — build_condition3._device_maps()
+  measured single load: 42.5 GiB   card: 93.1 GiB
+  _device_maps() pins SL -> cuda:0 and QG + AD -> cuda:1, so card 1 carries 2 × 42.5 = 85.0 GiB of weights before any KV cache
+  3 × load = 127.5 GiB total across the pipeline
+  QG + AD on one card (+4 GiB KV/context headroom): FITS
+  -> the C3 e2e needs 2 card(s) of this size (11.4 sizes its --gres from this)
+
+6. RECOMMENDATION
+  precision      : 4bit (locked in config/models.yaml)
+  training GPUs  : 1 × NVIDIA H100 NVL (93.1 GiB) (batch 1, gradient checkpointing ON)
+  inference GPUs : 1 × NVIDIA H100 NVL (93.1 GiB)
+  C3 e2e GPUs    : 2 × NVIDIA H100 NVL (93.1 GiB) (leg 5)
+  training budget from the measured 6.51s/micro-step, profile 'phase11':
+  generic (Ozsoy 4k)      : 4000 rows / batch 1 × 3 epochs = 12000 micro-steps × 6.51s ≈ 21.7h per adapter (within the 72h job cap)
+  _v3 continue            : 1800 rows / batch 1 × 2 epochs = 3600 micro-steps × 6.51s ≈ 6.5h per adapter (within the 72h job cap)
+  _pole_external continue : 1980 rows / batch 1 × 2 epochs = 3960 micro-steps × 6.51s ≈ 7.2h per adapter (within the 72h job cap)
+  6 adapters ≈ 70.8h total GPU wall-clock
+  NOTE: extrapolation assumes the measured single-GPU step time holds for every
+        micro-batch (no eval, no checkpoint I/O) — treat it as a floor.
+
+Wrote results/qwen72b_fit_test/summary.json
+Finished at Sat 29 Aug 2026 10:54:32 AWST

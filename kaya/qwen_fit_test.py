@@ -18,6 +18,22 @@ prints the recommendation:
 criterion 1. `train` mirrors `run_sft`'s (2.1) model/PEFT construction and calls
 `build_model_inputs` on real `data/pole_ext_sl_train.jsonl` rows, so the measured peak is the
 peak 10.6 will see.
+
+**Step 11.2 reuses this harness unchanged in substance** for Qwen2.5-72B on an H100
+(`kaya/111_qwen72b_fit_test.slurm`). Everything 11.2 needed was additive, and every default is
+10.5's, so the 10.5 invocations above still behave byte-identically:
+
+  --model_key       which config/models.yaml entry to measure (default qwen2.5-32b)
+  --results_dir     where the fragments land (default results/qwen_fit_test) — a second model
+                    must not overwrite the first model's fragments
+  --tag             fragment-name suffix, so a second train leg at a different batch size
+                    (11.2's batch-2 headroom probe) sits beside the primary one
+  --budget_profile  which training recipe the summary extrapolates (default `mixed` = 10.5/10.6's
+                    Ozsoy-replay mix; `phase11` = 11.3's two-stage generic + POLE-only continues)
+
+11.2 also drops the 8-bit leg (10.5 settled precision) and adds two summary sections the 32B
+run did not need: the batch-2 headroom evidence and the three-co-located-load arithmetic that
+sizes 11.4's `--gres` against `experiments/build_condition3.py::_device_maps()`.
 """
 from __future__ import annotations
 
@@ -41,14 +57,29 @@ from pipeline.schema import build_pole_external_schema_repr
 from pipeline.sft import build_model_inputs
 
 MIB = 1024 * 1024
-RESULTS_DIR = Path("results/qwen_fit_test")
+RESULTS_DIR = Path("results/qwen_fit_test")   # default; --results_dir overrides it in main()
 
-# The 10.6 training recipe the extrapolation budgets for (10.6 spec: from-scratch LoRA,
-# 3 epochs, per_device_train_batch_size 2, four adapters = sl/qg x v3/pole_external).
-TRAIN_EPOCHS = 3
-TRAIN_MIXED_FILES = {
-    "v3": "data/pole_sl_train_mixed.jsonl",
-    "pole_external": "data/pole_ext_sl_train_mixed.jsonl",
+# Job-time cap the budget lines flag against: 72 h on the v100 `gpu` partition and 3 days on
+# the H100 `rrifcs` partition are the same number.
+JOB_HOUR_CAP = 72
+
+# Training recipes the summary extrapolates the measured step time over. A stage is
+# (label, rows file, epochs, how many adapters share that shape) — micro-steps are derived from
+# the real row count on disk, so a stale hand-written count cannot creep into a budget table.
+BUDGET_PROFILES: dict[str, list[tuple[str, str, int, int]]] = {
+    # 10.5's original assumption: from-scratch LoRA over the Ozsoy-replay *mixed* files,
+    # 3 epochs, one adapter each for sl/qg x v3/pole_external.
+    "mixed": [
+        ("v3", "data/pole_sl_train_mixed.jsonl", 3, 2),
+        ("pole_external", "data/pole_ext_sl_train_mixed.jsonl", 3, 2),
+    ],
+    # What 10.6 actually ran and 11.3 will repeat: Stage 1 from-scratch on the 4k Ozsoy sample
+    # (3 epochs), then four POLE-only continue-SFTs (2 epochs) — NOT the _mixed files.
+    "phase11": [
+        ("generic (Ozsoy 4k)", "data/ozsoy_sl_train_4k.jsonl", 3, 2),
+        ("_v3 continue", "data/pole_sl_train.jsonl", 2, 2),
+        ("_pole_external continue", "data/pole_ext_sl_train.jsonl", 2, 2),
+    ],
 }
 
 
@@ -84,6 +115,11 @@ def print_snapshot(label: str, snap: list[dict]) -> None:
               f"reserved {d['reserved_mib']:>9.1f}  peak {d['peak_alloc_mib']:>9.1f}")
     print(f"  TOTAL resident: {total:.1f} MiB ({total / 1024:.2f} GiB) across "
           f"{len(snap)} GPU(s)")
+
+
+def fragment_name(args: argparse.Namespace, stem: str) -> str:
+    """`load_4bit` / `train_4bit_batch2` — `--tag` keeps a second leg from clobbering the first."""
+    return f"{stem}_{args.tag}" if args.tag else stem
 
 
 def write_fragment(name: str, payload: dict) -> Path:
@@ -157,7 +193,7 @@ def phase_load(args: argparse.Namespace, entry: dict) -> dict:
         "max_single_gpu_resident_mib": round(max(d["resident_mib"] for d in after), 1),
     }
     if args.phase == "load":
-        write_fragment(f"load_{args.precision}", payload)
+        write_fragment(fragment_name(args, f"load_{args.precision}"), payload)
         return payload
     # phase == "generate": hand the loaded model on to the generate leg.
     payload["_llm"] = llm
@@ -202,7 +238,7 @@ def phase_generate(args: argparse.Namespace, entry: dict) -> dict:
         "after_generate": after,
         "generate_peak_total_mib": round(sum(d["peak_alloc_mib"] for d in after), 1),
     }
-    write_fragment(f"generate_{args.precision}", payload)
+    write_fragment(fragment_name(args, f"generate_{args.precision}"), payload)
     return payload
 
 
@@ -373,7 +409,7 @@ def phase_train(args: argparse.Namespace, entry: dict) -> dict:
         "max_single_gpu_resident_mib": round(max(d["resident_mib"] for d in after_step), 1),
         "no_gradient_checkpointing": plain,
     }
-    write_fragment(f"train_{args.precision}", payload)
+    write_fragment(fragment_name(args, f"train_{args.precision}"), payload)
     return payload
 
 
@@ -398,6 +434,66 @@ def _fits_one_card(snap: list[dict], headroom_mib: float = 1024.0) -> bool:
     return total_footprint + headroom_mib <= single_card_capacity
 
 
+def _card_name(fragments: dict) -> str:
+    """The GPU this fit-test ran on, taken from any fragment's snapshot."""
+    for frag in fragments.values():
+        for key in ("after", "after_step", "after_load", "before"):
+            snap = frag.get(key)
+            if snap:
+                return f"{snap[0]['name']} ({snap[0]['total_mib'] / 1024:.1f} GiB)"
+    return "unknown GPU"
+
+
+def _base_name(fragments: dict) -> str:
+    for frag in fragments.values():
+        if frag.get("base"):
+            return frag["base"]
+    return "unknown base"
+
+
+def _colocation_block(load_frag: dict | None, gen_frag: dict | None,
+                      fallback_headroom_gib: float = 4.0) -> dict:
+    """Leg 5 — can C3's three co-located loads share two cards, or does 11.4 need three?
+
+    `build_condition3._device_maps()` pins SL -> cuda:0 and QG **and** AD -> cuda:1 whenever
+    >= 2 GPUs are visible, so the binding constraint is **two model copies on card 1**, not the
+    three-copy total — and note that a THIRD card does not relieve it by itself: `_device_maps`
+    returns `({"":0}, {"":1}, {"":1})` for any device_count >= 2, so `cuda:2` would sit idle.
+
+    Decode headroom is measured, not guessed: the generate leg's peak minus the load leg's
+    footprint is what one k=5 group-beam decode actually cost on this card. QG and AD decode
+    with k=1, so charging *each* of them the k=5 figure is a deliberate over-estimate — if the
+    verdict is FITS under that bound it is not a knife-edge on the KV term.
+    """
+    if not load_frag or load_frag.get("failed"):
+        return {"measured": False}
+    per_load_gib = load_frag["total_resident_mib"] / 1024
+    card_gib = max(d["total_mib"] for d in load_frag["after"]) / 1024
+
+    decode_gib, decode_source = fallback_headroom_gib, "assumed (no generate fragment)"
+    if gen_frag and not gen_frag.get("failed") and gen_frag.get("after_generate"):
+        peak_gib = sum(d["resident_mib"] for d in gen_frag["after_generate"]) / 1024
+        if peak_gib > per_load_gib:
+            decode_gib = peak_gib - per_load_gib
+            decode_source = f"measured (k={gen_frag.get('k')} beam decode peak - load)"
+
+    weights_gib = 2 * per_load_gib
+    worst_case_gib = weights_gib + 2 * decode_gib          # QG + AD each charged a k=5 decode
+    return {
+        "measured": True,
+        "per_load_gib": round(per_load_gib, 2),
+        "card_gib": round(card_gib, 2),
+        "two_on_one_card_gib": round(weights_gib, 2),
+        "three_loads_gib": round(3 * per_load_gib, 2),
+        "decode_headroom_gib": round(decode_gib, 2),
+        "decode_headroom_source": decode_source,
+        "card1_worst_case_gib": round(worst_case_gib, 2),
+        "card1_margin_gib": round(card_gib - worst_case_gib, 2),
+        "qg_plus_ad_fit_one_card": worst_case_gib <= card_gib,
+        "gpus_needed_for_c3": 2 if worst_case_gib <= card_gib else 3,
+    }
+
+
 def phase_summary(args: argparse.Namespace) -> dict:
     fragments = {p.stem: json.loads(p.read_text(encoding="utf-8"))
                  for p in sorted(RESULTS_DIR.glob("*.json")) if p.stem != "summary"}
@@ -405,15 +501,18 @@ def phase_summary(args: argparse.Namespace) -> dict:
         raise SystemExit(f"No fragments in {RESULTS_DIR} — run the load/train/generate phases first.")
 
     print("\n" + "=" * 78)
-    print("10.5 FIT-TEST SUMMARY — Qwen2.5-32B on v100-32gb")
+    print(f"FIT-TEST SUMMARY — {_base_name(fragments)} on {_card_name(fragments)}")
     print("=" * 78)
 
+    # Precisions actually measured. 10.5 probed 4bit + 8bit; 11.2 drops the 8-bit leg (10.5
+    # settled precision and a ~78 GiB 8-bit 72B is of no interest), so iterate what exists.
+    measured_precisions = sorted({
+        frag["precision"] for name, frag in fragments.items()
+        if name.startswith(("load_", "generate_")) and frag.get("precision")
+    })
     print("\n1-2. LOAD VRAM BY PRECISION (inference path, via build_llm)")
-    for precision in ("4bit", "8bit"):
+    for precision in measured_precisions:
         frag = fragments.get(f"load_{precision}") or fragments.get(f"generate_{precision}")
-        if not frag:
-            print(f"  {precision}: NOT MEASURED")
-            continue
         if frag.get("failed"):
             print(f"  {precision}: FAILED TO LOAD — {frag['error'].splitlines()[0]}")
             continue
@@ -454,6 +553,21 @@ def phase_summary(args: argparse.Namespace) -> dict:
     else:
         print("  NOT MEASURED")
 
+    # 11.2 leg 3 — batch-2 headroom. EVIDENCE ONLY: batch 1 is fixed by the parity clause, and
+    # this leg exists so the writeup can say the constraint was a choice, not a hardware limit.
+    headroom = fragments.get(f"train_{args.precision}_batch2")
+    print(f"\n3b. BATCH-2 HEADROOM PROBE @ {args.precision} (evidence only — NOT adopted)")
+    if not headroom:
+        print("  NOT MEASURED")
+    elif headroom.get("failed"):
+        print(f"  DOES NOT FIT — {headroom['error'].splitlines()[0][:180]}")
+    else:
+        versus = (f" (vs batch 1: {train['steady_step_seconds']:.2f}s)" if train else "")
+        print(f"  FITS: peak resident {headroom['peak_resident_total_mib']:.0f} MiB "
+              f"({headroom['peak_resident_total_mib'] / 1024:.1f} GiB), step "
+              f"{headroom['steady_step_seconds']:.2f}s{versus}")
+    print("  Batch 1 is REQUIRED by the Phase-11 parity clause regardless of this result.")
+
     print(f"\n4. ONE DIVERSE-BEAM SL GENERATE (k=5) @ {args.precision}")
     if gen:
         print(f"  {gen['generate_seconds']:.1f}s for k={gen['k']} "
@@ -461,7 +575,32 @@ def phase_summary(args: argparse.Namespace) -> dict:
     else:
         print("  NOT MEASURED")
 
-    print("\n5. RECOMMENDATION")
+    # 11.2 leg 5 — the number that sizes 11.4's --gres.
+    coloc = _colocation_block(fragments.get(f"load_{args.precision}") or gen, gen)
+    print("\n5. THREE CO-LOCATED LOADS (C3 e2e) — build_condition3._device_maps()")
+    if not coloc["measured"]:
+        print("  NOT MEASURED (needs a successful load fragment)")
+    else:
+        print(f"  measured single load: {coloc['per_load_gib']:.1f} GiB   card: "
+              f"{coloc['card_gib']:.1f} GiB")
+        print(f"  _device_maps() pins SL -> cuda:0 and QG + AD -> cuda:1, so card 1 carries "
+              f"2 × {coloc['per_load_gib']:.1f} = {coloc['two_on_one_card_gib']:.1f} GiB of "
+              f"weights before any KV cache")
+        print(f"  3 × load = {coloc['three_loads_gib']:.1f} GiB total across the pipeline")
+        print(f"  decode headroom per model: {coloc['decode_headroom_gib']:.2f} GiB "
+              f"— {coloc['decode_headroom_source']}")
+        verdict = "FITS" if coloc["qg_plus_ad_fit_one_card"] else "DOES NOT FIT"
+        print(f"  card 1 worst case = {coloc['two_on_one_card_gib']:.1f} weights + 2 × "
+              f"{coloc['decode_headroom_gib']:.2f} decode = "
+              f"{coloc['card1_worst_case_gib']:.1f} GiB vs {coloc['card_gib']:.1f} GiB: "
+              f"{verdict} (margin {coloc['card1_margin_gib']:+.1f} GiB)")
+        print(f"  -> the C3 e2e needs {coloc['gpus_needed_for_c3']} card(s) of this size "
+              f"(11.4 sizes its --gres from this)")
+        print("  CAVEAT: _device_maps() returns SL->cuda:0, QG+AD->cuda:1 for ANY device_count")
+        print("          >= 2, so asking for a third card does NOT relieve card 1 on its own —")
+        print("          spreading AD to cuda:2 would need a _device_maps() change (11.4's call).")
+
+    print("\n6. RECOMMENDATION")
     budgets: dict[str, dict] = {}
     if train:
         infer_frag = fragments.get(f"load_{args.precision}")
@@ -471,29 +610,36 @@ def phase_summary(args: argparse.Namespace) -> dict:
         # 32B base + training state does not fit one 32 GB card, so device_map="auto" shards it).
         n_train = len(train.get("gpus_used_by_device_map") or []) or (
             1 if _fits_one_card(train["after_step"]) else 2)
+        card = _card_name(fragments)
         print(f"  precision      : {args.precision} (locked in config/models.yaml)")
-        print(f"  training GPUs  : {n_train} × v100-32gb "
+        print(f"  training GPUs  : {n_train} × {card} "
               f"(batch {train['per_device_train_batch_size']}, gradient checkpointing ON)")
         if infer_frag:
             n_infer = 1 if _fits_one_card(infer_frag["after"]) else 2
-            print(f"  inference GPUs : {n_infer} × v100-32gb")
+            print(f"  inference GPUs : {n_infer} × {card}")
         else:
             print("  inference GPUs : NOT MEASURED")
+        if coloc["measured"]:
+            print(f"  C3 e2e GPUs    : {coloc['gpus_needed_for_c3']} × {card} (leg 5)")
         step_s = train["steady_step_seconds"]
         micro = train["per_device_train_batch_size"]
-        for version, path in TRAIN_MIXED_FILES.items():
+        print(f"  training budget from the measured {step_s:.2f}s/micro-step, profile "
+              f"'{args.budget_profile}':")
+        for label, path, epochs, adapters in BUDGET_PROFILES[args.budget_profile]:
             rows = _count_rows(path)
             if not rows:
+                print(f"  {label:<24}: rows file {path} MISSING — budget not computed")
                 continue
-            steps = math.ceil(rows / micro) * TRAIN_EPOCHS
+            steps = math.ceil(rows / micro) * epochs
             hours = steps * step_s / 3600
-            budgets[version] = {"rows": rows, "micro_steps": steps,
-                                "estimated_hours_per_adapter": round(hours, 1)}
-            print(f"  {version:<14}: {rows} rows / batch {micro} × {TRAIN_EPOCHS} epochs "
+            budgets[label] = {"rows": rows, "epochs": epochs, "adapters": adapters,
+                              "micro_steps": steps, "estimated_hours_per_adapter": round(hours, 1)}
+            print(f"  {label:<24}: {rows} rows / batch {micro} × {epochs} epochs "
                   f"= {steps} micro-steps × {step_s:.2f}s ≈ {hours:.1f}h per adapter "
-                  f"({'exceeds' if hours > 72 else 'within'} the 72h job cap)")
-        total_h = sum(b["estimated_hours_per_adapter"] for b in budgets.values()) * 2
-        print(f"  4 adapters (sl+qg × v3+pole_external) ≈ {total_h:.1f}h total GPU wall-clock")
+                  f"({'exceeds' if hours > JOB_HOUR_CAP else 'within'} the {JOB_HOUR_CAP}h job cap)")
+        total_h = sum(b["estimated_hours_per_adapter"] * b["adapters"] for b in budgets.values())
+        n_adapters = sum(b["adapters"] for b in budgets.values())
+        print(f"  {n_adapters} adapters ≈ {total_h:.1f}h total GPU wall-clock")
         print("  NOTE: extrapolation assumes the measured single-GPU step time holds for every")
         print("        micro-batch (no eval, no checkpoint I/O) — treat it as a floor.")
     else:
@@ -501,22 +647,38 @@ def phase_summary(args: argparse.Namespace) -> dict:
 
     payload = {
         "phase": "summary",
+        "model_key": args.model_key,
         "locked_precision": args.precision,
+        "budget_profile": args.budget_profile,
         "fragments": sorted(fragments),
         "training_budget": budgets,
-        "train_epochs_assumed": TRAIN_EPOCHS,
+        "colocation": coloc,
+        "batch2_headroom": ({"measured": False} if not headroom else
+                            {"measured": True, "fits": not headroom.get("failed"),
+                             "peak_resident_total_mib": headroom.get("peak_resident_total_mib"),
+                             "steady_step_seconds": headroom.get("steady_step_seconds"),
+                             "error": headroom.get("error")}),
     }
     write_fragment("summary", payload)
     return payload
 
 
 def main() -> None:
+    global RESULTS_DIR                                  # noqa: PLW0603 — one CLI-set constant
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--phase", required=True, choices=["load", "generate", "train", "summary"])
     ap.add_argument("--precision", default="4bit", choices=["4bit", "8bit", "fp16"],
                     help="On summary, the LOCKED precision the recommendation is written for.")
     ap.add_argument("--model_key", default="qwen2.5-32b")
     ap.add_argument("--models_config", default="config/models.yaml")
+    ap.add_argument("--results_dir", default=str(RESULTS_DIR),
+                    help="Where the JSON fragments live. Give a second model its own directory "
+                         "so it does not overwrite the first model's measurements (11.2).")
+    ap.add_argument("--tag", default="",
+                    help="Suffix appended to this leg's fragment name, e.g. --tag batch2 for "
+                         "11.2's batch-2 headroom probe beside the primary train fragment.")
+    ap.add_argument("--budget_profile", default="mixed", choices=sorted(BUDGET_PROFILES),
+                    help="Training recipe the summary extrapolates over (default: 10.5's).")
     ap.add_argument("--train_config", default="config/schema_linker_train_pole_external.yaml",
                     help="Supplies the LoRA/training hyperparameters the fit-test mirrors.")
     ap.add_argument("--train_rows", default="data/pole_ext_sl_train.jsonl",
@@ -536,13 +698,15 @@ def main() -> None:
     ap.add_argument("--batch_size", type=int, default=None,
                     help="Override per_device_train_batch_size (default: use the train config).")
     args = ap.parse_args()
+    RESULTS_DIR = Path(args.results_dir)
 
     if args.phase == "summary":
         phase_summary(args)
         return
 
     if not torch.cuda.is_available():
-        raise SystemExit("No CUDA device — this probe must run on a v100-32gb GPU node.")
+        raise SystemExit("No CUDA device — this probe must run on a GPU node "
+                         "(v100-32gb for 10.5, rrifcs/h100 for 11.2).")
     entry = load_registry(args.models_config, args.model_key)
     print(f"model_key={args.model_key}  base={entry['base']}  dtype={entry['dtype']}  "
           f"target_modules={entry['target_modules']}  precision={args.precision}")
@@ -559,7 +723,7 @@ def main() -> None:
         # V100s are sm70, so the 8-bit leg may legitimately not run at all. Record it as
         # evidence and exit 0 so the remaining phases in the job still execute.
         print(f"\n⚠ {args.phase}/{args.precision} FAILED: {type(exc).__name__}: {exc}")
-        write_fragment(f"{args.phase}_{args.precision}", {
+        write_fragment(fragment_name(args, f"{args.phase}_{args.precision}"), {
             "phase": args.phase, "precision": args.precision, "base": entry["base"],
             "failed": True, "error": f"{type(exc).__name__}: {exc}",
         })

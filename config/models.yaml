@@ -34,6 +34,25 @@ qwen2.5-32b:
                                              # (needs 2). Training needs batch 1 + gradient
                                              # checkpointing across 2 cards. See decisions-log 2026-08-22.
 
+qwen2.5-72b:
+  base: "Qwen/Qwen2.5-72B"                   # BASE, not -Instruct: the same parity argument as
+                                             # qwen2.5-32b above — C1 stays an honest zero-shot
+                                             # base baseline and C2/C3 isolate the SFT effect.
+                                             # Qwen2ForCausalLM, 80 layers / hidden 8192 / GQA 64:8,
+                                             # vocab 152064 (identical to the 32B), config
+                                             # transformers_version 4.43.1 < the pinned <4.46.
+                                             # 37 shards / 135.4 GiB cached in $HF_HOME (11.1).
+  target_modules: ["q_proj", "v_proj"]       # identical to qwen2.5-32b (Qwen2 attention names) —
+                                             # held constant so model size is the only variable
+  dtype: "float16"                           # sm90 HAS bf16; fp16 kept deliberately for
+                                             # cross-model parity with the 7B/32B recipe (11.1)
+  load_in_4bit: true                         # inherited from 10.5's lock, NOT re-decided (11.2's
+                                             # parity clause) — 11.2 MEASURES, it does not choose.
+                                             # Measured on ONE H100 NVL (93.1 GiB), job 1144935:
+                                             # 4-bit load 42.5 GiB; QLoRA step at batch 1 + grad
+                                             # checkpointing, seq 3584 = peak 66.2 GiB @ 6.51
+                                             # s/micro-step. One card per training job.
+
 llama31-8b:
   base: "meta-llama/Llama-3.1-8B"
   target_modules: ["q_proj", "v_proj"]       # Llama-family: same names as Mistral

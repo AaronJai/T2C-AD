@@ -1,0 +1,36 @@
+{
+  "phase": "load",
+  "precision": "4bit",
+  "base": "Qwen/Qwen2.5-72B",
+  "dtype": "float16",
+  "load_seconds": 239.5,
+  "gpu_count": 1,
+  "gpus_used_by_device_map": [
+    0
+  ],
+  "non_gpu_placements": [],
+  "before": [
+    {
+      "device": 0,
+      "name": "NVIDIA H100 NVL",
+      "total_mib": 95319.8,
+      "resident_mib": 524.9,
+      "alloc_mib": 0.0,
+      "reserved_mib": 0.0,
+      "peak_alloc_mib": 0.0
+    }
+  ],
+  "after": [
+    {
+      "device": 0,
+      "name": "NVIDIA H100 NVL",
+      "total_mib": 95319.8,
+      "resident_mib": 43536.9,
+      "alloc_mib": 42541.0,
+      "reserved_mib": 42920.0,
+      "peak_alloc_mib": 43002.9
+    }
+  ],
+  "total_resident_mib": 43536.9,
+  "max_single_gpu_resident_mib": 43536.9
+}

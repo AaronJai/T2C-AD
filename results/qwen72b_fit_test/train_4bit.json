@@ -1,0 +1,60 @@
+{
+  "phase": "train",
+  "precision": "4bit",
+  "base": "Qwen/Qwen2.5-72B",
+  "dtype": "float16",
+  "target_modules": [
+    "q_proj",
+    "v_proj"
+  ],
+  "train_config": "config/schema_linker_train_qwen_pole_external.yaml",
+  "train_rows_file": "data/pole_ext_sl_train.jsonl",
+  "max_seq_length": 3584,
+  "per_device_train_batch_size": 1,
+  "gradient_checkpointing": true,
+  "real_tokens_in_batch": 466,
+  "load_seconds": 227.4,
+  "step_seconds": [
+    8.969,
+    6.489,
+    6.536
+  ],
+  "steady_step_seconds": 6.513,
+  "losses": [
+    0.557,
+    0.4678,
+    0.3724
+  ],
+  "gpu_count": 1,
+  "gpus_used_by_device_map": [
+    0
+  ],
+  "after_load": [
+    {
+      "device": 0,
+      "name": "NVIDIA H100 NVL",
+      "total_mib": 95319.8,
+      "resident_mib": 50006.9,
+      "alloc_mib": 44283.4,
+      "reserved_mib": 49390.0,
+      "peak_alloc_mib": 46534.4
+    }
+  ],
+  "after_step": [
+    {
+      "device": 0,
+      "name": "NVIDIA H100 NVL",
+      "total_mib": 95319.8,
+      "resident_mib": 67802.9,
+      "alloc_mib": 44722.5,
+      "reserved_mib": 67052.0,
+      "peak_alloc_mib": 64414.9
+    }
+  ],
+  "peak_total_mib": 64414.9,
+  "peak_resident_total_mib": 67802.9,
+  "max_single_gpu_resident_mib": 67802.9,
+  "no_gradient_checkpointing": {
+    "measured": false
+  }
+}
