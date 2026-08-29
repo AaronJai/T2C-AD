@@ -151,6 +151,35 @@
 
 ---
 
+## Phase 11 — Qwen2.5-72B on H100 *(the third point on the model-scale axis)*
+
+> Created 2026-08-29, immediately after Phase 10 closed. Motivated by RRFICS access (granted
+> 2026-08-28, manual add to `rrifcs-users`): node **k172 = 4x H100 NVL @ 93.6 GiB**, 96 CPUs,
+> 1.5 TB RAM, `MaxTime=3-00:00:00`. Measured **4.9x** faster than the v100-32gb branch
+> (3.03 vs 14.9 s/micro-step for the 32B, jobs 1143214/1143215), which makes a 72B QLoRA column
+> affordable: ~82 GPU-hours, ~34 h calendar. **The question is not "is bigger better".** 10.7
+> found the *adapter* axis dominates the *scale* axis (7B->32B = +2.5 pp Cov@5; generic->in-domain
+> = +22 pp; `schema`-type Cov@5 0.00 -> ~0 -> 0.95 on both models). Phase 11 adds the third scale
+> point that tests whether that stays true at 2.2x the parameters — a flat scale axis at three
+> points is a stronger dissertation claim than a rising one at two, so a null result here is a
+> result. **Recipe is frozen to 10.6's** (4-bit / fp16 / q_proj+v_proj / batch 1 / accum 32 / GC
+> on / seq 3584 / 4k Ozsoy generic / POLE-only continues) so model size is the only variable;
+> every phase-10 artefact stays frozen and Phase 11 is purely additive. **Model choice:** the
+> `transformers<4.46` pin (diverse-beam SL) rules out Qwen3 / Llama-4 / gpt-oss, and relaxing it
+> would change beam-search outputs and invalidate the locked 2.2 sweep — so Qwen2.5-72B
+> (`Qwen2ForCausalLM`, `transformers_version: 4.43.1`, vocab 152064 identical to the 32B) is the
+> drop-in choice. Weights cached 2026-08-29: 37 shards / 136 GiB.
+
+| Step | Spec file | Depends on | Status | Outputs / Handoff note |
+|------|-----------|------------|--------|------------------------|
+| 11.1 | `phase11/11.1-h100-platform-onboarding.md` | 10.7 | not started | Make `rrifcs` a documented first-class target and the 10.6 runners model-agnostic. `kaya/README.md` gains an H100 section (partition facts incl. `ExclusiveUser=NO` -> exclusivity is circumstantial; the 4.9x measurement; the **fp16-on-sm90 parity rule**; 1-GPU-per-training-job sizing; the per-job Bolt-port rule); `kaya/predownload.py` gains additive `--model_key` (default `mistral7b` -> unchanged behaviour); `kaya/101`/`102` gain `MODEL_KEY` (default `qwen2.5-32b` -> the 10.6 DAG is byte-identical). Records the 72B weight provenance. No pipeline code, no GPU. |
+| 11.2 | `phase11/11.2-qwen72b-onboarding-fit-test.md` | 11.1, 10.5, 0.2, 2.1 *(GPU: h100)* | not started | `config/models.yaml` gains `qwen2.5-72b`; `kaya/qwen_fit_test.py` gains `--model_key`; new `kaya/111_qwen72b_fit_test.slurm`. **Calibration, not GO/NO-GO** — arch/precision were settled at 10.5, and the spec forbids re-deciding them (the parity clause). Measures: 4-bit load GiB on one H100 (predict ~41), QLoRA train peak + **s/micro-step** at batch 1 + GC (predict ~6.8 s, replacing 11.3's estimate), batch-2 headroom (evidence only, NOT adopted), k=5 diverse-beam latency, and **the 3-co-located-load arithmetic that sizes 11.4's `--gres`**. 8-bit leg dropped. |
+| 11.3 | `phase11/11.3-qwen72b-adapter-training.md` | 11.2, 11.1, 10.2, 7.4 *(GPU: h100)* | not started | Six adapters under `checkpoints/qwen2.5-72b/` via **`MODEL_KEY=qwen2.5-72b bash kaya/101\|102`** — no new slurm files, **no `pipeline/sft.py` change** (10.6's `gradient_checkpointing` flag already covers it). Six YAMLs identical to their 10.6 counterparts on every hyperparameter and data path; **acceptance 1 is a mechanical YAML diff proving it**. ~82 GPU-h, ~34 h calendar, 1 GPU/job in parallel. DDP explicitly out of scope (`run_sft` hardcodes `device_map="auto"`, `sft.py:181`). **Independent of 10.7 — can run concurrently with anything.** |
+| 11.4 | `phase11/11.4-qwen72b-e2e.md` | 11.3, **10.7**, 10.1, 5.4, 7.5 *(GPU + Neo4j)* | not started | Gated G0-G4 on both substrates -> `results/*_qwen2.5-72b_{v3_qwen72,pole_external_qwen72}.*`. **QG-properties invariant gets a third layer:** 10.7's key-set diff + runtime assert are kept, and a NEW parametrised `tests/test_pipeline_configs.py` asserts *every* local-model `config/pipeline*.yaml` sets `qg_include_properties: true` (verified to pass today for all four; the two claude configs exempt by `prompt_style: instruct`) — the 2026-07-17 decision becomes an executable invariant instead of a log entry that was missed twice. **One real code question:** `build_condition3::_device_maps()` puts QG+AD on one card, which at ~41 GiB/load is ~82 GiB before KV -> needs a guarded >=3-GPU arm and `--gres=gpu:h100:3`, so the two G4s run sequentially (~3 h each). Reports the scale-vs-adapter table, a **measured** malformed-Cypher rate across 7B/32B/72B, and the G2b entropy AUC as a scaling data point (32B = 0.570 vs criterion #6's 0.62). New `docs/results-walkthrough-qwen-72b.md`; all prior artefacts byte-unchanged. |
+| 11.5 | `phase11/11.5-seed-replicate.md` | 10.6 (or 11.3) *(GPU: h100)* | not started | **OPTIONAL, droppable.** One continue-SFT pair at a second seed + intrinsic Cov@5, to replace 10.4's asserted "at noise level" with a measured spread. ~3 h at 32B / ~7 h at 72B on an otherwise-idle card. If not run, say so explicitly here and keep the n=1 caveat in the writeup. |
+
+---
+
 ## Target module layout (build map)
 
 ```
