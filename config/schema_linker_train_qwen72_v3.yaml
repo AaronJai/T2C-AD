@@ -1,0 +1,58 @@
+# config/schema_linker_train_qwen72_v3.yaml — Stage 2 of 11.3: continue-SFT the Qwen2.5-72B generic
+# SL adapter (Stage 1, checkpoints/qwen2.5-72b/sl_adapter) on the v3 POLE in-domain data, writing
+# checkpoints/qwen2.5-72b/sl_adapter_v3 — the exact path `_resolve_model_specs` builds for
+# `active_model: qwen2.5-72b` at `dataset_version: v3`. Uses 7.4's `init_adapter_path` mechanism
+# unchanged (the same path the Mistral 7.4/10.3 and Qwen-32B 10.6 runs take).
+#
+# THIS FILE IS THE 10.6 RECIPE, UNCHANGED — a copy of config/schema_linker_train_qwen_v3.yaml whose
+# parsed content is byte-identical; only this header comment differs. `output_name` and
+# `init_adapter_path_name` are deliberately the same strings: the model key namespaces the path
+# (checkpoints/<model_key>/…), not the YAML, so this continue branches from the 72B generic and
+# cannot touch the 32B one. Parity is asserted mechanically by
+# tests/test_train_config_parity_qwen72.py (11.3 acceptance 1).
+#
+# data stays data/pole_sl_train.jsonl — the POLE-ONLY split (1,800 rows), NOT the `_mixed`
+# Ozsoy-replay file — for the same reason 10.6 chose it: the Stage-1 generic adapter already
+# carries the general Cypher capability, so a POLE-only continue isolates the in-domain
+# contribution for 11.4's three-way attribution (no adapter / +generic / +generic+POLE).
+#
+# Measured cost (11.2, 6.51 s/micro-step): 1800 rows x 2 epochs = 3,600 micro-steps ~= 6.5 h.
+#
+# python -m experiments.train_schema_linker --model_key qwen2.5-72b \
+#     --train config/schema_linker_train_qwen72_v3.yaml
+
+model:
+  init_adapter_path_name: "sl_adapter"   # checkpoints/qwen2.5-72b/sl_adapter — Stage-1 generic
+
+peft:
+  method: "lora"
+  r: 16
+  lora_alpha: 32
+  lora_dropout: 0.05
+  bias: "none"
+  task_type: "CAUSAL_LM"
+  # target_modules: unused when init_adapter_path_name is set (the saved adapter's own LoRA
+  # config applies) — kept for config-shape parity with the generic YAML.
+
+training:
+  output_name: "sl_adapter_v3"           # -> checkpoints/qwen2.5-72b/sl_adapter_v3
+  num_train_epochs: 2
+  per_device_train_batch_size: 1
+  per_device_eval_batch_size: 1
+  gradient_accumulation_steps: 32
+  gradient_checkpointing: true           # parity with 10.6 (66.2 GiB peak with it — 11.2)
+  learning_rate: 1.0e-4                  # lower than the from-scratch 2e-4 — continue-SFT
+  lr_scheduler_type: "cosine"
+  warmup_ratio: 0.03
+  max_seq_length: 3584
+  weight_decay: 0.001
+  bf16: false
+  fp16: true
+  logging_steps: 20
+  save_strategy: "epoch"
+  evaluation_strategy: "epoch"
+
+data:
+  train_path: "data/pole_sl_train.jsonl"   # POLE-only (7.4), NOT pole_sl_train_mixed.jsonl
+  eval_path:  "data/pole_sl_eval.jsonl"
+  format: "prompt_completion"

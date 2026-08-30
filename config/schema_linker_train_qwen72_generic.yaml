@@ -1,0 +1,62 @@
+# config/schema_linker_train_qwen72_generic.yaml — Stage 1 of 11.3: FROM-SCRATCH LoRA on the
+# SAME 4,000-row seed=13 sample of the Ozsoy Text2Cypher SL split 10.6 used, producing the generic
+# checkpoints/qwen2.5-72b/sl_adapter. The two POLE continue-SFT YAMLs
+# (schema_linker_train_qwen72_{v3,pole_external}.yaml) start from the adapter this run writes.
+#
+# THIS FILE IS THE 10.6 RECIPE, UNCHANGED. It is a copy of
+# config/schema_linker_train_qwen_generic.yaml whose parsed content is byte-identical — only this
+# header comment differs. `output_name` is deliberately the same string: the model key namespaces
+# the output path (checkpoints/<model_key>/<output_name>), not the YAML. Phase 11's whole argument
+# is a model-SCALE comparison (7B -> 32B -> 72B) at a FIXED recipe, so every hyperparameter and
+# data path below is held constant on purpose; changing one confounds the axis under test.
+# tests/test_train_config_parity_qwen72.py asserts that parity mechanically (11.3 acceptance 1).
+#
+# The three overrides inherited from 10.5/10.6 are kept for parity, not because an H100 needs them:
+#   - per_device_train_batch_size 1 / gradient_accumulation_steps 32 / gradient_checkpointing true.
+#     11.2 (job 1144935) measured that batch 2 DOES fit one H100 NVL (peak 88.3 GiB of 93.1) at
+#     12.77 s/micro-step — a ~2 % per-row gain for all but 5 GiB of the card. Not taken: batch 1 is
+#     the recipe the 7B and 32B columns were trained under (11.2's parity clause).
+#   - data = the same 4k Ozsoy sample. Do NOT regenerate it — the seed=13 file on disk is the one
+#     10.6 trained on, and re-sampling would make the two columns different data, not different scale.
+#
+# Measured cost (11.2 leg 2, 6.51 s/micro-step at this exact recipe, peak 66.2 GiB):
+# 4000 rows x 3 epochs = 12,000 micro-steps ~= 21.7 h + ~3 h for the three Ozsoy eval passes.
+#
+# python -m experiments.train_schema_linker --model_key qwen2.5-72b \
+#     --train config/schema_linker_train_qwen72_generic.yaml
+#   (or, via the 11.1 runner: MODEL_KEY=qwen2.5-72b bash kaya/101_train_qwen_sl.slurm)
+
+# model: no init_adapter_path_name — fresh LoraConfig (target_modules from config/models.yaml).
+
+peft:
+  method: "lora"
+  r: 16
+  lora_alpha: 32
+  lora_dropout: 0.05
+  bias: "none"
+  task_type: "CAUSAL_LM"
+  # target_modules: comes from config/models.yaml (qwen2.5-72b -> ["q_proj","v_proj"], the same
+  # pair as qwen2.5-32b — held constant so model size is the only variable)
+
+training:
+  output_name: "sl_adapter"              # -> checkpoints/qwen2.5-72b/sl_adapter (generic)
+  num_train_epochs: 3
+  per_device_train_batch_size: 1
+  per_device_eval_batch_size: 1
+  gradient_accumulation_steps: 32        # effective batch = 32, matching the Mistral/32B runs
+  gradient_checkpointing: true           # parity with 10.6 (and 66.2 GiB peak with it — 11.2)
+  learning_rate: 2.0e-4                  # from-scratch rate, same as 2.1 and 10.6
+  lr_scheduler_type: "cosine"
+  warmup_ratio: 0.03
+  max_seq_length: 3584                   # same cap as 2.1 (measured Ozsoy p99)
+  weight_decay: 0.001
+  bf16: false                            # sm90 HAS bf16 — fp16 kept for cross-model parity (11.1)
+  fp16: true
+  logging_steps: 50
+  save_strategy: "epoch"
+  evaluation_strategy: "epoch"
+
+data:
+  train_path: "data/ozsoy_sl_train_4k.jsonl"        # the SAME seed=13 sample 10.6 used — do not regenerate
+  eval_path:  "data/ozsoy_schema_linker_eval.jsonl"  # full Ozsoy eval split (1,695 rows, unchanged since 2.1)
+  format: "prompt_completion"

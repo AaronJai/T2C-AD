@@ -1,0 +1,48 @@
+# config/query_generator_train_qwen72_v3.yaml — Stage 2 of 11.3 for the Query Generator:
+# continue-SFT the Qwen2.5-72B generic QG adapter on the v3 POLE in-domain data ->
+# checkpoints/qwen2.5-72b/qg_adapter_v3. Identical in shape to schema_linker_train_qwen72_v3.yaml
+# (see its header for the POLE-only-data rationale); differs only in `data` paths and adapter names.
+#
+# THIS FILE IS THE 10.6 RECIPE, UNCHANGED — a copy of config/query_generator_train_qwen_v3.yaml
+# whose parsed content is byte-identical; only this header comment differs. Parity is asserted
+# mechanically by tests/test_train_config_parity_qwen72.py (11.3 acceptance 1).
+#
+# Measured cost (11.2, 6.51 s/micro-step): 3,600 micro-steps ~= 6.5 h.
+#
+# python -m experiments.train_query_generator --model_key qwen2.5-72b \
+#     --train config/query_generator_train_qwen72_v3.yaml
+
+model:
+  init_adapter_path_name: "qg_adapter"   # checkpoints/qwen2.5-72b/qg_adapter — Stage-1 generic
+
+peft:
+  method: "lora"
+  r: 16
+  lora_alpha: 32
+  lora_dropout: 0.05
+  bias: "none"
+  task_type: "CAUSAL_LM"
+  # target_modules: unused when init_adapter_path_name is set.
+
+training:
+  output_name: "qg_adapter_v3"           # -> checkpoints/qwen2.5-72b/qg_adapter_v3
+  num_train_epochs: 2
+  per_device_train_batch_size: 1
+  per_device_eval_batch_size: 1
+  gradient_accumulation_steps: 32
+  gradient_checkpointing: true
+  learning_rate: 1.0e-4
+  lr_scheduler_type: "cosine"
+  warmup_ratio: 0.03
+  max_seq_length: 3584
+  weight_decay: 0.001
+  bf16: false
+  fp16: true
+  logging_steps: 20
+  save_strategy: "epoch"
+  evaluation_strategy: "epoch"
+
+data:
+  train_path: "data/pole_qg_train.jsonl"   # POLE-only (7.4), NOT pole_qg_train_mixed.jsonl
+  eval_path:  "data/pole_qg_eval.jsonl"
+  format: "prompt_completion"

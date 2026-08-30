@@ -1,0 +1,33 @@
+Job 1144949 on k172 at Sat 29 Aug 2026 11:09:33 AWST — model_key=qwen2.5-72b, stage=generic, train=config/schema_linker_train_qwen72_generic.yaml
+Sat Aug 29 11:09:33 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.57.08              Driver Version: 575.57.08      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100 NVL                Off |   00000000:64:00.0 Off |                    0 |
+| N/A   49C    P0             65W /  400W |       0MiB /  95830MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+{'loss': 0.5816, 'grad_norm': 0.811117947101593, 'learning_rate': 0.00019464072756140486, 'epoch': 0.4}
+{'loss': 0.1912, 'grad_norm': 0.4914514720439911, 'learning_rate': 0.00017237340381050703, 'epoch': 0.8}
+{'eval_loss': 0.16921818256378174, 'eval_runtime': 3484.6713, 'eval_samples_per_second': 0.486, 'eval_steps_per_second': 0.486, 'epoch': 1.0}
+{'loss': 0.1549, 'grad_norm': 0.9530130624771118, 'learning_rate': 0.000136764169663272, 'epoch': 1.2}
+{'loss': 0.1372, 'grad_norm': 0.5042077302932739, 'learning_rate': 9.437752514678887e-05, 'epoch': 1.6}
+{'loss': 0.1365, 'grad_norm': 0.44346293807029724, 'learning_rate': 5.3027374034617785e-05, 'epoch': 2.0}
+{'eval_loss': 0.14753098785877228, 'eval_runtime': 3495.6633, 'eval_samples_per_second': 0.485, 'eval_steps_per_second': 0.485, 'epoch': 2.0}
+{'loss': 0.1058, 'grad_norm': 0.5960990786552429, 'learning_rate': 2.0862653732958915e-05, 'epoch': 2.4}
+{'loss': 0.0955, 'grad_norm': 0.7158315777778625, 'learning_rate': 2.520983216615047e-06, 'epoch': 2.8}
+{'eval_loss': 0.14766210317611694, 'eval_runtime': 3495.8719, 'eval_samples_per_second': 0.485, 'eval_steps_per_second': 0.485, 'epoch': 3.0}
+{'train_runtime': 84796.4733, 'train_samples_per_second': 0.142, 'train_steps_per_second': 0.004, 'train_loss': 0.19345091819763183, 'epoch': 3.0}
+Finished at Sun 30 Aug 2026 10:48:11 AWST

@@ -1,0 +1,158 @@
+Job 1148276 on k172 at Sun 30 Aug 2026 21:33:42 AWST
+  substrate=v3  tier=indomain  model_key=qwen2.5-72b  script=kaya/g1_sl_coverage_v3.py
+  -> results/g1_sl_coverage_qwen2.5-72b_v3.json   (beams: results/beams_qwen2.5-72b_v3.jsonl)
+Sun Aug 30 21:33:42 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.57.08              Driver Version: 575.57.08      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100 NVL                Off |   00000000:64:00.0 Off |                    0 |
+| N/A   46C    P0             63W /  400W |       0MiB /  95830MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Loaded 120 v3 items; kind=local decoding={'strategy': 'beam', 'diversity_penalty': 1.0, 'k': 5} prompt_style=completion
+[Q-001] (null) cov=1 em=1
+[Q-002] (null) cov=1 em=1
+[Q-003] (null) cov=1 em=1
+[Q-004] (null) cov=1 em=1
+[Q-005] (null) cov=1 em=1
+[Q-006] (null) cov=1 em=1
+[Q-007] (null) cov=1 em=1
+[Q-008] (null) cov=1 em=1
+[Q-009] (null) cov=1 em=1
+[Q-010] (null) cov=1 em=1
+[Q-011] (null) cov=1 em=1
+[Q-012] (null) cov=0 em=0
+[Q-013] (null) cov=1 em=1
+[Q-014] (null) cov=0 em=0
+[Q-015] (null) cov=0 em=0
+[Q-016] (null) cov=1 em=0
+[Q-017] (null) cov=1 em=1
+[Q-018] (null) cov=1 em=1
+[Q-019] (null) cov=1 em=1
+[Q-020] (null) cov=1 em=1
+[Q-021] (null) cov=1 em=1
+[Q-022] (null) cov=1 em=1
+[Q-023] (null) cov=1 em=1
+[Q-024] (null) cov=0 em=0
+[Q-025] (null) cov=1 em=1
+[Q-026] (null) cov=0 em=0
+[Q-027] (null) cov=0 em=0
+[Q-028] (null) cov=0 em=0
+[Q-029] (null) cov=0 em=0
+[Q-030] (null) cov=1 em=1
+[Q-031] (null) cov=0 em=0
+[Q-032] (null) cov=0 em=0
+[Q-033] (null) cov=0 em=0
+[Q-034] (null) cov=1 em=1
+[Q-035] (null) cov=0 em=0
+[Q-036] (null) cov=1 em=1
+[Q-037] (null) cov=1 em=0
+[Q-038] (null) cov=1 em=1
+[Q-039] (null) cov=1 em=1
+[Q-040] (null) cov=0 em=0
+[Q-041] (schema) cov=1 em=1
+[Q-042] (schema) cov=1 em=1
+[Q-043] (schema) cov=1 em=1
+[Q-044] (schema) cov=1 em=1
+[Q-045] (schema) cov=1 em=1
+[Q-046] (schema) cov=1 em=1
+[Q-047] (schema) cov=1 em=1
+[Q-048] (schema) cov=1 em=1
+[Q-049] (schema) cov=1 em=0
+[Q-050] (schema) cov=1 em=1
+[Q-051] (schema) cov=1 em=1
+[Q-052] (schema) cov=1 em=1
+[Q-053] (schema) cov=1 em=1
+[Q-054] (schema) cov=1 em=0
+[Q-055] (schema) cov=1 em=1
+[Q-056] (schema) cov=1 em=1
+[Q-057] (schema) cov=1 em=0
+[Q-058] (schema) cov=1 em=1
+[Q-059] (schema) cov=1 em=0
+[Q-060] (schema) cov=1 em=1
+[Q-061] (entity) cov=1 em=1
+[Q-062] (entity) cov=1 em=1
+[Q-063] (entity) cov=0 em=0
+[Q-064] (entity) cov=0 em=0
+[Q-065] (entity) cov=0 em=0
+[Q-066] (entity) cov=0 em=0
+[Q-067] (entity) cov=0 em=0
+[Q-068] (entity) cov=0 em=0
+[Q-069] (entity) cov=0 em=0
+[Q-070] (entity) cov=1 em=1
+[Q-071] (entity) cov=0 em=0
+[Q-072] (entity) cov=0 em=0
+[Q-073] (entity) cov=1 em=1
+[Q-074] (entity) cov=0 em=0
+[Q-075] (entity) cov=0 em=0
+[Q-076] (entity) cov=1 em=1
+[Q-077] (entity) cov=1 em=1
+[Q-078] (entity) cov=1 em=1
+[Q-079] (entity) cov=1 em=1
+[Q-080] (entity) cov=1 em=1
+[Q-081] (intent) cov=1 em=1
+[Q-082] (intent) cov=1 em=1
+[Q-083] (intent) cov=1 em=1
+[Q-084] (intent) cov=1 em=1
+[Q-085] (intent) cov=1 em=1
+[Q-086] (intent) cov=0 em=0
+[Q-087] (intent) cov=0 em=0
+[Q-088] (intent) cov=0 em=0
+[Q-089] (intent) cov=0 em=0
+[Q-090] (intent) cov=0 em=0
+[Q-091] (intent) cov=1 em=1
+[Q-092] (intent) cov=1 em=1
+[Q-093] (intent) cov=0 em=0
+[Q-094] (intent) cov=0 em=0
+[Q-095] (intent) cov=1 em=1
+[Q-096] (intent) cov=1 em=1
+[Q-097] (intent) cov=1 em=1
+[Q-098] (intent) cov=1 em=1
+[Q-099] (intent) cov=1 em=1
+[Q-100] (intent) cov=0 em=0
+[Q-101] (temporal) cov=1 em=1
+[Q-102] (temporal) cov=1 em=1
+[Q-103] (temporal) cov=1 em=1
+[Q-104] (temporal) cov=1 em=1
+[Q-105] (temporal) cov=1 em=1
+[Q-106] (temporal) cov=1 em=1
+[Q-107] (temporal) cov=1 em=1
+[Q-108] (temporal) cov=1 em=1
+[Q-109] (temporal) cov=1 em=1
+[Q-110] (temporal) cov=1 em=1
+[Q-111] (temporal) cov=1 em=1
+[Q-112] (temporal) cov=1 em=1
+[Q-113] (temporal) cov=1 em=1
+[Q-114] (temporal) cov=1 em=1
+[Q-115] (temporal) cov=1 em=1
+[Q-116] (temporal) cov=1 em=1
+[Q-117] (temporal) cov=1 em=1
+[Q-118] (temporal) cov=1 em=1
+[Q-119] (temporal) cov=1 em=1
+[Q-120] (temporal) cov=1 em=1
+
+==================== G1 SL COVERAGE (v3, n=120) ====================
+  Cov@5 = 0.733   EM@1 = 0.683
+       type |   n |  Cov@5 |   EM@1
+     entity |  20 |  0.450 |  0.450
+     intent |  20 |  0.600 |  0.600
+       null |  40 |  0.675 |  0.625
+     schema |  20 |  1.000 |  0.800
+   temporal |  20 |  1.000 |  1.000
+
+  GATE G1: PASS (>= 0.60) → proceed to G2
+  Cached beams → results/beams_qwen2.5-72b_v3.jsonl
+  Summary → results/g1_sl_coverage_qwen2.5-72b_v3.json
+Finished at Sun 30 Aug 2026 21:48:42 AWST
