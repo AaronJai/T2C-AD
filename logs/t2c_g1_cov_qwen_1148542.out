@@ -1,0 +1,138 @@
+Job 1148542 on k172 at Sun 30 Aug 2026 22:58:51 AWST
+  substrate=pole_external  tier=noadapter  model_key=qwen2.5-72b  script=kaya/g1_sl_coverage_pole_external.py
+  -> results/g1_sl_coverage_qwen2.5-72b_pole_external_qwen_noadapter.json   (beams: results/beams_qwen2.5-72b_pole_external_qwen_noadapter.jsonl)
+Sun Aug 30 22:58:51 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.57.08              Driver Version: 575.57.08      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100 NVL                Off |   00000000:64:00.0 Off |                    0 |
+| N/A   64C    P0             71W /  400W |       0MiB /  95830MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Loaded 100 external-POLE items; decoding={'strategy': 'beam', 'diversity_penalty': 0.5, 'k': 5}
+[Q-POLE-E01] (entity) cov=1 em=0
+[Q-POLE-E02] (entity) cov=1 em=0
+[Q-POLE-E03] (entity) cov=1 em=0
+[Q-POLE-E04] (entity) cov=1 em=0
+[Q-POLE-E05] (entity) cov=0 em=0
+[Q-POLE-E06] (entity) cov=0 em=0
+[Q-POLE-E07] (entity) cov=1 em=0
+[Q-POLE-E08] (entity) cov=1 em=0
+[Q-POLE-E09] (entity) cov=1 em=0
+[Q-POLE-E10] (entity) cov=1 em=0
+[Q-POLE-E11] (entity) cov=1 em=0
+[Q-POLE-E12] (entity) cov=0 em=0
+[Q-POLE-E13] (entity) cov=0 em=0
+[Q-POLE-E14] (entity) cov=1 em=0
+[Q-POLE-E15] (entity) cov=0 em=0
+[Q-POLE-E16] (entity) cov=0 em=0
+[Q-POLE-E17] (entity) cov=0 em=0
+[Q-POLE-E18] (entity) cov=1 em=0
+[Q-POLE-E19] (entity) cov=0 em=0
+[Q-POLE-E20] (entity) cov=0 em=0
+[Q-POLE-S01] (schema) cov=0 em=0
+[Q-POLE-S02] (schema) cov=0 em=0
+[Q-POLE-S03] (schema) cov=0 em=0
+[Q-POLE-S04] (schema) cov=0 em=0
+[Q-POLE-S05] (schema) cov=0 em=0
+[Q-POLE-S06] (schema) cov=0 em=0
+[Q-POLE-S07] (schema) cov=0 em=0
+[Q-POLE-S08] (schema) cov=0 em=0
+[Q-POLE-S09] (schema) cov=0 em=0
+[Q-POLE-S10] (schema) cov=0 em=0
+[Q-POLE-S11] (schema) cov=0 em=0
+[Q-POLE-S12] (schema) cov=0 em=0
+[Q-POLE-S13] (schema) cov=0 em=0
+[Q-POLE-S14] (schema) cov=0 em=0
+[Q-POLE-S15] (schema) cov=0 em=0
+[Q-POLE-S16] (schema) cov=0 em=0
+[Q-POLE-S17] (schema) cov=0 em=0
+[Q-POLE-S18] (schema) cov=0 em=0
+[Q-POLE-S19] (schema) cov=0 em=0
+[Q-POLE-S20] (schema) cov=0 em=0
+[Q-POLE-I01] (intent) cov=0 em=0
+[Q-POLE-I02] (intent) cov=0 em=0
+[Q-POLE-I03] (intent) cov=0 em=0
+[Q-POLE-I04] (intent) cov=0 em=0
+[Q-POLE-I05] (intent) cov=0 em=0
+[Q-POLE-I06] (intent) cov=0 em=0
+[Q-POLE-I07] (intent) cov=0 em=0
+[Q-POLE-I08] (intent) cov=0 em=0
+[Q-POLE-I09] (intent) cov=1 em=0
+[Q-POLE-I10] (intent) cov=0 em=0
+[Q-POLE-I11] (intent) cov=0 em=0
+[Q-POLE-I12] (intent) cov=1 em=0
+[Q-POLE-I13] (intent) cov=1 em=0
+[Q-POLE-I14] (intent) cov=0 em=0
+[Q-POLE-I15] (intent) cov=0 em=0
+[Q-POLE-I16] (intent) cov=0 em=0
+[Q-POLE-I17] (intent) cov=0 em=0
+[Q-POLE-I18] (intent) cov=0 em=0
+[Q-POLE-I19] (intent) cov=0 em=0
+[Q-POLE-I20] (intent) cov=0 em=0
+[Q-POLE-T01] (temporal) cov=0 em=0
+[Q-POLE-T02] (temporal) cov=0 em=0
+[Q-POLE-T03] (temporal) cov=0 em=0
+[Q-POLE-T04] (temporal) cov=0 em=0
+[Q-POLE-T05] (temporal) cov=0 em=0
+[Q-POLE-T06] (temporal) cov=0 em=0
+[Q-POLE-T07] (temporal) cov=0 em=0
+[Q-POLE-T08] (temporal) cov=0 em=0
+[Q-POLE-T09] (temporal) cov=0 em=0
+[Q-POLE-T10] (temporal) cov=0 em=0
+[Q-POLE-T11] (temporal) cov=0 em=0
+[Q-POLE-T12] (temporal) cov=0 em=0
+[Q-POLE-T13] (temporal) cov=0 em=0
+[Q-POLE-T14] (temporal) cov=0 em=0
+[Q-POLE-T15] (temporal) cov=0 em=0
+[Q-POLE-T16] (temporal) cov=0 em=0
+[Q-POLE-T17] (temporal) cov=0 em=0
+[Q-POLE-T18] (temporal) cov=0 em=0
+[Q-POLE-T19] (temporal) cov=0 em=0
+[Q-POLE-T20] (temporal) cov=0 em=0
+[Q-POLE-U01] (null) cov=0 em=0
+[Q-POLE-U02] (null) cov=0 em=0
+[Q-POLE-U03] (null) cov=0 em=0
+[Q-POLE-U04] (null) cov=1 em=0
+[Q-POLE-U05] (null) cov=1 em=0
+[Q-POLE-U06] (null) cov=0 em=0
+[Q-POLE-U07] (null) cov=0 em=0
+[Q-POLE-U08] (null) cov=0 em=0
+[Q-POLE-U09] (null) cov=0 em=0
+[Q-POLE-U10] (null) cov=0 em=0
+[Q-POLE-U11] (null) cov=0 em=0
+[Q-POLE-U12] (null) cov=0 em=0
+[Q-POLE-U13] (null) cov=0 em=0
+[Q-POLE-U14] (null) cov=0 em=0
+[Q-POLE-U15] (null) cov=0 em=0
+[Q-POLE-U16] (null) cov=0 em=0
+[Q-POLE-U17] (null) cov=0 em=0
+[Q-POLE-U18] (null) cov=0 em=0
+[Q-POLE-U19] (null) cov=0 em=0
+[Q-POLE-U20] (null) cov=0 em=0
+
+============ G1 SL COVERAGE (pole_external, n=100) ============
+  Cov@5 = 0.160   EM@1 = 0.000
+       type |   n |  Cov@5 |   EM@1
+     entity |  20 |  0.550 |  0.000
+     intent |  20 |  0.150 |  0.000
+       null |  20 |  0.100 |  0.000
+     schema |  20 |  0.000 |  0.000
+   temporal |  20 |  0.000 |  0.000
+
+  GATE G1: FAIL (< 0.60) → STOP, iterate 10.2/10.3
+  Cached beams → results/beams_qwen2.5-72b_pole_external_qwen_noadapter.jsonl
+  Summary → results/g1_sl_coverage_qwen2.5-72b_pole_external_qwen_noadapter.json
+Finished at Sun 30 Aug 2026 23:48:24 AWST

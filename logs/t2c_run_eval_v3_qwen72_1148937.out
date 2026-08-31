@@ -1,0 +1,105 @@
+Job 1148937 on k172 at Mon 31 Aug 2026 00:20:57 AWST
+Mon Aug 31 00:20:57 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.57.08              Driver Version: 575.57.08      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100 NVL                Off |   00000000:02:00.0 Off |                    0 |
+| N/A   36C    P0             65W /  400W |       0MiB /  95830MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+|   1  NVIDIA H100 NVL                Off |   00000000:64:00.0 Off |                    0 |
+| N/A   66C    P0             72W /  400W |       0MiB /  95830MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+|   2  NVIDIA H100 NVL                Off |   00000000:82:00.0 Off |                    0 |
+| N/A   33C    P0             62W /  400W |       0MiB /  95830MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+|   3  NVIDIA H100 NVL                Off |   00000000:E3:00.0 Off |                    0 |
+| N/A   34C    P0             63W /  400W |       0MiB /  95830MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Wiping v3 volume /group/pmc084/atan/neo4j_data_v3_qwen72_g4 and reloading data/SyntheticPoliceKG-v3.cypher (Bolt port 28937).
+Changed password for user 'neo4j'. IMPORTANT: this change will only take effect if performed before the database is started for the first time.
+Directories in use:
+home:         /var/lib/neo4j
+config:       /conf
+logs:         /var/lib/neo4j/logs
+plugins:      /var/lib/neo4j/plugins
+import:       /var/lib/neo4j/import
+data:         /var/lib/neo4j/data
+certificates: /var/lib/neo4j/certificates
+licenses:     /var/lib/neo4j/licenses
+run:          /var/lib/neo4j/run
+Starting Neo4j.
+2026-08-30 16:21:01.932+0000 INFO  Logging config in use: File '/var/lib/neo4j/conf/user-logs.xml'
+2026-08-30 16:21:01.946+0000 INFO  Starting...
+2026-08-30 16:21:02.550+0000 INFO  This instance is ServerId{a8ba4a4e} (a8ba4a4e-6191-4cf0-8ce2-3187a1520b5c)
+2026-08-30 16:21:04.806+0000 INFO  Anonymous Usage Data is being sent to Neo4j, see https://neo4j.com/docs/usage-data/
+2026-08-30 16:21:04.833+0000 INFO  Bolt enabled on localhost:28937.
+2026-08-30 16:21:04.840+0000 INFO  id: F5DD180F6EBC3C1CEB73347A280DC1EA988DF1E1CC5258480D7EDDDAA0987859
+2026-08-30 16:21:04.840+0000 INFO  name: system
+2026-08-30 16:21:04.840+0000 INFO  creationDate: 2026-08-30T16:21:04.098Z
+2026-08-30 16:21:04.840+0000 INFO  Started.
+Neo4j ready after 2 checks on bolt://localhost:28937.
+Loading data/SyntheticPoliceKG-v3.cypher
+nodes
+96
+v3 graph loaded.
+G0 runtime assert PASSED: qg_include_properties is True, active_model == 'qwen2.5-72b'
+runtime config -> config/.pipeline_v3_qwen72.runtime.yaml (neo4j.uri=bolt://localhost:28937)
+### Table 1 — Overall (120)
+
+| Metric | C1 | C2 | C3 |
+| --- | --- | --- | --- |
+| EX | 5.8 | 19.2 | 20.8 |
+| EA / AREA | 7.5 | 35.0 | 44.2 |
+| KG-Valid % | 90.0 | 77.5 | 81.7 |
+| Syntax % | 98.3 | 84.2 | 90.8 |
+| Schema % | 100.0 | 100.0 | 100.0 |
+| Pass@1 | 5.8 | 18.3 | 15.0 |
+
+### Table 2 — Ambiguity-specific (80)
+
+| Metric | C1 | C2 | C3 |
+| --- | --- | --- | --- |
+| Ambiguous EA | 3.8 | 35.0 | 45.0 |
+| DSR | — | — | 20.0 |
+| Detection F1 | — | — | 41.7 |
+| Detection Prec | — | — | 68.6 |
+| Detection Rec | — | — | 30.0 |
+| EA — schema (n=20) | 0.0 | 30.0 | 30.0 |
+| EA — entity (n=20) | 0.0 | 20.0 | 65.0 |
+| EA — intent (n=20) | 5.0 | 30.0 | 25.0 |
+| EA — temporal (n=20) | 10.0 | 60.0 | 60.0 |
+
+### Table 3 — Repair/routing (C2, C3)
+
+| Metric | C2 | C3 |
+| --- | --- | --- |
+| Initial Valid % | 73.3 | 75.0 |
+| Post-CyVer Valid % | 77.5 | 81.7 |
+| Structural Repair % | 15.6 | 26.7 |
+| Semantic Repair % | 0.0 | 6.0 |
+| Avg Iterations | 0.23 | 0.28 |
+Wrote results/{tables,metrics,qual_records}_qwen2.5-72b_v3_qwen72.*
+Wrote results/qualitative_analysis_qwen2.5-72b_v3_qwen72.md
+both_correct=20 both_wrong=92 fixed=5 regressed=3
+Wrote results/qualitative_analysis_qwen2.5-72b_v3_qwen72.md
+Finished at Mon 31 Aug 2026 02:44:34 AWST
+Stopping neo4j (pid 1137097) at Mon 31 Aug 2026 02:44:34 AWST
+2026-08-30 18:44:34.490+0000 INFO  Neo4j Server shutdown initiated by request
+2026-08-30 18:44:34.492+0000 INFO  Stopping...
+2026-08-30 18:44:45.746+0000 INFO  Stopped.

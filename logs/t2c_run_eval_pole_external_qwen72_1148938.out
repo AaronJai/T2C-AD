@@ -1,0 +1,106 @@
+Job 1148938 on k172 at Mon 31 Aug 2026 02:44:51 AWST
+Mon Aug 31 02:44:51 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.57.08              Driver Version: 575.57.08      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100 NVL                Off |   00000000:02:00.0 Off |                    0 |
+| N/A   73C    P0             79W /  400W |       0MiB /  95830MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+|   1  NVIDIA H100 NVL                Off |   00000000:64:00.0 Off |                    0 |
+| N/A   71C    P0             76W /  400W |       0MiB /  95830MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+|   2  NVIDIA H100 NVL                Off |   00000000:82:00.0 Off |                    0 |
+| N/A   64C    P0             75W /  400W |       0MiB /  95830MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+|   3  NVIDIA H100 NVL                Off |   00000000:E3:00.0 Off |                    0 |
+| N/A   72C    P0             86W /  400W |       0MiB /  95830MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Wiping /group/pmc084/atan/neo4j_data_pole_external_qwen72_g4 and loading from /group/pmc084/atan/dumps/pole-external/neo4j.dump.
+Fresh volume — setting initial password + loading the dump (offline store) BEFORE console
+Changed password for user 'neo4j'. IMPORTANT: this change will only take effect if performed before the database is started for the first time.
+WARNING: The database: neo4j has a deprecated store format: standard. For details on deprecated store formats, see https://neo4j.com/docs/store-format-deprecations.
+Directories in use:
+home:         /var/lib/neo4j
+config:       /conf
+logs:         /var/lib/neo4j/logs
+plugins:      /var/lib/neo4j/plugins
+import:       /var/lib/neo4j/import
+data:         /var/lib/neo4j/data
+certificates: /var/lib/neo4j/certificates
+licenses:     /var/lib/neo4j/licenses
+run:          /var/lib/neo4j/run
+Starting Neo4j.
+2026-08-30 18:44:59.229+0000 INFO  Logging config in use: File '/var/lib/neo4j/conf/user-logs.xml'
+2026-08-30 18:44:59.244+0000 INFO  Starting...
+2026-08-30 18:44:59.844+0000 INFO  This instance is ServerId{ade9857d} (ade9857d-106e-4db1-8339-57e2f3b47bba)
+2026-08-30 18:45:01.977+0000 INFO  Anonymous Usage Data is being sent to Neo4j, see https://neo4j.com/docs/usage-data/
+2026-08-30 18:45:02.007+0000 INFO  Bolt enabled on localhost:28938.
+2026-08-30 18:45:02.013+0000 INFO  id: 151620AE3CD6765D6217B046F680A8D4AC34BAE24409A5C7EBD1447C762BD627
+2026-08-30 18:45:02.013+0000 INFO  name: system
+2026-08-30 18:45:02.013+0000 INFO  creationDate: 2026-08-30T18:45:01.308Z
+2026-08-30 18:45:02.013+0000 INFO  Started.
+Neo4j ready after 2 checks on bolt://localhost:28938.
+── Graph spot-check (expect nodes 61521, relationships ~105840) ──
+nodes
+61521
+G0 runtime assert PASSED: qg_include_properties is True, active_model == 'qwen2.5-72b'
+runtime config -> config/.pipeline_pole_external_qwen72.runtime.yaml (neo4j.uri=bolt://localhost:28938)
+### Table 1 — Overall (100)
+
+| Metric | C1 | C2 | C3 |
+| --- | --- | --- | --- |
+| EX | 41.0 | 36.0 | 43.0 |
+| EA / AREA | 50.0 | 40.0 | 53.0 |
+| KG-Valid % | 97.0 | 76.0 | 85.0 |
+| Syntax % | 99.0 | 77.0 | 87.0 |
+| Schema % | 98.0 | 100.0 | 98.9 |
+| Pass@1 | 40.0 | 36.0 | 40.0 |
+
+### Table 2 — Ambiguity-specific (80)
+
+| Metric | C1 | C2 | C3 |
+| --- | --- | --- | --- |
+| Ambiguous EA | 40.0 | 31.2 | 47.5 |
+| DSR | — | — | 50.0 |
+| Detection F1 | — | — | 77.4 |
+| Detection Prec | — | — | 88.9 |
+| Detection Rec | — | — | 68.6 |
+| EA — schema (n=20) | 45.0 | 20.0 | 35.0 |
+| EA — entity (n=20) | 60.0 | 70.0 | 65.0 |
+| EA — intent (n=20) | 25.0 | 20.0 | 30.0 |
+| EA — temporal (n=20) | 30.0 | 15.0 | 60.0 |
+
+### Table 3 — Repair/routing (C2, C3)
+
+| Metric | C2 | C3 |
+| --- | --- | --- |
+| Initial Valid % | 72.0 | 78.0 |
+| Post-CyVer Valid % | 76.0 | 85.0 |
+| Structural Repair % | 14.3 | 31.8 |
+| Semantic Repair % | 0.0 | 5.4 |
+| Avg Iterations | 0.07 | 0.13 |
+Wrote results/{tables,metrics,qual_records}_qwen2.5-72b_pole_external_qwen72.*
+Wrote results/qualitative_analysis_qwen2.5-72b_pole_external_qwen72.md
+both_correct=33 both_wrong=54 fixed=10 regressed=3
+Wrote results/qualitative_analysis_qwen2.5-72b_pole_external_qwen72.md
+Finished at Mon 31 Aug 2026 04:35:01 AWST
+Stopping neo4j (pid 1146154) at Mon 31 Aug 2026 04:35:01 AWST
+2026-08-30 20:35:01.255+0000 INFO  Neo4j Server shutdown initiated by request
+2026-08-30 20:35:01.256+0000 INFO  Stopping...
+2026-08-30 20:35:11.565+0000 INFO  Stopped.

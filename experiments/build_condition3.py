@@ -12,7 +12,7 @@ from pipeline.types import SchemaRepr
 
 
 def _device_maps() -> tuple[object, object, object]:
-    """(sl, qg, ad) device_map for three co-located HuggingFace 7B loads.
+    """(sl, qg, ad) device_map for three co-located HuggingFace loads.
 
     With ≥2 visible GPUs, pin them explicitly instead of letting three independent
     `device_map="auto"` loads collide on one card (the C3 OOM, decisions-log 2026-06-26):
@@ -20,10 +20,32 @@ def _device_maps() -> tuple[object, object, object]:
     cuda:1. On a single GPU (or CPU/tests), return None so the HuggingFaceLLM default
     ("auto") applies. Applied only to HuggingFace specs (see `_with_device`); an API run has
     no local load, so pinning is a no-op there.
+
+    **≥3 GPUs → AD gets its own card (11.4).** Sharing card 1 was comfortable while a 4-bit
+    load was 20.2 GiB (32B, 10.5) — 20 GiB on card 0, 40 GiB on card 1 of a 93.6 GiB H100 NVL.
+    At the 72B's MEASURED 42.5 GiB per 4-bit load (11.2 leg 1, job 1144935) card 1 would hold
+    ~85 GiB of weights before any KV cache, and C3 runs `beam_k=5` group beams: 11.2 leg 5 put
+    the worst case at 90.4 GiB of 93.1, i.e. it fits on 2 cards with only ~2.7 GiB of margin.
+    Spreading AD to `cuda:2` is what makes the extra cards the 11.4 G4 runners request actually
+    relieve card 1 — 11.2 recorded that a third card was inert until this arm existed. Those
+    runners ask for FOUR cards, not three, and the reason is a load the pinning does not control:
+    `run_evaluation.main()` holds C1's and C2's models alive while C3 builds, so six 4-bit loads
+    (~249 GiB) are resident at the peak. A measured probe put the 3-card case at OOM and the
+    4-card case at 66.5 / 69.2 / 69.1 GiB on the pinned cards (jobs 1148895 / 1148924); this
+    function is unchanged either way, since at `device_count() == 4` it still returns (0, 1, 2)
+    and card 3 is the spill space `device_map="auto"` uses for C1/C2. See decisions-log.
+
+    The 2-GPU and 1-GPU returns are deliberately byte-identical to the pre-11.4 function, so
+    every earlier run's device placement is reproducible (guarded by
+    tests/test_condition_builders.py — the "gate the new behaviour, freeze the old" pattern
+    10.6 used for `gradient_checkpointing`).
     """
     import torch
 
-    if torch.cuda.device_count() >= 2:
+    count = torch.cuda.device_count()
+    if count >= 3:
+        return {"": 0}, {"": 1}, {"": 2}
+    if count >= 2:
         return {"": 0}, {"": 1}, {"": 1}
     return None, None, None
 
@@ -65,7 +87,7 @@ def build_condition3(*, neo4j_uri, neo4j_auth, database_name,
     `sl_decoding` keys: `strategy` ("beam"|"sample"), `k` (number of completions; default 5),
     `diversity_penalty` (beam), `temperature`/`top_p` (sample).
     """
-    sl_dm, qg_dm, ad_dm = _device_maps()      # spread co-located HF loads across both V100s
+    sl_dm, qg_dm, ad_dm = _device_maps()      # spread the co-located HF loads across the visible GPUs
 
     sl_llm = build_llm(_with_device(sl_spec, sl_dm))
     qg_llm = build_llm(_with_device(qg_spec, qg_dm))

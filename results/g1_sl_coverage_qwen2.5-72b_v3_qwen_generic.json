@@ -2,7 +2,7 @@
   "model_key": "qwen2.5-72b",
   "dataset_version": "v3",
   "kind": "local",
-  "adapter": "checkpoints/qwen2.5-72b/sl_adapter_v3",
+  "adapter": "checkpoints/qwen2.5-72b/sl_adapter",
   "decoding": {
     "strategy": "beam",
     "diversity_penalty": 0.5,
@@ -10,37 +10,37 @@
   },
   "prompt_style": "completion",
   "n_items": 120,
-  "cov_at_5": 0.7333333333333333,
-  "em_at_1": 0.6833333333333333,
+  "cov_at_5": 0.5833333333333334,
+  "em_at_1": 0.3333333333333333,
   "gate_threshold": 0.6,
-  "gate_passed": true,
+  "gate_passed": false,
   "target": 0.85,
   "per_type": {
     "entity": {
       "n": 20,
       "cov_at_5": 0.45,
-      "em_at_1": 0.45
+      "em_at_1": 0.3
     },
     "intent": {
       "n": 20,
-      "cov_at_5": 0.6,
-      "em_at_1": 0.6
+      "cov_at_5": 0.55,
+      "em_at_1": 0.25
     },
     "null": {
       "n": 40,
-      "cov_at_5": 0.675,
-      "em_at_1": 0.625
+      "cov_at_5": 0.8,
+      "em_at_1": 0.375
     },
     "schema": {
       "n": 20,
-      "cov_at_5": 1.0,
-      "em_at_1": 0.8
+      "cov_at_5": 0.15,
+      "em_at_1": 0.1
     },
     "temporal": {
       "n": 20,
-      "cov_at_5": 1.0,
-      "em_at_1": 1.0
+      "cov_at_5": 0.75,
+      "em_at_1": 0.6
     }
   },
-  "beam_cache": "results/beams_qwen2.5-72b_v3.jsonl"
+  "beam_cache": "results/beams_qwen2.5-72b_v3_qwen_generic.jsonl"
 }

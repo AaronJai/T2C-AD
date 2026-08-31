@@ -1,0 +1,128 @@
+Job 1148936 on k172 at Mon 31 Aug 2026 00:13:11 AWST
+Mon Aug 31 00:13:11 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.57.08              Driver Version: 575.57.08      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100 NVL                Off |   00000000:64:00.0 Off |                    0 |
+| N/A   65C    P0             73W /  400W |       0MiB /  95830MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Wiping /group/pmc084/atan/neo4j_data_pole_external_qwen72_ad and loading from /group/pmc084/atan/dumps/pole-external/neo4j.dump.
+Fresh volume — setting initial password + loading the dump (offline store) BEFORE console
+Changed password for user 'neo4j'. IMPORTANT: this change will only take effect if performed before the database is started for the first time.
+WARNING: The database: neo4j has a deprecated store format: standard. For details on deprecated store formats, see https://neo4j.com/docs/store-format-deprecations.
+Directories in use:
+home:         /var/lib/neo4j
+config:       /var/lib/neo4j/conf
+logs:         /var/lib/neo4j/logs
+plugins:      /var/lib/neo4j/plugins
+import:       /var/lib/neo4j/import
+data:         /var/lib/neo4j/data
+certificates: /var/lib/neo4j/certificates
+licenses:     /var/lib/neo4j/licenses
+run:          /var/lib/neo4j/run
+Starting Neo4j.
+2026-08-30 16:13:18.259+0000 INFO  Logging config in use: File '/var/lib/neo4j/conf/user-logs.xml'
+2026-08-30 16:13:18.273+0000 INFO  Starting...
+2026-08-30 16:13:18.878+0000 INFO  This instance is ServerId{306f30c9} (306f30c9-4250-4ff9-bdfc-8192cf0c413c)
+2026-08-30 16:13:19.657+0000 INFO  ======== Neo4j 5.26.27 ========
+2026-08-30 16:13:21.125+0000 INFO  Anonymous Usage Data is being sent to Neo4j, see https://neo4j.com/docs/usage-data/
+2026-08-30 16:13:21.150+0000 INFO  Bolt enabled on localhost:7687.
+2026-08-30 16:13:22.157+0000 INFO  HTTP enabled on localhost:7474.
+2026-08-30 16:13:22.158+0000 INFO  Remote interface available at http://localhost:7474/
+2026-08-30 16:13:22.160+0000 INFO  id: CFFB48292637FF80252ADA3939E67FED1762D4A96FF23F47998F545D7DE0ACB4
+2026-08-30 16:13:22.160+0000 INFO  name: system
+2026-08-30 16:13:22.160+0000 INFO  creationDate: 2026-08-30T16:13:20.414Z
+2026-08-30 16:13:22.160+0000 INFO  Started.
+Neo4j ready after 2 checks on bolt://localhost:7687.
+── Graph spot-check (expect nodes 61521) ──
+nodes
+61521
+Sampled 10 external-POLE questions; base=Qwen/Qwen2.5-72B sl_adapter=sl_adapter_pole_external decoding={'strategy': 'beam', 'diversity_penalty': 0.5, 'k': 5} ad_backend=base
+  [Q-POLE-I01] SL produced no valid beams (Only 0 parseable in-schema beam(s) among 5 completions; need >= 1.); empty mapping
+  [Q-POLE-I02] SL produced no valid beams (Only 0 parseable in-schema beam(s) among 5 completions; need >= 1.); empty mapping
+
+============ AD CLASSIFICATIONS (pole_external, ad=base:Qwen/Qwen2.5-72B) ============
+
+[Q-POLE-S01] Who has Alan Hicks communicated with digitally?
+  gold: is_ambiguous=True type=schema
+  AD  : is_ambiguous=True detected=['entity']
+  entropy: schema=0.00 entity=1.00
+  rationale: Three distinct Person nodes (nhs_no 881-20-2396, 852-52-0933, and 846-65-7776) share the partial name 'Alan' (high entity score 1.00), and the question gives nothing to tell them apart, so the result 
+
+[Q-POLE-S02] Who has Ann Fox been in digital contact with?
+  gold: is_ambiguous=True type=schema
+  AD  : is_ambiguous=True detected=['entity']
+  entropy: schema=0.00 entity=1.00
+  rationale: Three distinct Person nodes (nhs_no 576-99-9244, 641-52-2437, and 255-89-9885) share the partial name 'Ann Fox' (high entity score 1.00), and the question gives nothing to tell them apart, so the resu
+
+[Q-POLE-E01] What is Andrea George's address?
+  gold: is_ambiguous=True type=entity
+  AD  : is_ambiguous=True detected=['entity']
+  entropy: schema=0.00 entity=1.00
+  rationale: The question asks for Andrea George's address, but there are multiple persons with the name 'Andrea George' in the entity lookup results. The question does not provide any additional information to di
+
+[Q-POLE-E02] What is Anne Rice's address?
+  gold: is_ambiguous=True type=entity
+  AD  : is_ambiguous=True detected=['entity']
+  entropy: schema=0.00 entity=1.00
+  rationale: The question asks for Anne Rice's address, but there are multiple persons named Anne in the entity lookup results. The question does not provide any additional information to disambiguate which Anne i
+
+[Q-POLE-T01] How many crimes happened in area M1 around 11 August 2017?
+  gold: is_ambiguous=True type=temporal
+  AD  : is_ambiguous=True detected=['temporal']
+  entropy: schema=0.00 entity=0.00
+  rationale: 'around 11 August' does not fix a window: same-day-only (26 crimes) and the trailing 7-day window 05-11 Aug (182 crimes) are both reasonable readings of Crime.date and return very different counts. Th
+
+[Q-POLE-T02] How many crimes happened in area M1 around 26 August 2017?
+  gold: is_ambiguous=True type=temporal
+  AD  : is_ambiguous=True detected=['temporal']
+  entropy: schema=0.00 entity=0.00
+  rationale: 'around 26 August' does not fix a window: same-day-only (26 crimes) and the trailing 7-day window 20-26 Aug (182 crimes) are both reasonable readings of Crime.date and return very different counts. Th
+
+[Q-POLE-I01] Which Inspector has investigated the most crimes, aside from Nettles Worthy?
+  gold: is_ambiguous=True type=intent
+  AD  : is_ambiguous=True detected=['intent']
+  entropy: schema=0.00 entity=0.00
+  rationale: Excluding Nettles Worthy (the outright leader) leaves a genuine tie for the remainder (Winonah Skynner and Ricca Miskimmon both n=44); 'aside from X' doesn't say whether to return a single arbitrary t
+
+[Q-POLE-I02] Which Police Constable has investigated the most crimes, aside from Ings Cloe?
+  gold: is_ambiguous=True type=intent
+  AD  : is_ambiguous=False detected=[]
+  entropy: schema=0.00 entity=0.00
+  rationale: No schema candidates were found, indicating that the question does not map to any structurally different Cypher queries. There is no entity ambiguity detected, and no temporal or intent ambiguity is p
+
+[Q-POLE-U01] What rank does the officer with badge number 80-1015383 hold?
+  gold: is_ambiguous=False type=null
+  AD  : is_ambiguous=False detected=[]
+  entropy: schema=0.00 entity=0.00
+  rationale: The question is unambiguous. It clearly asks for the rank of the officer with a specific badge number. There is no schema ambiguity as the node type is clearly Officer, and there is no entity ambiguit
+
+[Q-POLE-U02] What is the surname of the officer with badge number 70-0643982?
+  gold: is_ambiguous=False type=null
+  AD  : is_ambiguous=False detected=[]
+  entropy: schema=0.00 entity=0.00
+  rationale: The question is unambiguous. It specifies the node label (Officer) and the badge number (70-0643982), which uniquely identifies the officer. There is no schema, entity, intent, or temporal ambiguity.
+
+============ SUMMARY (pole_external, ad=base:Qwen/Qwen2.5-72B) ============
+  binary detection: correct 9/10
+  TP=7 FP=0 FN=1 TN=2
+  (base-Mistral AD detection counts on the external graph; the API-AD swap is the
+   documented path to higher recall — mirrors 3.4/7.5's finding.)
+Finished at Mon 31 Aug 2026 00:20:39 AWST
+Stopping neo4j (pid 1135840) at Mon 31 Aug 2026 00:20:39 AWST
+2026-08-30 16:20:39.532+0000 INFO  Neo4j Server shutdown initiated by request
+2026-08-30 16:20:39.534+0000 INFO  Stopping...
+2026-08-30 16:20:50.000+0000 INFO  Stopped.

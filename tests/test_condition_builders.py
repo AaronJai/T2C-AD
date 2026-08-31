@@ -261,3 +261,64 @@ def test_condition3_caller_ad_spec_passed_through_without_device(patched, monkey
     api_specs = [s for s in specs if s["backend"] == "anthropic"]
     assert len(api_specs) == 1
     assert "device_map" not in api_specs[0]                  # API spec untouched
+
+
+# ── 11.4: the ≥3-GPU arm of _device_maps(), with the old returns frozen ─────────────
+# The 72B's MEASURED 42.5 GiB per 4-bit load (11.2 leg 1) puts QG + AD on one card at ~85 GiB
+# of weights before any KV cache, and C3 decodes beam_k=5 group beams. The new arm gives the AD
+# cuda:2; the 2- and 1-GPU returns must stay byte-identical so every earlier run's placement is
+# reproducible ("gate the new behaviour, freeze the old" — 10.6's gradient_checkpointing pattern).
+def test_device_maps_returns_are_frozen_below_three_gpus(monkeypatch):
+    """The 1- and 2-GPU tuples are exactly what they were before the ≥3 arm existed."""
+    import torch
+    monkeypatch.setattr(torch.cuda, "device_count", lambda: 2)
+    assert c3mod._device_maps() == ({"": 0}, {"": 1}, {"": 1})
+
+    monkeypatch.setattr(torch.cuda, "device_count", lambda: 1)
+    assert c3mod._device_maps() == (None, None, None)
+
+    monkeypatch.setattr(torch.cuda, "device_count", lambda: 0)      # CPU / test machine
+    assert c3mod._device_maps() == (None, None, None)
+
+
+def test_device_maps_gives_the_ad_its_own_card_on_three_gpus(monkeypatch):
+    """≥3 GPUs → SL cuda:0, QG cuda:1, AD cuda:2 — the third card actually relieves card 1."""
+    import torch
+    monkeypatch.setattr(torch.cuda, "device_count", lambda: 3)
+    assert c3mod._device_maps() == ({"": 0}, {"": 1}, {"": 2})
+
+    monkeypatch.setattr(torch.cuda, "device_count", lambda: 4)      # k172 has four H100 NVLs
+    assert c3mod._device_maps() == ({"": 0}, {"": 1}, {"": 2})
+
+
+def test_condition3_pins_ad_to_third_card_when_three_gpus(patched, monkeypatch):
+    """The 11.4 G4 shape end to end: three HF loads, one per card, no two sharing."""
+    import torch
+    specs = patched
+    monkeypatch.setattr(torch.cuda, "device_count", lambda: 3)
+    c3mod.build_condition3(
+        neo4j_uri="bolt://x", neo4j_auth=("u", "p"), database_name=None,
+        base_spec=dict(_HF), sl_spec=dict(_HF_SL), qg_spec=dict(_HF_QG), schema=_SCHEMA,
+        sl_decoding=dict(_BEAM),
+    )
+    by_adapter = {s.get("peft_adapter_path"): s for s in specs}
+    assert by_adapter["sl"]["device_map"] == {"": 0}
+    assert by_adapter["qg"]["device_map"] == {"": 1}
+    assert by_adapter[None]["device_map"] == {"": 2}     # default base AD, own card now
+    cards = [s["device_map"][""] for s in specs if s["backend"] == "huggingface"]
+    assert sorted(cards) == [0, 1, 2]                    # no card holds two 42.5 GiB loads
+
+
+def test_condition3_api_ad_spec_still_untouched_on_three_gpus(patched, monkeypatch):
+    """A caller-supplied API ad_spec has no local load, so the new arm must not pin it."""
+    import torch
+    specs = patched
+    monkeypatch.setattr(torch.cuda, "device_count", lambda: 3)
+    c3mod.build_condition3(
+        neo4j_uri="bolt://x", neo4j_auth=("u", "p"), database_name=None,
+        base_spec=dict(_HF), sl_spec=dict(_HF_SL), qg_spec=dict(_HF_QG), schema=_SCHEMA,
+        sl_decoding=dict(_BEAM),
+        ad_spec={"backend": "anthropic", "model": "claude"},
+    )
+    api_specs = [s for s in specs if s["backend"] == "anthropic"]
+    assert len(api_specs) == 1 and "device_map" not in api_specs[0]

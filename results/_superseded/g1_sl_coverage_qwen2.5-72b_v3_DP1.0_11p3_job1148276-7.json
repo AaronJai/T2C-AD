@@ -5,7 +5,7 @@
   "adapter": "checkpoints/qwen2.5-72b/sl_adapter_v3",
   "decoding": {
     "strategy": "beam",
-    "diversity_penalty": 0.5,
+    "diversity_penalty": 1.0,
     "k": 5
   },
   "prompt_style": "completion",

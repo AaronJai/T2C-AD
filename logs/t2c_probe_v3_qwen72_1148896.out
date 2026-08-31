@@ -1,0 +1,31 @@
+Job 1148896 on k172 at Sun 30 Aug 2026 23:49:34 AWST
+Sun Aug 30 23:49:34 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.57.08              Driver Version: 575.57.08      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100 NVL                Off |   00000000:82:00.0 Off |                    0 |
+| N/A   34C    P0             63W /  400W |       0MiB /  95830MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Loaded 120 cached beam records from results/beams_qwen2.5-72b_v3.jsonl.
+
+decoding = {'strategy': 'beam', 'diversity_penalty': 0.5, 'k': 5}   (k=5)
+            signal | POLE-SFT AUC |  prior
+ h_norm_candidates |        0.643 |  0.622
+      h_norm_beams |        0.643 |  0.624
+top_beam_dominance |        0.637 |  0.625
+
+POLE-SFT entropy AUC (0.643) improves over the ~0.62 general-model baseline: POLE-specific fine-tuning sharpens the schema-entropy->ambiguity signal, so the Bayesian scorer (3.3) is a usable secondary input to the Ambiguity Detector. Ablations remain flat (spread 0.005 <= 0.01): the scoring function is not the bottleneck (beam diversity is), so 3.3 may use the simplest scorer (normalised entropy) without loss.
+Finished at Sun 30 Aug 2026 23:49:54 AWST

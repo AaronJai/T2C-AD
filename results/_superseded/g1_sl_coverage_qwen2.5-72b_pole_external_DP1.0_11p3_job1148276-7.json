@@ -4,11 +4,11 @@
   "adapter": "checkpoints/qwen2.5-72b/sl_adapter_pole_external",
   "decoding": {
     "strategy": "beam",
-    "diversity_penalty": 0.5,
+    "diversity_penalty": 1.0,
     "k": 5
   },
   "n_items": 100,
-  "cov_at_5": 0.77,
+  "cov_at_5": 0.75,
   "em_at_1": 0.71,
   "gate_threshold": 0.6,
   "gate_passed": true,
@@ -26,7 +26,7 @@
     },
     "null": {
       "n": 20,
-      "cov_at_5": 0.95,
+      "cov_at_5": 0.9,
       "em_at_1": 0.9
     },
     "schema": {
@@ -36,7 +36,7 @@
     },
     "temporal": {
       "n": 20,
-      "cov_at_5": 0.8,
+      "cov_at_5": 0.75,
       "em_at_1": 0.7
     }
   },

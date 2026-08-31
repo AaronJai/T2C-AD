@@ -1,0 +1,32 @@
+{
+  "beam_k": 5,
+  "decoding": {
+    "strategy": "beam",
+    "diversity_penalty": 0.5,
+    "k": 5
+  },
+  "diversity_penalty": 0.5,
+  "baseline_auc": 0.62,
+  "headline_signal": "h_norm_candidates",
+  "auc_table": [
+    {
+      "signal": "h_norm_candidates",
+      "pole_sft_auc": 0.64265625,
+      "prior_general_auc": 0.622
+    },
+    {
+      "signal": "h_norm_beams",
+      "pole_sft_auc": 0.64265625,
+      "prior_general_auc": 0.624
+    },
+    {
+      "signal": "top_beam_dominance",
+      "pole_sft_auc": 0.6375,
+      "prior_general_auc": 0.625
+    }
+  ],
+  "ablation_spread": 0.005156250000000084,
+  "ablations_flat": true,
+  "headline_improves_over_baseline": true,
+  "finding": "POLE-SFT entropy AUC (0.643) improves over the ~0.62 general-model baseline: POLE-specific fine-tuning sharpens the schema-entropy->ambiguity signal, so the Bayesian scorer (3.3) is a usable secondary input to the Ambiguity Detector. Ablations remain flat (spread 0.005 <= 0.01): the scoring function is not the bottleneck (beam diversity is), so 3.3 may use the simplest scorer (normalised entropy) without loss."
+}

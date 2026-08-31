@@ -1,0 +1,51 @@
+# config/pipeline_v3_qwen72.yaml — 11.4: run the WHOLE pipeline against the v3 ("custom") POLE
+# benchmark with the FINE-TUNED Qwen2.5-72B (11.3), adding the THIRD point on the model-scale
+# axis beside 7.5's mistral-7B-SFT and 10.7's qwen-32B-SFT columns.
+#
+# Standalone copy of the pipeline config shape (7.3/9.3 convention — never mutate the shared
+# config/pipeline.yaml). Differs from its canonical LOCAL counterpart config/pipeline_v3_qwen.yaml
+# in EXACTLY TWO VALUES (asserted key-set-wise by 11.4's G0 diff):
+#   active_model: qwen2.5-72b   (loads checkpoints/qwen2.5-72b/{sl,qg}_adapter_v3 via the
+#                                adapter_suffix_for_version("v3") == "_v3" the 11.3 Stage-2
+#                                continue-SFT adapters were saved to)
+#   results_tag:  v3_qwen72     (distinct from v3_qwen / v3_qgprops / v3 / v3_localdb)
+#
+# Run: sbatch kaya/116_run_evaluation_v3_qwen72.slurm  (3x H100 + its own background v3 Neo4j)
+
+neo4j:
+  uri: "bolt://localhost:7687"          # the 70_neo4j_v3 graph; the runner injects a per-job Bolt port
+  user: "neo4j"
+  # password via env var NEO4J_PASSWORD (do not commit real credentials) — the Kaya runner
+  # exports NEO4J_PASSWORD before invoking run_evaluation.
+  database: "neo4j"
+
+dataset_version: v3
+results_tag: v3_qwen72                  # -> results/{tables,metrics,qual_records}_qwen2.5-72b_v3_qwen72.*
+
+models_registry: "config/models.yaml"
+active_model: "qwen2.5-72b"             # LOCAL — base Qwen/Qwen2.5-72B (4-bit/fp16, inherited from the
+                                        # 10.5 lock and MEASURED by the 11.2 fit-test at 42.5 GiB/load)
+                                        # + the 11.3 `_v3` SL/QG adapters.
+
+ad: null                                # null -> base Qwen-72B as the AD (the documented default; matches
+dis: null                               # null -> shares the AD backend        every prior local column.
+                                        # A stronger ad/dis swap is the documented optional lever.)
+
+benchmark: "data/benchmark-v3.json"
+schema_linker_inference: "config/schema_linker_inference.yaml"   # reads decoding[qwen2.5-72b]
+                                        # (added by 11.4; beam, k=5). run_evaluation FAILS LOUDLY if the
+                                        # block is missing — it never silently defaults.
+use_embedding_model: true
+
+# QG properties block: REQUIRED on the local "completion" path. QueryGenerator derives
+# include_properties from prompt_style, so a local model gets False unless overridden and the QG
+# would never see the schema's property names. decisions-log 2026-07-17 reframed properties-off as
+# a DEFECT (not an experimental condition) and made True the canonical local configuration; 10.4
+# re-learned it the hard way on the external substrate (decisions-log 2026-08-22, job 1101275
+# superseded). 14 of the v3 schema's 24 properties appear ZERO times in data/pole_qg_train.jsonl,
+# so for those names the prompt is the QG's only source. Because the defect has now been
+# introduced twice by copying a config, 11.4 adds a THIRD, permanent layer beside this step's G0
+# key-set diff and kaya/116's runtime assert: tests/test_pipeline_configs.py fails offline for any
+# config/pipeline*.yaml whose active_model is a `kind: local` registry entry without this key.
+qg_include_properties: true
+results_dir: "results/"

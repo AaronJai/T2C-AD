@@ -1,44 +1,44 @@
 {
   "model_key": "qwen2.5-72b",
   "dataset_version": "pole_external",
-  "adapter": "checkpoints/qwen2.5-72b/sl_adapter_pole_external",
+  "adapter": "checkpoints/qwen2.5-72b/sl_adapter",
   "decoding": {
     "strategy": "beam",
     "diversity_penalty": 0.5,
     "k": 5
   },
   "n_items": 100,
-  "cov_at_5": 0.77,
-  "em_at_1": 0.71,
+  "cov_at_5": 0.4,
+  "em_at_1": 0.23,
   "gate_threshold": 0.6,
-  "gate_passed": true,
+  "gate_passed": false,
   "target": 0.85,
   "per_type": {
     "entity": {
       "n": 20,
-      "cov_at_5": 0.95,
+      "cov_at_5": 1.0,
       "em_at_1": 0.95
     },
     "intent": {
       "n": 20,
-      "cov_at_5": 0.35,
-      "em_at_1": 0.3
+      "cov_at_5": 0.25,
+      "em_at_1": 0.0
     },
     "null": {
       "n": 20,
-      "cov_at_5": 0.95,
-      "em_at_1": 0.9
+      "cov_at_5": 0.45,
+      "em_at_1": 0.2
     },
     "schema": {
       "n": 20,
-      "cov_at_5": 0.8,
-      "em_at_1": 0.7
+      "cov_at_5": 0.3,
+      "em_at_1": 0.0
     },
     "temporal": {
       "n": 20,
-      "cov_at_5": 0.8,
-      "em_at_1": 0.7
+      "cov_at_5": 0.0,
+      "em_at_1": 0.0
     }
   },
-  "beam_cache": "results/beams_qwen2.5-72b_pole_external.jsonl"
+  "beam_cache": "results/beams_qwen2.5-72b_pole_external_qwen_generic.jsonl"
 }

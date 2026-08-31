@@ -1,0 +1,55 @@
+# config/pipeline_pole_external_qwen72.yaml — 11.4: run the WHOLE pipeline against the EXTERNAL
+# POLE benchmark (data/benchmark-pole-external.json, 9.2/10.1) with the FINE-TUNED Qwen2.5-72B
+# (11.3), adding the third scale point to the model x dataset matrix: mistral-7B(SFT) |
+# claude-sonnet(instruct) | qwen-32B(SFT) | qwen-72B(SFT) on a graph the student did not author.
+#
+# Standalone copy of the pipeline config shape (7.3/9.3 convention — never mutate the shared
+# config/pipeline.yaml). Differs from its canonical LOCAL counterpart
+# config/pipeline_pole_external_qwen.yaml in EXACTLY TWO VALUES (asserted key-set-wise by 11.4's
+# G0 diff):
+#   active_model: qwen2.5-72b        (loads checkpoints/qwen2.5-72b/{sl,qg}_adapter_pole_external
+#                                     via adapter_suffix_for_version("pole_external"))
+#   results_tag:  pole_external_qwen72
+#
+# Run: sbatch kaya/117_run_evaluation_pole_external_qwen72.slurm  (3x H100 + background external Neo4j)
+
+neo4j:
+  uri: "bolt://localhost:7687"       # the 10.1 external-POLE graph, on this GPU job's node
+  user: "neo4j"
+  # password via env var NEO4J_PASSWORD (do not commit real credentials) — the Kaya runner
+  # exports NEO4J_PASSWORD before invoking run_evaluation.
+  database: "neo4j"
+
+dataset_version: pole_external
+results_tag: pole_external_qwen72          # -> results/{tables,metrics,qual_records}_qwen2.5-72b_pole_external_qwen72.*
+                                           # (distinct from 10.7's *_qwen2.5-32b_pole_external_qwen.*,
+                                           #  9.3's *_claude-sonnet_pole_external_local.* and 10.4's
+                                           #  *_mistral7b_pole_external_mistral.*)
+
+models_registry: "config/models.yaml"
+active_model: "qwen2.5-72b"                # LOCAL — base Qwen/Qwen2.5-72B (4-bit/fp16, inherited from the
+                                           # 10.5 lock and MEASURED by the 11.2 fit-test at 42.5 GiB/load)
+                                           # + the 11.3 `_pole_external` adapters.
+
+ad: null                                   # null -> base Qwen-72B as the AD (the documented default;
+dis: null                                  # null -> shares the AD backend     matches 10.4/10.7's runs)
+
+benchmark: "data/benchmark-pole-external.json"
+schema_linker_inference: "config/schema_linker_inference.yaml"   # reads decoding[qwen2.5-72b]
+                                           # (added by 11.4; beam, k=5). The G2a sweep CLI accepts only
+                                           # --dataset_version v2|v3, so — exactly as in 10.4/10.7 — this
+                                           # substrate REUSES the penalty the v3 sweep locks, as a
+                                           # documented pragmatic default. 11.3's full-benchmark
+                                           # Cov@5=0.750 at dp=1.0 on this adapter/schema confirms it is
+                                           # not decoding-limited. A dedicated re-sweep is future work.
+use_embedding_model: true
+
+# QG properties block: REQUIRED on the local "completion" path — see the identical note in
+# config/pipeline_pole_external_qwen.yaml. decisions-log 2026-08-22: omitting this key is the defect
+# that superseded 10.4's first G4 run (job 1101275); 4 of this schema's 27 properties — incl.
+# `nhs_no` — appear ZERO times in data/pole_ext_qg_train_mixed.jsonl, so the prompt is their only
+# possible source. Both Qwen-72B substrates set it, so this column is properties-ON like every other
+# local column (single-factor comparability). 11.4 makes this an executable invariant:
+# tests/test_pipeline_configs.py fails offline for any local-model config/pipeline*.yaml missing it.
+qg_include_properties: true
+results_dir: "results/"

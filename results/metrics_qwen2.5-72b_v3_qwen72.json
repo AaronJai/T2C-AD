@@ -1,0 +1,98 @@
+{
+  "baseline": {
+    "ex": 0.058333333333333334,
+    "ea": 0.075,
+    "kg_valid_pct": 0.9,
+    "syntax_pct": 0.9833333333333333,
+    "schema_pct": 1.0,
+    "pass_at_1": 0.058333333333333334,
+    "ambiguous_ea": 0.0375,
+    "dsr": NaN,
+    "detection_f1": NaN,
+    "detection_prec": NaN,
+    "detection_rec": NaN,
+    "per_type_ea": {
+      "schema": 0.0,
+      "entity": 0.0,
+      "intent": 0.05,
+      "temporal": 0.1
+    },
+    "n_total": 120,
+    "n_ambiguous": 80,
+    "per_type_n": {
+      "schema": 20,
+      "entity": 20,
+      "intent": 20,
+      "temporal": 20
+    },
+    "initial_valid_pct": 0.8583333333333333,
+    "post_cyver_valid_pct": 0.9,
+    "structural_repair_pct": 0.29411764705882354,
+    "semantic_repair_pct": 0.0,
+    "avg_iterations": 0.2916666666666667
+  },
+  "schema_grounded": {
+    "ex": 0.19166666666666668,
+    "ea": 0.35,
+    "kg_valid_pct": 0.775,
+    "syntax_pct": 0.8416666666666667,
+    "schema_pct": 1.0,
+    "pass_at_1": 0.18333333333333332,
+    "ambiguous_ea": 0.35,
+    "dsr": NaN,
+    "detection_f1": NaN,
+    "detection_prec": NaN,
+    "detection_rec": NaN,
+    "per_type_ea": {
+      "schema": 0.3,
+      "entity": 0.2,
+      "intent": 0.3,
+      "temporal": 0.6
+    },
+    "n_total": 120,
+    "n_ambiguous": 80,
+    "per_type_n": {
+      "schema": 20,
+      "entity": 20,
+      "intent": 20,
+      "temporal": 20
+    },
+    "initial_valid_pct": 0.7333333333333333,
+    "post_cyver_valid_pct": 0.775,
+    "structural_repair_pct": 0.15625,
+    "semantic_repair_pct": 0.0,
+    "avg_iterations": 0.225
+  },
+  "disambiguation_enhanced": {
+    "ex": 0.20833333333333334,
+    "ea": 0.44166666666666665,
+    "kg_valid_pct": 0.8166666666666667,
+    "syntax_pct": 0.9083333333333333,
+    "schema_pct": 1.0,
+    "pass_at_1": 0.15,
+    "ambiguous_ea": 0.45,
+    "dsr": 0.2,
+    "detection_f1": 0.41739130434782606,
+    "detection_prec": 0.6857142857142857,
+    "detection_rec": 0.3,
+    "per_type_ea": {
+      "schema": 0.3,
+      "entity": 0.65,
+      "intent": 0.25,
+      "temporal": 0.6
+    },
+    "n_total": 120,
+    "n_ambiguous": 80,
+    "per_type_n": {
+      "schema": 20,
+      "entity": 20,
+      "intent": 20,
+      "temporal": 20
+    },
+    "initial_valid_pct": 0.75,
+    "post_cyver_valid_pct": 0.8166666666666667,
+    "structural_repair_pct": 0.26666666666666666,
+    "semantic_repair_pct": 0.06,
+    "avg_iterations": 0.2833333333333333
+  }
+}

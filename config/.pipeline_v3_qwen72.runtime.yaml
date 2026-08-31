@@ -1,0 +1,15 @@
+neo4j:
+  uri: bolt://localhost:28937
+  user: neo4j
+  database: neo4j
+dataset_version: v3
+results_tag: v3_qwen72
+models_registry: config/models.yaml
+active_model: qwen2.5-72b
+ad: null
+dis: null
+benchmark: data/benchmark-v3.json
+schema_linker_inference: config/schema_linker_inference.yaml
+use_embedding_model: true
+qg_include_properties: true
+results_dir: results/

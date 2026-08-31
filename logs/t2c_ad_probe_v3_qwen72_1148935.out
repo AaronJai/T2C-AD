@@ -1,0 +1,122 @@
+Job 1148935 on k172 at Mon 31 Aug 2026 00:04:59 AWST
+Mon Aug 31 00:04:59 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.57.08              Driver Version: 575.57.08      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100 NVL                Off |   00000000:64:00.0 Off |                    0 |
+| N/A   54C    P0             66W /  400W |       0MiB /  95830MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+                                                                                         
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+Wiping v3 volume /group/pmc084/atan/neo4j_data_v3_qwen72_ad and reloading data/SyntheticPoliceKG-v3.cypher (Bolt bolt://localhost:7687).
+Changed password for user 'neo4j'. IMPORTANT: this change will only take effect if performed before the database is started for the first time.
+Directories in use:
+home:         /var/lib/neo4j
+config:       /var/lib/neo4j/conf
+logs:         /var/lib/neo4j/logs
+plugins:      /var/lib/neo4j/plugins
+import:       /var/lib/neo4j/import
+data:         /var/lib/neo4j/data
+certificates: /var/lib/neo4j/certificates
+licenses:     /var/lib/neo4j/licenses
+run:          /var/lib/neo4j/run
+Starting Neo4j.
+2026-08-30 16:05:04.937+0000 INFO  Logging config in use: File '/var/lib/neo4j/conf/user-logs.xml'
+2026-08-30 16:05:04.951+0000 INFO  Starting...
+2026-08-30 16:05:05.576+0000 INFO  This instance is ServerId{e5ffeda0} (e5ffeda0-6b6f-4d86-9279-0e9816778ba3)
+2026-08-30 16:05:06.421+0000 INFO  ======== Neo4j 5.26.27 ========
+2026-08-30 16:05:07.883+0000 INFO  Anonymous Usage Data is being sent to Neo4j, see https://neo4j.com/docs/usage-data/
+2026-08-30 16:05:07.908+0000 INFO  Bolt enabled on localhost:7687.
+2026-08-30 16:05:08.807+0000 INFO  HTTP enabled on localhost:7474.
+2026-08-30 16:05:08.808+0000 INFO  Remote interface available at http://localhost:7474/
+2026-08-30 16:05:08.809+0000 INFO  id: 36C40ECC86EF98DA88EAD4113373E0C13467B683E4014D9490E06DA54CFB6420
+2026-08-30 16:05:08.810+0000 INFO  name: system
+2026-08-30 16:05:08.810+0000 INFO  creationDate: 2026-08-30T16:05:07.183Z
+2026-08-30 16:05:08.810+0000 INFO  Started.
+Neo4j ready after 2 checks on bolt://localhost:7687.
+Loading data/SyntheticPoliceKG-v3.cypher
+v3 graph loaded.
+Sampled 10 v3 questions; sl_kind=local base=Qwen/Qwen2.5-72B sl_adapter=sl_adapter_v3 decoding={'strategy': 'beam', 'diversity_penalty': 0.5, 'k': 5} ad_backend=base
+
+============ AD CLASSIFICATIONS (v3, ad=base:Qwen/Qwen2.5-72B) ============
+
+[Q-041] Show people connected to the Northbridge robbery.
+  gold: is_ambiguous=True type=schema
+  AD  : is_ambiguous=False detected=[]
+  entropy: schema=0.00 entity=0.00
+  rationale: The phrase 'connected to' is resolved to the SUSPECTED_OF edge with a score of 1.00, indicating no schema ambiguity. There is no entity ambiguity detected, and the schema and entity ambiguity scores a
+
+[Q-042] Who is involved in the Cannington homicide?
+  gold: is_ambiguous=True type=schema
+  AD  : is_ambiguous=False detected=[]
+  entropy: schema=0.00 entity=0.00
+  rationale: The question is not ambiguous. The schema candidate distribution shows that the relationship type (Person)-[:SUSPECTED_OF]->(Incident) has a score of 1.00, indicating that it is the only valid relatio
+
+[Q-061] What is Tran's current address?
+  gold: is_ambiguous=True type=entity
+  AD  : is_ambiguous=True detected=['entity']
+  entropy: schema=0.00 entity=1.00
+  rationale: The question asks for Tran's current address, but there are two distinct Person nodes (PER-002, PER-031) that match 'Tran'. The question does not provide any additional information to disambiguate bet
+
+[Q-062] Where does Kim currently live?
+  gold: is_ambiguous=True type=entity
+  AD  : is_ambiguous=True detected=['entity']
+  entropy: schema=0.00 entity=1.00
+  rationale: The question asks for the current location of 'Kim', but there are two distinct Person nodes (PER-006, PER-009) that match 'Kim'. The question does not provide any additional information to disambigua
+
+[Q-101] Where does James Whitfield live?
+  gold: is_ambiguous=True type=temporal
+  AD  : is_ambiguous=True detected=['entity']
+  entropy: schema=0.00 entity=1.00
+  rationale: The question is ambiguous due to entity ambiguity. The entity lookup results show that 'James Whitfield' matches two distinct Person nodes (PER-007 and PER-015) with a perfect match score of 1.00. The
+
+[Q-102] Where does Lina Petrova live?
+  gold: is_ambiguous=True type=temporal
+  AD  : is_ambiguous=False detected=[]
+  entropy: schema=0.00 entity=0.00
+  rationale: The question is unambiguous. The schema candidate distribution shows a single relationship type (LIVES_AT) and node labels (Person and Location) with a score of 1.00, indicating no ambiguity in the sc
+
+[Q-081] Tell me about the suspects in the Lake Street drug offence.
+  gold: is_ambiguous=True type=intent
+  AD  : is_ambiguous=False detected=[]
+  entropy: schema=0.00 entity=0.00
+  rationale: The question is unambiguous. The phrase 'suspects in' maps directly to the relationship (Person)-[:SUSPECTED_OF]->(Incident) with a score of 1.00, indicating no schema ambiguity. There are no entity a
+
+[Q-082] What about the incidents in Northbridge?
+  gold: is_ambiguous=True type=intent
+  AD  : is_ambiguous=True detected=['entity']
+  entropy: schema=0.00 entity=1.00
+  rationale: The question asks about incidents in Northbridge, but there are three distinct Location nodes (LOC-001, LOC-002, LOC-006) that match 'Northbridge'. The question does not provide any additional informa
+
+[Q-001] Who is suspected of the homicide?
+  gold: is_ambiguous=False type=null
+  AD  : is_ambiguous=False detected=[]
+  entropy: schema=0.00 entity=0.00
+  rationale: The question is unambiguous. The phrase 'suspected of' maps directly to the relationship type (Person)-[:SUSPECTED_OF]->(Incident) with a score of 1.00, indicating no schema ambiguity. There are no en
+
+[Q-002] Which officers are investigating the homicide?
+  gold: is_ambiguous=False type=null
+  AD  : is_ambiguous=False detected=[]
+  entropy: schema=0.00 entity=0.00
+  rationale: The question is unambiguous. The schema candidate distribution shows a clear mapping to the relationship type (INVESTIGATES) and node labels (Incident and Person). There is no entity ambiguity detecte
+
+============ SUMMARY (v3, ad=base:Qwen/Qwen2.5-72B) ============
+  binary detection: correct 6/10
+  TP=4 FP=0 FN=4 TN=2
+  non-zero schema_entropy on ambiguous items is the 7.4/7.3 signal G3 checks for.
+Finished at Mon 31 Aug 2026 00:12:56 AWST
+Stopping neo4j (pid 1134460) at Mon 31 Aug 2026 00:12:56 AWST
+2026-08-30 16:12:56.636+0000 INFO  Neo4j Server shutdown initiated by request
+2026-08-30 16:12:56.638+0000 INFO  Stopping...
+2026-08-30 16:13:07.103+0000 INFO  Stopped.

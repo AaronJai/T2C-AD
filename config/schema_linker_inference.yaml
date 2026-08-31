@@ -21,4 +21,21 @@ decoding:
     strategy: beam
     diversity_penalty: 1.0
     k: 5
+  # qwen2.5-72b (11.4). Added so run_evaluation resolves an EXPLICIT block for the 72B runs
+  # instead of falling through to the flat `diversity_penalty` mirror below (11.3's G1 cov-checks
+  # used that fallback at dp=1.0). Seeded at dp=1.0 and then **RE-LOCKED TO dp=0.5** by 11.4's
+  # G2a sweep on the v3 substrate (kaya/112_sweep_v3_qwen72.slurm, job 1148406): over 120 items,
+  # dp 0.2/0.5/1.0 gave entropy AUC 0.630/0.643/0.556 at Cov@5 0.725/0.733/0.733 and 0.000
+  # hallucination throughout. No penalty cleared the 0.85 Cov guardrail, so the fallback rule
+  # picked best (Cov@5, AUC) — a Cov tie at 0.733 broken by AUC. This is the FIRST model whose
+  # sweep moved the penalty off 1.0 (mistral7b and qwen2.5-32b both re-locked 1.0), and dp=0.5's
+  # AUC 0.643 is also the first to clear criterion #6's 0.62 bar. See decisions-log 2026-08-30.
+  # The sweep writes to a SCRATCH copy and only this block is merged back, so the mistral7b /
+  # qwen2.5-32b / claude-sonnet locks and the flat mirror are provably untouched (git-diff
+  # verified: 12 insertions, 0 deletions). The external substrate reuses whatever is locked here:
+  # the sweep CLI accepts only --dataset_version v2|v3, so it is not re-swept there (10.4/10.7).
+  qwen2.5-72b:
+    strategy: beam
+    diversity_penalty: 0.5
+    k: 5
 diversity_penalty: 1.0
