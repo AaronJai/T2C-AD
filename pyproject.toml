@@ -25,6 +25,8 @@ dependencies = [
     "bitsandbytes",    # 4-bit QLoRA quantisation (lazy; SFT GPU run)
     # 3.2 — Entity Lookup
     "rapidfuzz",       # fuzzy match of mention spans against live KG node names
+    # 11.5 — paired bootstrap CIs (experiments/bootstrap_ci.py)
+    "numpy",           # vectorised resampling: B=10,000 x n index draws per stratum
     # 4.1 — Semantic Evaluator
     "sentence-transformers",  # cosine fallback for free-text result fields (optional; injected by callers).
                               # Module imports torch only; the caller (5.x) builds the SentenceTransformer.
