@@ -1,0 +1,140 @@
+<svg viewBox="0 0 1000 900" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t1 d1">
+<title id="t1">Pipeline step-through: Q-105, temporal ambiguity, C2 vs C3</title>
+<desc id="d1">Q-105 "Who owns the Ford Ranger?" is gold-labelled temporal ambiguity. C2 (schema_grounded) has no Ambiguity Detector or Disambiguator: it runs Schema Linker then straight to Query Generator, producing an unfiltered OWNS query that returns both the current and previous owner, matching a valid but non-default interpretation. C3 (disambiguation_enhanced) additionally runs the Ambiguity Detector, which flags the OWNS relationship's active/from_date/to_date properties as temporally ambiguous, and the Disambiguator, which commits to the current-owner reading. The resulting query adds an active:true filter and matches the benchmark's default interpretation.</desc>
+<style>
+  .box { fill: #ffffff; stroke: #d0d5dd; stroke-width: 1.5; }
+  .box-strong { stroke: #667085; stroke-width: 2; }
+  .box-accent { stroke: #2563eb; stroke-width: 2.25; }
+  .box-skip { fill: #f9fafb; stroke: #d0d5dd; stroke-width: 1.25; stroke-dasharray: 5 4; }
+  .pill { fill: #eef2ff; stroke: #d0d5dd; stroke-width: 1; }
+  .eyebrow { font-family: Arial, sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.5px; fill: #667085; text-transform: uppercase; }
+  .h1 { font-family: Arial, sans-serif; font-size: 15px; font-weight: 700; fill: #101828; }
+  .lane { font-family: Arial, sans-serif; font-size: 12.5px; font-weight: 700; fill: #101828; }
+  .lane-accent { font-family: Arial, sans-serif; font-size: 12.5px; font-weight: 700; fill: #2563eb; }
+  .body { font-family: Arial, sans-serif; font-size: 11px; fill: #344054; }
+  .body-muted { font-family: Arial, sans-serif; font-size: 11px; font-style: italic; fill: #667085; }
+  .code { font-family: "Courier New", monospace; font-size: 10.5px; fill: #344054; }
+  .verdict-bad { font-family: Arial, sans-serif; font-size: 13px; font-weight: 700; fill: #344054; }
+  .verdict-good { font-family: Arial, sans-serif; font-size: 13px; font-weight: 700; fill: #2563eb; }
+  .arrow { stroke: #667085; stroke-width: 1.5; fill: none; }
+  .footer { font-family: Arial, sans-serif; font-size: 9.5px; fill: #667085; }
+</style>
+<defs>
+  <marker id="arrow1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M0,0 L10,5 L0,10 z" fill="#667085"/>
+  </marker>
+</defs>
+
+<rect width="1000" height="900" fill="#ffffff"/>
+
+<!-- Question banner -->
+<rect x="40" y="20" width="920" height="70" rx="10" class="box box-strong"/>
+<text x="60" y="40" class="eyebrow">QUESTION &#183; gold ambiguity_type: temporal</text>
+<text x="60" y="63" class="h1">Q-105 &#8212; &#8220;Who owns the Ford Ranger?&#8221;</text>
+<text x="60" y="81" class="body">Gold default: the vehicle&#8217;s CURRENT owner (active:true) &#8212; not all owners past and present.</text>
+
+<!-- Lane headers -->
+<rect x="40" y="104" width="448" height="30" rx="15" class="box"/>
+<text x="264" y="123" text-anchor="middle" class="lane">C2 &#8212; schema_grounded</text>
+<rect x="512" y="104" width="448" height="30" rx="15" class="box box-accent"/>
+<text x="736" y="123" text-anchor="middle" class="lane-accent">C3 &#8212; disambiguation_enhanced</text>
+
+<!-- Schema Linker -->
+<rect x="40" y="146" width="448" height="100" rx="10" class="box"/>
+<text x="60" y="164" class="eyebrow">SCHEMA LINKER (own run, temperature-sampled)</text>
+<text x="60" y="184" class="body">Top-1 mapping: OWNS, no temporal qualifier &#8212;</text>
+<text x="60" y="200" class="code">(p:Person)-[:OWNS]-&gt;(v:Vehicle)</text>
+<text x="60" y="222" class="body-muted">A property filter like active:true isn&#8217;t a schema-link candidate.</text>
+
+<rect x="512" y="146" width="448" height="100" rx="10" class="box box-accent"/>
+<text x="532" y="164" class="eyebrow">SCHEMA LINKER (own run, temperature-sampled)</text>
+<text x="532" y="184" class="body">Same base mapping: OWNS, no temporal qualifier &#8212;</text>
+<text x="532" y="200" class="code">(p:Person)-[:OWNS]-&gt;(v:Vehicle)</text>
+<text x="532" y="222" class="body-muted">Identical starting point to C2. What differs is what runs next.</text>
+
+<!-- Ambiguity Detector row -->
+<rect x="40" y="258" width="448" height="110" rx="10" class="box box-skip"/>
+<text x="264" y="308" text-anchor="middle" class="body-muted">&#8212; no Ambiguity Detector &#8212;</text>
+<text x="264" y="326" text-anchor="middle" class="body-muted">C2 has no ambiguity-check stage;</text>
+<text x="264" y="342" text-anchor="middle" class="body-muted">the SL mapping goes straight to the QG.</text>
+
+<rect x="512" y="258" width="448" height="110" rx="10" class="box box-accent"/>
+<text x="532" y="276" class="eyebrow">AMBIGUITY DETECTOR</text>
+<rect x="800" y="264" width="150" height="20" rx="10" class="pill"/>
+<text x="875" y="278" text-anchor="middle" class="eyebrow" style="text-transform:none">is_ambiguous &#183; temporal</text>
+<text x="532" y="298" class="body">&#8220;OWNS carries active/from_date/to_date &#8212;</text>
+<text x="532" y="314" class="body">could mean the current owner or all past</text>
+<text x="532" y="330" class="body">+ present owners. SL&#8217;s score of 1.00 doesn&#8217;t</text>
+<text x="532" y="346" class="body">distinguish filtered vs unfiltered.&#8221;</text>
+
+<!-- Disambiguator row -->
+<rect x="40" y="380" width="448" height="90" rx="10" class="box box-skip"/>
+<text x="264" y="418" text-anchor="middle" class="body-muted">&#8212; no Disambiguator &#8212;</text>
+<text x="264" y="436" text-anchor="middle" class="body-muted">no interpretation is ever committed.</text>
+
+<rect x="512" y="380" width="448" height="90" rx="10" class="box box-accent"/>
+<text x="532" y="398" class="eyebrow">DISAMBIGUATOR</text>
+<text x="532" y="418" class="body">Commits to the current-owner reading:</text>
+<text x="532" y="436" class="code">(p:Person)-[:OWNS {active:true}]-&gt;(v:Vehicle)</text>
+<text x="532" y="454" class="body-muted">resolution_mode: automated</text>
+
+<!-- Query Generator -->
+<rect x="40" y="482" width="448" height="110" rx="10" class="box"/>
+<text x="60" y="500" class="eyebrow">QUERY GENERATOR</text>
+<text x="60" y="522" class="code">MATCH (p:Person)-[:OWNS]-&gt;(v:Vehicle</text>
+<text x="60" y="538" class="code">{make:'Ford', model:'Ranger'})</text>
+<text x="60" y="554" class="code">RETURN DISTINCT p.name</text>
+<text x="60" y="576" class="body-muted">(unfiltered &#8212; every owner, ever)</text>
+
+<rect x="512" y="482" width="448" height="110" rx="10" class="box box-accent"/>
+<text x="532" y="500" class="eyebrow">QUERY GENERATOR</text>
+<text x="532" y="522" class="code">MATCH (p:Person)-[:OWNS {active:true}]-&gt;</text>
+<text x="532" y="538" class="code">(v:Vehicle {make:'Ford', model:'Ranger'})</text>
+<text x="532" y="554" class="code">RETURN p.name</text>
+<text x="532" y="576" class="body-muted">(current owner only)</text>
+
+<!-- CyVer -->
+<rect x="40" y="604" width="448" height="50" rx="10" class="box"/>
+<text x="264" y="634" text-anchor="middle" class="body">CyVer validation: &#10003; valid</text>
+<rect x="512" y="604" width="448" height="50" rx="10" class="box box-accent"/>
+<text x="736" y="634" text-anchor="middle" class="body">CyVer validation: &#10003; valid</text>
+
+<!-- DB Execution -->
+<rect x="40" y="666" width="448" height="80" rx="10" class="box"/>
+<text x="60" y="686" class="eyebrow">DB EXECUTION</text>
+<text x="60" y="706" class="body">Returns 2 rows &#8212; current + previous owner.</text>
+<text x="60" y="724" class="body">Matches the &#8220;including previous owner&#8221; reading.</text>
+
+<rect x="512" y="666" width="448" height="80" rx="10" class="box box-accent"/>
+<text x="532" y="686" class="eyebrow">DB EXECUTION</text>
+<text x="532" y="706" class="body">Returns 1 row &#8212; the current owner only.</text>
+<text x="532" y="724" class="body">Matches the benchmark&#8217;s default interpretation.</text>
+
+<!-- Verdict -->
+<rect x="40" y="758" width="448" height="60" rx="10" class="box box-strong"/>
+<text x="264" y="794" text-anchor="middle" class="verdict-bad">&#10007; EX WRONG &#8212; valid_non_default</text>
+<rect x="512" y="758" width="448" height="60" rx="10" class="box box-accent"/>
+<text x="736" y="794" text-anchor="middle" class="verdict-good">&#10003; EX CORRECT</text>
+
+<!-- Arrows -->
+<path d="M264,90 L264,104" class="arrow" marker-end="url(#arrow1)"/>
+<path d="M736,90 L736,104" class="arrow" marker-end="url(#arrow1)"/>
+<path d="M264,134 L264,146" class="arrow" marker-end="url(#arrow1)"/>
+<path d="M736,134 L736,146" class="arrow" marker-end="url(#arrow1)"/>
+<path d="M264,246 L264,258" class="arrow" marker-end="url(#arrow1)"/>
+<path d="M736,246 L736,258" class="arrow" marker-end="url(#arrow1)"/>
+<path d="M264,368 L264,380" class="arrow" marker-end="url(#arrow1)"/>
+<path d="M736,368 L736,380" class="arrow" marker-end="url(#arrow1)"/>
+<path d="M264,470 L264,482" class="arrow" marker-end="url(#arrow1)"/>
+<path d="M736,470 L736,482" class="arrow" marker-end="url(#arrow1)"/>
+<path d="M264,592 L264,604" class="arrow" marker-end="url(#arrow1)"/>
+<path d="M736,592 L736,604" class="arrow" marker-end="url(#arrow1)"/>
+<path d="M264,654 L264,666" class="arrow" marker-end="url(#arrow1)"/>
+<path d="M736,654 L736,666" class="arrow" marker-end="url(#arrow1)"/>
+<path d="M264,746 L264,758" class="arrow" marker-end="url(#arrow1)"/>
+<path d="M736,746 L736,758" class="arrow" marker-end="url(#arrow1)"/>
+
+<!-- Footer -->
+<text x="40" y="842" class="footer">Accent border = disambiguation_enhanced (C3) &#183; dashed box = a stage this condition does not run.</text>
+<text x="40" y="858" class="footer">Source: Q-105, results/qual_records_claude-sonnet_v3_localdb.json &#8212; Claude Sonnet 4.6, v3 benchmark, local Neo4j run 2026-07-27.</text>
+</svg>

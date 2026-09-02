@@ -1,0 +1,148 @@
+<svg viewBox="0 0 1000 940" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t2 d2">
+<title id="t2">Pipeline step-through: Q-041, schema ambiguity, C2 vs C3</title>
+<desc id="d2">Q-041 "Show people connected to the Northbridge robbery" is gold-labelled schema ambiguity. Both C2 and C3 run their own Schema Linker, which independently collapses "connected to" onto a single biased reading: a two-hop chain via ASSOCIATED_WITH from a suspect, rather than a direct role edge. C2 (schema_grounded) has no Ambiguity Detector or Disambiguator, so this biased mapping goes straight to the Query Generator and returns the wrong set of people. C3 (disambiguation_enhanced) runs the Ambiguity Detector, which recognises that "connected to" spans all four Person-to-Incident role types, and the Disambiguator, which overrides the Schema Linker's chain with a direct, unbound role edge. The resulting query returns everyone linked to the incident by any role and matches the benchmark's default interpretation.</desc>
+<style>
+  .box { fill: #ffffff; stroke: #d0d5dd; stroke-width: 1.5; }
+  .box-strong { stroke: #667085; stroke-width: 2; }
+  .box-accent { stroke: #2563eb; stroke-width: 2.25; }
+  .box-skip { fill: #f9fafb; stroke: #d0d5dd; stroke-width: 1.25; stroke-dasharray: 5 4; }
+  .pill { fill: #eef2ff; stroke: #d0d5dd; stroke-width: 1; }
+  .eyebrow { font-family: Arial, sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.5px; fill: #667085; text-transform: uppercase; }
+  .h1 { font-family: Arial, sans-serif; font-size: 15px; font-weight: 700; fill: #101828; }
+  .lane { font-family: Arial, sans-serif; font-size: 12.5px; font-weight: 700; fill: #101828; }
+  .lane-accent { font-family: Arial, sans-serif; font-size: 12.5px; font-weight: 700; fill: #2563eb; }
+  .body { font-family: Arial, sans-serif; font-size: 11px; fill: #344054; }
+  .body-muted { font-family: Arial, sans-serif; font-size: 11px; font-style: italic; fill: #667085; }
+  .code { font-family: "Courier New", monospace; font-size: 10.5px; fill: #344054; }
+  .verdict-bad { font-family: Arial, sans-serif; font-size: 13px; font-weight: 700; fill: #344054; }
+  .verdict-good { font-family: Arial, sans-serif; font-size: 13px; font-weight: 700; fill: #2563eb; }
+  .arrow { stroke: #667085; stroke-width: 1.5; fill: none; }
+  .footer { font-family: Arial, sans-serif; font-size: 9.5px; fill: #667085; }
+</style>
+<defs>
+  <marker id="arrow2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M0,0 L10,5 L0,10 z" fill="#667085"/>
+  </marker>
+</defs>
+
+<rect width="1000" height="940" fill="#ffffff"/>
+
+<!-- Question banner -->
+<rect x="40" y="20" width="920" height="84" rx="10" class="box box-strong"/>
+<text x="60" y="40" class="eyebrow">QUESTION &#183; gold ambiguity_type: schema</text>
+<text x="60" y="63" class="h1">Q-041 &#8212; &#8220;Show people connected to the Northbridge robbery.&#8221;</text>
+<text x="60" y="81" class="body">Gold default: ANY role edge (suspect, witness, victim, or investigator) to the incident &#8212;</text>
+<text x="60" y="97" class="body">not just suspects.</text>
+
+<!-- Lane headers -->
+<rect x="40" y="116" width="448" height="30" rx="15" class="box"/>
+<text x="264" y="135" text-anchor="middle" class="lane">C2 &#8212; schema_grounded</text>
+<rect x="512" y="116" width="448" height="30" rx="15" class="box box-accent"/>
+<text x="736" y="135" text-anchor="middle" class="lane-accent">C3 &#8212; disambiguation_enhanced</text>
+
+<!-- Schema Linker -->
+<rect x="40" y="156" width="448" height="110" rx="10" class="box"/>
+<text x="60" y="174" class="eyebrow">SCHEMA LINKER (own run, temperature-sampled)</text>
+<text x="60" y="194" class="body">Collapses onto a 2-hop chain via ASSOCIATED_WITH:</text>
+<text x="60" y="214" class="code">(p:Person)-[:ASSOCIATED_WITH]-&gt;(p:Person),</text>
+<text x="60" y="230" class="code">(p:Person)-[:SUSPECTED_OF]-&gt;(i:Incident)</text>
+<text x="60" y="250" class="body-muted">A single candidate &#8212; not a direct role edge.</text>
+
+<rect x="512" y="156" width="448" height="110" rx="10" class="box box-accent"/>
+<text x="532" y="174" class="eyebrow">SCHEMA LINKER (own run, temperature-sampled)</text>
+<text x="532" y="194" class="body">Same bias &#8212; its own run lands on the identical chain:</text>
+<text x="532" y="214" class="code">(p:Person)-[:ASSOCIATED_WITH]-&gt;(p:Person),</text>
+<text x="532" y="230" class="code">(p:Person)-[:SUSPECTED_OF]-&gt;(i:Incident)</text>
+<text x="532" y="250" class="body-muted">Identical starting bias to C2. What differs is what runs next.</text>
+
+<!-- Ambiguity Detector row -->
+<rect x="40" y="276" width="448" height="120" rx="10" class="box box-skip"/>
+<text x="264" y="330" text-anchor="middle" class="body-muted">&#8212; no Ambiguity Detector &#8212;</text>
+<text x="264" y="348" text-anchor="middle" class="body-muted">C2 has no ambiguity-check stage;</text>
+<text x="264" y="364" text-anchor="middle" class="body-muted">the SL&#8217;s chain goes straight to the QG.</text>
+
+<rect x="512" y="276" width="448" height="120" rx="10" class="box box-accent"/>
+<text x="532" y="294" class="eyebrow">AMBIGUITY DETECTOR</text>
+<rect x="792" y="282" width="158" height="20" rx="10" class="pill"/>
+<text x="871" y="296" text-anchor="middle" class="eyebrow" style="text-transform:none">is_ambiguous &#183; schema</text>
+<text x="532" y="316" class="body">&#8220;&#8216;Connected to&#8217; spans all 4 Person&#8594;Incident</text>
+<text x="532" y="332" class="body">roles (SUSPECTED_OF/WITNESSED/VICTIM_OF/</text>
+<text x="532" y="348" class="body">INVESTIGATES). SL collapsed onto one via an</text>
+<text x="532" y="364" class="body">ASSOCIATED_WITH chain &#8212; not the true breadth.&#8221;</text>
+
+<!-- Disambiguator row -->
+<rect x="40" y="406" width="448" height="90" rx="10" class="box box-skip"/>
+<text x="264" y="444" text-anchor="middle" class="body-muted">&#8212; no Disambiguator &#8212;</text>
+<text x="264" y="462" text-anchor="middle" class="body-muted">the SL&#8217;s chain is never overridden.</text>
+
+<rect x="512" y="406" width="448" height="90" rx="10" class="box box-accent"/>
+<text x="532" y="424" class="eyebrow">DISAMBIGUATOR</text>
+<text x="532" y="444" class="body">Overrides the chain &#8212; commits a direct, unbound role edge:</text>
+<text x="532" y="464" class="code">(p:Person)-[r]-&gt;(i:Incident {name:'Northbridge robbery'})</text>
+<text x="532" y="482" class="body-muted">resolution_mode: automated</text>
+
+<!-- Query Generator -->
+<rect x="40" y="506" width="448" height="135" rx="10" class="box"/>
+<text x="60" y="524" class="eyebrow">QUERY GENERATOR</text>
+<text x="60" y="546" class="code">MATCH (loc:Location {suburb:'Northbridge'})</text>
+<text x="60" y="562" class="code">&lt;-[:OCCURRED_AT]-(i:Incident {crime_type:'robbery'})</text>
+<text x="60" y="578" class="code">&lt;-[:SUSPECTED_OF]-(p:Person)-[:ASSOCIATED_WITH]-&gt;(p2:Person)</text>
+<text x="60" y="594" class="code">RETURN DISTINCT p2.name</text>
+<text x="60" y="616" class="body-muted">(returns associates of a suspect, not role-holders)</text>
+
+<rect x="512" y="506" width="448" height="135" rx="10" class="box box-accent"/>
+<text x="532" y="524" class="eyebrow">QUERY GENERATOR</text>
+<text x="532" y="546" class="code">MATCH (p:Person)-[r]-&gt;(i:Incident)-[:OCCURRED_AT]-&gt;</text>
+<text x="532" y="562" class="code">(l:Location {suburb:'Northbridge'})</text>
+<text x="532" y="578" class="code">WHERE i.crime_type = 'robbery'</text>
+<text x="532" y="594" class="code">RETURN DISTINCT p.name</text>
+<text x="532" y="616" class="body-muted">(any role edge, direct to the incident)</text>
+
+<!-- CyVer -->
+<rect x="40" y="651" width="448" height="50" rx="10" class="box"/>
+<text x="264" y="681" text-anchor="middle" class="body">CyVer validation: &#10003; valid</text>
+<rect x="512" y="651" width="448" height="50" rx="10" class="box box-accent"/>
+<text x="736" y="681" text-anchor="middle" class="body">CyVer validation: &#10003; valid</text>
+
+<!-- DB Execution -->
+<rect x="40" y="711" width="448" height="90" rx="10" class="box"/>
+<text x="60" y="731" class="eyebrow">DB EXECUTION</text>
+<text x="60" y="751" class="body">Returns people ASSOCIATED_WITH a suspect &#8212;</text>
+<text x="60" y="769" class="body">an extra hop beyond any of the four valid roles.</text>
+<text x="60" y="787" class="body-muted">Matches no gold interpretation.</text>
+
+<rect x="512" y="711" width="448" height="90" rx="10" class="box box-accent"/>
+<text x="532" y="731" class="eyebrow">DB EXECUTION</text>
+<text x="532" y="751" class="body">Returns everyone with ANY role edge to the</text>
+<text x="532" y="769" class="body">incident &#8212; suspects, witnesses, victims, investigators.</text>
+<text x="532" y="787" class="body-muted">Matches the benchmark&#8217;s default interpretation.</text>
+
+<!-- Verdict -->
+<rect x="40" y="811" width="448" height="60" rx="10" class="box box-strong"/>
+<text x="264" y="847" text-anchor="middle" class="verdict-bad">&#10007; EX WRONG &#8212; wrong_result</text>
+<rect x="512" y="811" width="448" height="60" rx="10" class="box box-accent"/>
+<text x="736" y="847" text-anchor="middle" class="verdict-good">&#10003; EX CORRECT</text>
+
+<!-- Arrows -->
+<path d="M264,104 L264,116" class="arrow" marker-end="url(#arrow2)"/>
+<path d="M736,104 L736,116" class="arrow" marker-end="url(#arrow2)"/>
+<path d="M264,146 L264,156" class="arrow" marker-end="url(#arrow2)"/>
+<path d="M736,146 L736,156" class="arrow" marker-end="url(#arrow2)"/>
+<path d="M264,266 L264,276" class="arrow" marker-end="url(#arrow2)"/>
+<path d="M736,266 L736,276" class="arrow" marker-end="url(#arrow2)"/>
+<path d="M264,396 L264,406" class="arrow" marker-end="url(#arrow2)"/>
+<path d="M736,396 L736,406" class="arrow" marker-end="url(#arrow2)"/>
+<path d="M264,496 L264,506" class="arrow" marker-end="url(#arrow2)"/>
+<path d="M736,496 L736,506" class="arrow" marker-end="url(#arrow2)"/>
+<path d="M264,641 L264,651" class="arrow" marker-end="url(#arrow2)"/>
+<path d="M736,641 L736,651" class="arrow" marker-end="url(#arrow2)"/>
+<path d="M264,701 L264,711" class="arrow" marker-end="url(#arrow2)"/>
+<path d="M736,701 L736,711" class="arrow" marker-end="url(#arrow2)"/>
+<path d="M264,801 L264,811" class="arrow" marker-end="url(#arrow2)"/>
+<path d="M736,801 L736,811" class="arrow" marker-end="url(#arrow2)"/>
+
+<!-- Footer -->
+<text x="40" y="895" class="footer">Accent border = disambiguation_enhanced (C3) &#183; dashed box = a stage this condition does not run.</text>
+<text x="40" y="911" class="footer">Source: Q-041, results/qual_records_claude-sonnet_v3_localdb.json &#8212; Claude Sonnet 4.6, v3 benchmark, local Neo4j run 2026-07-27.</text>
+
+</svg>
