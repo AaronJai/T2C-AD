@@ -30,6 +30,6 @@ transformers_cache/
 *.pt
 *.ckpt
 
-docs/
+# docs/
 
 environment.yml
